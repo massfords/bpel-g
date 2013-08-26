@@ -18,208 +18,203 @@ import bpelg.services.processes.types.ProcessFilterType;
 
 public interface IAeEngineManagementMXBean {
 
-	// FIXME ! move all of the listing calls to services
-	
-	/**
-	 * Gets a listing of the queued message receivers from the engine's queue.
-	 */
-	public List<AeMessageReceiverBean> getMessageReceivers(long aProcessId,
-			String aPartnerLinkName, String aPortTypeNamespace,
-			String aPortTypeLocalPart, String aOperation, int aMaxReturn,
-			int aListStart);
+    // FIXME ! move all of the listing calls to services
 
-	/**
-	 * Gets a listing of alarms matching the passed filter.
-	 */
-	public List<AeAlarmExt> getAlarms(long aProcessId, Date aAlarmFilterStart,
-			Date aAlarmFilterEnd, String aProcessNamespace,
-			String aProcessLocalPart, int aMaxReturn, int aListStart);
+    /**
+     * Gets a listing of the queued message receivers from the engine's queue.
+     */
+    public List<AeMessageReceiverBean> getMessageReceivers(long aProcessId,
+                                                           String aPartnerLinkName, String aPortTypeNamespace,
+                                                           String aPortTypeLocalPart, String aOperation, int aMaxReturn,
+                                                           int aListStart);
 
-	/**
-	 * Gets the build info for the libraries currently in use.
-	 */
-	public AeBuildInfo[] getBuildInfo();
+    /**
+     * Gets a listing of alarms matching the passed filter.
+     */
+    public List<AeAlarmExt> getAlarms(long aProcessId, Date aAlarmFilterStart,
+                                      Date aAlarmFilterEnd, String aProcessNamespace,
+                                      String aProcessLocalPart, int aMaxReturn, int aListStart);
 
-	/**
-	 * Gets the date/time the engine started
-	 */
-	public Date getStartDate();
+    /**
+     * Gets the build info for the libraries currently in use.
+     */
+    public AeBuildInfo[] getBuildInfo();
 
-	/**
-	 * Returns the current state of the engine.
-	 */
-	public AeEngineStatus getEngineState();
+    /**
+     * Gets the date/time the engine started
+     */
+    public Date getStartDate();
 
-	/**
-	 * Returns the current monitor state of the engine.
-	 */
-	public AeMonitorStatus getMonitorStatus();
+    /**
+     * Returns the current state of the engine.
+     */
+    public AeEngineStatus getEngineState();
 
-	/**
-	 * Returns an error message if the state is ERROR, null otherwise.
-	 */
-	public String getEngineErrorInfo();
+    /**
+     * Returns the current monitor state of the engine.
+     */
+    public AeMonitorStatus getMonitorStatus();
 
-	/**
-	 * Gets the log for the given process
-	 * 
-	 * @param aProcessId
-	 */
-	public String getProcessLog(long aProcessId);
+    /**
+     * Returns an error message if the state is ERROR, null otherwise.
+     */
+    public String getEngineErrorInfo();
 
-	public AeProcessLogPart getProcessLogPart(long aProcessId, int aPart)
-			throws Exception;
+    /**
+     * Gets the log for the given process
+     *
+     * @param aProcessId
+     */
+    public String getProcessLog(long aProcessId);
 
-	public int getProcessCount(ProcessFilterType aFilter)
-			throws AeBusinessProcessException;
+    public AeProcessLogPart getProcessLogPart(long aProcessId, int aPart)
+            throws Exception;
 
-	/**
-	 * Returns the state of the process specified by the given process ID.
-	 * 
-	 * @param aPid
-	 *            the ID of the process we want state information for.
-	 * @throws AeBusinessProcessException
-	 */
-	public String getProcessState(long aPid) throws AeBusinessProcessException;
+    public int getProcessCount(ProcessFilterType aFilter)
+            throws AeBusinessProcessException;
 
-	/**
-	 * Returns process variable for the specified process and the variable
-	 * location path.
-	 * 
-	 * @param aPid
-	 *            the ID of the process.
-	 * @param aVariablePath
-	 *            location path of the variable
-	 * @throws AeBusinessProcessException
-	 */
-	public String getVariable(long aPid, String aVariablePath)
-			throws AeBusinessProcessException;
+    /**
+     * Returns the state of the process specified by the given process ID.
+     *
+     * @param aPid the ID of the process we want state information for.
+     * @throws AeBusinessProcessException
+     */
+    public String getProcessState(long aPid) throws AeBusinessProcessException;
 
-	/**
-	 * Returns the locationPath string given the locationId and the processId
-	 * 
-	 * @param aProcessId
-	 *            process id
-	 * @param aLocationId
-	 *            location id of the BPEL object.
-	 * @throws AeBusinessProcessException
-	 */
-	public String getLocationPathById(long aProcessId, int aLocationId)
-			throws AeBusinessProcessException;
+    /**
+     * Returns process variable for the specified process and the variable
+     * location path.
+     *
+     * @param aPid          the ID of the process.
+     * @param aVariablePath location path of the variable
+     * @throws AeBusinessProcessException
+     */
+    public String getVariable(long aPid, String aVariablePath)
+            throws AeBusinessProcessException;
 
-	public AeCatalogItemDetail getCatalogItemDetail(String aLocationHint);
+    /**
+     * Returns the locationPath string given the locationId and the processId
+     *
+     * @param aProcessId  process id
+     * @param aLocationId location id of the BPEL object.
+     * @throws AeBusinessProcessException
+     */
+    public String getLocationPathById(long aProcessId, int aLocationId)
+            throws AeBusinessProcessException;
 
-	public long getCacheMisses();
+    public AeCatalogItemDetail getCatalogItemDetail(String aLocationHint);
 
-	public long getCacheHits();
+    public long getCacheMisses();
 
-	public List<AeCatalogItem> getCatalogListing(String aTypeURI,
-			String aResource, String aNamespace, int aMaxReturn, int aListStart);
+    public long getCacheHits();
 
-	/**
-	 * Starts the engine.
-	 * 
-	 * @throws AeException
-	 */
-	public void start() throws AeException;
+    public List<AeCatalogItem> getCatalogListing(String aTypeURI,
+                                                 String aResource, String aNamespace, int aMaxReturn, int aListStart);
 
-	/**
-	 * Stops the engine.
-	 * 
-	 * @throws AeBusinessProcessException
-	 */
-	public void stop() throws AeBusinessProcessException;
+    /**
+     * Starts the engine.
+     *
+     * @throws AeException
+     */
+    public void start() throws AeException;
 
-	/**
-	 * Returns true if the engine is currently running.
-	 */
-	public boolean isRunning();
+    /**
+     * Stops the engine.
+     *
+     * @throws AeBusinessProcessException
+     */
+    public void stop() throws AeBusinessProcessException;
 
-	/**
-	 * Returns True if using internal WorkManager or False if using server
-	 * implementation.
-	 */
-	public boolean isInternalWorkManager();
+    /**
+     * Returns true if the engine is currently running.
+     */
+    public boolean isRunning();
 
-	/**
-	 * Returns the coordination information for the parent process given the
-	 * child process id.
-	 * 
-	 * @param aChildProcessId
-	 * @return AeCoordinationDetail of the coordinator or null if not found.
-	 * @throws AeException
-	 */
-	public AeCoordinationDetail getCoordinatorForProcessId(long aChildProcessId)
-			throws AeException;
+    /**
+     * Returns True if using internal WorkManager or False if using server
+     * implementation.
+     */
+    public boolean isInternalWorkManager();
 
-	/**
-	 * Returns a list of AeCoordinationDetail for all subprocess (participants)
-	 * given the parent process id.
-	 * 
-	 * @param aParentProcessId
-	 * @throws AeException
-	 */
-	public List<AeCoordinationDetail> getParticipantForProcessId(
-			long aParentProcessId) throws AeException;
+    /**
+     * Returns the coordination information for the parent process given the
+     * child process id.
+     *
+     * @param aChildProcessId
+     * @return AeCoordinationDetail of the coordinator or null if not found.
+     * @throws AeException
+     */
+    public AeCoordinationDetail getCoordinatorForProcessId(long aChildProcessId)
+            throws AeException;
 
-	public boolean isProcessRestartEnabled();
+    /**
+     * Returns a list of AeCoordinationDetail for all subprocess (participants)
+     * given the parent process id.
+     *
+     * @param aParentProcessId
+     * @throws AeException
+     */
+    public List<AeCoordinationDetail> getParticipantForProcessId(
+            long aParentProcessId) throws AeException;
 
-	public AeProcessListResultBean getProcessList(ProcessFilterType aFilter)
-			throws AeBusinessProcessException;
+    public boolean isProcessRestartEnabled();
 
-	public boolean isRestartable(long aPid);
+    public AeProcessListResultBean getProcessList(ProcessFilterType aFilter)
+            throws AeBusinessProcessException;
 
-	public String getCompiledProcessDef(long aProcessId, AeQName aName)
-			throws AeBusinessProcessException;
+    public boolean isRestartable(long aPid);
 
-	// move all of these methods to some config service interface
-	public String getEngineDescription();
+    public String getCompiledProcessDef(long aProcessId, AeQName aName)
+            throws AeBusinessProcessException;
 
-	public int getCatalogCacheSize();
+    // move all of these methods to some config service interface
+    public String getEngineDescription();
 
-	public void setCatalogCacheSize(int aSize);
+    public int getCatalogCacheSize();
 
-	public void setAllowCreateXPath(boolean aAllowedCreateXPath);
+    public void setCatalogCacheSize(int aSize);
 
-	public void setAllowEmptyQuerySelection(boolean aAllowedEmptyQuerySelection);
+    public void setAllowCreateXPath(boolean aAllowedCreateXPath);
 
-	public void setValidateServiceMessages(boolean aValidateServiceMessages);
+    public void setAllowEmptyQuerySelection(boolean aAllowedEmptyQuerySelection);
 
-	public void setResourceReplaceEnabled(boolean aEnabled);
+    public void setValidateServiceMessages(boolean aValidateServiceMessages);
 
-	public void setUnmatchedCorrelatedReceiveTimeoutMillis(long aTimeout);
+    public void setResourceReplaceEnabled(boolean aEnabled);
 
-	public void setWebServiceInvokeTimeout(int aTimeout);
+    public void setUnmatchedCorrelatedReceiveTimeoutMillis(long aTimeout);
 
-	public void setWebServiceReceiveTimeout(int aTimeout);
+    public void setWebServiceInvokeTimeout(int aTimeout);
 
-	public void setThreadPoolMin(int aValue);
+    public void setWebServiceReceiveTimeout(int aTimeout);
 
-	public void setThreadPoolMax(int aValue);
+    public void setThreadPoolMin(int aValue);
 
-	public void setProcessWorkCount(int aValue);
+    public void setThreadPoolMax(int aValue);
 
-	public void setAlarmMaxWorkCount(int aValue);
+    public void setProcessWorkCount(int aValue);
 
-	public boolean isAllowCreateXPath();
+    public void setAlarmMaxWorkCount(int aValue);
 
-	public boolean isAllowEmptyQuerySelection();
+    public boolean isAllowCreateXPath();
 
-	public boolean isValidateServiceMessages();
+    public boolean isAllowEmptyQuerySelection();
 
-	public boolean isResourceReplaceEnabled();
+    public boolean isValidateServiceMessages();
 
-	public long getUnmatchedCorrelatedReceiveTimeoutMillis();
+    public boolean isResourceReplaceEnabled();
 
-	public int getWebServiceInvokeTimeout();
+    public long getUnmatchedCorrelatedReceiveTimeoutMillis();
 
-	public int getWebServiceReceiveTimeout();
+    public int getWebServiceInvokeTimeout();
 
-	public int getThreadPoolMin();
+    public int getWebServiceReceiveTimeout();
 
-	public int getThreadPoolMax();
+    public int getThreadPoolMin();
 
-	public int getProcessWorkCount();
+    public int getThreadPoolMax();
 
-	public int getAlarmMaxWorkCount();
+    public int getProcessWorkCount();
+
+    public int getAlarmMaxWorkCount();
 }

@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.AeMessageExchangesDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
@@ -15,15 +15,14 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * model provides validation for the messageExchanges def
  */
-public class AeMessageExchangesValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeMessageExchangesValidator(AeMessageExchangesDef aDef)
-   {
-      super(aDef);
-   }
+public class AeMessageExchangesValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeMessageExchangesValidator(AeMessageExchangesDef aDef) {
+        super(aDef);
+    }
 }
  

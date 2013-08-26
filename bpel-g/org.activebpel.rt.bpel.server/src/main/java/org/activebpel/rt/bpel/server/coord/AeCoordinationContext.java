@@ -18,68 +18,63 @@ import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 /**
  * Simple imlementation of a coordination context.
  */
-public class AeCoordinationContext extends AeContextBase implements IAeCoordinationContext
-{
+public class AeCoordinationContext extends AeContextBase implements IAeCoordinationContext {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -2548401553993119484L;
-/**
-    * Coordination instance id.
-    */
-   private final IAeCoordinationId mCoordinationId;
-   
-   /**
-    * Constructs a coordination context given the id.
-    */
-   public AeCoordinationContext(IAeCoordinationId aCoordinationId)
-   {
-      super();
-      mCoordinationId = aCoordinationId;
-   }
-   
-   /**
-    * Sets given properties by copying the argument content to an internal Properties object.
-    * @param aProperties
-    */
-   public void setProperties(Properties aProperties)
-   {
-      if (aProperties != null)
-      {
-         Iterator keyIter = aProperties.keySet().iterator();
-         String key = null;
-         while (keyIter.hasNext())
-         {
-            key = (String) keyIter.next();
-            setProperty(key, aProperties.getProperty(key));
-         }
-      }
-   }
+    /**
+     * Coordination instance id.
+     */
+    private final IAeCoordinationId mCoordinationId;
 
-   /**
-    * Returns the type of coordination this context has been activated for.
-    * @return coordination type. 
-    */
-   public String getCoordinationType()
-   {
-      return getProperty(IAeCoordinating.WSCOORD_TYPE);
-   }   
-   
-   /**
-    * Returns the coordination identifier.
-    * @return coordination id.
-    */
-   public String getIdentifier()
-   {
-      return getCoordinationId().getIdentifier();
-   }
+    /**
+     * Constructs a coordination context given the id.
+     */
+    public AeCoordinationContext(IAeCoordinationId aCoordinationId) {
+        super();
+        mCoordinationId = aCoordinationId;
+    }
 
-   /** 
-    * @return the coordination identifier wrapper.
-    */
-   public IAeCoordinationId getCoordinationId()
-   {
-      return mCoordinationId;
-   }
+    /**
+     * Sets given properties by copying the argument content to an internal Properties object.
+     *
+     * @param aProperties
+     */
+    public void setProperties(Properties aProperties) {
+        if (aProperties != null) {
+            Iterator keyIter = aProperties.keySet().iterator();
+            String key = null;
+            while (keyIter.hasNext()) {
+                key = (String) keyIter.next();
+                setProperty(key, aProperties.getProperty(key));
+            }
+        }
+    }
+
+    /**
+     * Returns the type of coordination this context has been activated for.
+     *
+     * @return coordination type.
+     */
+    public String getCoordinationType() {
+        return getProperty(IAeCoordinating.WSCOORD_TYPE);
+    }
+
+    /**
+     * Returns the coordination identifier.
+     *
+     * @return coordination id.
+     */
+    public String getIdentifier() {
+        return getCoordinationId().getIdentifier();
+    }
+
+    /**
+     * @return the coordination identifier wrapper.
+     */
+    public IAeCoordinationId getCoordinationId() {
+        return mCoordinationId;
+    }
 }

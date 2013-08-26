@@ -26,26 +26,26 @@ import org.activebpel.rt.xml.def.io.AeMapBasedExtensionRegistry;
  * instance and passes it onto it's parent
  */
 public class AeEngineConfigExtensionRegistry extends
-		AeMapBasedExtensionRegistry {
-	private List<AeExtensionEntry> mExtensions;
-	
-	public void init() {
-		Map<QName,String> map = new HashMap<>();
-		if (getExtensions() != null) {
-			for(AeExtensionEntry entry : getExtensions()) {
-				map.put(new QName(entry.getNamespace(), entry.getLocalPart()), entry.getClassName());
-			}
-		}
-		setExtensionObjectMap(map);
-		AeDefVisitorFactory.setExtensionRegistry(
-				IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, this);
-	}
+        AeMapBasedExtensionRegistry {
+    private List<AeExtensionEntry> mExtensions;
 
-	public List<AeExtensionEntry> getExtensions() {
-		return mExtensions;
-	}
+    public void init() {
+        Map<QName, String> map = new HashMap<>();
+        if (getExtensions() != null) {
+            for (AeExtensionEntry entry : getExtensions()) {
+                map.put(new QName(entry.getNamespace(), entry.getLocalPart()), entry.getClassName());
+            }
+        }
+        setExtensionObjectMap(map);
+        AeDefVisitorFactory.setExtensionRegistry(
+                IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, this);
+    }
 
-	public void setExtensions(List<AeExtensionEntry> aExtensions) {
-		mExtensions = aExtensions;
-	}
+    public List<AeExtensionEntry> getExtensions() {
+        return mExtensions;
+    }
+
+    public void setExtensions(List<AeExtensionEntry> aExtensions) {
+        mExtensions = aExtensions;
+    }
 }

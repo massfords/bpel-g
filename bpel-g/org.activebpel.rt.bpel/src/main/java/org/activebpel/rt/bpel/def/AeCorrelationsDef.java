@@ -19,65 +19,55 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * Container class for <code>correlations</code> that are a part of <code>receive</code>,
  * <code>reply</code>, <code>invoke</code>, and <code>pick</code>.
  */
-public class AeCorrelationsDef extends AeBaseContainer<AeCorrelationDef,AeCorrelationDef>
-{
+public class AeCorrelationsDef extends AeBaseContainer<AeCorrelationDef, AeCorrelationDef> {
     private static final long serialVersionUID = -8218610196649194695L;
 
-   /**
-    * Default c'tor.
-    */
-   public AeCorrelationsDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeCorrelationsDef() {
+        super();
+    }
 
-   /**
-    * Adds a correlation def to the container.
-    * 
-    * @param aDef
-    */
-   public void addCorrelationDef(AeCorrelationDef aDef)
-   {
-      super.add(aDef);
-   }
+    /**
+     * Adds a correlation def to the container.
+     *
+     * @param aDef
+     */
+    public void addCorrelationDef(AeCorrelationDef aDef) {
+        super.add(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @return Returns the requestFlag.
-    */
-   public boolean isRequestPatternUsed()
-   {
-      for (Iterator<? extends AeCorrelationDef> iter = getValues(); iter.hasNext();)
-      {
-         AeCorrelationDef def = iter.next();
-         if (def.getPattern() != null && def.getPattern().isRequestDataUsed())
-         {
-            return true;
-         }
-      }
-      return false;
-   }
+    /**
+     * @return Returns the requestFlag.
+     */
+    public boolean isRequestPatternUsed() {
+        for (Iterator<? extends AeCorrelationDef> iter = getValues(); iter.hasNext(); ) {
+            AeCorrelationDef def = iter.next();
+            if (def.getPattern() != null && def.getPattern().isRequestDataUsed()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-   /**
-    * @return Returns the responseFlag.
-    */
-   public boolean isResponsePatternUsed()
-   {
-      for (Iterator<? extends AeCorrelationDef> iter = getValues(); iter.hasNext();)
-      {
-         AeCorrelationDef def = iter.next();
-         if (def.getPattern() != null && def.getPattern().isResponseDataUsed())
-         {
-            return true;
-         }
-      }
-      return false;
-   }
+    /**
+     * @return Returns the responseFlag.
+     */
+    public boolean isResponsePatternUsed() {
+        for (Iterator<? extends AeCorrelationDef> iter = getValues(); iter.hasNext(); ) {
+            AeCorrelationDef def = iter.next();
+            if (def.getPattern() != null && def.getPattern().isResponseDataUsed()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

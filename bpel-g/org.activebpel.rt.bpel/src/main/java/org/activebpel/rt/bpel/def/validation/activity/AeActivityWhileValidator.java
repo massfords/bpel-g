@@ -7,22 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
 
 /**
  * model provides validation for the while activity
  */
-public class AeActivityWhileValidator extends AeBaseLoopingActivityValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityWhileValidator(AeActivityWhileDef aDef)
-   {
-      super(aDef);
-   }
+public class AeActivityWhileValidator extends AeBaseLoopingActivityValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityWhileValidator(AeActivityWhileDef aDef) {
+        super(aDef);
+    }
 }
  

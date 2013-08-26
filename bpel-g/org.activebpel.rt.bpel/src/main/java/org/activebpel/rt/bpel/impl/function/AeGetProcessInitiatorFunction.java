@@ -18,25 +18,25 @@ import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
  * Class representing the XPath function used by the expression evaluator to handle
  * the BPEL extension function call getProcessInitiator().
  */
-public class AeGetProcessInitiatorFunction extends AeAbstractBpelFunction
-{
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "getProcessInitiator"; //$NON-NLS-1$
-   
-   /**
-    * Constructor.
-    */   
-   public AeGetProcessInitiatorFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+public class AeGetProcessInitiatorFunction extends AeAbstractBpelFunction {
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "getProcessInitiator"; //$NON-NLS-1$
 
-   /**
-    * Overrides method to return process intiator.
-    * @see org.activebpel.rt.bpel.function.IAeFunction#call(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      return aContext.getAbstractBpelObject().getProcess().getProcessInitiator();
-   }
+    /**
+     * Constructor.
+     */
+    public AeGetProcessInitiatorFunction() {
+        super(FUNCTION_NAME);
+    }
+
+    /**
+     * Overrides method to return process intiator.
+     *
+     * @see org.activebpel.rt.bpel.function.IAeFunction#call(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        return aContext.getAbstractBpelObject().getProcess().getProcessInitiator();
+    }
 }

@@ -38,266 +38,241 @@ import org.activebpel.rt.util.AeUnsynchronizedCharArrayWriter;
 /**
  * This visitor is used to serialize the XPath AST to a String for debugging purposes.
  */
-public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathNodeVisitor
-{
-   /** A string buffer. */
-   private AeUnsynchronizedCharArrayWriter mBuffer;
+public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathNodeVisitor {
+    /**
+     * A string buffer.
+     */
+    private AeUnsynchronizedCharArrayWriter mBuffer;
 
-   /**
-    * Default c'tor.
-    */
-   public AeXPathDebugSerializeNodeVisitor()
-   {
-      setBuffer(new AeUnsynchronizedCharArrayWriter());
-      setNodeStack(new Stack<AeAbstractXPathNode>());
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeXPathDebugSerializeNodeVisitor() {
+        setBuffer(new AeUnsynchronizedCharArrayWriter());
+        setNodeStack(new Stack<AeAbstractXPathNode>());
+    }
 
-   /**
-    * Default visit for nodes that are specifically handled.
-    *
-    * @param aNode
-    */
-   protected void visitBaseXPathNode(AeAbstractXPathNode aNode)
-   {
-      appendIndentString();
-      getBuffer().write(aNode.getType());
-      getBuffer().write('\n');
+    /**
+     * Default visit for nodes that are specifically handled.
+     *
+     * @param aNode
+     */
+    protected void visitBaseXPathNode(AeAbstractXPathNode aNode) {
+        appendIndentString();
+        getBuffer().write(aNode.getType());
+        getBuffer().write('\n');
 
-      traverse(aNode);
-   }
+        traverse(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathFunctionNode)
-    */
-   public void visit(AeXPathFunctionNode aNode)
-   {
-      appendIndentString();
-      String msg = MessageFormat.format("Function: {0}()\n", aNode.getFunctionQName().getLocalPart()); //$NON-NLS-1$
-      getBuffer().write(msg);
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathFunctionNode)
+     */
+    public void visit(AeXPathFunctionNode aNode) {
+        appendIndentString();
+        String msg = MessageFormat.format("Function: {0}()\n", aNode.getFunctionQName().getLocalPart()); //$NON-NLS-1$
+        getBuffer().write(msg);
 
-      traverse(aNode);
-   }
+        traverse(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathVariableNode)
-    */
-   public void visit(AeXPathVariableNode aNode)
-   {
-      appendIndentString();
-      String msg = MessageFormat.format("VarReference: {0}\n", aNode.getVariableQName().getLocalPart()); //$NON-NLS-1$
-      getBuffer().write(msg);
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathVariableNode)
+     */
+    public void visit(AeXPathVariableNode aNode) {
+        appendIndentString();
+        String msg = MessageFormat.format("VarReference: {0}\n", aNode.getVariableQName().getLocalPart()); //$NON-NLS-1$
+        getBuffer().write(msg);
 
-      traverse(aNode);
-   }
+        traverse(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathLiteralNode)
-    */
-   public void visit(AeXPathLiteralNode aNode)
-   {
-      appendIndentString();
-      String msg = MessageFormat.format("Literal[{0}]\n", aNode.getValue().toString()); //$NON-NLS-1$
-      getBuffer().write(msg);
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathLiteralNode)
+     */
+    public void visit(AeXPathLiteralNode aNode) {
+        appendIndentString();
+        String msg = MessageFormat.format("Literal[{0}]\n", aNode.getValue().toString()); //$NON-NLS-1$
+        getBuffer().write(msg);
 
-      traverse(aNode);
-   }
+        traverse(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathNameStepNode)
-    */
-   public void visit(AeXPathNameStepNode aNode)
-   {
-      appendIndentString();
-      String msg = MessageFormat.format(
-            "NameStep[axis={0}, {1}:{2}]\n",  //$NON-NLS-1$
-              aNode.getAxis(), aNode.getPrefix(), aNode.getLocalName());
-      getBuffer().write(msg);
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathNameStepNode)
+     */
+    public void visit(AeXPathNameStepNode aNode) {
+        appendIndentString();
+        String msg = MessageFormat.format(
+                "NameStep[axis={0}, {1}:{2}]\n",  //$NON-NLS-1$
+                aNode.getAxis(), aNode.getPrefix(), aNode.getLocalName());
+        getBuffer().write(msg);
 
-      traverse(aNode);
-   }
+        traverse(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAllNodeStepNode)
-    */
-   public void visit(AeXPathAllNodeStepNode aNode)
-   {
-      visitAxisNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAllNodeStepNode)
+     */
+    public void visit(AeXPathAllNodeStepNode aNode) {
+        visitAxisNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathCommentNodeStepNode)
-    */
-   public void visit(AeXPathCommentNodeStepNode aNode)
-   {
-      visitAxisNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathCommentNodeStepNode)
+     */
+    public void visit(AeXPathCommentNodeStepNode aNode) {
+        visitAxisNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathProcessingInstructionNodeStepNode)
-    */
-   public void visit(AeXPathProcessingInstructionNodeStepNode aNode)
-   {
-      appendIndentString();
-      String msg = MessageFormat.format(
-            "{0}[axis={1} name={2}]\n",  //$NON-NLS-1$
-              aNode.getType(), aNode.getAxis(), aNode.getName());
-      getBuffer().write(msg);
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathProcessingInstructionNodeStepNode)
+     */
+    public void visit(AeXPathProcessingInstructionNodeStepNode aNode) {
+        appendIndentString();
+        String msg = MessageFormat.format(
+                "{0}[axis={1} name={2}]\n",  //$NON-NLS-1$
+                aNode.getType(), aNode.getAxis(), aNode.getName());
+        getBuffer().write(msg);
 
-      traverse(aNode);
-   }
+        traverse(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathTextNodeStepNode)
-    */
-   public void visit(AeXPathTextNodeStepNode aNode)
-   {
-      visitAxisNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathTextNodeStepNode)
+     */
+    public void visit(AeXPathTextNodeStepNode aNode) {
+        visitAxisNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAndExprNode)
-    */
-   public void visit(AeXPathAndExprNode aNode)
-   {
-      visitBooleanNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAndExprNode)
+     */
+    public void visit(AeXPathAndExprNode aNode) {
+        visitBooleanNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathOrExprNode)
-    */
-   public void visit(AeXPathOrExprNode aNode)
-   {
-      visitBooleanNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathOrExprNode)
+     */
+    public void visit(AeXPathOrExprNode aNode) {
+        visitBooleanNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathUnionExprNode)
-    */
-   public void visit(AeXPathUnionExprNode aNode)
-   {
-      visitBooleanNode(aNode);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAdditiveExprNode)
-    */
-   public void visit(AeXPathAdditiveExprNode aNode)
-   {
-      visitOperatorNode(aNode);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathEqualityExprNode)
-    */
-   public void visit(AeXPathEqualityExprNode aNode)
-   {
-      visitOperatorNode(aNode);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathMultiplicativeExprNode)
-    */
-   public void visit(AeXPathMultiplicativeExprNode aNode)
-   {
-      visitOperatorNode(aNode);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathRelationalExprNode)
-    */
-   public void visit(AeXPathRelationalExprNode aNode)
-   {
-      visitOperatorNode(aNode);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathUnaryExprNode)
-    */
-   public void visit(AeXPathUnaryExprNode aNode)
-   {
-      visitOperatorNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathUnionExprNode)
+     */
+    public void visit(AeXPathUnionExprNode aNode) {
+        visitBooleanNode(aNode);
+    }
 
-   /**
-    * Generic visit method for boolean nodes.
-    * 
-    * @param aNode
-    */
-   protected void visitBooleanNode(AeAbstractXPathBooleanNode aNode)
-   {
-      appendIndentString();
-      String msg = MessageFormat.format(
-            "{0}[create={1}]\n",  //$NON-NLS-1$
-              aNode.getType(), aNode.isCreate());
-      getBuffer().write(msg);
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAdditiveExprNode)
+     */
+    public void visit(AeXPathAdditiveExprNode aNode) {
+        visitOperatorNode(aNode);
+    }
 
-      traverse(aNode);
-   }
-   
-   /**
-    * Generic visit method for operator nodes.
-    * 
-    * @param aNode
-    */
-   protected void visitOperatorNode(AeAbstractXPathOperatorNode aNode)
-   {
-      appendIndentString();
-      String msg = MessageFormat.format(
-            "{0}[operator={1}]\n",  //$NON-NLS-1$
-              aNode.getType(), aNode.getOperator());
-      getBuffer().write(msg);
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathEqualityExprNode)
+     */
+    public void visit(AeXPathEqualityExprNode aNode) {
+        visitOperatorNode(aNode);
+    }
 
-      traverse(aNode);
-   }
-   
-   /**
-    * Generic visit method for axis nodes.
-    * 
-    * @param aNode
-    */
-   protected void visitAxisNode(AeAbstractXPathAxisNode aNode)
-   {
-      appendIndentString();
-      String msg = MessageFormat.format(
-            "{0}[axis={1}]\n",  //$NON-NLS-1$
-              aNode.getType(), aNode.getAxis());
-      getBuffer().write(msg);
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathMultiplicativeExprNode)
+     */
+    public void visit(AeXPathMultiplicativeExprNode aNode) {
+        visitOperatorNode(aNode);
+    }
 
-      traverse(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathRelationalExprNode)
+     */
+    public void visit(AeXPathRelationalExprNode aNode) {
+        visitOperatorNode(aNode);
+    }
 
-   /**
-    * Gets the String value created by the visitor.
-    */
-   public String getString()
-   {
-      return getBuffer().toString();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathUnaryExprNode)
+     */
+    public void visit(AeXPathUnaryExprNode aNode) {
+        visitOperatorNode(aNode);
+    }
 
-   /**
-    * Gets the current indentation string based on the current depth.
-    */
-   protected void appendIndentString()
-   {
-      for (int i = 0; i < getNodeStack().size(); i++)
-      {
-         getBuffer().write("  "); //$NON-NLS-1$
-      }
-   }
+    /**
+     * Generic visit method for boolean nodes.
+     *
+     * @param aNode
+     */
+    protected void visitBooleanNode(AeAbstractXPathBooleanNode aNode) {
+        appendIndentString();
+        String msg = MessageFormat.format(
+                "{0}[create={1}]\n",  //$NON-NLS-1$
+                aNode.getType(), aNode.isCreate());
+        getBuffer().write(msg);
 
-   /**
-    * @return Returns the buffer.
-    */
-   protected AeUnsynchronizedCharArrayWriter getBuffer()
-   {
-      return mBuffer;
-   }
+        traverse(aNode);
+    }
 
-   /**
-    * @param aBuffer The buffer to set.
-    */
-   protected void setBuffer(AeUnsynchronizedCharArrayWriter aBuffer)
-   {
-      mBuffer = aBuffer;
-   }
+    /**
+     * Generic visit method for operator nodes.
+     *
+     * @param aNode
+     */
+    protected void visitOperatorNode(AeAbstractXPathOperatorNode aNode) {
+        appendIndentString();
+        String msg = MessageFormat.format(
+                "{0}[operator={1}]\n",  //$NON-NLS-1$
+                aNode.getType(), aNode.getOperator());
+        getBuffer().write(msg);
+
+        traverse(aNode);
+    }
+
+    /**
+     * Generic visit method for axis nodes.
+     *
+     * @param aNode
+     */
+    protected void visitAxisNode(AeAbstractXPathAxisNode aNode) {
+        appendIndentString();
+        String msg = MessageFormat.format(
+                "{0}[axis={1}]\n",  //$NON-NLS-1$
+                aNode.getType(), aNode.getAxis());
+        getBuffer().write(msg);
+
+        traverse(aNode);
+    }
+
+    /**
+     * Gets the String value created by the visitor.
+     */
+    public String getString() {
+        return getBuffer().toString();
+    }
+
+    /**
+     * Gets the current indentation string based on the current depth.
+     */
+    protected void appendIndentString() {
+        for (int i = 0; i < getNodeStack().size(); i++) {
+            getBuffer().write("  "); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * @return Returns the buffer.
+     */
+    protected AeUnsynchronizedCharArrayWriter getBuffer() {
+        return mBuffer;
+    }
+
+    /**
+     * @param aBuffer The buffer to set.
+     */
+    protected void setBuffer(AeUnsynchronizedCharArrayWriter aBuffer) {
+        mBuffer = aBuffer;
+    }
 }

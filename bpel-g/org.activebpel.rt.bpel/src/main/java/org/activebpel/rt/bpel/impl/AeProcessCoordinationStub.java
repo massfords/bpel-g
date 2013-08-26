@@ -15,105 +15,93 @@ import org.activebpel.rt.bpel.coord.IAeCoordinator;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 
 /**
- *  Void implementation.
+ * Void implementation.
  */
-public class AeProcessCoordinationStub implements IAeProcessCoordination
-{
-   /**
-    *  Default ctor.
-    */
-   public AeProcessCoordinationStub()
-   {
-   }
+public class AeProcessCoordinationStub implements IAeProcessCoordination {
+    /**
+     * Default ctor.
+     */
+    public AeProcessCoordinationStub() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#registerCoordinationId(long, java.lang.String, java.lang.String)
-    */
-   public void registerCoordinationId(long aProcessId, String aLocationPath, String aCoordinationId)
-         throws AeCoordinationException
-   {
-      // no-op
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#registerCoordinationId(long, java.lang.String, java.lang.String)
+     */
+    public void registerCoordinationId(long aProcessId, String aLocationPath, String aCoordinationId)
+            throws AeCoordinationException {
+        // no-op
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#deregisterCoordinationId(long, java.lang.String, java.lang.String, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
-    */
-   public void deregisterCoordinationId(long aProcessId, String aLocationPath, String aCoordinationId, IAeMessageAcknowledgeCallback aCallback, long aJournalId)
-         throws AeCoordinationException
-   {
-      // no-op
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#activityFaulted(long, java.lang.String, java.lang.String, org.activebpel.rt.bpel.IAeFault, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
-    */
-   public void activityFaulted(long aProcessId, String aLocationPath, String aCoordinationId, IAeFault aFault, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId)
-         throws AeCoordinationException
-   {
-      // no-op
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#installCompensationHandler(long, java.lang.String, java.lang.String, org.activebpel.rt.bpel.coord.IAeCoordinator, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
-    */
-   public void installCompensationHandler(long aProcessId, String aLocationPath, String aCoordinationId,
-         IAeCoordinator aCoordinator, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException
-   {
-      // no-op
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#deregisterCoordinationId(long, java.lang.String, java.lang.String, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
+     */
+    public void deregisterCoordinationId(long aProcessId, String aLocationPath, String aCoordinationId, IAeMessageAcknowledgeCallback aCallback, long aJournalId)
+            throws AeCoordinationException {
+        // no-op
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#activityFaulted(long, java.lang.String, java.lang.String, org.activebpel.rt.bpel.IAeFault, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
+     */
+    public void activityFaulted(long aProcessId, String aLocationPath, String aCoordinationId, IAeFault aFault, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId)
+            throws AeCoordinationException {
+        // no-op
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#installCompensationHandler(long, java.lang.String, java.lang.String, org.activebpel.rt.bpel.coord.IAeCoordinator, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
+     */
+    public void installCompensationHandler(long aProcessId, String aLocationPath, String aCoordinationId,
+                                           IAeCoordinator aCoordinator, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException {
+        // no-op
+    }
 
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#compensationCompletedCallback(long, java.lang.String, java.lang.String, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
-    */
-   public void compensationCompletedCallback(long aProcessId,
-         String aLocationPath, String aCoordinationId, long aJournalId,
-         IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId)
-         throws AeCoordinationException
-   {
-      // no-op
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#compensationCompletedCallback(long, java.lang.String, java.lang.String, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
+     */
+    public void compensationCompletedCallback(long aProcessId,
+                                              String aLocationPath, String aCoordinationId, long aJournalId,
+                                              IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId)
+            throws AeCoordinationException {
+        // no-op
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#compensationCompletedWithFaultCallback(long, java.lang.String, java.lang.String, org.activebpel.rt.bpel.IAeFault, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
-    */
-   public void compensationCompletedWithFaultCallback(long aProcessId,
-         String aLocationPath, String aCoordinationId, IAeFault aFault,
-         long aJournalId,
-         IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId)
-         throws AeCoordinationException
-   {
-      // no-op
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#compensationCompletedWithFaultCallback(long, java.lang.String, java.lang.String, org.activebpel.rt.bpel.IAeFault, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
+     */
+    public void compensationCompletedWithFaultCallback(long aProcessId,
+                                                       String aLocationPath, String aCoordinationId, IAeFault aFault,
+                                                       long aJournalId,
+                                                       IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId)
+            throws AeCoordinationException {
+        // no-op
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#compensateSubProcess(long, java.lang.String, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
-    */
-   public void compensateSubProcess(long aProcessId, String aCoordinationId, long aJournalId, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException
-   {
-      // no-op
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#compensateSubProcess(long, java.lang.String, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
+     */
+    public void compensateSubProcess(long aProcessId, String aCoordinationId, long aJournalId, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException {
+        // no-op
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#cancelSubProcessCompensation(long, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
-    */
-   public void cancelSubProcessCompensation(long aProcessId, long aJournalId, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException
-   {
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#cancelProcess(long, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
-    */
-   public void cancelProcess(long aProcessId, long aJournalId, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException
-   {
-      // no-op
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#cancelSubProcessCompensation(long, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
+     */
+    public void cancelSubProcessCompensation(long aProcessId, long aJournalId, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#subprocessCoordinationEnded(long, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
-    */
-   public void subprocessCoordinationEnded(long aProcessId, long aJournalId, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException
-   {
-      // no-op
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#cancelProcess(long, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
+     */
+    public void cancelProcess(long aProcessId, long aJournalId, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException {
+        // no-op
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessCoordination#subprocessCoordinationEnded(long, long, org.activebpel.wsio.IAeMessageAcknowledgeCallback, long)
+     */
+    public void subprocessCoordinationEnded(long aProcessId, long aJournalId, IAeMessageAcknowledgeCallback aCallback, long aCallbackJournalId) throws AeCoordinationException {
+        // no-op
+    }
 }

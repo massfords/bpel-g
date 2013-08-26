@@ -27,156 +27,147 @@ import org.activebpel.rt.xml.schema.AeTypeMapping;
  * org.activebpel.rt.bpel.impl.fastdom.AeFastElement} or {@link
  * org.activebpel.rt.bpel.impl.fastdom.AeFastDocument}.
  */
-public class AeFaultSerializer implements IAeImplStateNames
-{
-   /** The fault to serialize. */
-   private IAeFault mFault;
+public class AeFaultSerializer implements IAeImplStateNames {
+    /**
+     * The fault to serialize.
+     */
+    private IAeFault mFault;
 
-   /** The resulting serialization. */
-   private AeFastElement mFaultElement;
+    /**
+     * The resulting serialization.
+     */
+    private AeFastElement mFaultElement;
 
-   /** Serializer for message data. */
-   private AeMessageDataSerializer mMessageDataSerializer;
+    /**
+     * Serializer for message data.
+     */
+    private AeMessageDataSerializer mMessageDataSerializer;
 
-   /** Type mapping to use to serialize simple types. */
-   private AeTypeMapping mTypeMapping;
+    /**
+     * Type mapping to use to serialize simple types.
+     */
+    private AeTypeMapping mTypeMapping;
 
-   /**
-    * Serializes the specified fault to an instance of {@link
-    * org.activebpel.rt.bpel.impl.fastdom.AeFastElement}.
-    *
-    * @param aFault
-    */
-   protected AeFastElement createFaultElement(IAeFault aFault) throws AeBusinessProcessException
-   {
-      AeFastElement result = new AeFastElement(STATE_FAULT);
-      QName faultName = aFault.getFaultName();
-      boolean hasMessageData = aFault.hasMessageData();
-      boolean hasElementData = aFault.hasElementData();
+    /**
+     * Serializes the specified fault to an instance of {@link
+     * org.activebpel.rt.bpel.impl.fastdom.AeFastElement}.
+     *
+     * @param aFault
+     */
+    protected AeFastElement createFaultElement(IAeFault aFault) throws AeBusinessProcessException {
+        AeFastElement result = new AeFastElement(STATE_FAULT);
+        QName faultName = aFault.getFaultName();
+        boolean hasMessageData = aFault.hasMessageData();
+        boolean hasElementData = aFault.hasElementData();
 
-      result.setAttribute(STATE_NAME          , faultName.getLocalPart());
-      result.setAttribute(STATE_NAMESPACEURI  , faultName.getNamespaceURI());
-      result.setAttribute(STATE_HASMESSAGEDATA, String.valueOf(hasMessageData));
-      result.setAttribute(STATE_HASELEMENTDATA, String.valueOf(hasElementData));
-      result.setAttribute(STATE_SUSPENDABLE, String.valueOf(aFault.isSuspendable()) );
-      result.setAttribute(STATE_RETHROWABLE, String.valueOf(aFault.isRethrowable()) );
+        result.setAttribute(STATE_NAME, faultName.getLocalPart());
+        result.setAttribute(STATE_NAMESPACEURI, faultName.getNamespaceURI());
+        result.setAttribute(STATE_HASMESSAGEDATA, String.valueOf(hasMessageData));
+        result.setAttribute(STATE_HASELEMENTDATA, String.valueOf(hasElementData));
+        result.setAttribute(STATE_SUSPENDABLE, String.valueOf(aFault.isSuspendable()));
+        result.setAttribute(STATE_RETHROWABLE, String.valueOf(aFault.isRethrowable()));
 
-      IAeBpelObject source = aFault.getSource();
-      if (source != null)
-      {
-         result.setAttribute(STATE_SOURCE, source.getLocationPath());
-      }
+        IAeBpelObject source = aFault.getSource();
+        if (source != null) {
+            result.setAttribute(STATE_SOURCE, source.getLocationPath());
+        }
 
-      if (hasMessageData)
-      {
-         AeMessageDataSerializer serializer = getMessageDataSerializer();
-         serializer.setMessageData(aFault.getMessageData());
+        if (hasMessageData) {
+            AeMessageDataSerializer serializer = getMessageDataSerializer();
+            serializer.setMessageData(aFault.getMessageData());
 
-         AeFastElement messageDataElement = serializer.getMessageDataElement();
-         result.appendChild(messageDataElement);
-      }
-      
-      if (hasElementData)
-      {
-         result.appendChild(new AeForeignNode(aFault.getElementData()));
-      }
+            AeFastElement messageDataElement = serializer.getMessageDataElement();
+            result.appendChild(messageDataElement);
+        }
 
-      return result;
-   }
+        if (hasElementData) {
+            result.appendChild(new AeForeignNode(aFault.getElementData()));
+        }
 
-   /**
-    * Returns the fault to serialize.
-    */
-   protected IAeFault getFault()
-   {
-      return mFault;
-   }
+        return result;
+    }
 
-   /**
-    * Returns an instance of {@link
-    * org.activebpel.rt.bpel.impl.fastdom.AeFastDocument} representing the
-    * fault.
-    */
-   public AeFastDocument getFaultDocument() throws AeBusinessProcessException
-   {
-      return new AeFastDocument(getFaultElement());
-   }
+    /**
+     * Returns the fault to serialize.
+     */
+    protected IAeFault getFault() {
+        return mFault;
+    }
 
-   /**
-    * Returns an instance of {@link
-    * org.activebpel.rt.bpel.impl.fastdom.AeFastElement} representing the fault.
-    */
-   public AeFastElement getFaultElement() throws AeBusinessProcessException
-   {
-      if (mFaultElement == null)
-      {
-         if (getFault() == null)
-         {
-            throw new IllegalStateException(AeMessages.getString("AeFaultSerializer.ERROR_0")); //$NON-NLS-1$
-         }
+    /**
+     * Returns an instance of {@link
+     * org.activebpel.rt.bpel.impl.fastdom.AeFastDocument} representing the
+     * fault.
+     */
+    public AeFastDocument getFaultDocument() throws AeBusinessProcessException {
+        return new AeFastDocument(getFaultElement());
+    }
 
-         mFaultElement = createFaultElement(getFault());
-      }
+    /**
+     * Returns an instance of {@link
+     * org.activebpel.rt.bpel.impl.fastdom.AeFastElement} representing the fault.
+     */
+    public AeFastElement getFaultElement() throws AeBusinessProcessException {
+        if (mFaultElement == null) {
+            if (getFault() == null) {
+                throw new IllegalStateException(AeMessages.getString("AeFaultSerializer.ERROR_0")); //$NON-NLS-1$
+            }
 
-      return mFaultElement;
-   }
+            mFaultElement = createFaultElement(getFault());
+        }
 
-   /**
-    * Returns serializer for message data.
-    */
-   protected AeMessageDataSerializer getMessageDataSerializer()
-   {
-      if (mMessageDataSerializer == null)
-      {
-         if (getTypeMapping() == null)
-         {
-            throw new IllegalStateException(AeMessages.getString("AeFaultSerializer.ERROR_1")); //$NON-NLS-1$
-         }
+        return mFaultElement;
+    }
 
-         mMessageDataSerializer = new AeMessageDataSerializer(getTypeMapping());
-      }
+    /**
+     * Returns serializer for message data.
+     */
+    protected AeMessageDataSerializer getMessageDataSerializer() {
+        if (mMessageDataSerializer == null) {
+            if (getTypeMapping() == null) {
+                throw new IllegalStateException(AeMessages.getString("AeFaultSerializer.ERROR_1")); //$NON-NLS-1$
+            }
 
-      return mMessageDataSerializer;
-   }
+            mMessageDataSerializer = new AeMessageDataSerializer(getTypeMapping());
+        }
 
-   /**
-    * Returns the type mapping to use to serialize simple types.
-    */
-   protected AeTypeMapping getTypeMapping()
-   {
-      return mTypeMapping;
-   }
+        return mMessageDataSerializer;
+    }
 
-   /**
-    * Resets all output variables.
-    */
-   protected void reset()
-   {
-      mFaultElement = null;
-      mMessageDataSerializer = null;
-   }
+    /**
+     * Returns the type mapping to use to serialize simple types.
+     */
+    protected AeTypeMapping getTypeMapping() {
+        return mTypeMapping;
+    }
 
-   /**
-    * Sets the fault to serialize.
-    *
-    * @param aFault
-    */
-   public void setFault(IAeFault aFault)
-   {
-      reset();
+    /**
+     * Resets all output variables.
+     */
+    protected void reset() {
+        mFaultElement = null;
+        mMessageDataSerializer = null;
+    }
 
-      mFault = aFault;
-   }
+    /**
+     * Sets the fault to serialize.
+     *
+     * @param aFault
+     */
+    public void setFault(IAeFault aFault) {
+        reset();
 
-   /**
-    * Sets the type mapping to use to serialize simple types.
-    *
-    * @param aTypeMapping
-    */
-   public void setTypeMapping(AeTypeMapping aTypeMapping)
-   {
-      reset();
+        mFault = aFault;
+    }
 
-      mTypeMapping = aTypeMapping;
-   }
+    /**
+     * Sets the type mapping to use to serialize simple types.
+     *
+     * @param aTypeMapping
+     */
+    public void setTypeMapping(AeTypeMapping aTypeMapping) {
+        reset();
+
+        mTypeMapping = aTypeMapping;
+    }
 }

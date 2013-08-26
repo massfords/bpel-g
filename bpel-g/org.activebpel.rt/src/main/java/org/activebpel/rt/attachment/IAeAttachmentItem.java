@@ -14,28 +14,27 @@ import java.util.Map;
 /**
  * Interface describing the access to an internal bpel attachment item
  */
-public interface IAeAttachmentItem
-{
-   /**
-    * @return <code>Map</code> of attachment headers
-    */
-   public Map<String, String> getHeaders();
-   
-   /**
-    * Returns the value of the header corresponding to the given header name.
-    *
-    * @param aHeaderName
-    * @return the value of the specified header
-    */
-   public String getHeader(String aHeaderName);
-   
-   /**
-    * Returns the attachment's id.
-    */
-   public long getAttachmentId();
+public interface IAeAttachmentItem {
+    /**
+     * @return <code>Map</code> of attachment headers
+     */
+    public Map<String, String> getHeaders();
 
-   /**
-    * Returns the id of the attachment's associated process.
-    */
-   public long getProcessId();
+    /**
+     * Returns the value of the header corresponding to the given header name.
+     *
+     * @param aHeaderName
+     * @return the value of the specified header
+     */
+    public String getHeader(String aHeaderName);
+
+    /**
+     * Returns the attachment's id.
+     */
+    public long getAttachmentId();
+
+    /**
+     * Returns the id of the attachment's associated process.
+     */
+    public long getProcessId();
 }

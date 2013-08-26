@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.recovery.recovered.coord; 
+package org.activebpel.rt.bpel.server.engine.recovery.recovered.coord;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
@@ -16,78 +16,72 @@ import org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal;
 import org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem;
 
 /**
- * Base class used to model coordination behavior that needs to be requeued 
+ * Base class used to model coordination behavior that needs to be requeued
  * through the coordination manager after the process is recovered.
- *
  */
-public abstract class AeAbstractRecoveredCoordinationItem implements IAeRecoveredItem
-{
-   /** id for the coordination  */
-   private String mCoordId;
-   
-   /**
-    * Ctor
-    * @param aCoordId
-    */
-   public AeAbstractRecoveredCoordinationItem(String aCoordId)
-   {
-      setCoordId(aCoordId);
-   }
+public abstract class AeAbstractRecoveredCoordinationItem implements IAeRecoveredItem {
+    /**
+     * id for the coordination
+     */
+    private String mCoordId;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException
-   {
-      IAeCoordinationManagerInternal coordManager = aTargetEngine.getCoordinationManager();
-      try
-      {
-         queueCoordinationSignal(coordManager);
-      }
-      catch (AeCoordinationException e)
-      {
-         // fixme (MF-coord) rethrow any exceptions once the missing journal items for coord messages having been transmitted are added. 
-      }
-   }
+    /**
+     * Ctor
+     *
+     * @param aCoordId
+     */
+    public AeAbstractRecoveredCoordinationItem(String aCoordId) {
+        setCoordId(aCoordId);
+    }
 
-   /**
-    * Queues the coordination signal through the manager during recovery.
-    * @param aCoordManager
-    * @throws AeCoordinationException
-    */
-   protected abstract void queueCoordinationSignal(IAeCoordinationManagerInternal aCoordManager) throws AeCoordinationException;
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException {
+        IAeCoordinationManagerInternal coordManager = aTargetEngine.getCoordinationManager();
+        try {
+            queueCoordinationSignal(coordManager);
+        } catch (AeCoordinationException e) {
+            // fixme (MF-coord) rethrow any exceptions once the missing journal items for coord messages having been transmitted are added.
+        }
+    }
 
-   /**
-    * Location id's are used so this method always returns 0
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#getLocationId()
-    */
-   public int getLocationId()
-   {
-      return 0;
-   }
+    /**
+     * Queues the coordination signal through the manager during recovery.
+     *
+     * @param aCoordManager
+     * @throws AeCoordinationException
+     */
+    protected abstract void queueCoordinationSignal(IAeCoordinationManagerInternal aCoordManager) throws AeCoordinationException;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
-    */
-   public boolean isRemoval()
-   {
-      return false;
-   }
+    /**
+     * Location id's are used so this method always returns 0
+     *
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#getLocationId()
+     */
+    public int getLocationId() {
+        return 0;
+    }
 
-   /**
-    * @return the coordId
-    */
-   protected String getCoordId()
-   {
-      return mCoordId;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
+     */
+    public boolean isRemoval() {
+        return false;
+    }
 
-   /**
-    * @param aCoordId the coordId to set
-    */
-   protected void setCoordId(String aCoordId)
-   {
-      mCoordId = aCoordId;
-   }
+    /**
+     * @return the coordId
+     */
+    protected String getCoordId() {
+        return mCoordId;
+    }
+
+    /**
+     * @param aCoordId the coordId to set
+     */
+    protected void setCoordId(String aCoordId) {
+        mCoordId = aCoordId;
+    }
 }
  

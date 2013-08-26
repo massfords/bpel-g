@@ -18,9 +18,9 @@ import bpelg.services.processes.types.ServiceDeployments;
  * Top level interface for wrapping of the deployment details.
  */
 public interface IAeDeploymentContainer extends IAeBpr, IAeDeploymentContext {
-	/**
-	 * @return service deployment information
-	 * @throws AeException 
-	 */
-	public ServiceDeployments getServiceDeploymentInfo() throws AeException;
+    /**
+     * @return service deployment information
+     * @throws AeException
+     */
+    public ServiceDeployments getServiceDeploymentInfo() throws AeException;
 }

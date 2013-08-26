@@ -40,198 +40,173 @@ import org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor;
  * no-op impls of all of the visitor methods.  This is particularly useful for classes that
  * only need to do something for a small subset of the node types.
  */
-public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
-{
-   /**
-    * Default c'tor.
-    */
-   protected AeAbstractXPathNodeVisitor()
-   {
-   }
-   
-   /**
-    * Called by all of the impls in this class, this method can be overridden by visitors that
-    * need to do the same basic actions for many node types.
-    * 
-    * @param aNode
-    */
-   protected void visitBaseXPathNode(AeAbstractXPathNode aNode)
-   {
-   }
+public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor {
+    /**
+     * Default c'tor.
+     */
+    protected AeAbstractXPathNodeVisitor() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathFunctionNode)
-    */
-   public void visit(AeXPathFunctionNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * Called by all of the impls in this class, this method can be overridden by visitors that
+     * need to do the same basic actions for many node types.
+     *
+     * @param aNode
+     */
+    protected void visitBaseXPathNode(AeAbstractXPathNode aNode) {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathVariableNode)
-    */
-   public void visit(AeXPathVariableNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathFunctionNode)
+     */
+    public void visit(AeXPathFunctionNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathLiteralNode)
-    */
-   public void visit(AeXPathLiteralNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAbsLocPathNode)
-    */
-   public void visit(AeXPathAbsLocPathNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathVariableNode)
+     */
+    public void visit(AeXPathVariableNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAdditiveExprNode)
-    */
-   public void visit(AeXPathAdditiveExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathLiteralNode)
+     */
+    public void visit(AeXPathLiteralNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAllNodeStepNode)
-    */
-   public void visit(AeXPathAllNodeStepNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAbsLocPathNode)
+     */
+    public void visit(AeXPathAbsLocPathNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAndExprNode)
-    */
-   public void visit(AeXPathAndExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAdditiveExprNode)
+     */
+    public void visit(AeXPathAdditiveExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathCommentNodeStepNode)
-    */
-   public void visit(AeXPathCommentNodeStepNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAllNodeStepNode)
+     */
+    public void visit(AeXPathAllNodeStepNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathEqualityExprNode)
-    */
-   public void visit(AeXPathEqualityExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathAndExprNode)
+     */
+    public void visit(AeXPathAndExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathFilterExprNode)
-    */
-   public void visit(AeXPathFilterExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathCommentNodeStepNode)
+     */
+    public void visit(AeXPathCommentNodeStepNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathMultiplicativeExprNode)
-    */
-   public void visit(AeXPathMultiplicativeExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathEqualityExprNode)
+     */
+    public void visit(AeXPathEqualityExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathNameStepNode)
-    */
-   public void visit(AeXPathNameStepNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathFilterExprNode)
+     */
+    public void visit(AeXPathFilterExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathOrExprNode)
-    */
-   public void visit(AeXPathOrExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathMultiplicativeExprNode)
+     */
+    public void visit(AeXPathMultiplicativeExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathPathExprNode)
-    */
-   public void visit(AeXPathPathExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathNameStepNode)
+     */
+    public void visit(AeXPathNameStepNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathPredicateNode)
-    */
-   public void visit(AeXPathPredicateNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathOrExprNode)
+     */
+    public void visit(AeXPathOrExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathProcessingInstructionNodeStepNode)
-    */
-   public void visit(AeXPathProcessingInstructionNodeStepNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathPathExprNode)
+     */
+    public void visit(AeXPathPathExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathRelationalExprNode)
-    */
-   public void visit(AeXPathRelationalExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathPredicateNode)
+     */
+    public void visit(AeXPathPredicateNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathRelativeLocPathNode)
-    */
-   public void visit(AeXPathRelativeLocPathNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathProcessingInstructionNodeStepNode)
+     */
+    public void visit(AeXPathProcessingInstructionNodeStepNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathRootXpathNode)
-    */
-   public void visit(AeXPathRootXpathNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathRelationalExprNode)
+     */
+    public void visit(AeXPathRelationalExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathTextNodeStepNode)
-    */
-   public void visit(AeXPathTextNodeStepNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathRelativeLocPathNode)
+     */
+    public void visit(AeXPathRelativeLocPathNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathUnaryExprNode)
-    */
-   public void visit(AeXPathUnaryExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathRootXpathNode)
+     */
+    public void visit(AeXPathRootXpathNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathUnionExprNode)
-    */
-   public void visit(AeXPathUnionExprNode aNode)
-   {
-      visitBaseXPathNode(aNode);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathTextNodeStepNode)
+     */
+    public void visit(AeXPathTextNodeStepNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathUnaryExprNode)
+     */
+    public void visit(AeXPathUnaryExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathUnionExprNode)
+     */
+    public void visit(AeXPathUnionExprNode aNode) {
+        visitBaseXPathNode(aNode);
+    }
 }

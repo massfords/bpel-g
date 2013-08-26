@@ -12,87 +12,85 @@ package org.activebpel.rt.bpel.server.deploy;
 import java.net.URL;
 
 /**
- * Base class for implementing a deployment context.  
+ * Base class for implementing a deployment context.
  * The URL serves as the unique identifier for each deployment.
  */
-abstract public class AeAbstractDeploymentContext implements IAeDeploymentContext
-{
-   /** deployment location */
-   private final URL mLocation;
-   /** deployment id */
-   private final IAeDeploymentId mDeploymentId;
-   private String mShortName;
+abstract public class AeAbstractDeploymentContext implements IAeDeploymentContext {
+    /**
+     * deployment location
+     */
+    private final URL mLocation;
+    /**
+     * deployment id
+     */
+    private final IAeDeploymentId mDeploymentId;
+    private String mShortName;
 
-   /**
-    * Constructor.
-    * @param aURL the deployment url
-    */
-   public AeAbstractDeploymentContext( URL aURL )
-   {
-      mLocation = aURL;
-      mDeploymentId = new AeDeploymentId( aURL );
-   }
+    /**
+     * Constructor.
+     *
+     * @param aURL the deployment url
+     */
+    public AeAbstractDeploymentContext(URL aURL) {
+        mLocation = aURL;
+        mDeploymentId = new AeDeploymentId(aURL);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentId()
-    */
-   public IAeDeploymentId getDeploymentId()
-   {
-      return mDeploymentId;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentId()
+     */
+    public IAeDeploymentId getDeploymentId() {
+        return mDeploymentId;
+    }
 
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return mDeploymentId.hashCode();
-   }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return mDeploymentId.hashCode();
+    }
 
-   /**
-    * Returns - deploymentId
-    * @see java.lang.Object#toString()
-    */
-   public String toString()
-   {
-      return mDeploymentId.getId();
-   }
+    /**
+     * Returns - deploymentId
+     *
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return mDeploymentId.getId();
+    }
 
-   /**
-    * Determines equality based ONLY on the deploymentId
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object aObj)
-   {
-      if( aObj != null && aObj instanceof IAeDeploymentContext )
-      {
-         IAeDeploymentContext other = (IAeDeploymentContext)aObj;
-         return getDeploymentId().equals( other.getDeploymentId() );
-      }
-      return false;
-   }
+    /**
+     * Determines equality based ONLY on the deploymentId
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object aObj) {
+        if (aObj != null && aObj instanceof IAeDeploymentContext) {
+            IAeDeploymentContext other = (IAeDeploymentContext) aObj;
+            return getDeploymentId().equals(other.getDeploymentId());
+        }
+        return false;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentLocation()
-    */
-   public URL getDeploymentLocation()
-   {
-      return mLocation;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentLocation()
+     */
+    public URL getDeploymentLocation() {
+        return mLocation;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getShortName()
-    */
-   public String getShortName()
-   {
-	  if (mShortName == null) {
-	      String urlString = getDeploymentLocation().toString();
-		  mShortName = urlString.substring( urlString.lastIndexOf('/')+1 ); 
-	  }
-	  return mShortName;
-   }
-   
-   public void setShortName(String aShortName) {
-	   mShortName = aShortName;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getShortName()
+     */
+    public String getShortName() {
+        if (mShortName == null) {
+            String urlString = getDeploymentLocation().toString();
+            mShortName = urlString.substring(urlString.lastIndexOf('/') + 1);
+        }
+        return mShortName;
+    }
+
+    public void setShortName(String aShortName) {
+        mShortName = aShortName;
+    }
 }

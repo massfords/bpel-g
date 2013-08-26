@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign.to; 
+package org.activebpel.rt.bpel.impl.activity.assign.to;
 
 import javax.xml.namespace.QName;
 
@@ -17,52 +17,47 @@ import org.activebpel.rt.bpel.impl.activity.assign.IAeVariableDataWrapper;
 import org.activebpel.rt.wsdl.def.IAePropertyAlias;
 
 /**
- * Gets the target for the copy using a propertyAlias 
+ * Gets the target for the copy using a propertyAlias
  */
-public class AeToPropertyType extends AeToPropertyBase
-{
-   /**
-    * Ctor accepts def and context
-    *  
-    * @param aToDef
-    */
-   public AeToPropertyType(AeToDef aToDef)
-   {
-      super(aToDef);
-   }
-   
-   /**
-    * Ctor accepts variable and property
-    * @param aVariable
-    * @param aProperty
-    */
-   public AeToPropertyType(String aVariable, QName aProperty)
-   {
-      super(aVariable, aProperty);
-   }
+public class AeToPropertyType extends AeToPropertyBase {
+    /**
+     * Ctor accepts def and context
+     *
+     * @param aToDef
+     */
+    public AeToPropertyType(AeToDef aToDef) {
+        super(aToDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAePropertyAliasCopyOperation#getPropertyAlias()
-    */
-   public IAePropertyAlias getPropertyAlias() throws AeBusinessProcessException
-   {
-      return getCopyOperation().getContext().getPropertyAlias(IAePropertyAlias.TYPE, getVariable().getType(), getProperty());
-   }
+    /**
+     * Ctor accepts variable and property
+     *
+     * @param aVariable
+     * @param aProperty
+     */
+    public AeToPropertyType(String aVariable, QName aProperty) {
+        super(aVariable, aProperty);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAePropertyAliasCopyOperation#getDataForQueryContext(org.activebpel.rt.wsdl.def.IAePropertyAlias)
-    */
-   public Object getDataForQueryContext(IAePropertyAlias aPropAlias) throws AeBusinessProcessException
-   {
-      return getVariable().getTypeData();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAePropertyAliasCopyOperation#getPropertyAlias()
+     */
+    public IAePropertyAlias getPropertyAlias() throws AeBusinessProcessException {
+        return getCopyOperation().getContext().getPropertyAlias(IAePropertyAlias.TYPE, getVariable().getType(), getProperty());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeToPropertyBase#getVariableDataWrapper()
-    */
-   protected IAeVariableDataWrapper getVariableDataWrapper() throws AeBusinessProcessException
-   {
-      return new AeVariableComplexTypeDataWrapper(getVariable());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAePropertyAliasCopyOperation#getDataForQueryContext(org.activebpel.rt.wsdl.def.IAePropertyAlias)
+     */
+    public Object getDataForQueryContext(IAePropertyAlias aPropAlias) throws AeBusinessProcessException {
+        return getVariable().getTypeData();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeToPropertyBase#getVariableDataWrapper()
+     */
+    protected IAeVariableDataWrapper getVariableDataWrapper() throws AeBusinessProcessException {
+        return new AeVariableComplexTypeDataWrapper(getVariable());
+    }
 }
  

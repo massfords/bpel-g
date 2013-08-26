@@ -7,26 +7,23 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.wsio; 
+package org.activebpel.wsio;
 
 /**
  * Provides no op impls of the interface
  */
-public class AeMessageAcknowledgeCallbackAdapter implements IAeMessageAcknowledgeCallback
-{
-   /**
-    * @see org.activebpel.wsio.IAeMessageAcknowledgeCallback#onAcknowledge(java.lang.String)
-    */
-   public void onAcknowledge(String aMessageId)
-         throws AeMessageAcknowledgeException
-   {
-   }
+public class AeMessageAcknowledgeCallbackAdapter implements IAeMessageAcknowledgeCallback {
+    /**
+     * @see org.activebpel.wsio.IAeMessageAcknowledgeCallback#onAcknowledge(java.lang.String)
+     */
+    public void onAcknowledge(String aMessageId)
+            throws AeMessageAcknowledgeException {
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeMessageAcknowledgeCallback#onNotAcknowledge(java.lang.Throwable)
-    */
-   public void onNotAcknowledge(Throwable aReason)
-   {
-   }
+    /**
+     * @see org.activebpel.wsio.IAeMessageAcknowledgeCallback#onNotAcknowledge(java.lang.Throwable)
+     */
+    public void onNotAcknowledge(Throwable aReason) {
+    }
 }
  

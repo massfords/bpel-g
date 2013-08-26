@@ -12,59 +12,54 @@ package org.activebpel.rt.bpel.impl.fastdom;
 /**
  * Abstract base class for nodes in the fast, lightweight DOM.
  */
-public abstract class AeFastNode implements IAeVisitable
-{
-   /** The node's parent. */
-   private IAeFastParent mParent;
+public abstract class AeFastNode implements IAeVisitable {
+    /**
+     * The node's parent.
+     */
+    private IAeFastParent mParent;
 
-   /**
-    * Default constructor.
-    */
-   public AeFastNode()
-   {
-   }
+    /**
+     * Default constructor.
+     */
+    public AeFastNode() {
+    }
 
-   /**
-    * Constructs a new with the specified parent.
-    *
-    * @param aParent
-    */
-   public AeFastNode(IAeFastParent aParent)
-   {
-      setParent(aParent);
-   }
+    /**
+     * Constructs a new with the specified parent.
+     *
+     * @param aParent
+     */
+    public AeFastNode(IAeFastParent aParent) {
+        setParent(aParent);
+    }
 
-   /**
-    * Detaches this node from its parent, or does nothing if this node has no
-    * parent.
-    *
-    * @return This node detached.
-    */
-   public AeFastNode detach()
-   {
-      if (getParent() != null)
-      {
-         getParent().removeChild(this);
-      }
+    /**
+     * Detaches this node from its parent, or does nothing if this node has no
+     * parent.
+     *
+     * @return This node detached.
+     */
+    public AeFastNode detach() {
+        if (getParent() != null) {
+            getParent().removeChild(this);
+        }
 
-      return this;
-   }
+        return this;
+    }
 
-   /**
-    * Returns this node's parent.
-    */
-   public IAeFastParent getParent()
-   {
-      return mParent;
-   }
+    /**
+     * Returns this node's parent.
+     */
+    public IAeFastParent getParent() {
+        return mParent;
+    }
 
-   /**
-    * Sets this node's parent to be the specified node.
-    *
-    * @param aParent
-    */
-   public void setParent(IAeFastParent aParent)
-   {
-      mParent = aParent;
-   }
+    /**
+     * Sets this node's parent to be the specified node.
+     *
+     * @param aParent
+     */
+    public void setParent(IAeFastParent aParent) {
+        mParent = aParent;
+    }
 }

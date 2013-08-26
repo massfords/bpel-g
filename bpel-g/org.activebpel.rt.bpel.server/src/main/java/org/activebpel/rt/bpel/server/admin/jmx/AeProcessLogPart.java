@@ -3,17 +3,17 @@ package org.activebpel.rt.bpel.server.admin.jmx;
 import java.beans.ConstructorProperties;
 
 public class AeProcessLogPart {
-    
+
     public static final int PART_SIZE = 1024 * 8;
-    
+
     private String mLog;
     private int mPart;
     private boolean mMoreAvailable;
-    
+
     public AeProcessLogPart() {
-        
+
     }
-    
+
     @ConstructorProperties({"log", "part", "moreAvailable"})
     public AeProcessLogPart(String aLog, int aPart, boolean aMoreAvailable) {
         super();

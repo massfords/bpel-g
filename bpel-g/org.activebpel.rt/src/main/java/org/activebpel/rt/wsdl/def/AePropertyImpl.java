@@ -20,152 +20,149 @@ import org.activebpel.rt.util.AeUtil;
  * associated with this Message Property element.
  */
 public class AePropertyImpl
-   implements ExtensibilityElement, IAeProperty, IAeBPELExtendedWSDLConst
-{
-   /** The QName of this extension element. */
-   private QName mElementType;
+        implements ExtensibilityElement, IAeProperty, IAeBPELExtendedWSDLConst {
+    /**
+     * The QName of this extension element.
+     */
+    private QName mElementType;
 
-   /** Indicates if the semantics of this extension are required. */
-   private Boolean mRequired;
+    /**
+     * Indicates if the semantics of this extension are required.
+     */
+    private Boolean mRequired;
 
-   /** The name of this Property. */
-   private QName mName;
+    /**
+     * The name of this Property.
+     */
+    private QName mName;
 
-   /** The type of this property or null if its an element. */
-   private QName mType;
-   
-   /** The name of the element property or null if its a type */
-   private QName mElementName;
+    /**
+     * The type of this property or null if its an element.
+     */
+    private QName mType;
 
-   /**
-    * Constructor.  This contructor is generally used for modeling a new
-    * Message Property extension element. I.e. this extension implementation is
-    * not being generated via a deserializer.
-    */
-   public AePropertyImpl()
-   {
-      setElementType(new QName(PROPERTY_1_1_NAMESPACE, PROPERTY_TAG));
-   }
+    /**
+     * The name of the element property or null if its a type
+     */
+    private QName mElementName;
 
-   /**
-    * Set whether or not the semantics of this extension are required.
-    * 
-    * @param aRequired
-    */
-   public void setRequired(Boolean aRequired)
-   {
-      mRequired = aRequired;
-   }
+    /**
+     * Constructor.  This contructor is generally used for modeling a new
+     * Message Property extension element. I.e. this extension implementation is
+     * not being generated via a deserializer.
+     */
+    public AePropertyImpl() {
+        setElementType(new QName(PROPERTY_1_1_NAMESPACE, PROPERTY_TAG));
+    }
 
-   /**
-    * Get whether or not the semantics of this extension are required.
-    * 
-    * @return Boolean
-    */
-   public Boolean getRequired()
-   {
-      return mRequired;
-   }
-   
-   /**
-    * Set the QName of this Property element.
-    * 
-    * @param aElementType
-    */
-   public void setElementType(QName aElementType)
-   {
-      mElementType = aElementType;
-   }
-   
-   /**
-    * Get the QName of this Property element.
-    * 
-    * @return QName
-    */
-   public QName getElementType()
-   {
-      return mElementType;
-   }
+    /**
+     * Set whether or not the semantics of this extension are required.
+     *
+     * @param aRequired
+     */
+    public void setRequired(Boolean aRequired) {
+        mRequired = aRequired;
+    }
 
-   /**
-    * Get this Message Property's name.
-    * 
-    * @return QName
-    */
-   public QName getQName()
-   {
-      return mName;
-   }
+    /**
+     * Get whether or not the semantics of this extension are required.
+     *
+     * @return Boolean
+     */
+    public Boolean getRequired() {
+        return mRequired;
+    }
 
-   /**
-    * Set this Message Property name.
-    * 
-    * @param aName
-    */
-   public void setQName(QName aName)
-   {
-      mName = aName;
-   }
-   
-   /**
-    * Get this Message Property Type QName.
-    * 
-    * @return QName
-    */
-   public QName getTypeName()
-   {
-      return mType;
-   }
+    /**
+     * Set the QName of this Property element.
+     *
+     * @param aElementType
+     */
+    public void setElementType(QName aElementType) {
+        mElementType = aElementType;
+    }
 
-   /**
-    * Set this Message Property Type QName.
-    * 
-    * @param aType
-    */
-   public void setTypeName(QName aType)
-   {
-      mType = aType;
-   }
-   
-   /**
-    * @see org.activebpel.rt.wsdl.def.IAeProperty#getElementName()
-    */
-   public QName getElementName()
-   {
-      return mElementName;
-   }
+    /**
+     * Get the QName of this Property element.
+     *
+     * @return QName
+     */
+    public QName getElementType() {
+        return mElementType;
+    }
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.IAeProperty#setElementName(javax.xml.namespace.QName)
-    */
-   public void setElementName(QName aQName)
-   {
-      mElementName = aQName;
-   }
-   
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return getQName().hashCode();
-   }
+    /**
+     * Get this Message Property's name.
+     *
+     * @return QName
+     */
+    public QName getQName() {
+        return mName;
+    }
 
-   /**
-    * Override the comparison operator to determine if objects are equal.  
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object aObj)
-   {
-      // Make sure we have the proper object for comparison
-      if (! (aObj instanceof AePropertyImpl))
-         return false;
-      
-      AePropertyImpl target = (AePropertyImpl)aObj;
-      
-      return AeUtil.compareObjects(mElementType, target.getElementType()) &&
-             AeUtil.compareObjects(mType, target.getTypeName()) &&
-             AeUtil.compareObjects(mName, target.getQName()) &&
-             AeUtil.compareObjects(mElementName, target.getElementName());
-   }
+    /**
+     * Set this Message Property name.
+     *
+     * @param aName
+     */
+    public void setQName(QName aName) {
+        mName = aName;
+    }
+
+    /**
+     * Get this Message Property Type QName.
+     *
+     * @return QName
+     */
+    public QName getTypeName() {
+        return mType;
+    }
+
+    /**
+     * Set this Message Property Type QName.
+     *
+     * @param aType
+     */
+    public void setTypeName(QName aType) {
+        mType = aType;
+    }
+
+    /**
+     * @see org.activebpel.rt.wsdl.def.IAeProperty#getElementName()
+     */
+    public QName getElementName() {
+        return mElementName;
+    }
+
+    /**
+     * @see org.activebpel.rt.wsdl.def.IAeProperty#setElementName(javax.xml.namespace.QName)
+     */
+    public void setElementName(QName aQName) {
+        mElementName = aQName;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return getQName().hashCode();
+    }
+
+    /**
+     * Override the comparison operator to determine if objects are equal.
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object aObj) {
+        // Make sure we have the proper object for comparison
+        if (!(aObj instanceof AePropertyImpl))
+            return false;
+
+        AePropertyImpl target = (AePropertyImpl) aObj;
+
+        return AeUtil.compareObjects(mElementType, target.getElementType()) &&
+                AeUtil.compareObjects(mType, target.getTypeName()) &&
+                AeUtil.compareObjects(mName, target.getQName()) &&
+                AeUtil.compareObjects(mElementName, target.getElementName());
+    }
 }

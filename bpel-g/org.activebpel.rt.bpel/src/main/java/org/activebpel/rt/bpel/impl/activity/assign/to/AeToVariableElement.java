@@ -7,7 +7,7 @@
 // Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT
 // is strictly forbidden. Copyright (c) 2002-2007 All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign.to; 
+package org.activebpel.rt.bpel.impl.activity.assign.to;
 
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
 import org.activebpel.rt.bpel.IAeVariable;
@@ -17,76 +17,70 @@ import org.activebpel.rt.bpel.impl.AeBpelException;
 /**
  * Selects an element variable to assign to
  */
-public class AeToVariableElement extends AeToBase
-{
-   /** variable */
-   private IAeVariable mVariable;
+public class AeToVariableElement extends AeToBase {
+    /**
+     * variable
+     */
+    private IAeVariable mVariable;
 
-   /**
-    * Ctor accepts def 
-    * 
-    * @param aToDef
-    */
-   public AeToVariableElement(AeToDef aToDef)
-   {
-      super(aToDef);
-   }
-   
-   /**
-    * Ctor accepts variable name
-    * 
-    * @param aVariableName
-    */
-   public AeToVariableElement(String aVariableName)
-   {
-      setVariableName(aVariableName);
-   }
+    /**
+     * Ctor accepts def
+     *
+     * @param aToDef
+     */
+    public AeToVariableElement(AeToDef aToDef) {
+        super(aToDef);
+    }
 
-   /**
-    * Ctor accepts variable
-    * 
-    * @param aVariable
-    */
-   public AeToVariableElement(IAeVariable aVariable)
-   {
-      setVariable(aVariable);
-   }
+    /**
+     * Ctor accepts variable name
+     *
+     * @param aVariableName
+     */
+    public AeToVariableElement(String aVariableName) {
+        setVariableName(aVariableName);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeTo#getTarget()
-    */
-   public Object getTarget() throws AeBpelException
-   {
-      return new AeVariableElementDataWrapper(getVariable());
-   }
+    /**
+     * Ctor accepts variable
+     *
+     * @param aVariable
+     */
+    public AeToVariableElement(IAeVariable aVariable) {
+        setVariable(aVariable);
+    }
 
-   /**
-    * Overrides method to return variable set by {@link #setVariable(IAeVariable)} if defined.
-    * 
-    * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeToBase#getVariable()
-    */
-   protected IAeVariable getVariable()
-   {
-      return (mVariable != null) ? mVariable : super.getVariable();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeTo#getTarget()
+     */
+    public Object getTarget() throws AeBpelException {
+        return new AeVariableElementDataWrapper(getVariable());
+    }
 
-   /**
-    * @param aVariable The variable to set.
-    */
-   public void setVariable(IAeVariable aVariable)
-   {
-      mVariable = aVariable;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeToBase#getAttachmentsTarget()
-    */
-   public IAeAttachmentContainer getAttachmentsTarget()
-   {
-      // fixme (MF-attachments) why do we clear the attachments container when copying to it?
-      IAeAttachmentContainer toContainer = getVariable().getAttachmentData();
-      toContainer.clear();
-      return toContainer;
-   }
+    /**
+     * Overrides method to return variable set by {@link #setVariable(IAeVariable)} if defined.
+     *
+     * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeToBase#getVariable()
+     */
+    protected IAeVariable getVariable() {
+        return (mVariable != null) ? mVariable : super.getVariable();
+    }
+
+    /**
+     * @param aVariable The variable to set.
+     */
+    public void setVariable(IAeVariable aVariable) {
+        mVariable = aVariable;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeToBase#getAttachmentsTarget()
+     */
+    public IAeAttachmentContainer getAttachmentsTarget() {
+        // fixme (MF-attachments) why do we clear the attachments container when copying to it?
+        IAeAttachmentContainer toContainer = getVariable().getAttachmentData();
+        toContainer.clear();
+        return toContainer;
+    }
 }
  

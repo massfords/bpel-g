@@ -19,83 +19,82 @@ import org.activebpel.wsio.IAeWebServiceMessageData;
 /**
  * Wraps the invoke data.
  */
-public interface IAeInvoke extends Serializable, IAeTransmission
-{
-   /**
-    * Accessor for the process id.
-    */
-   public long getProcessId();
+public interface IAeInvoke extends Serializable, IAeTransmission {
+    /**
+     * Accessor for the process id.
+     */
+    public long getProcessId();
 
-   /**
-    * Accessor for the process <code>QName</code>.
-    */
-   public QName getProcessName();
+    /**
+     * Accessor for the process <code>QName</code>.
+     */
+    public QName getProcessName();
 
-   /**
-    * Accessor for the partner link (may be either a simple PL name or full location).
-    */
-   public String getPartnerLink();
+    /**
+     * Accessor for the partner link (may be either a simple PL name or full location).
+     */
+    public String getPartnerLink();
 
-   /**
-    * Accessor for the partner endpoint reference.
-    */
-   public String getPartnerEndpointReferenceString();
+    /**
+     * Accessor for the partner endpoint reference.
+     */
+    public String getPartnerEndpointReferenceString();
 
-   /***
-    * Accessor for my endpoint reference.
-    */
-   public String getMyEndpointReferenceString();
+    /**
+     * Accessor for my endpoint reference.
+     */
+    public String getMyEndpointReferenceString();
 
-   /**
-    * Accessor for the operation.
-    */
-   public String getOperation();
+    /**
+     * Accessor for the operation.
+     */
+    public String getOperation();
 
-   /**
-    * Accessor for the input message data.
-    */
-   public IAeWebServiceMessageData getInputMessageData();
+    /**
+     * Accessor for the input message data.
+     */
+    public IAeWebServiceMessageData getInputMessageData();
 
-   /**
-    * Return true if this is a one way invoke.
-    */
-   public boolean isOneWay();
+    /**
+     * Return true if this is a one way invoke.
+     */
+    public boolean isOneWay();
 
-   /**
-    * Accessor for the location path.
-    */
-   public String getLocationPath();
+    /**
+     * Accessor for the location path.
+     */
+    public String getLocationPath();
 
-   /**
-    * Accessor for the location id.
-    */
-   public int getLocationId();
-   
-   /**
-    * Setter for the invoke handler
-    *
-    * @param aHandler
-    */
-   public void setInvokeHandler(String aHandler);
+    /**
+     * Accessor for the location id.
+     */
+    public int getLocationId();
 
-   /**
-    * Returns the uri for the invoke handler or null if none defined
-    */
-   public String getInvokeHandler();
+    /**
+     * Setter for the invoke handler
+     *
+     * @param aHandler
+     */
+    public void setInvokeHandler(String aHandler);
 
-   /**
-    * Gets the port type for the invoke.
-    */
-   public QName getPortType();
+    /**
+     * Returns the uri for the invoke handler or null if none defined
+     */
+    public String getInvokeHandler();
 
-   /**
-    * The <code>Map</code> of (string) name/value pairs that will be sent to the
-    * business process instance when the invoke is executed.
-    */
-   public Map getBusinessProcessProperties();
-   
-   /**
-    * Gets the name of the principal that initiated the process
-    */
-   public String getProcessInitiator();
+    /**
+     * Gets the port type for the invoke.
+     */
+    public QName getPortType();
+
+    /**
+     * The <code>Map</code> of (string) name/value pairs that will be sent to the
+     * business process instance when the invoke is executed.
+     */
+    public Map getBusinessProcessProperties();
+
+    /**
+     * Gets the name of the principal that initiated the process
+     */
+    public String getProcessInitiator();
 }

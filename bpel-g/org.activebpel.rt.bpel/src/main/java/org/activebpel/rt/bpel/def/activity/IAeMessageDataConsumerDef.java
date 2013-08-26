@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity; 
+package org.activebpel.rt.bpel.def.activity;
 
 import javax.xml.namespace.QName;
 
@@ -17,50 +17,51 @@ import org.activebpel.rt.message.AeMessagePartsMap;
 import org.activebpel.rt.xml.def.IAeAdapter;
 
 /**
- * interface for wsio activity defs that consume message data  
+ * interface for wsio activity defs that consume message data
  */
-public interface IAeMessageDataConsumerDef extends IAeAdapter
-{
-   /**
-    * Gets the variable def that is being received into or null if not present
-    */
-   public AeVariableDef getMessageDataConsumerVariable();
+public interface IAeMessageDataConsumerDef extends IAeAdapter {
+    /**
+     * Gets the variable def that is being received into or null if not present
+     */
+    public AeVariableDef getMessageDataConsumerVariable();
 
-   /**
-    * Gets the from parts def or null if not present
-    */
-   public AeFromPartsDef getFromPartsDef();
+    /**
+     * Gets the from parts def or null if not present
+     */
+    public AeFromPartsDef getFromPartsDef();
 
-   /**
-    * Setter for the strategy name
-    * @param aStrategy
-    */
-   public void setMessageDataConsumerStrategy(String aStrategy);
+    /**
+     * Setter for the strategy name
+     *
+     * @param aStrategy
+     */
+    public void setMessageDataConsumerStrategy(String aStrategy);
 
-   /**
-    * Getter for the strategy name
-    */
-   public String getMessageDataConsumerStrategy();
-   
-   /**
-    * Returns the message parts map for the request
-    */
-   public AeMessagePartsMap getConsumerMessagePartsMap();
-   
-   /**
-    * Setter for the message parts being consumed.
-    * @param aMap
-    */
-   public void setConsumerMessagePartsMap(AeMessagePartsMap aMap);
-   
-   /**
-    * Getter for the Port Type
-    */
-   public QName getConsumerPortType();
-   
-   /**
-    * Getter for the operation
-    */
-   public String getConsumerOperation();
+    /**
+     * Getter for the strategy name
+     */
+    public String getMessageDataConsumerStrategy();
+
+    /**
+     * Returns the message parts map for the request
+     */
+    public AeMessagePartsMap getConsumerMessagePartsMap();
+
+    /**
+     * Setter for the message parts being consumed.
+     *
+     * @param aMap
+     */
+    public void setConsumerMessagePartsMap(AeMessagePartsMap aMap);
+
+    /**
+     * Getter for the Port Type
+     */
+    public QName getConsumerPortType();
+
+    /**
+     * Getter for the operation
+     */
+    public String getConsumerOperation();
 }
  

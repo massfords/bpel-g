@@ -18,41 +18,36 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'sources' container bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeSourcesDef extends AeBaseContainer<AeSourceDef,AeSourceDef>
-{
-   private static final long serialVersionUID = -2205240916674281482L;
+public class AeSourcesDef extends AeBaseContainer<AeSourceDef, AeSourceDef> {
+    private static final long serialVersionUID = -2205240916674281482L;
 
-   /**
-    * Default c'tor.
-    */
-   public AeSourcesDef()
-   {
-      super();
-   }
-   
-   /**
-    * Adds a source def to the container.
-    * 
-    * @param aDef
-    */
-   public void addSourceDef(AeSourceDef aDef)
-   {
-      add(aDef);
-   }
-   
-   /**
-    * Gets an iterator over all of the source defs.
-    */
-   public Iterator<? extends AeSourceDef> getSourceDefs()
-   {
-      return getValues();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeSourcesDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Adds a source def to the container.
+     *
+     * @param aDef
+     */
+    public void addSourceDef(AeSourceDef aDef) {
+        add(aDef);
+    }
+
+    /**
+     * Gets an iterator over all of the source defs.
+     */
+    public Iterator<? extends AeSourceDef> getSourceDefs() {
+        return getValues();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

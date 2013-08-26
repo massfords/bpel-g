@@ -19,100 +19,88 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel wait activity.
  */
-public class AeActivityWaitDef extends AeActivityDef implements IAeTimedDef, IAeForUntilParentDef
-{
-   /**
-     * 
+public class AeActivityWaitDef extends AeActivityDef implements IAeTimedDef, IAeForUntilParentDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -3840446576366612492L;
-/** The 'for' child construct. */
-   private AeForDef mForDef;
-   /** The 'until' child construct. */
-   private AeUntilDef mUntilDef;
+    /**
+     * The 'for' child construct.
+     */
+    private AeForDef mForDef;
+    /**
+     * The 'until' child construct.
+     */
+    private AeUntilDef mUntilDef;
 
-   /**
-    * Default constructor
-    */
-   public AeActivityWaitDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityWaitDef() {
+        super();
+    }
 
-   /**
-    * Convenience method to get the 'for' expression from the forDef.
-    */
-   public String getFor()
-   {
-      if (mForDef != null)
-      {
-         return mForDef.getExpression();
-      }
-      else
-      {
-         return null;
-      }
-   }
+    /**
+     * Convenience method to get the 'for' expression from the forDef.
+     */
+    public String getFor() {
+        if (mForDef != null) {
+            return mForDef.getExpression();
+        } else {
+            return null;
+        }
+    }
 
-   /**
-    * Convenience method to get the until expression from the untilDef.
-    */
-   public String getUntil()
-   {
-      if (mUntilDef != null)
-      {
-         return mUntilDef.getExpression();
-      }
-      else
-      {
-         return null;
-      }
-   }
+    /**
+     * Convenience method to get the until expression from the untilDef.
+     */
+    public String getUntil() {
+        if (mUntilDef != null) {
+            return mUntilDef.getExpression();
+        } else {
+            return null;
+        }
+    }
 
-   /**
-    * @return Returns the forDef.
-    */
-   public AeForDef getForDef()
-   {
-      return mForDef;
-   }
+    /**
+     * @return Returns the forDef.
+     */
+    public AeForDef getForDef() {
+        return mForDef;
+    }
 
-   /**
-    * @param aForDef The forDef to set.
-    */
-   public void setForDef(AeForDef aForDef)
-   {
-      mForDef = aForDef;
-   }
+    /**
+     * @param aForDef The forDef to set.
+     */
+    public void setForDef(AeForDef aForDef) {
+        mForDef = aForDef;
+    }
 
-   /**
-    * @return Returns the untilDef.
-    */
-   public AeUntilDef getUntilDef()
-   {
-      return mUntilDef;
-   }
+    /**
+     * @return Returns the untilDef.
+     */
+    public AeUntilDef getUntilDef() {
+        return mUntilDef;
+    }
 
-   /**
-    * @param aUntilDef The untilDef to set.
-    */
-   public void setUntilDef(AeUntilDef aUntilDef)
-   {
-      mUntilDef = aUntilDef;
-   }
+    /**
+     * @param aUntilDef The untilDef to set.
+     */
+    public void setUntilDef(AeUntilDef aUntilDef) {
+        mUntilDef = aUntilDef;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeTimedDef#getRepeatEveryDef()
-    */
-   public AeRepeatEveryDef getRepeatEveryDef()
-   {
-      return null;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeTimedDef#getRepeatEveryDef()
+     */
+    public AeRepeatEveryDef getRepeatEveryDef() {
+        return null;
+    }
 }

@@ -13,29 +13,26 @@ package org.activebpel.rt.bpel.def.activity.support;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 /**
- * Models the 'condition' bpel construct that is a child of the 'if' construct.  The condition 
+ * Models the 'condition' bpel construct that is a child of the 'if' construct.  The condition
  * construct was introduced in WS-BPEL 2.0.
  */
-public class AeConditionDef extends AeExpressionBaseDef
-{
-   /**
-     * 
+public class AeConditionDef extends AeExpressionBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 3871818836802578211L;
 
-/**
-    * Default c'tor.
-    */
-   public AeConditionDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeConditionDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

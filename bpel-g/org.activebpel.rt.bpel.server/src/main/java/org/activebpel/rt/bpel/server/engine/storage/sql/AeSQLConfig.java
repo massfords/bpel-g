@@ -28,7 +28,9 @@ public class AeSQLConfig extends AeStorageConfig {
     private static final String SQL_ELEM_NAME = "sql"; //$NON-NLS-1$
     private static final String SQL_STATEMENT_ELEM_NAME = "sql-statement"; //$NON-NLS-1$
 
-    /** The specific type of database being used. For example, "mysql". */
+    /**
+     * The specific type of database being used. For example, "mysql".
+     */
     protected String mType;
 
     public AeSQLConfig() {
@@ -51,9 +53,8 @@ public class AeSQLConfig extends AeStorageConfig {
      * Gets a SQL statement given a key (the name of the statement as configured
      * in the file). This is a convenience method that simply delegates to the
      * base class's <code>getStatement</code> method.
-     * 
-     * @param aKey
-     *            A key that references a SQL statement in the config file.
+     *
+     * @param aKey A key that references a SQL statement in the config file.
      * @return A SQL statement.
      */
     public String getSQLStatement(String aKey) {
@@ -64,7 +65,7 @@ public class AeSQLConfig extends AeStorageConfig {
      * Gets a SQL statement fragment that limits the query to the specified
      * number of rows or an empty string if the db doesn't support the
      * operation.
-     * 
+     *
      * @param aLimitValue
      */
     public String getLimitStatement(int aLimitValue) {

@@ -12,34 +12,32 @@ package org.activebpel.rt.bpel.impl.fastdom;
 /**
  * Implements a text node in the fast, lightweight DOM.
  */
-public class AeFastText extends AeFastNode
-{
-   /** The text value. */
-   private final String mValue;
+public class AeFastText extends AeFastNode {
+    /**
+     * The text value.
+     */
+    private final String mValue;
 
-   /**
-    * Constructs a text node with the specified value.
-    *
-    * @param aValue
-    */
-   public AeFastText(String aValue)
-   {
-      mValue = aValue;
-   }
+    /**
+     * Constructs a text node with the specified value.
+     *
+     * @param aValue
+     */
+    public AeFastText(String aValue) {
+        mValue = aValue;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.fastdom.IAeVisitable#accept(org.activebpel.rt.bpel.impl.fastdom.IAeVisitor)
-    */
-   public void accept(IAeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.fastdom.IAeVisitable#accept(org.activebpel.rt.bpel.impl.fastdom.IAeVisitor)
+     */
+    public void accept(IAeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Returns this text node's value.
-    */
-   public String getValue()
-   {
-      return mValue;
-   }
+    /**
+     * Returns this text node's value.
+     */
+    public String getValue() {
+        return mValue;
+    }
 }

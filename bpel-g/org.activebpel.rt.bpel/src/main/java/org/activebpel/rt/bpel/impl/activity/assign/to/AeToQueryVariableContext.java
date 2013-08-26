@@ -17,23 +17,20 @@ import org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperationContext;
  * Implements a Jaxen variable context using the copy operation context for
  * variable resolution.
  */
-public class AeToQueryVariableContext extends AeFromQueryVariableContext
-{
-   /**
-    * Creates a variable context for the to-query to-spec impl.
-    * 
-    * @param aCopyOpContext
-    */
-   public AeToQueryVariableContext(IAeCopyOperationContext aCopyOpContext)
-   {
-      super(aCopyOpContext);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeFromQueryVariableContext#getVariable(java.lang.String, java.lang.String)
-    */
-   protected IAeVariable getVariable(String aVariableName, String aPartName)
-   {
-      return getCopyOperationContext().getVariableForUpdate(aVariableName, aPartName);
-   }
+public class AeToQueryVariableContext extends AeFromQueryVariableContext {
+    /**
+     * Creates a variable context for the to-query to-spec impl.
+     *
+     * @param aCopyOpContext
+     */
+    public AeToQueryVariableContext(IAeCopyOperationContext aCopyOpContext) {
+        super(aCopyOpContext);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeFromQueryVariableContext#getVariable(java.lang.String, java.lang.String)
+     */
+    protected IAeVariable getVariable(String aVariableName, String aPartName) {
+        return getCopyOperationContext().getVariableForUpdate(aVariableName, aPartName);
+    }
 }

@@ -19,103 +19,95 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
  * Composite pattern container representing a BPEL definition element which may have children.
  * For example, the Process, Sequence, While contain other activities.
  */
-public class AeBpelObjectContainer extends AeBpelObjectBase
-{
-   /** BPEL child model objects contained by this parent. */
-   private final List<AeBpelObjectBase> mChildren = new ArrayList<>();
+public class AeBpelObjectContainer extends AeBpelObjectBase {
+    /**
+     * BPEL child model objects contained by this parent.
+     */
+    private final List<AeBpelObjectBase> mChildren = new ArrayList<>();
 
-   /**
-    *
-    * @param aTagName definition tag name
-    * @param aDef definition
-    */
-   public AeBpelObjectContainer(String aTagName, AeBaseXmlDef aDef)
-   {
-      super(aTagName, aDef);
-   }
+    /**
+     * @param aTagName definition tag name
+     * @param aDef     definition
+     */
+    public AeBpelObjectContainer(String aTagName, AeBaseXmlDef aDef) {
+        super(aTagName, aDef);
+    }
 
-   /**
-    * Constructs a container with given tag, icon and underlying def.
-    * @param aTagName
-    * @param aIconName
-    * @param aDef
-    */
-   public AeBpelObjectContainer(String aTagName, String aIconName, AeBaseXmlDef aDef)
-   {
-      super(aTagName, aIconName, aDef);
-   }
+    /**
+     * Constructs a container with given tag, icon and underlying def.
+     *
+     * @param aTagName
+     * @param aIconName
+     * @param aDef
+     */
+    public AeBpelObjectContainer(String aTagName, String aIconName, AeBaseXmlDef aDef) {
+        super(aTagName, aIconName, aDef);
+    }
 
-   /**
-    * Constructs a container with given tag, icon and underlying def.
-    * @param aTagName
-    * @param aIconName
-    * @param aDef
-    * @param aDisplayOutlineOnly
-    */
-   public AeBpelObjectContainer(String aTagName, String aIconName, AeBaseXmlDef aDef, boolean aDisplayOutlineOnly)
-   {
-      super(aTagName, aIconName, aDef, "", "", aDisplayOutlineOnly); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+    /**
+     * Constructs a container with given tag, icon and underlying def.
+     *
+     * @param aTagName
+     * @param aIconName
+     * @param aDef
+     * @param aDisplayOutlineOnly
+     */
+    public AeBpelObjectContainer(String aTagName, String aIconName, AeBaseXmlDef aDef, boolean aDisplayOutlineOnly) {
+        super(aTagName, aIconName, aDef, "", "", aDisplayOutlineOnly); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-   
-   /**
-    * Adds the given object as a child of this parent.
-    * @param aChild BPEL child object.
-    */
-   public void addChild(AeBpelObjectBase aChild)
-   {
-      if (!mChildren.contains(aChild))
-      {
-         mChildren.add(aChild);
-         aChild.setParent(this);
-      }
-   }
 
-   /**
-    * Removes the child from the container.
-    * @param aChild
-    */
-   public void removeChild(AeBpelObjectBase aChild)
-   {
-      if (mChildren.contains(aChild))
-      {
-         mChildren.remove(aChild);
-         aChild.setParent(null);
-      }
-   }
+    /**
+     * Adds the given object as a child of this parent.
+     *
+     * @param aChild BPEL child object.
+     */
+    public void addChild(AeBpelObjectBase aChild) {
+        if (!mChildren.contains(aChild)) {
+            mChildren.add(aChild);
+            aChild.setParent(this);
+        }
+    }
 
-   /**
-    * @return List of children in this container.
-    */
-   public List<AeBpelObjectBase> getChildren()
-   {
-      return mChildren;
-   }
+    /**
+     * Removes the child from the container.
+     *
+     * @param aChild
+     */
+    public void removeChild(AeBpelObjectBase aChild) {
+        if (mChildren.contains(aChild)) {
+            mChildren.remove(aChild);
+            aChild.setParent(null);
+        }
+    }
 
-   /**
-    * Returns the number of children in the container.
-    */
-   public int size()
-   {
-      return getChildren().size();
-   }
+    /**
+     * @return List of children in this container.
+     */
+    public List<AeBpelObjectBase> getChildren() {
+        return mChildren;
+    }
 
-   /**
-    * @return List of children in this container for the given type.
-    */
-   public List<AeBpelObjectBase> getChildren(String aBpelTagName)
-   {
-      List<AeBpelObjectBase> children =  getChildren();
-      List<AeBpelObjectBase> rList = new ArrayList<>();
-      Iterator<AeBpelObjectBase> iterator = children.iterator();
-      while (iterator.hasNext())
-      {
-         AeBpelObjectBase child = iterator.next();
-         if (child.getTagName().equalsIgnoreCase(aBpelTagName))
-         {
-            rList.add(child);
-         }
-      }
-      return rList;
-   }
+    /**
+     * Returns the number of children in the container.
+     */
+    public int size() {
+        return getChildren().size();
+    }
+
+    /**
+     * @return List of children in this container for the given type.
+     */
+    public List<AeBpelObjectBase> getChildren(String aBpelTagName) {
+        List<AeBpelObjectBase> children = getChildren();
+        List<AeBpelObjectBase> rList = new ArrayList<>();
+        Iterator<AeBpelObjectBase> iterator = children.iterator();
+        while (iterator.hasNext()) {
+            AeBpelObjectBase child = iterator.next();
+            if (child.getTagName().equalsIgnoreCase(aBpelTagName)) {
+                rList.add(child);
+            }
+        }
+        return rList;
+    }
 }

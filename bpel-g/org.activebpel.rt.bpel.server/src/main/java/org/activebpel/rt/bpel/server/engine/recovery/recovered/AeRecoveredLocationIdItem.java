@@ -12,58 +12,55 @@ package org.activebpel.rt.bpel.server.engine.recovery.recovered;
 /**
  * Base class for recovered items that match by location id.
  */
-public abstract class AeRecoveredLocationIdItem implements IAeRecoveredItem
-{
-   /** The process id. */
-   private final long mProcessId;
+public abstract class AeRecoveredLocationIdItem implements IAeRecoveredItem {
+    /**
+     * The process id.
+     */
+    private final long mProcessId;
 
-   /** The location id. */
-   private final int mLocationId;
+    /**
+     * The location id.
+     */
+    private final int mLocationId;
 
-   /**
-    * Constructs a recovered item that matches by location id.
-    */
-   protected AeRecoveredLocationIdItem(long aProcessId, int aLocationId)
-   {
-      mProcessId = aProcessId;
-      mLocationId = aLocationId;
-   }
+    /**
+     * Constructs a recovered item that matches by location id.
+     */
+    protected AeRecoveredLocationIdItem(long aProcessId, int aLocationId) {
+        mProcessId = aProcessId;
+        mLocationId = aLocationId;
+    }
 
-   /**
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object aOther)
-   {
-      if (aOther instanceof AeRecoveredLocationIdItem)
-      {
-         AeRecoveredLocationIdItem other = (AeRecoveredLocationIdItem) aOther;
-         return other.getLocationId() == getLocationId() &&
-                other.isRemoval() == isRemoval();
-      }
-      return false;
-   }
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object aOther) {
+        if (aOther instanceof AeRecoveredLocationIdItem) {
+            AeRecoveredLocationIdItem other = (AeRecoveredLocationIdItem) aOther;
+            return other.getLocationId() == getLocationId() &&
+                    other.isRemoval() == isRemoval();
+        }
+        return false;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#getLocationId()
-    */
-   public int getLocationId()
-   {
-      return mLocationId;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#getLocationId()
+     */
+    public int getLocationId() {
+        return mLocationId;
+    }
 
-   /**
-    * Returns the process id.
-    */
-   protected long getProcessId()
-   {
-      return mProcessId;
-   }
+    /**
+     * Returns the process id.
+     */
+    protected long getProcessId() {
+        return mProcessId;
+    }
 
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return getLocationId();
-   }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return getLocationId();
+    }
 }

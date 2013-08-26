@@ -14,13 +14,13 @@ import org.w3c.dom.Document;
 
 /**
  * Responsible for serializing an endpoint reference to a document fragment. This
- * is used when we're copying endpoint references in an assign's copy operation. 
+ * is used when we're copying endpoint references in an assign's copy operation.
  */
-public interface IAeEndpointSerializer
-{
-   /**
-    * Serializes the endpoint reference to a document fragment.
-    * @param aReference
-    */
-   public Document serializeEndpoint(IAeWebServiceEndpointReference aReference);
+public interface IAeEndpointSerializer {
+    /**
+     * Serializes the endpoint reference to a document fragment.
+     *
+     * @param aReference
+     */
+    public Document serializeEndpoint(IAeWebServiceEndpointReference aReference);
 }

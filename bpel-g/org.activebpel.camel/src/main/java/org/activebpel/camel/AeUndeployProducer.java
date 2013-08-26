@@ -10,14 +10,14 @@ import bpelg.services.deploy.types.UndeploymentRequest;
 
 public class AeUndeployProducer extends DefaultProducer {
 
-	public AeUndeployProducer(Endpoint aEndpoint) {
-		super(aEndpoint);
-	}
+    public AeUndeployProducer(Endpoint aEndpoint) {
+        super(aEndpoint);
+    }
 
-	@Override
-	public void process(Exchange aExchange) throws Exception {
-		AeDeployer deployer = AeEngineFactory.getBean(AeDeployer.class);
-		String containerId = aExchange.getIn().getHeader("containerId", String.class);
-		deployer.undeploy(new UndeploymentRequest().withDeploymentContainerId(containerId));
-	}
+    @Override
+    public void process(Exchange aExchange) throws Exception {
+        AeDeployer deployer = AeEngineFactory.getBean(AeDeployer.class);
+        String containerId = aExchange.getIn().getHeader("containerId", String.class);
+        deployer.undeploy(new UndeploymentRequest().withDeploymentContainerId(containerId));
+    }
 }

@@ -14,48 +14,46 @@ import org.activebpel.rt.AeException;
 /**
  * Base class for coordination related exceptions.
  */
-public class AeCoordinationException extends AeException
-{
+public class AeCoordinationException extends AeException {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 4916400457098934442L;
 
-/**
-    * Default constructor.
-    */
-   public AeCoordinationException()
-   {
-      super();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeCoordinationException() {
+        super();
+    }
 
-   /**
-    * Creates an exception given the message.
-    * @param aInfo message
-    */
-   public AeCoordinationException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Creates an exception given the message.
+     *
+     * @param aInfo message
+     */
+    public AeCoordinationException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Creates an exception given the root cause.
-    * @param aRootCause 
-    */
-   public AeCoordinationException(Throwable aRootCause)
-   {
-      super(aRootCause);
-   }
+    /**
+     * Creates an exception given the root cause.
+     *
+     * @param aRootCause
+     */
+    public AeCoordinationException(Throwable aRootCause) {
+        super(aRootCause);
+    }
 
-   /**
-    * Creates an exception given the root cause and the message.
-    * @param aInfo
-    * @param aRootCause
-    */
-   public AeCoordinationException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Creates an exception given the root cause and the message.
+     *
+     * @param aInfo
+     * @param aRootCause
+     */
+    public AeCoordinationException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
 }

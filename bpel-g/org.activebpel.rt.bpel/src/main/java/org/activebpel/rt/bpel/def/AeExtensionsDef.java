@@ -18,59 +18,51 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Models the 'extensions' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeExtensionsDef extends AeBaseContainer<AeExtensionDef,AeExtensionDef>
-{
+public class AeExtensionsDef extends AeBaseContainer<AeExtensionDef, AeExtensionDef> {
     private static final long serialVersionUID = 1204991616987068600L;
 
-   /**
-    * Default c'tor.
-    */
-   public AeExtensionsDef()
-   {
-      super();
-   }
-   
-   /**
-    * Adds an 'extension' child element to the container's list.
-    * 
-    * @param aDef
-    */
-   public void addExtensionDef(AeExtensionDef aDef)
-   {
-      super.add(aDef);
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeExtensionsDef() {
+        super();
+    }
 
-   /**
-    * Gets an Iterator over the list of all the extension defs.
-    */
-   public Iterator<? extends AeExtensionDef> getExtensionDefs()
-   {
-      return getValues();
-   }
-   
-   /**
-    * Returns true if there is an extension def in the list with the given namespace.
-    * 
-    * @param aNamespace
-    */
-   public boolean hasExtensionDef(String aNamespace)
-   {
-      for (Iterator<? extends AeExtensionDef> iter = getValues(); iter.hasNext(); )
-      {
-         AeExtensionDef extDef = iter.next();
-         if (AeUtil.compareObjects(aNamespace, extDef.getNamespace()))
-         {
-            return true;
-         }
-      }
-      return false;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Adds an 'extension' child element to the container's list.
+     *
+     * @param aDef
+     */
+    public void addExtensionDef(AeExtensionDef aDef) {
+        super.add(aDef);
+    }
+
+    /**
+     * Gets an Iterator over the list of all the extension defs.
+     */
+    public Iterator<? extends AeExtensionDef> getExtensionDefs() {
+        return getValues();
+    }
+
+    /**
+     * Returns true if there is an extension def in the list with the given namespace.
+     *
+     * @param aNamespace
+     */
+    public boolean hasExtensionDef(String aNamespace) {
+        for (Iterator<? extends AeExtensionDef> iter = getValues(); iter.hasNext(); ) {
+            AeExtensionDef extDef = iter.next();
+            if (AeUtil.compareObjects(aNamespace, extDef.getNamespace())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

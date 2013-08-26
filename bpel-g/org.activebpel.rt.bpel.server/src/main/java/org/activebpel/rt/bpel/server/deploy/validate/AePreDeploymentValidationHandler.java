@@ -19,7 +19,9 @@ import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
  */
 public class AePreDeploymentValidationHandler implements IAeDeploymentHandler {
 
-    /** The top level predeployment validator */
+    /**
+     * The top level predeployment validator
+     */
     private static final IAePredeploymentValidator PREDEPLOY_VALIDATOR = AePredeploymentValidator.createDefault();
 
     @Override

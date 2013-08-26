@@ -8,7 +8,7 @@
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 ////////////////////////////////////////////////////////////////////////////
 
-package org.activebpel.rt.xml.schema.sampledata.structure; 
+package org.activebpel.rt.xml.schema.sampledata.structure;
 
 import javax.xml.namespace.QName;
 
@@ -17,53 +17,49 @@ import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 /**
  * Model class for the Schema any element wildcard.
  */
-public class AeAny extends AeStructure
-{
-   /** The name of this element. Namespace will be empty if the name is unqualified. */
-   private QName mName;
-   
-   /**
-    * Constructor.
-    */
-   public AeAny()
-   {
-   }
+public class AeAny extends AeStructure {
+    /**
+     * The name of this element. Namespace will be empty if the name is unqualified.
+     */
+    private QName mName;
 
-   /**
-    * Gets the name of this element.
-    * 
-    * @return QName.
-    */
-   public QName getName()
-   {
-      return mName;
-   }
+    /**
+     * Constructor.
+     */
+    public AeAny() {
+    }
 
-   /**
-    * Sets the name of this element.
-    * 
-    * @param aName
-    */
-   public void setName(QName aName)
-   {
-      mName = aName;
-   }
+    /**
+     * Gets the name of this element.
+     *
+     * @return QName.
+     */
+    public QName getName() {
+        return mName;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
-    */
-   public void accept(IAeSampleDataVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Sets the name of this element.
+     *
+     * @param aName
+     */
+    public void setName(QName aName) {
+        mName = aName;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#getType()
-    */
-   public int getType()
-   {
-      return AeStructure.ANY_TYPE;
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
+     */
+    public void accept(IAeSampleDataVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#getType()
+     */
+    public int getType() {
+        return AeStructure.ANY_TYPE;
+    }
 
 }
  

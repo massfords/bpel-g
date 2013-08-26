@@ -16,38 +16,36 @@ import org.activebpel.rt.bpel.def.validation.process.AeWSBPELAbstractProcessProc
 /**
  * WSBPEL 2.0 Abstract process validation visitor.O
  */
-public class AeWSBPELAbstractProcessDefToValidationVisitor extends AeWSBPELDefToValidationVisitor
-{
+public class AeWSBPELAbstractProcessDefToValidationVisitor extends AeWSBPELDefToValidationVisitor {
 
-   /**
-    * Ctor
-    * @param aContext
-    */
-   public AeWSBPELAbstractProcessDefToValidationVisitor(IAeValidationContext aContext)
-   {
-      super(aContext);
-   }
+    /**
+     * Ctor
+     *
+     * @param aContext
+     */
+    public AeWSBPELAbstractProcessDefToValidationVisitor(IAeValidationContext aContext) {
+        super(aContext);
+    }
 
-   /**
-    * Initializes def to model map.
-    */
-   protected void initMap()
-   {
-      super.initMap();
-      getDefToValidatorMap().put(AeProcessDef.class, AeWSBPELAbstractProcessProcessValidator.class);
-      // todo (PJ) add Def.class-to-ValidatorImpl mappings such that:
-      // 1) createInstance receive activity is optional
-      // 2) if/while/repeat condition can have value of  ##opaque (or empty).
-      // 3) plink and operation is optional i.e. attr value can be ##opaque or empty in receives/invoke/onmessage
-   }
+    /**
+     * Initializes def to model map.
+     */
+    protected void initMap() {
+        super.initMap();
+        getDefToValidatorMap().put(AeProcessDef.class, AeWSBPELAbstractProcessProcessValidator.class);
+        // todo (PJ) add Def.class-to-ValidatorImpl mappings such that:
+        // 1) createInstance receive activity is optional
+        // 2) if/while/repeat condition can have value of  ##opaque (or empty).
+        // 3) plink and operation is optional i.e. attr value can be ##opaque or empty in receives/invoke/onmessage
+    }
 
-   /**
-    * Overrides method to ignore validation.
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef)
-    */
-   public void visit(AeActivityOpaqueDef def)
-   {
-      // no need to validate opaque activities.
-      super.traverse(def);
-   }
+    /**
+     * Overrides method to ignore validation.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef)
+     */
+    public void visit(AeActivityOpaqueDef def) {
+        // no need to validate opaque activities.
+        super.traverse(def);
+    }
 }

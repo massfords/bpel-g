@@ -12,19 +12,20 @@ package org.activebpel.rt.bpel.def;
 import java.util.Iterator;
 
 /**
- * Interface for all containers of mutliple activities.  
+ * Interface for all containers of mutliple activities.
  */
-public interface IAeMultipleActivityContainerDef extends IAeActivityContainerDef
-{
-   /**
-    * Adds an activity definition to the list of activities to execute.
-    * @param aActivity the link to be added.
-    */
-   public void addActivityDef(AeActivityDef aActivity);
+public interface IAeMultipleActivityContainerDef extends IAeActivityContainerDef {
+    /**
+     * Adds an activity definition to the list of activities to execute.
+     *
+     * @param aActivity the link to be added.
+     */
+    public void addActivityDef(AeActivityDef aActivity);
 
-   /**
-    * Provide a list of the activity elements for the user to iterate .
-    * @return iterator of AeActivityDef objects
-    */
-   public Iterator getActivityDefs();
+    /**
+     * Provide a list of the activity elements for the user to iterate .
+     *
+     * @return iterator of AeActivityDef objects
+     */
+    public Iterator getActivityDefs();
 }

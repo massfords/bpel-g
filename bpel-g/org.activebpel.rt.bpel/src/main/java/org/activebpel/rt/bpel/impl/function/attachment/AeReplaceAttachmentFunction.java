@@ -36,42 +36,42 @@ import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
  * <em>Throws:</em> attachmentFault if there was a problem with passed attachment.
  * </p>
  */
-public class AeReplaceAttachmentFunction extends AeAbstractAttachmentFunction
-{
+public class AeReplaceAttachmentFunction extends AeAbstractAttachmentFunction {
 
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "replaceAttachment"; //$NON-NLS-1$
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "replaceAttachment"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeReplaceAttachmentFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+    /**
+     * Constructor.
+     */
+    public AeReplaceAttachmentFunction() {
+        super(FUNCTION_NAME);
+    }
 
-   /**
-    * Execution of XPath function.
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      Object result = false;
+    /**
+     * Execution of XPath function.
+     *
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        Object result = false;
 
-      // Validate that we have the proper number of arguments
-      int numArgs = aArgs.size();
-      if ( numArgs != 4 )
-         throwFunctionException(INVALID_PARAMS, getFunctionName());
+        // Validate that we have the proper number of arguments
+        int numArgs = aArgs.size();
+        if (numArgs != 4)
+            throwFunctionException(INVALID_PARAMS, getFunctionName());
 
-      // Get the from variable name from the first function argument
-      // Get the from item number from the second function argument
-      IAeAttachmentItem fromItem = getAttachment(aContext, getStringArg(aArgs,0), getPositiveIntArg(aArgs,1));
+        // Get the from variable name from the first function argument
+        // Get the from item number from the second function argument
+        IAeAttachmentItem fromItem = getAttachment(aContext, getStringArg(aArgs, 0), getPositiveIntArg(aArgs, 1));
 
-      // Get the to variable name from the third function argument
-      // Get the to item index from the fourth function argument
-      IAeVariable toVariable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs,2));
-      toVariable.getAttachmentData().set(getItemIndex(getPositiveIntArg(aArgs,3)), fromItem);
-      result = Boolean.TRUE;
-      return result;
-   }
+        // Get the to variable name from the third function argument
+        // Get the to item index from the fourth function argument
+        IAeVariable toVariable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs, 2));
+        toVariable.getAttachmentData().set(getItemIndex(getPositiveIntArg(aArgs, 3)), fromItem);
+        result = Boolean.TRUE;
+        return result;
+    }
 }

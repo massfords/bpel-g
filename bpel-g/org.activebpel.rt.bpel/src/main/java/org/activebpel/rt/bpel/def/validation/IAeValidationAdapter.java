@@ -15,23 +15,22 @@ import java.util.Set;
 import org.activebpel.rt.xml.def.IAeAdapter;
 
 /**
- * Adapter interface for extension objects that validate Human interaction contents 
+ * Adapter interface for extension objects that validate Human interaction contents
  * using the rules based validation.
  */
-public interface IAeValidationAdapter extends IAeAdapter
-{
-   /**
-    * Perform the validation.
-    * 
-    * @param aValidationContext
-    */
-   public void validate(IAeValidationContext aValidationContext);
+public interface IAeValidationAdapter extends IAeAdapter {
+    /**
+     * Perform the validation.
+     *
+     * @param aValidationContext
+     */
+    public void validate(IAeValidationContext aValidationContext);
 
-   /**
-    * Gets the set of variables referenced.  Returns a <code>Set</code>
-    * of <code>AeVariableReference</code> objects.
-    * 
-    * @param aAeValidationContext 
-    */
-   public Set getVariableUsage(IAeValidationContext aAeValidationContext);
+    /**
+     * Gets the set of variables referenced.  Returns a <code>Set</code>
+     * of <code>AeVariableReference</code> objects.
+     *
+     * @param aAeValidationContext
+     */
+    public Set getVariableUsage(IAeValidationContext aAeValidationContext);
 }

@@ -21,26 +21,22 @@ import org.activebpel.rt.expr.validation.AeExpressionValidationResult;
  * Implements an expression validator for the XPath 1.0 expression language.  This is the default languge used
  * for BPEL 2.0 (when no expression language is specified).
  */
-public class AeWSBPELXPathExpressionValidator extends AeAbstractXPathExpressionValidator
-{
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)
-   {
-      return new AeWSBPELXPathExpressionParser(aContext);
-   }
+public class AeWSBPELXPathExpressionValidator extends AeAbstractXPathExpressionValidator {
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext) {
+        return new AeWSBPELXPathExpressionParser(aContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#handleNoFunctionsInJoinCondition(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult)
-    */
-   protected void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult)
-   {
-      if (aParseResult.getVarNames().size() == 0)
-      {
-         addError(aValidationResult,
-               AeMessages.getString("AeWSBPELXPathExpressionValidator.InvalidJoinConditionError"),  //$NON-NLS-1$
-               new Object[] { aParseResult.getExpression() });
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#handleNoFunctionsInJoinCondition(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult)
+     */
+    protected void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult) {
+        if (aParseResult.getVarNames().size() == 0) {
+            addError(aValidationResult,
+                    AeMessages.getString("AeWSBPELXPathExpressionValidator.InvalidJoinConditionError"),  //$NON-NLS-1$
+                    new Object[]{aParseResult.getExpression()});
+        }
+    }
 }

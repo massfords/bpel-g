@@ -29,130 +29,114 @@ import org.w3c.dom.Document;
 /**
  * Impl of fault handler for WS-BPEL 2.0
  */
- // TODO (MF) rename this and base class to AeCatchHandler
-public class AeWSBPELFaultHandler extends AeFaultHandler implements IAeVariableContainer
-{
-   /** locally declared variable */
-   private IAeVariable mFaultVariable;
+// TODO (MF) rename this and base class to AeCatchHandler
+public class AeWSBPELFaultHandler extends AeFaultHandler implements IAeVariableContainer {
+    /**
+     * locally declared variable
+     */
+    private IAeVariable mFaultVariable;
 
-   /**
-    * Ctor accepts the def and parent scope
-    * @param aDef
-    * @param aParent
-    */
-   public AeWSBPELFaultHandler(AeCatchDef aDef, AeActivityScopeImpl aParent)
-   {
-      super(aDef, aParent);
-   }
+    /**
+     * Ctor accepts the def and parent scope
+     *
+     * @param aDef
+     * @param aParent
+     */
+    public AeWSBPELFaultHandler(AeCatchDef aDef, AeActivityScopeImpl aParent) {
+        super(aDef, aParent);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept(IAeImplVisitor aVisitor ) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#getFaultVariable()
-    */
-   public IAeVariable getFaultVariable()
-   {
-      return mFaultVariable;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#getFaultVariable()
+     */
+    public IAeVariable getFaultVariable() {
+        return mFaultVariable;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#initialize()
-    */
-   public void initialize() throws AeBpelException
-   {
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#initialize()
+     */
+    public void initialize() throws AeBpelException {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#iterator()
-    */
-   public Iterator<IAeVariable> iterator()
-   {
-      if (getFaultVariable() != null)
-      {
-         return Collections.singleton(getFaultVariable()).iterator();
-      }
-      return Collections.<IAeVariable>emptyList().iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#iterator()
+     */
+    public Iterator<IAeVariable> iterator() {
+        if (getFaultVariable() != null) {
+            return Collections.singleton(getFaultVariable()).iterator();
+        }
+        return Collections.<IAeVariable>emptyList().iterator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#findVariable(java.lang.String)
-    */
-   public IAeVariable findVariable(String aName)
-   {
-      if (getFaultVariable() != null && getFaultVariable().getDefinition().getName().equals(aName))
-      {
-         return getFaultVariable();
-      }
-      return super.findVariable(aName);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#findVariable(java.lang.String)
+     */
+    public IAeVariable findVariable(String aName) {
+        if (getFaultVariable() != null && getFaultVariable().getDefinition().getName().equals(aName)) {
+            return getFaultVariable();
+        }
+        return super.findVariable(aName);
+    }
 
-   /**
-    * Setter for the fault variable
-    * @param aVariable
-    */
-   public void setFaultVariable(IAeVariable aVariable)
-   {
-      mFaultVariable = aVariable;
-   }
+    /**
+     * Setter for the fault variable
+     *
+     * @param aVariable
+     */
+    public void setFaultVariable(IAeVariable aVariable) {
+        mFaultVariable = aVariable;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#addVariable(org.activebpel.rt.bpel.IAeVariable)
-    */
-   public void addVariable(IAeVariable aVariable)
-   {
-      setFaultVariable(aVariable);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#addVariable(org.activebpel.rt.bpel.IAeVariable)
+     */
+    public void addVariable(IAeVariable aVariable) {
+        setFaultVariable(aVariable);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#getFaultElementName()
-    */
-   public QName getFaultElementName()
-   {
-      return getDef().getFaultElementName();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#getFaultElementName()
+     */
+    public QName getFaultElementName() {
+        return getDef().getFaultElementName();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#getFaultMessageType()
-    */
-   public QName getFaultMessageType()
-   {
-      return getDef().getFaultMessageType();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#getFaultMessageType()
+     */
+    public QName getFaultMessageType() {
+        return getDef().getFaultMessageType();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#setHandledFault(org.activebpel.rt.bpel.IAeFault)
-    */
-   public void setHandledFault(IAeFault aFault)
-   {
-      super.setHandledFault(aFault);
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler#setHandledFault(org.activebpel.rt.bpel.IAeFault)
+     */
+    public void setHandledFault(IAeFault aFault) {
+        super.setHandledFault(aFault);
 
-      // fixme should clear the fault data when the scope reexecutes
-      // TODO (EPW) need some way to not clone the data if we don't need to
-      IAeVariable variable = getFaultVariable();
-      if (variable != null)
-      {
-         IAeMessageData messageData = aFault.getMessageData();
-         if (variable.getDefinition().isMessageType())
-         {
-            variable.setMessageData((IAeMessageData) messageData.clone());
-         }
-         else if (aFault.getElementData() != null)
-         {
-            variable.setElementData(AeXmlUtil.cloneElement(aFault.getElementData()));
-         }
-         else if (variable.getDefinition().isElement() && aFault.hasMessageData())
-         {
-            // special case of matching message fault to element
-            String partName = messageData.getPartNames().next();
-            Document document = (Document) messageData.getData(partName);
-            variable.setElementData(AeXmlUtil.cloneElement(document.getDocumentElement()));
-         }
-      }
-   }
+        // fixme should clear the fault data when the scope reexecutes
+        // TODO (EPW) need some way to not clone the data if we don't need to
+        IAeVariable variable = getFaultVariable();
+        if (variable != null) {
+            IAeMessageData messageData = aFault.getMessageData();
+            if (variable.getDefinition().isMessageType()) {
+                variable.setMessageData((IAeMessageData) messageData.clone());
+            } else if (aFault.getElementData() != null) {
+                variable.setElementData(AeXmlUtil.cloneElement(aFault.getElementData()));
+            } else if (variable.getDefinition().isElement() && aFault.hasMessageData()) {
+                // special case of matching message fault to element
+                String partName = messageData.getPartNames().next();
+                Document document = (Document) messageData.getData(partName);
+                variable.setElementData(AeXmlUtil.cloneElement(document.getDocumentElement()));
+            }
+        }
+    }
 }

@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity; 
+package org.activebpel.rt.bpel.impl.activity;
 
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeMessageValidator;
@@ -16,24 +16,26 @@ import org.activebpel.rt.bpel.impl.activity.support.IAeCorrelations;
 /**
  * interface for the web service in/out activities: receive, reply, invoke, onMessage, onEvent
  */
-public interface IAeWSIOActivity extends IAeBpelObject
-{
-   /**
-    * Setter for the message validator
-    * @param aValidator
-    */
-   public void setMessageValidator(IAeMessageValidator aValidator);
-   
-   /**
-    * Setter for the request correlations
-    * @param aCorrelations
-    */
-   public void setRequestCorrelations(IAeCorrelations aCorrelations);
-   
-   /**
-    * Setter for the response correlations
-    * @param aCorrelations
-    */
-   public void setResponseCorrelations(IAeCorrelations aCorrelations);
+public interface IAeWSIOActivity extends IAeBpelObject {
+    /**
+     * Setter for the message validator
+     *
+     * @param aValidator
+     */
+    public void setMessageValidator(IAeMessageValidator aValidator);
+
+    /**
+     * Setter for the request correlations
+     *
+     * @param aCorrelations
+     */
+    public void setRequestCorrelations(IAeCorrelations aCorrelations);
+
+    /**
+     * Setter for the response correlations
+     *
+     * @param aCorrelations
+     */
+    public void setResponseCorrelations(IAeCorrelations aCorrelations);
 }
  

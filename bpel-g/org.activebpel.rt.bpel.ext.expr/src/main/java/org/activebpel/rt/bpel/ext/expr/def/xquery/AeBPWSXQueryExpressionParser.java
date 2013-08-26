@@ -18,23 +18,20 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 /**
  * An implementation of an expression parser for the xquery language.
  */
-public class AeBPWSXQueryExpressionParser extends AeAbstractXQueryExpressionParser
-{
-   /**
-    * Constructs an xquery parser given the context.
-    * 
-    * @param aParserContext
-    */
-   public AeBPWSXQueryExpressionParser(IAeExpressionParserContext aParserContext)
-   {
-      super(aParserContext);
-   }
+public class AeBPWSXQueryExpressionParser extends AeAbstractXQueryExpressionParser {
+    /**
+     * Constructs an xquery parser given the context.
+     *
+     * @param aParserContext
+     */
+    public AeBPWSXQueryExpressionParser(IAeExpressionParserContext aParserContext) {
+        super(aParserContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.def.xquery.AeAbstractXQueryExpressionParser#createParseResult(java.lang.String, net.sf.saxon.Configuration, net.sf.saxon.query.XQueryExpression)
-    */
-   protected IAeExpressionParseResult createParseResult(String aExpression, Configuration aConfig, XQueryExpression aXQueryExpression)
-   {
-      return new AeBPWSXQueryParseResult(aExpression, aXQueryExpression.getExpression(), aConfig, getParserContext());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.def.xquery.AeAbstractXQueryExpressionParser#createParseResult(java.lang.String, net.sf.saxon.Configuration, net.sf.saxon.query.XQueryExpression)
+     */
+    protected IAeExpressionParseResult createParseResult(String aExpression, Configuration aConfig, XQueryExpression aXQueryExpression) {
+        return new AeBPWSXQueryParseResult(aExpression, aXQueryExpression.getExpression(), aConfig, getParserContext());
+    }
 }

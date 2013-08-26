@@ -20,82 +20,76 @@ import java.awt.Rectangle;
 /**
  * Container figure which draws the implicit links between child activities.
  */
-public class AeSequenceContainerFigure extends AeContainerFigure
-{
+public class AeSequenceContainerFigure extends AeContainerFigure {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 5399718336912260309L;
 
-/**
-    * Constructs this container with the given name.
-    * @param aName
-    */
-   public AeSequenceContainerFigure(String aName)
-   {
-      super(aName);
-   }
+    /**
+     * Constructs this container with the given name.
+     *
+     * @param aName
+     */
+    public AeSequenceContainerFigure(String aName) {
+        super(aName);
+    }
 
-   /** 
-    * Overrides method to draw the implicit links between child activities. 
-    * @see org.activebpel.rt.bpeladmin.war.graph.ui.AeContainer#paintComponent(java.awt.Graphics)
-    */
-   public void paintComponent(Graphics g)
-   {
-      super.paintComponent(g);
-      Color c = g.getColor();
-            
-      int n = getComponentCount();
-      Rectangle rv1 = new Rectangle();
-      Rectangle rv2 = new Rectangle();
-      
-      for (int i = 0; i < n - 1; i++)
-      {
-         Component child1 = getComponent(i);
-         Component child2 = getComponent(i + 1);
-         child1.getBounds(rv1);
-         child2.getBounds(rv2);            
-         int offset1 = 0;
-         int offset2 = 0;
+    /**
+     * Overrides method to draw the implicit links between child activities.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.ui.AeContainer#paintComponent(java.awt.Graphics)
+     */
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Color c = g.getColor();
 
-         boolean eval2 = false;
-         if (child1 instanceof AeBpelFigureBase)
-         {
-            offset1 = ((AeBpelFigureBase)child1).getLabel().getLocation().y;
-         }
-         
-         if (child2 instanceof AeBpelFigureBase)
-         {
-            offset2 = ((AeBpelFigureBase)child2).getLabel().getLocation().y;
-            eval2 = ((AeBpelFigureBase)child2).isEvaluated();
-         }
-         
-         int x1 = rv1.x + rv1.width/2;
-         int y1 = rv1.y + rv1.height - offset1;
-         int x2 = rv2.x + rv2.width/2;
-         int y2 = rv2.y + offset2; 
-         if (child1 instanceof Container)
-         {
-            Insets insets = ((Container)child1).getInsets();
-            y1 -= (insets.bottom);
-         }
-         if (child2 instanceof Container)
-         {
-            Insets insets = ((Container)child2).getInsets();
-            y1 += (insets.top);
-         }
-         g.setColor(eval2 ? getUiPrefs().getLinkActiveColor() : getUiPrefs().getLinkNormalColor());
-         g.drawLine(x1, y1, x2, y2);
-         
-         Polygon p = new Polygon();
-         p.addPoint(x2, y2);
-         int dx = 2;
-         int dy = 4;
-         p.addPoint(x2 - dx, y2 - dy);
-         p.addPoint(x2 + dx, y2 - dy);
-         g.fillPolygon(p);         
-      }            
-      g.setColor(c);
-   }   
+        int n = getComponentCount();
+        Rectangle rv1 = new Rectangle();
+        Rectangle rv2 = new Rectangle();
+
+        for (int i = 0; i < n - 1; i++) {
+            Component child1 = getComponent(i);
+            Component child2 = getComponent(i + 1);
+            child1.getBounds(rv1);
+            child2.getBounds(rv2);
+            int offset1 = 0;
+            int offset2 = 0;
+
+            boolean eval2 = false;
+            if (child1 instanceof AeBpelFigureBase) {
+                offset1 = ((AeBpelFigureBase) child1).getLabel().getLocation().y;
+            }
+
+            if (child2 instanceof AeBpelFigureBase) {
+                offset2 = ((AeBpelFigureBase) child2).getLabel().getLocation().y;
+                eval2 = ((AeBpelFigureBase) child2).isEvaluated();
+            }
+
+            int x1 = rv1.x + rv1.width / 2;
+            int y1 = rv1.y + rv1.height - offset1;
+            int x2 = rv2.x + rv2.width / 2;
+            int y2 = rv2.y + offset2;
+            if (child1 instanceof Container) {
+                Insets insets = ((Container) child1).getInsets();
+                y1 -= (insets.bottom);
+            }
+            if (child2 instanceof Container) {
+                Insets insets = ((Container) child2).getInsets();
+                y1 += (insets.top);
+            }
+            g.setColor(eval2 ? getUiPrefs().getLinkActiveColor() : getUiPrefs().getLinkNormalColor());
+            g.drawLine(x1, y1, x2, y2);
+
+            Polygon p = new Polygon();
+            p.addPoint(x2, y2);
+            int dx = 2;
+            int dy = 4;
+            p.addPoint(x2 - dx, y2 - dy);
+            p.addPoint(x2 + dx, y2 - dy);
+            g.fillPolygon(p);
+        }
+        g.setColor(c);
+    }
 }

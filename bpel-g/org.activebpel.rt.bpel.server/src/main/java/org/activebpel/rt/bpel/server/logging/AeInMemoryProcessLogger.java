@@ -38,17 +38,23 @@ import java.util.prefs.PreferenceChangeListener;
 public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChangeListener {
     private static final Log sLog = LogFactory.getLog(AeInMemoryProcessLogger.class);
 
-    /** Reference to the engine that we're listening to. */
+    /**
+     * Reference to the engine that we're listening to.
+     */
     private IAeBusinessProcessEngineInternal mEngine;
 
-    /** maps the process id to the string buffer */
+    /**
+     * maps the process id to the string buffer
+     */
     protected final Map<Long, StringBuffer> mPidToBuffer = Collections.synchronizedMap(new HashMap<Long, StringBuffer>());
 
-    /** used to filter out some log events */
+    /**
+     * used to filter out some log events
+     */
     protected IAeLoggingFilter mFilter = null;
-    
+
     public AeInMemoryProcessLogger() {
-    	AePreferences.logEvents().addPreferenceChangeListener(this);
+        AePreferences.logEvents().addPreferenceChangeListener(this);
     }
 
     /**
@@ -100,7 +106,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChan
 
     /**
      * Appends the formatted line to the process's StringBuffer
-     * 
+     *
      * @param aPid
      * @param aLine
      */
@@ -117,7 +123,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChan
 
     /**
      * Gets the buffer for the specified process.
-     * 
+     *
      * @param aPid
      * @param aCreateIfNotFound
      */
@@ -137,7 +143,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChan
 
     /**
      * Returns true if the event signals that the process has ended
-     * 
+     *
      * @param aEvent
      */
     protected boolean isCloseEvent(IAeProcessEvent aEvent) {
@@ -175,7 +181,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChan
     /**
      * Formats the event using the MessageFormat based
      * <code>AeBPELProcessEventFormatter</code>.
-     * 
+     *
      * @param aEvent
      */
     protected String formatEvent(IAeProcessEvent aEvent) {
@@ -185,7 +191,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChan
     /**
      * Formats the event using the MessageFormat based
      * <code>AeBPELProcessEventFormatter</code>.
-     * 
+     *
      * @param aEvent
      */
     protected String formatEvent(IAeProcessInfoEvent aEvent) {
@@ -201,26 +207,26 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChan
 
     /**
      * Setter for the logging filter
-     * 
+     *
      * @param aFilter
      */
     public void setLoggingFilter(IAeLoggingFilter aFilter) {
         mFilter = aFilter;
     }
 
-	@Override
-	public void preferenceChange(PreferenceChangeEvent aEvt) {
-		init();
-	}
+    @Override
+    public void preferenceChange(PreferenceChangeEvent aEvt) {
+        init();
+    }
 
-	// FIXME config test
-	public void init() {
-		Set<AeProcessEventType> enabledEvents = AePreferences.getEnabledLogEvents();
-		getLoggingFilter().setEnabledEventTypes(enabledEvents);
-		if (getLoggingFilter().isEnabled()) {
-			getEngine().addProcessListener(this);
-		} else {
-			getEngine().removeProcessListener(this);
-		}
-	}
+    // FIXME config test
+    public void init() {
+        Set<AeProcessEventType> enabledEvents = AePreferences.getEnabledLogEvents();
+        getLoggingFilter().setEnabledEventTypes(enabledEvents);
+        if (getLoggingFilter().isEnabled()) {
+            getEngine().addProcessListener(this);
+        } else {
+            getEngine().removeProcessListener(this);
+        }
+    }
 }

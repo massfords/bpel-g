@@ -30,160 +30,141 @@ import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
 /**
  * A BPWS version of the process validator.
  */
-public class AeBPWSProcessValidator extends AeProcessValidator
-{
-   /**
-    * C'tor.
-    * 
-    * @param aValidationContext
-    * @param aProcessDef
-    */
-   public AeBPWSProcessValidator(IAeValidationContext aValidationContext, AeProcessDef aProcessDef)
-   {
-      super(aValidationContext, aProcessDef);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.process.AeProcessValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      if (getProcessDef().hasCompensationHandlerActivity() && !getProcessDef().getEnableInstanceCompensation())
-      {
-         getReporter().reportProblem( BPWS_COMPENSATION_HANDLER_NOT_ENABLED_CODE,
-               WARN_COMPENSATION_HANDLER_NOT_ENABLED, null, getProcessDef() );
-      }
+public class AeBPWSProcessValidator extends AeProcessValidator {
+    /**
+     * C'tor.
+     *
+     * @param aValidationContext
+     * @param aProcessDef
+     */
+    public AeBPWSProcessValidator(IAeValidationContext aValidationContext, AeProcessDef aProcessDef) {
+        super(aValidationContext, aProcessDef);
+    }
 
-      AeBPWSExtensionsVisitor visitor = new AeBPWSExtensionsVisitor();
-      getProcessDef().accept(visitor);
-      if (visitor.isExtensionActivitiesUsed())
-      {
-         getReporter().reportProblem(BPWS_BPEL_1_1_EXT_ACTIVITY_USED_CODE,
-               AeMessages.getString("AeBPWSProcessValidator.BPEL11ExtensionActivitiesWarning"), null, //$NON-NLS-1$
-               getDefinition());
-      }
-   }
-   
-   /**
-    * A visitor that finds Ae extensions to BPEL 1.1.
-    */
-   protected class AeBPWSExtensionsVisitor extends AeAbstractDefVisitor
-   {
-      /**
-       * Keeps traversing the def until we find an extension.
-       */
-      protected class AeTraverseWhileNotFound extends AeDefTraverser
-      {
-         /**
-          * @see org.activebpel.rt.bpel.def.visitors.AeDefTraverser#callAccept(org.activebpel.rt.xml.def.AeBaseXmlDef, org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor)
-          */
-         protected void callAccept(AeBaseXmlDef aDef, IAeBaseXmlDefVisitor aVisitor)
-         {
-            if (!isExtensionActivitiesUsed())
-               super.callAccept(aDef, aVisitor);
-         }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.process.AeProcessValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-      }
+        if (getProcessDef().hasCompensationHandlerActivity() && !getProcessDef().getEnableInstanceCompensation()) {
+            getReporter().reportProblem(BPWS_COMPENSATION_HANDLER_NOT_ENABLED_CODE,
+                    WARN_COMPENSATION_HANDLER_NOT_ENABLED, null, getProcessDef());
+        }
 
-      /** Flag indicating whether extensions were found. */
-      private boolean mExtensionActivitiesUsed;
-      
-      /**
-       * Default c'tor.
-       */
-      public AeBPWSExtensionsVisitor()
-      {
-         setTraversalVisitor( new AeTraversalVisitor(new AeTraverseWhileNotFound(), this));
-      }
-      
-      /**
-       * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
-       */
-      public void visit(AeActivityReceiveDef def)
-      {
-         if (AeUtil.notNullOrEmpty(def.getMessageExchange()))
-         {
+        AeBPWSExtensionsVisitor visitor = new AeBPWSExtensionsVisitor();
+        getProcessDef().accept(visitor);
+        if (visitor.isExtensionActivitiesUsed()) {
+            getReporter().reportProblem(BPWS_BPEL_1_1_EXT_ACTIVITY_USED_CODE,
+                    AeMessages.getString("AeBPWSProcessValidator.BPEL11ExtensionActivitiesWarning"), null, //$NON-NLS-1$
+                    getDefinition());
+        }
+    }
+
+    /**
+     * A visitor that finds Ae extensions to BPEL 1.1.
+     */
+    protected class AeBPWSExtensionsVisitor extends AeAbstractDefVisitor {
+        /**
+         * Keeps traversing the def until we find an extension.
+         */
+        protected class AeTraverseWhileNotFound extends AeDefTraverser {
+            /**
+             * @see org.activebpel.rt.bpel.def.visitors.AeDefTraverser#callAccept(org.activebpel.rt.xml.def.AeBaseXmlDef, org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor)
+             */
+            protected void callAccept(AeBaseXmlDef aDef, IAeBaseXmlDefVisitor aVisitor) {
+                if (!isExtensionActivitiesUsed())
+                    super.callAccept(aDef, aVisitor);
+            }
+
+        }
+
+        /**
+         * Flag indicating whether extensions were found.
+         */
+        private boolean mExtensionActivitiesUsed;
+
+        /**
+         * Default c'tor.
+         */
+        public AeBPWSExtensionsVisitor() {
+            setTraversalVisitor(new AeTraversalVisitor(new AeTraverseWhileNotFound(), this));
+        }
+
+        /**
+         * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
+         */
+        public void visit(AeActivityReceiveDef def) {
+            if (AeUtil.notNullOrEmpty(def.getMessageExchange())) {
+                setExtensionActivitiesUsed(true);
+            }
+            super.visit(def);
+        }
+
+        /**
+         * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
+         */
+        public void visit(AeActivityReplyDef def) {
+            if (AeUtil.notNullOrEmpty(def.getMessageExchange())) {
+                setExtensionActivitiesUsed(true);
+            }
+            super.visit(def);
+        }
+
+        /**
+         * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
+         */
+        public void visit(AeActivityScopeDef def) {
+            if (def.getMessageExchangesDef() != null && def.getMessageExchangesDef().getMessageExchangeValues().size() > 0) {
+                setExtensionActivitiesUsed(true);
+            }
+            super.visit(def);
+        }
+
+        /**
+         * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
+         */
+        public void visit(AeActivityForEachDef def) {
             setExtensionActivitiesUsed(true);
-         }
-         super.visit(def);
-      }
-      
-      /**
-       * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
-       */
-      public void visit(AeActivityReplyDef def)
-      {
-         if (AeUtil.notNullOrEmpty(def.getMessageExchange()))
-         {
-            setExtensionActivitiesUsed(true);
-         }
-         super.visit(def);
-      }
-      
-      /**
-       * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
-       */
-      public void visit(AeActivityScopeDef def)
-      {
-         if (def.getMessageExchangesDef() != null && def.getMessageExchangesDef().getMessageExchangeValues().size() > 0)
-         {
-            setExtensionActivitiesUsed(true);
-         }
-         super.visit(def);
-      }
-      
-      /**
-       * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
-       */
-      public void visit(AeActivityForEachDef def)
-      {
-         setExtensionActivitiesUsed(true);
-         super.visit(def);
-      }
-      
-      /**
-       * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
-       */
-      public void visit(AeActivityBreakDef def)
-      {
-         setExtensionActivitiesUsed(true);
-         super.visit(def);
-      }
-      
-      /**
-       * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
-       */
-      public void visit(AeActivityContinueDef def)
-      {
-         setExtensionActivitiesUsed(true);
-         super.visit(def);
-      }
-      
-      /**
-       * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
-       */
-      public void visit(AeActivitySuspendDef def)
-      {
-         setExtensionActivitiesUsed(true);
-         super.visit(def);
-      }
+            super.visit(def);
+        }
 
-      /**
-       * @return Returns the extensionActivitiesUsed.
-       */
-      protected boolean isExtensionActivitiesUsed()
-      {
-         return mExtensionActivitiesUsed;
-      }
+        /**
+         * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
+         */
+        public void visit(AeActivityBreakDef def) {
+            setExtensionActivitiesUsed(true);
+            super.visit(def);
+        }
 
-      /**
-       * @param aExtensionActivitiesUsed The extensionActivitiesUsed to set.
-       */
-      protected void setExtensionActivitiesUsed(boolean aExtensionActivitiesUsed)
-      {
-         mExtensionActivitiesUsed = aExtensionActivitiesUsed;
-      }
-   }
+        /**
+         * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
+         */
+        public void visit(AeActivityContinueDef def) {
+            setExtensionActivitiesUsed(true);
+            super.visit(def);
+        }
+
+        /**
+         * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
+         */
+        public void visit(AeActivitySuspendDef def) {
+            setExtensionActivitiesUsed(true);
+            super.visit(def);
+        }
+
+        /**
+         * @return Returns the extensionActivitiesUsed.
+         */
+        protected boolean isExtensionActivitiesUsed() {
+            return mExtensionActivitiesUsed;
+        }
+
+        /**
+         * @param aExtensionActivitiesUsed The extensionActivitiesUsed to set.
+         */
+        protected void setExtensionActivitiesUsed(boolean aExtensionActivitiesUsed) {
+            mExtensionActivitiesUsed = aExtensionActivitiesUsed;
+        }
+    }
 }

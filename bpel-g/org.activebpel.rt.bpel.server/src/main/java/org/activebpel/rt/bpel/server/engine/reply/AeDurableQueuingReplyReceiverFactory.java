@@ -21,57 +21,46 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * ReplyReceiver factory that is responsible for recreating QueuingReplyReceivers.
  */
-public class AeDurableQueuingReplyReceiverFactory implements IAeReplyReceiverFactory
-{   
-   /** 
-    * Overrides method to return a <code>AeDurableQueuingReplyReceiver</code>. 
-    * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiverFactory#createReplyReceiver(java.util.Map)
-    */
-   public IAeReplyReceiver createReplyReceiver(Map aProperties) throws AeException
-   {
-      // get process id.
-      String processIdString = (String) aProperties.get(AeDurableQueuingReplyReceiver.PROCESS_ID);
-      if (AeUtil.isNullOrEmpty(processIdString))
-      {
-         throw new AeException(AeMessages.getString("AeDurableQueuingReplyReceiverFactory.MISSING_PID") ); //$NON-NLS-1$
-      }
-      long processId = -1;
-      try
-      {
-         processId = Integer.parseInt( processIdString );
-      }
-      catch(Exception e)
-      {
-         AeException.logError(e);
-         processId = -1;
-      }
-      if (processId < 1)
-      {
-         throw new AeException(AeMessages.format("AeDurableQueuingReplyReceiverFactory.INVALID_PID", processIdString) );          //$NON-NLS-1$
-      }
-      // get location path
-      String locationPath = (String) aProperties.get(AeDurableQueuingReplyReceiver.LOCATION_PATH);
-      if (AeUtil.isNullOrEmpty(locationPath))
-      {
-         throw new AeException(AeMessages.getString("AeDurableQueuingReplyReceiverFactory.MISSING_LOCATION_PATH") );  //$NON-NLS-1$
-      }
-      
-      // get tx id
-      String txIdString = (String) aProperties.get(AeDurableQueuingReplyReceiver.TRANSMISSION_ID ); 
-      long txId = IAeTransmissionTracker.NULL_TRANSREC_ID;
-      if ( AeUtil.notNullOrEmpty(txIdString) )
-      {
-         try
-         {
-            txId = Long.parseLong( txIdString );
-         }
-         catch(Exception e)
-         {
+public class AeDurableQueuingReplyReceiverFactory implements IAeReplyReceiverFactory {
+    /**
+     * Overrides method to return a <code>AeDurableQueuingReplyReceiver</code>.
+     *
+     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiverFactory#createReplyReceiver(java.util.Map)
+     */
+    public IAeReplyReceiver createReplyReceiver(Map aProperties) throws AeException {
+        // get process id.
+        String processIdString = (String) aProperties.get(AeDurableQueuingReplyReceiver.PROCESS_ID);
+        if (AeUtil.isNullOrEmpty(processIdString)) {
+            throw new AeException(AeMessages.getString("AeDurableQueuingReplyReceiverFactory.MISSING_PID")); //$NON-NLS-1$
+        }
+        long processId = -1;
+        try {
+            processId = Integer.parseInt(processIdString);
+        } catch (Exception e) {
             AeException.logError(e);
-            // ignore
-         }         
-      }      
-      // create and return a queuing reply receiver instance.
-      return new AeDurableQueuingReplyReceiver(processId, locationPath, txId);
-   }
+            processId = -1;
+        }
+        if (processId < 1) {
+            throw new AeException(AeMessages.format("AeDurableQueuingReplyReceiverFactory.INVALID_PID", processIdString));          //$NON-NLS-1$
+        }
+        // get location path
+        String locationPath = (String) aProperties.get(AeDurableQueuingReplyReceiver.LOCATION_PATH);
+        if (AeUtil.isNullOrEmpty(locationPath)) {
+            throw new AeException(AeMessages.getString("AeDurableQueuingReplyReceiverFactory.MISSING_LOCATION_PATH"));  //$NON-NLS-1$
+        }
+
+        // get tx id
+        String txIdString = (String) aProperties.get(AeDurableQueuingReplyReceiver.TRANSMISSION_ID);
+        long txId = IAeTransmissionTracker.NULL_TRANSREC_ID;
+        if (AeUtil.notNullOrEmpty(txIdString)) {
+            try {
+                txId = Long.parseLong(txIdString);
+            } catch (Exception e) {
+                AeException.logError(e);
+                // ignore
+            }
+        }
+        // create and return a queuing reply receiver instance.
+        return new AeDurableQueuingReplyReceiver(processId, locationPath, txId);
+    }
 }

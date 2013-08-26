@@ -9,28 +9,22 @@ import org.activebpel.rt.bpel.impl.activity.IAeScopeTerminationStrategy;
  * then the termination handler is unavailable and the fault handler is allowed to continue. Otherwise, queue
  * the termination handler to execute.
  */
-public class AeWSBPELScopeTerminationStrategy implements IAeScopeTerminationStrategy
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeScopeTerminationStrategy#onHandleTermination(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
-    */
-   public void onHandleTermination(AeActivityScopeImpl aImpl) throws AeBusinessProcessException
-   {
-      aImpl.getProcess().queueObjectToExecute(aImpl.getTerminationHandler());
-   }
+public class AeWSBPELScopeTerminationStrategy implements IAeScopeTerminationStrategy {
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeScopeTerminationStrategy#onHandleTermination(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
+     */
+    public void onHandleTermination(AeActivityScopeImpl aImpl) throws AeBusinessProcessException {
+        aImpl.getProcess().queueObjectToExecute(aImpl.getTerminationHandler());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeScopeTerminationStrategy#onStartTermination(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
-    */
-   public void onStartTermination(AeActivityScopeImpl aImpl) throws AeBusinessProcessException
-   {
-      if (aImpl.isExecutingFaultHandler())
-      {
-         return;
-      }
-      else
-      {
-         aImpl.startTermination();
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeScopeTerminationStrategy#onStartTermination(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
+     */
+    public void onStartTermination(AeActivityScopeImpl aImpl) throws AeBusinessProcessException {
+        if (aImpl.isExecutingFaultHandler()) {
+            return;
+        } else {
+            aImpl.startTermination();
+        }
+    }
 }

@@ -20,7 +20,7 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 
 public class AeFallbackDataSource extends AeJNDIDataSource {
-    
+
     private static final Log sLog = LogFactory.getLog(AeFallbackDataSource.class);
 
     /**
@@ -50,62 +50,62 @@ public class AeFallbackDataSource extends AeJNDIDataSource {
     }
 
     private DataSource createFallbackDataSource() throws Exception {
-        
+
         sLog.debug("No DataSource loaded from:" + getJNDIName() + " using embedded db");
-        
+
         File dbDir = new File(AeDeploymentFileInfo.getDeploymentDirectory(), "db");
         File dbFile = new File(dbDir, "bpelg-embedded");
         File scriptFile = new File(AeDeploymentFileInfo.getDeploymentDirectory(), "h2script/ActiveBPEL-H2.sql");
         scriptFile.getParentFile().mkdirs();
         String url = "jdbc:h2:" + dbFile.getAbsolutePath() + ";MVCC=TRUE";
-        
+
         IOUtils.copyAndClose(getClass().getResourceAsStream("/ActiveBPEL-H2.sql"), new FileOutputStream(scriptFile));
-        
+
 //        JdbcDataSource ds = new JdbcDataSource();
 //        ds.setURL(url);
 //        ds.setUser("sa");
 //        ds.setPassword("sa");
-        
+
         if (!dbDir.isDirectory()) {
-            
+
             sLog.debug("Creating embedded db: " + dbFile.getAbsolutePath());
 
             new RunScript().run("-url", url,
-                                "-user", "sa",
-                                "-password", "sa",
-                                "-script", scriptFile.getAbsolutePath(),
-                                "-showResults"
-                                );
+                    "-user", "sa",
+                    "-password", "sa",
+                    "-script", scriptFile.getAbsolutePath(),
+                    "-showResults"
+            );
         } else {
             sLog.debug("Using embedded db at: " + dbDir.getAbsolutePath());
         }
-        
+
         final JdbcConnectionPool cp = JdbcConnectionPool.create(url, "sa", "sa");
-        
+
         DataSource ds = new DataSource() {
 
-        	private PrintWriter pw = null;
-        	private int loginTimeout;
-        	
-			@Override
-			public PrintWriter getLogWriter() {
-				return pw;
-			}
+            private PrintWriter pw = null;
+            private int loginTimeout;
 
-			@Override
-			public void setLogWriter(PrintWriter aOut) {
-				this.pw = aOut;
-			}
+            @Override
+            public PrintWriter getLogWriter() {
+                return pw;
+            }
 
-			@Override
-			public void setLoginTimeout(int aSeconds) {
-				this.loginTimeout = aSeconds;
-			}
+            @Override
+            public void setLogWriter(PrintWriter aOut) {
+                this.pw = aOut;
+            }
 
-			@Override
-			public int getLoginTimeout() {
-				return loginTimeout;
-			}
+            @Override
+            public void setLoginTimeout(int aSeconds) {
+                this.loginTimeout = aSeconds;
+            }
+
+            @Override
+            public int getLoginTimeout() {
+                return loginTimeout;
+            }
 
             @Override
             public Logger getParentLogger() throws SQLFeatureNotSupportedException {
@@ -113,25 +113,25 @@ public class AeFallbackDataSource extends AeJNDIDataSource {
             }
 
             @Override
-			public <T> T unwrap(Class<T> aIface) throws SQLException {
-				throw new SQLException("not a wrapper for anything");
-			}
+            public <T> T unwrap(Class<T> aIface) throws SQLException {
+                throw new SQLException("not a wrapper for anything");
+            }
 
-			@Override
-			public boolean isWrapperFor(Class<?> aIface) {
-				return false;
-			}
+            @Override
+            public boolean isWrapperFor(Class<?> aIface) {
+                return false;
+            }
 
-			@Override
-			public Connection getConnection() throws SQLException {
-				return cp.getConnection();
-			}
+            @Override
+            public Connection getConnection() throws SQLException {
+                return cp.getConnection();
+            }
 
-			@Override
-			public Connection getConnection(String aUsername, String aPassword)
-					throws SQLException {
-				return getConnection();
-			}
+            @Override
+            public Connection getConnection(String aUsername, String aPassword)
+                    throws SQLException {
+                return getConnection();
+            }
         };
         return ds;
     }

@@ -17,50 +17,50 @@ import org.xml.sax.InputSource;
 /**
  * Represents the mapping info for a catalog resource in a bpr file.
  */
-public class AeCatalogBprMapping extends AeAbstractCatalogMapping
-{
-   /** Bpr containing the entry. */
-   private final IAeBpr mBpr;
-   /** Classpath location from catalog deployment. */
-   private final String mClasspath;
+public class AeCatalogBprMapping extends AeAbstractCatalogMapping {
+    /**
+     * Bpr containing the entry.
+     */
+    private final IAeBpr mBpr;
+    /**
+     * Classpath location from catalog deployment.
+     */
+    private final String mClasspath;
 
-   /**
-    * Constructor.
-    * @param aBpr
-    * @param aLocationHint
-    * @param aTypeURI
-    * @param aClasspath
-    */
-   public AeCatalogBprMapping( IAeBpr aBpr, String aLocationHint, String aTypeURI, String aClasspath )
-   {
-      super( aLocationHint, aTypeURI );
-      mClasspath = aClasspath;
-      mBpr = aBpr;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aBpr
+     * @param aLocationHint
+     * @param aTypeURI
+     * @param aClasspath
+     */
+    public AeCatalogBprMapping(IAeBpr aBpr, String aLocationHint, String aTypeURI, String aClasspath) {
+        super(aLocationHint, aTypeURI);
+        mClasspath = aClasspath;
+        mBpr = aBpr;
+    }
 
-   /**
-    * @return Returns the classpath.
-    */
-   public String getClasspath()
-   {
-      return mClasspath;
-   }
+    /**
+     * @return Returns the classpath.
+     */
+    public String getClasspath() {
+        return mClasspath;
+    }
 
-   /**
-    * Returns true if the entry exists. 
-    */
-   public boolean exists()
-   {
-      return mBpr.exists(getClasspath());
-   }
-   
-   /**
-    * Returns input source from the bpr file. 
-    */
-   public InputSource getInputSource() throws IOException
-   {
-      InputSource in = new InputSource(mBpr.getResourceAsStream(getClasspath()));
-      in.setSystemId(getLocationHint());
-      return in;
-   }         
+    /**
+     * Returns true if the entry exists.
+     */
+    public boolean exists() {
+        return mBpr.exists(getClasspath());
+    }
+
+    /**
+     * Returns input source from the bpr file.
+     */
+    public InputSource getInputSource() throws IOException {
+        InputSource in = new InputSource(mBpr.getResourceAsStream(getClasspath()));
+        in.setSystemId(getLocationHint());
+        return in;
+    }
 }

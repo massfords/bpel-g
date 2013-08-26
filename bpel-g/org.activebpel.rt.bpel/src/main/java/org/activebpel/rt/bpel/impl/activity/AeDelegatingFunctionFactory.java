@@ -20,77 +20,74 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This factory delegates the work to an appropriate delegate based on the namespace   
+ * This factory delegates the work to an appropriate delegate based on the namespace
  */
-public class AeDelegatingFunctionFactory implements IAeFunctionFactory
-{
-   // common error messages
-   public static final String NO_FUNCTION_FOUND_ERROR = AeMessages.getString("AeAbstractFunctionContext.0"); //$NON-NLS-1$
+public class AeDelegatingFunctionFactory implements IAeFunctionFactory {
+    // common error messages
+    public static final String NO_FUNCTION_FOUND_ERROR = AeMessages.getString("AeAbstractFunctionContext.0"); //$NON-NLS-1$
 
-   /** contains a list of all functional factories that this factory can delegate getFunction() to */
-   private List<IAeFunctionFactory> mDelegates = new LinkedList<>();
-   
-   /**
-    * C'tor that accepts two function factories 
-    * @param aDelegateOne
-    * @param aDelegateTwo
-    */
-   public AeDelegatingFunctionFactory(IAeFunctionFactory aDelegateOne, IAeFunctionFactory aDelegateTwo)
-   {
-      add(aDelegateOne);
-      add(aDelegateTwo);
-   }
+    /**
+     * contains a list of all functional factories that this factory can delegate getFunction() to
+     */
+    private List<IAeFunctionFactory> mDelegates = new LinkedList<>();
 
-   /**
-    * Adds this factory to the list of delegates
-    * @param aFactory
-    */
-   protected void add(IAeFunctionFactory aFactory)
-   {
-      getDelegates().add(aFactory);
-   }
+    /**
+     * C'tor that accepts two function factories
+     *
+     * @param aDelegateOne
+     * @param aDelegateTwo
+     */
+    public AeDelegatingFunctionFactory(IAeFunctionFactory aDelegateOne, IAeFunctionFactory aDelegateTwo) {
+        add(aDelegateOne);
+        add(aDelegateTwo);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionFactory#getFunction(java.lang.String, java.lang.String)
-    */
-   public IAeFunction getFunction(String aNamespace, String aFunctionName) throws AeUnresolvableException
-   {
-       for (IAeFunctionFactory delegate : getDelegates()) {
-           if (delegate.getFunctionContextNamespaceList().contains(aNamespace)) {
-               return delegate.getFunction(aNamespace, aFunctionName);
-           }
-       }
-      // We don't want to throw here since the function may be one of the built
-      // in functions that can be handled by the expression runner. (i.e. number())
-      return null;
-   }
+    /**
+     * Adds this factory to the list of delegates
+     *
+     * @param aFactory
+     */
+    protected void add(IAeFunctionFactory aFactory) {
+        getDelegates().add(aFactory);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionFactory#getFunctionContextNamespaceList()
-    */
-   public Set<String> getFunctionContextNamespaceList()
-   {
-      Set<String> namespacesList = new LinkedHashSet<>();
-       for (IAeFunctionFactory delegate : getDelegates()) {
-           namespacesList.addAll(delegate.getFunctionContextNamespaceList());
-       }
-      return namespacesList;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionFactory#getFunction(java.lang.String, java.lang.String)
+     */
+    public IAeFunction getFunction(String aNamespace, String aFunctionName) throws AeUnresolvableException {
+        for (IAeFunctionFactory delegate : getDelegates()) {
+            if (delegate.getFunctionContextNamespaceList().contains(aNamespace)) {
+                return delegate.getFunction(aNamespace, aFunctionName);
+            }
+        }
+        // We don't want to throw here since the function may be one of the built
+        // in functions that can be handled by the expression runner. (i.e. number())
+        return null;
+    }
 
-   /**
-    * @return the iterator over the delegates list
-    */
-   protected List<IAeFunctionFactory> getDelegates()
-   {
-      return mDelegates;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionFactory#getFunctionContextNamespaceList()
+     */
+    public Set<String> getFunctionContextNamespaceList() {
+        Set<String> namespacesList = new LinkedHashSet<>();
+        for (IAeFunctionFactory delegate : getDelegates()) {
+            namespacesList.addAll(delegate.getFunctionContextNamespaceList());
+        }
+        return namespacesList;
+    }
 
-   /**
-    * @param aDelegates the delegates to set
-    */
-   protected void setDelegates(List<IAeFunctionFactory> aDelegates)
-   {
-      mDelegates = aDelegates;
-   }
+    /**
+     * @return the iterator over the delegates list
+     */
+    protected List<IAeFunctionFactory> getDelegates() {
+        return mDelegates;
+    }
+
+    /**
+     * @param aDelegates the delegates to set
+     */
+    protected void setDelegates(List<IAeFunctionFactory> aDelegates) {
+        mDelegates = aDelegates;
+    }
 
 }

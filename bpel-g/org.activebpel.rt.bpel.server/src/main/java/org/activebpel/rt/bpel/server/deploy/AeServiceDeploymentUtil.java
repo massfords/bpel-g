@@ -34,83 +34,83 @@ import bpelg.services.processes.types.ServiceDeployments;
  */
 public class AeServiceDeploymentUtil implements IAeConstants {
 
-	/**
-	 * Gets the service info from the pdd element
-	 * 
-	 * @param aProcessDef
-	 * @param aProcessElement
-	 * @throws AeDeploymentException
-	 */
-	public static ServiceDeployments getServices(
-			AeProcessDef aProcessDef, Pdd aPdd) throws AeDeploymentException {
-		try {
-			// data for creating the processNamespace and
-			// processName parameter elements
-			// - this data is static for all partnerLink elements
-			// with the myRole child for a given process
-			QName processQname = aPdd.getName();
+    /**
+     * Gets the service info from the pdd element
+     *
+     * @param aProcessDef
+     * @param aProcessElement
+     * @throws AeDeploymentException
+     */
+    public static ServiceDeployments getServices(
+            AeProcessDef aProcessDef, Pdd aPdd) throws AeDeploymentException {
+        try {
+            // data for creating the processNamespace and
+            // processName parameter elements
+            // - this data is static for all partnerLink elements
+            // with the myRole child for a given process
+            QName processQname = aPdd.getName();
 
-			ServiceDeployments services = new ServiceDeployments();
+            ServiceDeployments services = new ServiceDeployments();
 
-			// locate all of the myRole elements and build the
-			// appropriate service element for each one
-			for (PartnerLinkType plink : aPdd.getPartnerLinks()
-					.getPartnerLink()) {
-				if (plink.getMyRole() == null)
-					continue;
-				
-				MyRoleType myRole = plink.getMyRole();
+            // locate all of the myRole elements and build the
+            // appropriate service element for each one
+            for (PartnerLinkType plink : aPdd.getPartnerLinks()
+                    .getPartnerLink()) {
+                if (plink.getMyRole() == null)
+                    continue;
 
-				String serviceName = myRole.getService();
-				MyRoleBindingType binding = myRole.getBinding();
+                MyRoleType myRole = plink.getMyRole();
 
-				// Get the partner link name and (optional) location.
-				String partnerLinkName = plink.getName();
-				String partnerLinkLocation = plink.getLocation();
-				String partnerLink = partnerLinkName;
-				if (AeUtil.notNullOrEmpty(partnerLinkLocation))
-					partnerLink = partnerLinkLocation;
+                String serviceName = myRole.getService();
+                MyRoleBindingType binding = myRole.getBinding();
 
-				// Look up the partner link def in the process.
-				AePartnerLinkDef plDef = aProcessDef
-						.findPartnerLink(partnerLink);
+                // Get the partner link name and (optional) location.
+                String partnerLinkName = plink.getName();
+                String partnerLinkLocation = plink.getLocation();
+                String partnerLink = partnerLinkName;
+                if (AeUtil.notNullOrEmpty(partnerLinkLocation))
+                    partnerLink = partnerLinkLocation;
 
-				String allowedRoles = myRole.getAllowedRoles();
-				List<Element> policies = myRole.getAny();
-				
-				ServiceDeployment sd = new ServiceDeployment()
-					.withAllowedRoles(allowedRoles)
-					.withBinding(binding)
-					.withPartnerLink(plDef.getName())
-					.withPartnerLinkId(plDef.getLocationId())
-					.withProcessName(processQname)
-					.withService(serviceName)
-					.withAny(policies);
-				services.withServiceDeployment(sd);
-			}
+                // Look up the partner link def in the process.
+                AePartnerLinkDef plDef = aProcessDef
+                        .findPartnerLink(partnerLink);
 
-			return services;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new AeDeploymentException(
-					AeMessages.getString("AeWsddService.ERROR_7"), e); //$NON-NLS-1$
-		}
-	}
+                String allowedRoles = myRole.getAllowedRoles();
+                List<Element> policies = myRole.getAny();
 
-	/**
-	 * Gets policy nodes from a myRole or partnerRole element.
-	 * 
-	 * @param aElement
-	 * @return list of matching element nodes.
-	 * @throws Exception
-	 */
-	protected static List getPolicyNodes(Element aElement) throws Exception {
-		NodeList policies = aElement.getElementsByTagNameNS(
-				IAeConstants.WSP_NAMESPACE_URI, "*"); //$NON-NLS-1$
-		List<Element> elements = new ArrayList<>(policies.getLength());
-		for (int i = 0; i < policies.getLength(); i++) {
-			elements.add((Element) policies.item(i));
-		}
-		return elements;
-	}
+                ServiceDeployment sd = new ServiceDeployment()
+                        .withAllowedRoles(allowedRoles)
+                        .withBinding(binding)
+                        .withPartnerLink(plDef.getName())
+                        .withPartnerLinkId(plDef.getLocationId())
+                        .withProcessName(processQname)
+                        .withService(serviceName)
+                        .withAny(policies);
+                services.withServiceDeployment(sd);
+            }
+
+            return services;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new AeDeploymentException(
+                    AeMessages.getString("AeWsddService.ERROR_7"), e); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Gets policy nodes from a myRole or partnerRole element.
+     *
+     * @param aElement
+     * @return list of matching element nodes.
+     * @throws Exception
+     */
+    protected static List getPolicyNodes(Element aElement) throws Exception {
+        NodeList policies = aElement.getElementsByTagNameNS(
+                IAeConstants.WSP_NAMESPACE_URI, "*"); //$NON-NLS-1$
+        List<Element> elements = new ArrayList<>(policies.getLength());
+        for (int i = 0; i < policies.getLength(); i++) {
+            elements.add((Element) policies.item(i));
+        }
+        return elements;
+    }
 }

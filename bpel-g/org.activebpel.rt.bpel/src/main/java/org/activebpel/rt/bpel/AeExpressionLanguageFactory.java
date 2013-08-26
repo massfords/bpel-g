@@ -26,12 +26,14 @@ import java.util.Map;
 @Singleton
 public class AeExpressionLanguageFactory implements IAeExpressionLanguageFactory {
 
-    /** The map of BPEL Namespace URI -> expression language factory. */
+    /**
+     * The map of BPEL Namespace URI -> expression language factory.
+     */
     private Map<String, IAeBpelExpressionLanguageFactory> mFactoryMap;
 
     /**
      * Gets the configured factory for the given bpel namespace URI.
-     * 
+     *
      * @param aBpelNamespace
      * @throws AeException
      */
@@ -76,7 +78,7 @@ public class AeExpressionLanguageFactory implements IAeExpressionLanguageFactory
      *      java.lang.String)
      */
     public IAeExpressionValidator createExpressionValidator(String aBpelNamespace,
-            String aLanguageUri) throws AeException {
+                                                            String aLanguageUri) throws AeException {
         IAeBpelExpressionLanguageFactory factory = getFactory(aBpelNamespace);
         return factory.createExpressionValidator(aLanguageUri);
     }
@@ -109,8 +111,7 @@ public class AeExpressionLanguageFactory implements IAeExpressionLanguageFactory
     }
 
     /**
-     * @param aFactoryMap
-     *            The factoryMap to set.
+     * @param aFactoryMap The factoryMap to set.
      */
     public void setFactoryMap(Map<String, IAeBpelExpressionLanguageFactory> aFactoryMap) {
         mFactoryMap = aFactoryMap;

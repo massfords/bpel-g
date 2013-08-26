@@ -15,38 +15,36 @@ import javax.xml.namespace.QName;
  * This class represents a Role's PortType element.  This PortType element
  * references a WSDL PortType.
  */
-public class AePortTypeImpl implements IAePortType, IAeBPELExtendedWSDLConst
-{
-   /**
-     * 
+public class AePortTypeImpl implements IAePortType, IAeBPELExtendedWSDLConst {
+    /**
+     *
      */
     private static final long serialVersionUID = 6000694968484997495L;
-// The name of this PortType
-   private QName mQName;
-   
-   /**
-    * Constructor. Creates a new PortType with the given name.
-    */
-   public AePortTypeImpl(QName aName)
-   {
-      setQName(aName);
-   }
-   
-   /**
-    * Get the name of this PortType.
-    * @return QName
-    */
-   public QName getQName()
-   {
-      return mQName;
-   }
+    // The name of this PortType
+    private QName mQName;
 
-   /**
-    * Set the name of this port type.
-    * @param aQName
-    */
-   public void setQName(QName aQName)
-   {
-      mQName = aQName;
-   }
+    /**
+     * Constructor. Creates a new PortType with the given name.
+     */
+    public AePortTypeImpl(QName aName) {
+        setQName(aName);
+    }
+
+    /**
+     * Get the name of this PortType.
+     *
+     * @return QName
+     */
+    public QName getQName() {
+        return mQName;
+    }
+
+    /**
+     * Set the name of this port type.
+     *
+     * @param aQName
+     */
+    public void setQName(QName aQName) {
+        mQName = aQName;
+    }
 }

@@ -16,14 +16,13 @@ import org.w3c.dom.Element;
 /**
  * A factory interface for creating reader def visitors.
  */
-public interface IAeReaderFactory
-{
-   /**
-    * Creates a reader def visitor.
-    * 
-    * @param aParentDef
-    * @param aNewDef
-    * @param aElement
-    */
-   public IAeReportingDefReader createReportingDefReader(AeBaseXmlDef aParentDef, AeBaseXmlDef aNewDef, Element aElement);
+public interface IAeReaderFactory {
+    /**
+     * Creates a reader def visitor.
+     *
+     * @param aParentDef
+     * @param aNewDef
+     * @param aElement
+     */
+    public IAeReportingDefReader createReportingDefReader(AeBaseXmlDef aParentDef, AeBaseXmlDef aNewDef, Element aElement);
 }

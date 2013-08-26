@@ -20,55 +20,50 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 /**
  * Implements the 'elseif' child of the 'if' activity.
  */
-public class AeElseIf extends AeElse
-{
-   /**
-    * Constructs the else if object with the given def and parent.
-    * 
-    * @param aDef
-    * @param aParent
-    */
-   public AeElseIf(AeElseIfDef aDef, AeActivityIfImpl aParent)
-   {
-      super(aDef, aParent);
-   }
+public class AeElseIf extends AeElse {
+    /**
+     * Constructs the else if object with the given def and parent.
+     *
+     * @param aDef
+     * @param aParent
+     */
+    public AeElseIf(AeElseIfDef aDef, AeActivityIfImpl aParent) {
+        super(aDef, aParent);
+    }
 
-   /**
-    * Returns true if our expression evaluates to true. Always true for otherwise.
-    */
-   public boolean isEvalTrue() throws AeBusinessProcessException
-   {
-      AeElseIfDef def = (AeElseIfDef) getDefinition();
-      boolean result = executeBooleanExpression(def.getConditionDef());
+    /**
+     * Returns true if our expression evaluates to true. Always true for otherwise.
+     */
+    public boolean isEvalTrue() throws AeBusinessProcessException {
+        AeElseIfDef def = (AeElseIfDef) getDefinition();
+        boolean result = executeBooleanExpression(def.getConditionDef());
 
-      // Generate engine info event for debug.
-      fireEvalEvent(def, result);
+        // Generate engine info event for debug.
+        fireEvalEvent(def, result);
 
-      return result;
-   }
+        return result;
+    }
 
-   /**
-    * Fire the evaluation event.
-    * 
-    * @param aDef
-    * @param aResult
-    */
-   protected void fireEvalEvent(AeElseIfDef aDef, boolean aResult)
-   {
-	   AeProcessInfoEventType eventId = AeProcessInfoEventType.InfoElseIf;
-      if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(getProcess().getBPELNamespace()))
-         eventId = AeProcessInfoEventType.InfoCase;
+    /**
+     * Fire the evaluation event.
+     *
+     * @param aDef
+     * @param aResult
+     */
+    protected void fireEvalEvent(AeElseIfDef aDef, boolean aResult) {
+        AeProcessInfoEventType eventId = AeProcessInfoEventType.InfoElseIf;
+        if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(getProcess().getBPELNamespace()))
+            eventId = AeProcessInfoEventType.InfoCase;
 
-      getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
-            aDef.getConditionDef().getExpression(), eventId, getLocationPath(),
-            Boolean.toString(aResult));
-   }
+        getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
+                aDef.getConditionDef().getExpression(), eventId, getLocationPath(),
+                Boolean.toString(aResult));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 }

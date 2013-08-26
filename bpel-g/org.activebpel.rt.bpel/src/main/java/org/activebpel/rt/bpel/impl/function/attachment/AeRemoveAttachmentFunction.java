@@ -33,38 +33,38 @@ import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
  * <em>Throws:</em> attachmentFault if there was a problem with the variable or the item number was out of
  * range</p>
  */
-public class AeRemoveAttachmentFunction extends AeAbstractAttachmentFunction
-{
+public class AeRemoveAttachmentFunction extends AeAbstractAttachmentFunction {
 
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "removeAttachment"; //$NON-NLS-1$
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "removeAttachment"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeRemoveAttachmentFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+    /**
+     * Constructor.
+     */
+    public AeRemoveAttachmentFunction() {
+        super(FUNCTION_NAME);
+    }
 
-   /**
-    * Execution of XPath function.
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      Object result = false;
+    /**
+     * Execution of XPath function.
+     *
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        Object result = false;
 
-      // Validate that we have the proper number of arguments
-      int numArgs = aArgs.size();
-      if ( numArgs < 2 || numArgs > 2 )
-         throwFunctionException(INVALID_PARAMS, FUNCTION_NAME);
+        // Validate that we have the proper number of arguments
+        int numArgs = aArgs.size();
+        if (numArgs < 2 || numArgs > 2)
+            throwFunctionException(INVALID_PARAMS, FUNCTION_NAME);
 
-      // Get the variable name from the first function argument
-      IAeVariable variable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs,0));
-      // Get the attachment item number from the second function argument
-      variable.getAttachmentData().remove(getItemIndex(getPositiveIntArg(aArgs,1)));
-      result = Boolean.TRUE;
-      return result;
-   }
+        // Get the variable name from the first function argument
+        IAeVariable variable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs, 0));
+        // Get the attachment item number from the second function argument
+        variable.getAttachmentData().remove(getItemIndex(getPositiveIntArg(aArgs, 1)));
+        result = Boolean.TRUE;
+        return result;
+    }
 }

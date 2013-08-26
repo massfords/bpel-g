@@ -8,36 +8,32 @@
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 ////////////////////////////////////////////////////////////////////////////
 
-package org.activebpel.rt.xml.schema.sampledata.structure; 
+package org.activebpel.rt.xml.schema.sampledata.structure;
 
 import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 
 /**
- *  Model of a Schema sequence group.
+ * Model of a Schema sequence group.
  */
-public class AeSequence extends AeStructure
-{
-   /**
-    * Constructor.
-    */
-   public AeSequence()
-   {
-   }
+public class AeSequence extends AeStructure {
+    /**
+     * Constructor.
+     */
+    public AeSequence() {
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
-    */
-   public void accept(IAeSampleDataVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
+     */
+    public void accept(IAeSampleDataVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#getType()
-    */
-   public int getType()
-   {
-      return AeStructure.SEQUENCE_TYPE;
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#getType()
+     */
+    public int getType() {
+        return AeStructure.SEQUENCE_TYPE;
+    }
 }
  

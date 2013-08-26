@@ -20,33 +20,34 @@ import java.util.Collection;
  * deployments. An instance will be used for the deployment of a single BPR file
  * which may contain multiple .pdd files.
  */
-public interface IAeDeploymentLogger extends IAeBaseErrorReporter
-{
-   /**
-    * Sets the name of the container that we're deploying. This is typically the
-    * name of the BPR file that was uploaded.
-    * @param containerName
-    */
-   public void setContainerName(String containerName);
+public interface IAeDeploymentLogger extends IAeBaseErrorReporter {
+    /**
+     * Sets the name of the container that we're deploying. This is typically the
+     * name of the BPR file that was uploaded.
+     *
+     * @param containerName
+     */
+    public void setContainerName(String containerName);
 
-   /**
-    * Sets the name of the pdd currently being deployed.  This method is called each time the engine
-    * begins deploying a new deployment unit (PDD). 
-    * @param pddName
-    */
-   public void setPddName(String pddName);
+    /**
+     * Sets the name of the pdd currently being deployed.  This method is called each time the engine
+     * begins deploying a new deployment unit (PDD).
+     *
+     * @param pddName
+     */
+    public void setPddName(String pddName);
 
-   /**
-    * This method is called when the processing of a PDD has finished (either successfully or
-    * not).
-    * 
-    * @param success true if the PDD was actually deployed, false if it was not (for whatever reason)
-    */
-   public void processDeploymentFinished(boolean success);
+    /**
+     * This method is called when the processing of a PDD has finished (either successfully or
+     * not).
+     *
+     * @param success true if the PDD was actually deployed, false if it was not (for whatever reason)
+     */
+    public void processDeploymentFinished(boolean success);
 
-   public Collection<DeploymentResponse.DeploymentInfo> getDeploymentInfos();
+    public Collection<DeploymentResponse.DeploymentInfo> getDeploymentInfos();
 
-   public void addContainerMessage(Msg msg);
+    public void addContainerMessage(Msg msg);
 
-   public Collection<Msg> getContainerMessages();
+    public Collection<Msg> getContainerMessages();
 }

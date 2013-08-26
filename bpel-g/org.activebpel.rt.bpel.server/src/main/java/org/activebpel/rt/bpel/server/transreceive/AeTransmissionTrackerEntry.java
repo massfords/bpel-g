@@ -11,78 +11,77 @@ package org.activebpel.rt.bpel.server.transreceive;
 
 /**
  * Entry containing transmission id, state and associated message id.
- *
  */
-public class AeTransmissionTrackerEntry
-{
-   /** Entry id */
-   private final long mTransmissionId;
-   /** Entry state */
-   private int mState;
-   /** Optional message id. */
-   private String mMessageId;
+public class AeTransmissionTrackerEntry {
+    /**
+     * Entry id
+     */
+    private final long mTransmissionId;
+    /**
+     * Entry state
+     */
+    private int mState;
+    /**
+     * Optional message id.
+     */
+    private String mMessageId;
 
-   /**
-    * Constructs an entry given entry id and state.
-    * @param aTransmissionId
-    * @param aState
-    */
-   public AeTransmissionTrackerEntry(long aTransmissionId, int aState)
-   {
-      this(aTransmissionId, aState, null);
-   }
-   
-   /**
-    * Constructs entry given id, state and message id.
-    * @param aTransmissionId
-    * @param aState
-    * @param aMessageId
-    */
-   public AeTransmissionTrackerEntry(long aTransmissionId, int aState, String aMessageId)
-   {
-      mTransmissionId = aTransmissionId;
-      mState = aState;
-      mMessageId = aMessageId;
-   }
+    /**
+     * Constructs an entry given entry id and state.
+     *
+     * @param aTransmissionId
+     * @param aState
+     */
+    public AeTransmissionTrackerEntry(long aTransmissionId, int aState) {
+        this(aTransmissionId, aState, null);
+    }
 
-   /**
-    * @return Returns the messageId.
-    */
-   public String getMessageId()
-   {
-      return mMessageId;
-   }
-     
-   /**
-    * @param aMessageId The messageId to set.
-    */
-   public void setMessageId(String aMessageId)
-   {
-      mMessageId = aMessageId;
-   }
+    /**
+     * Constructs entry given id, state and message id.
+     *
+     * @param aTransmissionId
+     * @param aState
+     * @param aMessageId
+     */
+    public AeTransmissionTrackerEntry(long aTransmissionId, int aState, String aMessageId) {
+        mTransmissionId = aTransmissionId;
+        mState = aState;
+        mMessageId = aMessageId;
+    }
 
-   /**
-    * @param aState The state to set.
-    */
-   public void setState(int aState)
-   {
-      mState = aState;
-   }
+    /**
+     * @return Returns the messageId.
+     */
+    public String getMessageId() {
+        return mMessageId;
+    }
 
-   /**
-    * @return Returns the state.
-    */
-   public int getState()
-   {
-      return mState;
-   }
+    /**
+     * @param aMessageId The messageId to set.
+     */
+    public void setMessageId(String aMessageId) {
+        mMessageId = aMessageId;
+    }
 
-   /**
-    * @return Returns the transmissionId.
-    */
-   public long getTransmissionId()
-   {
-      return mTransmissionId;
-   }
+    /**
+     * @param aState The state to set.
+     */
+    public void setState(int aState) {
+        mState = aState;
+    }
+
+    /**
+     * @return Returns the state.
+     */
+    public int getState() {
+        return mState;
+    }
+
+    /**
+     * @return Returns the transmissionId.
+     */
+    public long getTransmissionId() {
+        return mTransmissionId;
+    }
 
 }

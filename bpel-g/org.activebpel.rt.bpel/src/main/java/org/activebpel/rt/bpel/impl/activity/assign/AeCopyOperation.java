@@ -7,23 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign; 
+package org.activebpel.rt.bpel.impl.activity.assign;
 
 import org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef;
 
 /**
- * Impl of copy operation for &lt;assign&gt; activity. 
- * 
- * This implementation pairs an impl of a &lt;from&gt; and an impl of a &lt;to&gt; 
- * along with a strategy to handle the copy.  
+ * Impl of copy operation for &lt;assign&gt; activity.
+ * <p/>
+ * This implementation pairs an impl of a &lt;from&gt; and an impl of a &lt;to&gt;
+ * along with a strategy to handle the copy.
  */
-public class AeCopyOperation extends AeCopyOperationBase
-{
-   /**
-    * Default ctor
-    */
-   public AeCopyOperation(AeAssignCopyDef aDef, IAeCopyOperationContext aContext)
-   {
-      super(aContext, aDef.isKeepSrcElementName(), aDef.isIgnoreMissingFromData());
-   }
+public class AeCopyOperation extends AeCopyOperationBase {
+    /**
+     * Default ctor
+     */
+    public AeCopyOperation(AeAssignCopyDef aDef, IAeCopyOperationContext aContext) {
+        super(aContext, aDef.isKeepSrcElementName(), aDef.isIgnoreMissingFromData());
+    }
 } 

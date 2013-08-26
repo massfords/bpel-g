@@ -27,128 +27,114 @@ import org.activebpel.rt.bpel.def.activity.support.AeUntilDef;
 /**
  * An abstract visitor that visits all expression defs.
  */
-public abstract class AeAbstractExpressionDefVisitor extends AeAbstractDefVisitor
-{
-   /**
-    * Default c'tor.
-    */
-   public AeAbstractExpressionDefVisitor()
-   {
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
+public abstract class AeAbstractExpressionDefVisitor extends AeAbstractDefVisitor {
+    /**
+     * Default c'tor.
+     */
+    public AeAbstractExpressionDefVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
-    */
-   public void visit(AeConditionDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
+     */
+    public void visit(AeConditionDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForDef)
-    */
-   public void visit(AeForDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForDef)
+     */
+    public void visit(AeForDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef)
-    */
-   public void visit(AeRepeatEveryDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef)
+     */
+    public void visit(AeRepeatEveryDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef)
-    */
-   public void visit(AeForEachBranchesDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef)
+     */
+    public void visit(AeForEachBranchesDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachFinalDef)
-    */
-   public void visit(AeForEachFinalDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachFinalDef)
+     */
+    public void visit(AeForEachFinalDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachStartDef)
-    */
-   public void visit(AeForEachStartDef aDef)
-   {
-      visitExpressionDef(aDef);
-      super.visit(aDef);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachStartDef)
+     */
+    public void visit(AeForEachStartDef aDef) {
+        visitExpressionDef(aDef);
+        super.visit(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachCompletionConditionDef)
-    */
-   public void visit(AeForEachCompletionConditionDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachCompletionConditionDef)
+     */
+    public void visit(AeForEachCompletionConditionDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef)
-    */
-   public void visit(AeJoinConditionDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef)
+     */
+    public void visit(AeJoinConditionDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef)
-    */
-   public void visit(AeTransitionConditionDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef)
+     */
+    public void visit(AeTransitionConditionDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeUntilDef)
-    */
-   public void visit(AeUntilDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeUntilDef)
+     */
+    public void visit(AeUntilDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
-    */
-   public void visit(AeFromDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
+     */
+    public void visit(AeFromDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
-    */
-   public void visit(AeToDef def)
-   {
-      visitExpressionDef(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
+     */
+    public void visit(AeToDef def) {
+        visitExpressionDef(def);
+        super.visit(def);
+    }
 
-   /**
-    * Called when an expression def is visited.
-    *
-    * @param aExpressionDef
-    */
-   protected abstract void visitExpressionDef(IAeExpressionDef aExpressionDef);
+    /**
+     * Called when an expression def is visited.
+     *
+     * @param aExpressionDef
+     */
+    protected abstract void visitExpressionDef(IAeExpressionDef aExpressionDef);
 }

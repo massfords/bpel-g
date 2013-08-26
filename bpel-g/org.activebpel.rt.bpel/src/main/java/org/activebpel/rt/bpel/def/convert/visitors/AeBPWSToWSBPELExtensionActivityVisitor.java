@@ -24,101 +24,88 @@ import org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef;
  * appropriate extension def for the break, suspend, and continue activities.  In addition, it
  * adds an extension def if a process level compensation handler exists.
  */
-public class AeBPWSToWSBPELExtensionActivityVisitor extends AeAbstractBPWSToWSBPELVisitor
-{
-   /**
-    * Constructor.
-    */
-   public AeBPWSToWSBPELExtensionActivityVisitor()
-   {
-      super();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
-    */
-   public void visit(AeCompensationHandlerDef def)
-   {
-      if (def.getParent() instanceof AeProcessDef)
-      {
-         addAeProcessCompensationExtensionDef();
-      }
-      super.visit(def);
-   }
+public class AeBPWSToWSBPELExtensionActivityVisitor extends AeAbstractBPWSToWSBPELVisitor {
+    /**
+     * Constructor.
+     */
+    public AeBPWSToWSBPELExtensionActivityVisitor() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
-    */
-   public void visit(AeActivityBreakDef def)
-   {
-      addAeActivityExtensionDef();
-      super.visit(def);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
-    */
-   public void visit(AeActivityContinueDef def)
-   {
-      addAeActivityExtensionDef();
-      super.visit(def);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
-    */
-   public void visit(AeActivitySuspendDef def)
-   {
-      addAeActivityExtensionDef();
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
+     */
+    public void visit(AeCompensationHandlerDef def) {
+        if (def.getParent() instanceof AeProcessDef) {
+            addAeProcessCompensationExtensionDef();
+        }
+        super.visit(def);
+    }
 
-   /**
-    * Adds an extension def to the list of extension defs for the standard Ae-Activity extension
-    * namespace.
-    */
-   protected void addAeProcessCompensationExtensionDef()
-   {
-      addExtensionDef(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ALLOW_PROCESS_COORDINATION);
-   }
-   
-   /**
-    * Adds an extension def to the list of extension defs for the standard Ae-Activity extension
-    * namespace.
-    */
-   protected void addAeActivityExtensionDef()
-   {
-      addExtensionDef(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
+     */
+    public void visit(AeActivityBreakDef def) {
+        addAeActivityExtensionDef();
+        super.visit(def);
+    }
 
-   /**
-    * Adds an extension def to the list of extension defs for the given namespace.
-    * 
-    * @param aNamespace
-    */
-   protected void addExtensionDef(String aNamespace)
-   {
-      AeExtensionsDef extensionsDef = getExtensionsDef();
-      if (!extensionsDef.hasExtensionDef(aNamespace))
-      {
-         AeExtensionDef extensionDef = new AeExtensionDef();
-         extensionDef.setNamespace(aNamespace);
-         extensionDef.setMustUnderstand(true);
-         extensionsDef.addExtensionDef(extensionDef);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
+     */
+    public void visit(AeActivityContinueDef def) {
+        addAeActivityExtensionDef();
+        super.visit(def);
+    }
 
-   /**
-    * Gets the extensions def from the process def.
-    */
-   protected AeExtensionsDef getExtensionsDef()
-   {
-      AeExtensionsDef extensionsDef = getProcessDef().getExtensionsDef();
-      if (extensionsDef == null)
-      {
-         extensionsDef = new AeExtensionsDef();
-         getProcessDef().setExtensionsDef(extensionsDef);
-      }
-      return extensionsDef;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
+     */
+    public void visit(AeActivitySuspendDef def) {
+        addAeActivityExtensionDef();
+        super.visit(def);
+    }
+
+    /**
+     * Adds an extension def to the list of extension defs for the standard Ae-Activity extension
+     * namespace.
+     */
+    protected void addAeProcessCompensationExtensionDef() {
+        addExtensionDef(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ALLOW_PROCESS_COORDINATION);
+    }
+
+    /**
+     * Adds an extension def to the list of extension defs for the standard Ae-Activity extension
+     * namespace.
+     */
+    protected void addAeActivityExtensionDef() {
+        addExtensionDef(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY);
+    }
+
+    /**
+     * Adds an extension def to the list of extension defs for the given namespace.
+     *
+     * @param aNamespace
+     */
+    protected void addExtensionDef(String aNamespace) {
+        AeExtensionsDef extensionsDef = getExtensionsDef();
+        if (!extensionsDef.hasExtensionDef(aNamespace)) {
+            AeExtensionDef extensionDef = new AeExtensionDef();
+            extensionDef.setNamespace(aNamespace);
+            extensionDef.setMustUnderstand(true);
+            extensionsDef.addExtensionDef(extensionDef);
+        }
+    }
+
+    /**
+     * Gets the extensions def from the process def.
+     */
+    protected AeExtensionsDef getExtensionsDef() {
+        AeExtensionsDef extensionsDef = getProcessDef().getExtensionsDef();
+        if (extensionsDef == null) {
+            extensionsDef = new AeExtensionsDef();
+            getProcessDef().setExtensionsDef(extensionsDef);
+        }
+        return extensionsDef;
+    }
 }

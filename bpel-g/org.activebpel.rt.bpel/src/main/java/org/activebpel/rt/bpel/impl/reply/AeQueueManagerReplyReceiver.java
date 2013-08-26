@@ -19,69 +19,60 @@ import org.activebpel.rt.message.IAeMessageData;
 
 /**
  * A reply receiver that delegates to a matching non-durable reply receiver
- * maintained by the queue manager. 
- *
+ * maintained by the queue manager.
  */
-public class AeQueueManagerReplyReceiver implements IAeReplyReceiver
-{
-   /** Reply receiver prototype. */;
-   private IAeReplyReceiver mDelegate;
-   
-   public AeQueueManagerReplyReceiver(IAeQueueManager aQueueManager, AeReply aReplyPrototype)
-   {      
-      // find the waiting reply from the queue manager. if a waiting reply is not found,
-      // then use a missing reply receiver.
-      AeReply waitingReply  = aQueueManager.removeReply(aReplyPrototype);
-      if (waitingReply != null)
-      {
-         setDelegate( waitingReply.getReplyReceiver() );  
-      }      
-      else
-      {
-         setDelegate ( new AeMissingReplyReceiver(aReplyPrototype.getReplyId()) );
-      }
-   }
-   
-   /**
-    * @param aDelegate The delegate to set.
-    */
-   protected void setDelegate(IAeReplyReceiver aDelegate)
-   {
-      mDelegate = aDelegate;
-   }
-   
-   /**
-    * @return Returns the delegate.
-    */
-   public IAeReplyReceiver getDelegate()
-   {
-      return mDelegate;
-   }
+public class AeQueueManagerReplyReceiver implements IAeReplyReceiver {
+    /** Reply receiver prototype. */
+    ;
+    private IAeReplyReceiver mDelegate;
+
+    public AeQueueManagerReplyReceiver(IAeQueueManager aQueueManager, AeReply aReplyPrototype) {
+        // find the waiting reply from the queue manager. if a waiting reply is not found,
+        // then use a missing reply receiver.
+        AeReply waitingReply = aQueueManager.removeReply(aReplyPrototype);
+        if (waitingReply != null) {
+            setDelegate(waitingReply.getReplyReceiver());
+        } else {
+            setDelegate(new AeMissingReplyReceiver(aReplyPrototype.getReplyId()));
+        }
+    }
+
+    /**
+     * @param aDelegate The delegate to set.
+     */
+    protected void setDelegate(IAeReplyReceiver aDelegate) {
+        mDelegate = aDelegate;
+    }
+
+    /**
+     * @return Returns the delegate.
+     */
+    public IAeReplyReceiver getDelegate() {
+        return mDelegate;
+    }
 
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onMessage(org.activebpel.rt.message.IAeMessageData, java.util.Map)
-    */
-   public void onMessage(IAeMessageData aMessage, Map<String,String> aProcessProperties) throws AeBusinessProcessException
-   {
-      getDelegate().onMessage(aMessage, aProcessProperties);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onMessage(org.activebpel.rt.message.IAeMessageData, java.util.Map)
+     */
+    public void onMessage(IAeMessageData aMessage, Map<String, String> aProcessProperties) throws AeBusinessProcessException {
+        getDelegate().onMessage(aMessage, aProcessProperties);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onFault(org.activebpel.rt.bpel.IAeFault, java.util.Map)
-    */
-   public void onFault(IAeFault aFault, Map<String,String> aProcessProperties) throws AeBusinessProcessException
-   {
-      getDelegate().onFault(aFault, aProcessProperties);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onFault(org.activebpel.rt.bpel.IAeFault, java.util.Map)
+     */
+    public void onFault(IAeFault aFault, Map<String, String> aProcessProperties) throws AeBusinessProcessException {
+        getDelegate().onFault(aFault, aProcessProperties);
+    }
 
-   /** 
-    * Overrides method to return null. 
-    * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#getDurableReplyInfo()
-    */
-   public IAeDurableReplyInfo getDurableReplyInfo()
-   {
-      return null;
-   }
+    /**
+     * Overrides method to return null.
+     *
+     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#getDurableReplyInfo()
+     */
+    public IAeDurableReplyInfo getDurableReplyInfo() {
+        return null;
+    }
 
 }

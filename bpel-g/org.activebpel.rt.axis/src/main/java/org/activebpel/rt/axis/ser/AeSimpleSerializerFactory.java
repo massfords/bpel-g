@@ -16,21 +16,19 @@ import org.apache.axis.encoding.ser.BaseSerializerFactory;
 /**
  * A custom serializer for derived simple types.
  */
-public class AeSimpleSerializerFactory extends BaseSerializerFactory
-{
+public class AeSimpleSerializerFactory extends BaseSerializerFactory {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 1798453046873645218L;
 
-/**
-    * Creates a serializer factory with the given xml and java types.
-    * 
-    * @param aXmlType
-    */
-   public AeSimpleSerializerFactory(QName aXmlType)
-   {
-      super(AeSimpleSerializer.class, aXmlType, AeSimpleValueWrapper.class);
-   }
+    /**
+     * Creates a serializer factory with the given xml and java types.
+     *
+     * @param aXmlType
+     */
+    public AeSimpleSerializerFactory(QName aXmlType) {
+        super(AeSimpleSerializer.class, aXmlType, AeSimpleValueWrapper.class);
+    }
 }

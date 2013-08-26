@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.wsio; 
+package org.activebpel.rt.bpel.def.validation.activity.wsio;
 
 import org.activebpel.rt.bpel.def.AeCorrelationsDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
@@ -15,15 +15,14 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * model provides validation for the correlations def
  */
-public class AeCorrelationsValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeCorrelationsValidator(AeCorrelationsDef aDef)
-   {
-      super(aDef);
-   }
+public class AeCorrelationsValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeCorrelationsValidator(AeCorrelationsDef aDef) {
+        super(aDef);
+    }
 }
  

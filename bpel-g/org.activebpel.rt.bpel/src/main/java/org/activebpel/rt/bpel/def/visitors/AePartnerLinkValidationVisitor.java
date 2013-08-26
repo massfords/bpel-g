@@ -14,41 +14,42 @@ import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 /**
  * Visitor used to determine if a partner link name is being used in an invoke.
  */
-public class AePartnerLinkValidationVisitor extends AeAbstractSearchVisitor
-{
-   /** The partner link name being validated */
-   private final String mPartnerLinkName;
-   /** Flag indicating if invoke reference was found */
-   private boolean mReferenceFound;
+public class AePartnerLinkValidationVisitor extends AeAbstractSearchVisitor {
+    /**
+     * The partner link name being validated
+     */
+    private final String mPartnerLinkName;
+    /**
+     * Flag indicating if invoke reference was found
+     */
+    private boolean mReferenceFound;
 
-   /**
-    * Constructor.
-    * @param aPartnerLinkName The partner link name we are validating
-    */
-   public AePartnerLinkValidationVisitor(String aPartnerLinkName)
-   {
-      mPartnerLinkName = aPartnerLinkName;
+    /**
+     * Constructor.
+     *
+     * @param aPartnerLinkName The partner link name we are validating
+     */
+    public AePartnerLinkValidationVisitor(String aPartnerLinkName) {
+        mPartnerLinkName = aPartnerLinkName;
 
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));      
-   }
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
-    */
-   public void visit(AeActivityInvokeDef def)
-   {
-      // fixme (MF) seems like this should be comparing location paths, not just the plink name. This isn't safe for BPEL 2.0 since plinks can be defined within scopes. 
-      if (def.getPartnerLinkDef() != null && mPartnerLinkName.equals(def.getPartnerLinkDef().getName()))
-         mReferenceFound = true;
-      
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
+     */
+    public void visit(AeActivityInvokeDef def) {
+        // fixme (MF) seems like this should be comparing location paths, not just the plink name. This isn't safe for BPEL 2.0 since plinks can be defined within scopes.
+        if (def.getPartnerLinkDef() != null && mPartnerLinkName.equals(def.getPartnerLinkDef().getName()))
+            mReferenceFound = true;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractSearchVisitor#isFound()
-    */
-   public boolean isFound()
-   {
-      return mReferenceFound;
-   }
+        super.visit(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractSearchVisitor#isFound()
+     */
+    public boolean isFound() {
+        return mReferenceFound;
+    }
 }

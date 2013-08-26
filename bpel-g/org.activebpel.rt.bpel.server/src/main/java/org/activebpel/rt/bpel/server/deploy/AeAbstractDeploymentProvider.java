@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.deploy; 
+package org.activebpel.rt.bpel.server.deploy;
 
 import javax.xml.namespace.QName;
 
@@ -17,29 +17,23 @@ import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 /**
  * Base class for deployment providers
  */
-public abstract class AeAbstractDeploymentProvider implements IAeDeploymentProvider
-{
-   /**
-    * @see org.activebpel.rt.bpel.server.IAeDeploymentProvider#findService(java.lang.String, javax.xml.namespace.QName, java.lang.String)
-    */
-   public AeRoutingInfo findService(String aService, QName aPortType, String aOperation) throws AeServiceNotFoundException, AeOperationNotImplementedException
-   {
-      AeRoutingInfo info = null;
-      try
-      {
-         info = getRoutingInfoByServiceName(aService);
-      }
-      catch (AeBusinessProcessException e)
-      {
-         throw new AeServiceNotFoundException(aService, e);
-      }
+public abstract class AeAbstractDeploymentProvider implements IAeDeploymentProvider {
+    /**
+     * @see org.activebpel.rt.bpel.server.IAeDeploymentProvider#findService(java.lang.String, javax.xml.namespace.QName, java.lang.String)
+     */
+    public AeRoutingInfo findService(String aService, QName aPortType, String aOperation) throws AeServiceNotFoundException, AeOperationNotImplementedException {
+        AeRoutingInfo info = null;
+        try {
+            info = getRoutingInfoByServiceName(aService);
+        } catch (AeBusinessProcessException e) {
+            throw new AeServiceNotFoundException(aService, e);
+        }
 
-      if (!info.isImplemented(aPortType, aOperation))
-      {
-         throw new AeOperationNotImplementedException(aService, aPortType, aOperation);
-      }
-      return info;
-   }
+        if (!info.isImplemented(aPortType, aOperation)) {
+            throw new AeOperationNotImplementedException(aService, aPortType, aOperation);
+        }
+        return info;
+    }
 
 }
  

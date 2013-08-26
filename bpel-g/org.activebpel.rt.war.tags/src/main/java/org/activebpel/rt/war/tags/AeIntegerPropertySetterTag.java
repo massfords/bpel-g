@@ -17,130 +17,119 @@ import org.activebpel.rt.util.AeUtil;
  * Tag that can use to set integer values in a bean.
  * This tag handles checking parameter string to make sure it is in a number
  * format before setting the parsed integer value.
- *
  */
-public class AeIntegerPropertySetterTag extends AeAbstractFormPropertyTag
-{
-   /**
-     * 
+public class AeIntegerPropertySetterTag extends AeAbstractFormPropertyTag {
+    /**
+     *
      */
     private static final long serialVersionUID = 8413734764691592247L;
-/**
-    * Indicates that a default value has been set.
-    */
-   private boolean mHasDefault;
-   /** The default value if the html form param value is invalid. */   
-   private int mDefault;
-   /** Minium value. */
-   private int mMin = Integer.MIN_VALUE;
-   /** Maximum value. */
-   private int mMax = Integer.MAX_VALUE;
-   
-   /**
-    * Sets the integer value if present and is a valid integer string.
-    * Otherwise, if given, a default value will be used.
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      Integer intObject = null;
-      if ( AeUtil.isNumber(getParamValue()) )
-      {
-         int n = getBoundedValue ( AeUtil.parseInt(getParamValue(),0) );
-         intObject = n;
-      }
-      else if ( isHasDefault() )
-      {
-         intObject = getBoundedValue(getDefault());
-      }
-      if (intObject != null)
-      {
-         setPropertyOnBean(intObject, int.class);
-      }
-      return SKIP_BODY;
-   }
+    /**
+     * Indicates that a default value has been set.
+     */
+    private boolean mHasDefault;
+    /**
+     * The default value if the html form param value is invalid.
+     */
+    private int mDefault;
+    /**
+     * Minium value.
+     */
+    private int mMin = Integer.MIN_VALUE;
+    /**
+     * Maximum value.
+     */
+    private int mMax = Integer.MAX_VALUE;
 
-   /**
-    * Returns the given number bounded by the min and max.
-    * @param aNumber
-    * @return bounded number
-    */
-   protected int getBoundedValue(int aNumber)
-   {
-      if (aNumber < getMin())
-      {
-         aNumber = getMin();
-      } 
-      else if (aNumber > getMax())
-      {
-         aNumber = getMax();
-      }
-      return aNumber;
-   }
+    /**
+     * Sets the integer value if present and is a valid integer string.
+     * Otherwise, if given, a default value will be used.
+     *
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        Integer intObject = null;
+        if (AeUtil.isNumber(getParamValue())) {
+            int n = getBoundedValue(AeUtil.parseInt(getParamValue(), 0));
+            intObject = n;
+        } else if (isHasDefault()) {
+            intObject = getBoundedValue(getDefault());
+        }
+        if (intObject != null) {
+            setPropertyOnBean(intObject, int.class);
+        }
+        return SKIP_BODY;
+    }
 
-   /**
-    * @return the default
-    */
-   public int getDefault()
-   {
-      return mDefault;
-   }
+    /**
+     * Returns the given number bounded by the min and max.
+     *
+     * @param aNumber
+     * @return bounded number
+     */
+    protected int getBoundedValue(int aNumber) {
+        if (aNumber < getMin()) {
+            aNumber = getMin();
+        } else if (aNumber > getMax()) {
+            aNumber = getMax();
+        }
+        return aNumber;
+    }
 
-   /**
-    * @param aDefault the default to set
-    */
-   public void setDefault(int aDefault)
-   {
-      setHasDefault(true);
-      mDefault = aDefault;
-   }
+    /**
+     * @return the default
+     */
+    public int getDefault() {
+        return mDefault;
+    }
+
+    /**
+     * @param aDefault the default to set
+     */
+    public void setDefault(int aDefault) {
+        setHasDefault(true);
+        mDefault = aDefault;
+    }
 
 
-   /**
-    * @return the hasDefault
-    */
-   protected boolean isHasDefault()
-   {
-      return mHasDefault;
-   }
+    /**
+     * @return the hasDefault
+     */
+    protected boolean isHasDefault() {
+        return mHasDefault;
+    }
 
-   /**
-    * @param aHasDefault the hasDefault to set
-    */
-   protected void setHasDefault(boolean aHasDefault)
-   {
-      mHasDefault = aHasDefault;
-   }
+    /**
+     * @param aHasDefault the hasDefault to set
+     */
+    protected void setHasDefault(boolean aHasDefault) {
+        mHasDefault = aHasDefault;
+    }
 
-   /**
-    * @return the max
-    */
-   public int getMax()
-   {
-      return mMax;
-   }
+    /**
+     * @return the max
+     */
+    public int getMax() {
+        return mMax;
+    }
 
-   /**
-    * @param aMax the max to set
-    */
-   public void setMax(int aMax)
-   {
-      mMax = aMax;
-   }
+    /**
+     * @param aMax the max to set
+     */
+    public void setMax(int aMax) {
+        mMax = aMax;
+    }
 
-   /**
-    * @return the min
-    */
-   public int getMin()
-   {
-      return mMin;
-   }
+    /**
+     * @return the min
+     */
+    public int getMin() {
+        return mMin;
+    }
 
-   /**
-    * @param aMin the min to set
-    */
-   public void setMin(int aMin)
-   {
-      mMin = aMin;
-   }   
+    /**
+     * @param aMin the min to set
+     */
+    public void setMin(int aMin) {
+        mMin = aMin;
+    }
 }

@@ -22,41 +22,38 @@ import org.apache.commons.dbutils.ResultSetHandler;
 /**
  * Resultset handler which creates and returns a list of IAeCoordinating objects.
  */
-public class AeSQLCoordinatingListResultSetHandler implements ResultSetHandler<List<IAeCoordinating>>
-{
-   /** The coordination manager. */
-   private final IAeCoordinationManager mManager;
+public class AeSQLCoordinatingListResultSetHandler implements ResultSetHandler<List<IAeCoordinating>> {
+    /**
+     * The coordination manager.
+     */
+    private final IAeCoordinationManager mManager;
 
-   /**
-    * Constructor.
-    *
-    * @param aManager
-    */
-   public AeSQLCoordinatingListResultSetHandler(IAeCoordinationManager aManager)
-   {
-      mManager = aManager;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aManager
+     */
+    public AeSQLCoordinatingListResultSetHandler(IAeCoordinationManager aManager) {
+        mManager = aManager;
+    }
 
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public List<IAeCoordinating> handle(ResultSet aResultSet) throws SQLException
-   {
-      List<IAeCoordinating> results = new ArrayList<>();
-      // Iterate through rows
-      while (aResultSet.next())
-      {
-         results.add(readRow(aResultSet));
-      }      
-      return results;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
-    */
-   protected IAeCoordinating readRow(ResultSet aResultSet) throws SQLException
-   {
-      return AeSQLCoordinatingResultSetHandler.createCoordinating(aResultSet, mManager);
-   }
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public List<IAeCoordinating> handle(ResultSet aResultSet) throws SQLException {
+        List<IAeCoordinating> results = new ArrayList<>();
+        // Iterate through rows
+        while (aResultSet.next()) {
+            results.add(readRow(aResultSet));
+        }
+        return results;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
+     */
+    protected IAeCoordinating readRow(ResultSet aResultSet) throws SQLException {
+        return AeSQLCoordinatingResultSetHandler.createCoordinating(aResultSet, mManager);
+    }
 
 }

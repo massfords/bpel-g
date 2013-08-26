@@ -16,24 +16,23 @@ package org.activebpel.wsio.invoke;
  * </p>
  * The prepare method is first called by the engine, and if this
  * method returns true, then the handleInvoke method is called,
- * asynchronous to the current execution thread. 
- *
+ * asynchronous to the current execution thread.
  */
-public interface IAeTwoPhaseInvokeHandler extends IAeInvokeHandler
-{
-   /**
-    * <p>
-    * Lets the handler prepare for the invoke. This method is called prior
-    * to the handleInvoke method. If this method returns true, then the handleInvoke
-    * will be called. 
-    * </p>
-    * <p>
-    * This method is called in the same execution thread as the invoke activity.
-    * How ever, the handleInvoke may be called asynchronously.
-    * </p> 
-    * @param aInvoke web service invoke. 
-    * @param aQueryData
-    * @return true if successful.
-    */
-   public boolean prepare(IAeInvoke aInvoke, String aQueryData ) throws AeInvokePrepareException;
+public interface IAeTwoPhaseInvokeHandler extends IAeInvokeHandler {
+    /**
+     * <p>
+     * Lets the handler prepare for the invoke. This method is called prior
+     * to the handleInvoke method. If this method returns true, then the handleInvoke
+     * will be called.
+     * </p>
+     * <p>
+     * This method is called in the same execution thread as the invoke activity.
+     * How ever, the handleInvoke may be called asynchronously.
+     * </p>
+     *
+     * @param aInvoke    web service invoke.
+     * @param aQueryData
+     * @return true if successful.
+     */
+    public boolean prepare(IAeInvoke aInvoke, String aQueryData) throws AeInvokePrepareException;
 }

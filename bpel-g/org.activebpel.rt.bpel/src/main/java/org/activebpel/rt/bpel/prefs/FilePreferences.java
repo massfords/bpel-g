@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 /**
  * Preferences implementation that stores to a user-defined file. See
  * FilePreferencesFactory.
- * 
+ *
  * @author David Croft (<a href="http://www.davidc.net">www.davidc.net</a>)
  * @version $Id: FilePreferences.java 283 2009-06-18 17:06:58Z david $
  */

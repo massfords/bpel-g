@@ -20,44 +20,50 @@ import bpelg.services.deploy.types.catalog.Catalog;
 /**
  * Represents the strategy for accessing resources within a bpr deployment.
  */
-public interface IAeBprAccessor
-{
-   /** Catalog xml file location - the catalog file has resource names and locations in the bpr file which should be added to the global catalog */
-   public static final String CATALOG = "META-INF/catalog.xml"; //$NON-NLS-1$
-   
-   /**
-    * Initialize the bpr strategy. 
-    * @throws AeException
-    */
-   public void init() throws AeException;
-   
-   /**
-    * Return the collection of pdd resource names.
-    */
-   public Collection<AePddResource> getPddResources();
-   
-   /**
-    * Return the catalog xml file <code>Document</code>.
-    * @throws AeException
-    */
-   public Catalog getCatalogDocument() throws AeException;
-   
-   /**
-    * Return true if the bpr has access to this resource.
-    * @param aResourceName
-    */
-   public boolean hasResource( String aResourceName );
-   
-   /**
-    * Get the <code>InputStream</code> to the named resource.
-    * @param aResourceName
-    */
-   public InputStream getResourceAsStream( String aResourceName );
-   
-   /**
-    * Access the named resource as a <code>Document</code>.
-    * @param aResourceName
-    * @throws AeException
-    */
-   public Document getResourceAsDocument( String aResourceName ) throws AeException;
+public interface IAeBprAccessor {
+    /**
+     * Catalog xml file location - the catalog file has resource names and locations in the bpr file which should be added to the global catalog
+     */
+    public static final String CATALOG = "META-INF/catalog.xml"; //$NON-NLS-1$
+
+    /**
+     * Initialize the bpr strategy.
+     *
+     * @throws AeException
+     */
+    public void init() throws AeException;
+
+    /**
+     * Return the collection of pdd resource names.
+     */
+    public Collection<AePddResource> getPddResources();
+
+    /**
+     * Return the catalog xml file <code>Document</code>.
+     *
+     * @throws AeException
+     */
+    public Catalog getCatalogDocument() throws AeException;
+
+    /**
+     * Return true if the bpr has access to this resource.
+     *
+     * @param aResourceName
+     */
+    public boolean hasResource(String aResourceName);
+
+    /**
+     * Get the <code>InputStream</code> to the named resource.
+     *
+     * @param aResourceName
+     */
+    public InputStream getResourceAsStream(String aResourceName);
+
+    /**
+     * Access the named resource as a <code>Document</code>.
+     *
+     * @param aResourceName
+     * @throws AeException
+     */
+    public Document getResourceAsDocument(String aResourceName) throws AeException;
 }

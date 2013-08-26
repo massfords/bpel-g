@@ -18,22 +18,21 @@ import org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef;
 /**
  * Defs that can have a fromParts child construct will implement this interface.
  */
-public interface IAeFromPartsParentDef
-{
-   /**
-    * Sets the fromParts on the activity.
-    * 
-    * @param aDef
-    */
-   public void setFromPartsDef(AeFromPartsDef aDef);
-   
-   /**
-    * Gets the fromParts def from the activity.
-    */
-   public AeFromPartsDef getFromPartsDef();
+public interface IAeFromPartsParentDef {
+    /**
+     * Sets the fromParts on the activity.
+     *
+     * @param aDef
+     */
+    public void setFromPartsDef(AeFromPartsDef aDef);
 
-   /**
-    * Gets an iterator over the list of fromPart defs.
-    */
-   public Iterator<? extends AeFromPartDef> getFromPartDefs();
+    /**
+     * Gets the fromParts def from the activity.
+     */
+    public AeFromPartsDef getFromPartsDef();
+
+    /**
+     * Gets an iterator over the list of fromPart defs.
+     */
+    public Iterator<? extends AeFromPartDef> getFromPartDefs();
 }

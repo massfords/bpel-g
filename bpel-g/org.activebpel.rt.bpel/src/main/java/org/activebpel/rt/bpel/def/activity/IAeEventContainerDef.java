@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity; 
+package org.activebpel.rt.bpel.def.activity;
 
 import java.util.Iterator;
 
@@ -16,17 +16,16 @@ import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
 /**
  * Interface for &lt;eventHandlers&gt;.
  */
-public interface IAeEventContainerDef extends IAeAlarmParentDef
-{
-   /**
-    * Gets an iterator over the onEvent defs.
-    */
-   public Iterator getOnEventDefs();
+public interface IAeEventContainerDef extends IAeAlarmParentDef {
+    /**
+     * Gets an iterator over the onEvent defs.
+     */
+    public Iterator getOnEventDefs();
 
-   /**
-    * Adds the event.
-    * 
-    * @param aEvent
-    */
-   public void addOnEventDef(AeOnEventDef aEvent);
+    /**
+     * Adds the event.
+     *
+     * @param aEvent
+     */
+    public void addOnEventDef(AeOnEventDef aEvent);
 }

@@ -8,8 +8,9 @@
        http://bpel-g.googlecode.com/svn/trunk/bpel-g/org.activebpel.rt.bpel/src/main/resources/springext-bpel.xsd">
 
     <bpelg:functionValidatorFactory id="factory">
-        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
-             name="ws-bpel:getVariableProperty"/>
+        <bpelg:validator
+                class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
+                name="ws-bpel:getVariableProperty"/>
     </bpelg:functionValidatorFactory>
 
 </beans>

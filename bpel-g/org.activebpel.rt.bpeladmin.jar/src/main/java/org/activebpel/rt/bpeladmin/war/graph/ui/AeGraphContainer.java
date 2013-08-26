@@ -22,133 +22,131 @@ import java.util.List;
  * controllers and figures given the root controller. The controller factory is
  * used to create the child controls.
  */
-public class AeGraphContainer extends AeGraphFigure
-{
-   /**
-     * 
+public class AeGraphContainer extends AeGraphFigure {
+    /**
+     *
      */
     private static final long serialVersionUID = 3801063817740040404L;
-/** Controller factory */
-   private IAeGraphControllerFactory mControllerFactory = null;
-   /** The root or top level controller */
-   private IAeGraphController mRootController = null;
-   /** The view associated with the root controller. */
-   private AeGraphFigure mFigure = null;
+    /**
+     * Controller factory
+     */
+    private IAeGraphControllerFactory mControllerFactory = null;
+    /**
+     * The root or top level controller
+     */
+    private IAeGraphController mRootController = null;
+    /**
+     * The view associated with the root controller.
+     */
+    private AeGraphFigure mFigure = null;
 
-   /**
-    * Creates the graph container.
-    * @param aFactory factory responsible for creating child controllers.
-    */
-   public AeGraphContainer(IAeGraphControllerFactory aFactory)
-   {
-      this(null, aFactory);
-   }
+    /**
+     * Creates the graph container.
+     *
+     * @param aFactory factory responsible for creating child controllers.
+     */
+    public AeGraphContainer(IAeGraphControllerFactory aFactory) {
+        this(null, aFactory);
+    }
 
-   /**
-    * Creates the graph container.
-    * @param aName name of container.
-    * @param aFactory factory responsible for creating child controllers.
-    */
-   public AeGraphContainer(String aName, IAeGraphControllerFactory aFactory)
-   {
-      super(aName);
-      setLayout (new BorderLayout());
-      setControllerFactory(aFactory);
-   }
+    /**
+     * Creates the graph container.
+     *
+     * @param aName    name of container.
+     * @param aFactory factory responsible for creating child controllers.
+     */
+    public AeGraphContainer(String aName, IAeGraphControllerFactory aFactory) {
+        super(aName);
+        setLayout(new BorderLayout());
+        setControllerFactory(aFactory);
+    }
 
-   /**
-    * Mutator to set the factory.
-    * @param aFactory
-    */
-   protected void setControllerFactory(IAeGraphControllerFactory aFactory)
-   {
-      mControllerFactory = aFactory;
-   }
+    /**
+     * Mutator to set the factory.
+     *
+     * @param aFactory
+     */
+    protected void setControllerFactory(IAeGraphControllerFactory aFactory) {
+        mControllerFactory = aFactory;
+    }
 
-   /** 
-    * @return The controller part factory.
-    */
-   public IAeGraphControllerFactory getControllerFactory()
-   {
-      return mControllerFactory;
-   }
+    /**
+     * @return The controller part factory.
+     */
+    public IAeGraphControllerFactory getControllerFactory() {
+        return mControllerFactory;
+    }
 
-   /**
-    * Sets the root controller. Setting the root controller creates the hiearchical system of MVCs. 
-    * @param aController
-    */
-   public void setRootController(IAeGraphController aController)
-   {
-      mRootController = aController;
-      initializeMvc();
-   }
+    /**
+     * Sets the root controller. Setting the root controller creates the hiearchical system of MVCs.
+     *
+     * @param aController
+     */
+    public void setRootController(IAeGraphController aController) {
+        mRootController = aController;
+        initializeMvc();
+    }
 
-   /**
-    * @return The root controller associated with this container.
-    */
-   public IAeGraphController getRootController()
-   {
-      return mRootController;
-   }
+    /**
+     * @return The root controller associated with this container.
+     */
+    public IAeGraphController getRootController() {
+        return mRootController;
+    }
 
-   /**
-    * Recursively creates and adds the controllers based on the root controller's hierarchy.
-    */
-   protected void initializeMvc()
-   {
-      if (getRootController() == null)
-      {
-         throw new NullPointerException("Root edit part is null"); //$NON-NLS-1$
-      }
+    /**
+     * Recursively creates and adds the controllers based on the root controller's hierarchy.
+     */
+    protected void initializeMvc() {
+        if (getRootController() == null) {
+            throw new NullPointerException("Root edit part is null"); //$NON-NLS-1$
+        }
 
-      IAeGraphController root = getRootController();
-      // create main container for the root.
-      mFigure = root.getFigure();
-      
-      // recursively create and add container
-      AeGraphFigure panel = new AeGraphFigure();
-      addChildrenUI(panel, mFigure,root);
-      add(panel);
-   }
+        IAeGraphController root = getRootController();
+        // create main container for the root.
+        mFigure = root.getFigure();
 
-   /**
-    * Recursively creates the MVC.
-    * @param aParentContainer
-    * @param aChild
-    * @param aParentController
-    */
-   protected void addChildrenUI(AeGraphFigure aParentContainer, AeGraphFigure aChild, IAeGraphController aParentController)
-   {
-      if (aParentContainer == this)
-      {
-         add(aChild, BorderLayout.CENTER);
-      }
-      else
-      {
-         aParentContainer.add(aChild);
-      }
-      
-      List modelList = aParentController.getModelChildren();
-       for (Object model : modelList) {
-           IAeGraphController controller = createController(aParentController, model);
-           if (controller == null) {
-               continue;
-           }
-           AeGraphFigure contentFigure = aParentController.getContentFigure();
-           AeGraphFigure figure = controller.getFigure();
-           addChildrenUI(contentFigure, figure, controller);
-           aParentController.addChild(controller);
-       }
-   }
+        // recursively create and add container
+        AeGraphFigure panel = new AeGraphFigure();
+        addChildrenUI(panel, mFigure, root);
+        add(panel);
+    }
 
-   /**
-    * Convenience method to create a controller for the given model and context.
-    * @param aContext
-    * @param aModel model to be associated with the controller.
-    * @return controller
-    */
-   protected IAeGraphController createController(IAeGraphController aContext, Object aModel)
-   {
-      return mControllerFactory.createController(aContext, aModel);
-   }
+    /**
+     * Recursively creates the MVC.
+     *
+     * @param aParentContainer
+     * @param aChild
+     * @param aParentController
+     */
+    protected void addChildrenUI(AeGraphFigure aParentContainer, AeGraphFigure aChild, IAeGraphController aParentController) {
+        if (aParentContainer == this) {
+            add(aChild, BorderLayout.CENTER);
+        } else {
+            aParentContainer.add(aChild);
+        }
+
+        List modelList = aParentController.getModelChildren();
+        for (Object model : modelList) {
+            IAeGraphController controller = createController(aParentController, model);
+            if (controller == null) {
+                continue;
+            }
+            AeGraphFigure contentFigure = aParentController.getContentFigure();
+            AeGraphFigure figure = controller.getFigure();
+            addChildrenUI(contentFigure, figure, controller);
+            aParentController.addChild(controller);
+        }
+    }
+
+    /**
+     * Convenience method to create a controller for the given model and context.
+     *
+     * @param aContext
+     * @param aModel   model to be associated with the controller.
+     * @return controller
+     */
+    protected IAeGraphController createController(IAeGraphController aContext, Object aModel) {
+        return mControllerFactory.createController(aContext, aModel);
+    }
 }

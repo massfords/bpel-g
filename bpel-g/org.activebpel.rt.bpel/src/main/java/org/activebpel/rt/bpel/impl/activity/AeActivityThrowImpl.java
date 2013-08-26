@@ -21,61 +21,51 @@ import org.w3c.dom.Element;
 /**
  * Implementation of the bpel throw activity.
  */
-public class AeActivityThrowImpl extends AeActivityImpl
-{
-   /** default constructor for activity */
-   public AeActivityThrowImpl(AeActivityThrowDef aActivityDef, IAeActivityParent aParent)
-   {
-      super(aActivityDef, aParent);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept( IAeImplVisitor aVisitor ) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      super.execute();
-      AeActivityThrowDef def = (AeActivityThrowDef) getDefinition();
-      AeFault fault = null;
-      if(getFaultVariable() != null)
-      {
-         if (getFaultVariable().isMessageType())
-         {
-            fault = new AeFault(def.getFaultName(), getFaultVariable().getMessageData()); 
-         }
-         else
-         {
-            fault = new AeFault(def.getFaultName(), getFaultVariable().getElementData());
-         }
-      }
-      else
-      {
-         fault = new AeFault(def.getFaultName(), (Element)null);
-      }
-      objectCompletedWithFault(fault);
-   }
-   
-   /**
-    * Returns the variable for use in the throw or null if one wasn't part of the
-    * definition.
-    */
-   private IAeVariable getFaultVariable()
-   {
-      AeActivityThrowDef def = (AeActivityThrowDef) getDefinition();
-      String variableName = def.getFaultVariable();
-      if ( ! AeUtil.isNullOrEmpty(variableName))
-      {
-         return findVariable(variableName);
-      }
-      return null;
-   }
+public class AeActivityThrowImpl extends AeActivityImpl {
+    /**
+     * default constructor for activity
+     */
+    public AeActivityThrowImpl(AeActivityThrowDef aActivityDef, IAeActivityParent aParent) {
+        super(aActivityDef, aParent);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        super.execute();
+        AeActivityThrowDef def = (AeActivityThrowDef) getDefinition();
+        AeFault fault = null;
+        if (getFaultVariable() != null) {
+            if (getFaultVariable().isMessageType()) {
+                fault = new AeFault(def.getFaultName(), getFaultVariable().getMessageData());
+            } else {
+                fault = new AeFault(def.getFaultName(), getFaultVariable().getElementData());
+            }
+        } else {
+            fault = new AeFault(def.getFaultName(), (Element) null);
+        }
+        objectCompletedWithFault(fault);
+    }
+
+    /**
+     * Returns the variable for use in the throw or null if one wasn't part of the
+     * definition.
+     */
+    private IAeVariable getFaultVariable() {
+        AeActivityThrowDef def = (AeActivityThrowDef) getDefinition();
+        String variableName = def.getFaultVariable();
+        if (!AeUtil.isNullOrEmpty(variableName)) {
+            return findVariable(variableName);
+        }
+        return null;
+    }
 
 }

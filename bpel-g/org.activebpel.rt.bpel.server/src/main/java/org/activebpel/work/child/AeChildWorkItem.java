@@ -23,254 +23,233 @@ import java.util.Collection;
  * return a <code>RemoteWorkItem</code> when a <code>Serializable</code>
  * <code>Work</code> object is scheduled.
  */
-public class AeChildWorkItem implements RemoteWorkItem
-{
-   /**
-    * Next available item id.
-    *
-    * @see #mItemId
-    */
-   private static long sNextItemId = 0L;
+public class AeChildWorkItem implements RemoteWorkItem {
+    /**
+     * Next available item id.
+     *
+     * @see #mItemId
+     */
+    private static long sNextItemId = 0L;
 
-   /** The <code>Work</code> to schedule. */
-   private final Work mWork;
+    /**
+     * The <code>Work</code> to schedule.
+     */
+    private final Work mWork;
 
-   /** Associated <code>WorkListener</code>; may be <code>null</code>. */
-   private final WorkListener mWorkListener;
+    /**
+     * Associated <code>WorkListener</code>; may be <code>null</code>.
+     */
+    private final WorkListener mWorkListener;
 
-   /** The <code>WorkManager</code> executing the scheduled <code>Work</code>. */
-   private final WorkManager mPinnedWorkManager;
+    /**
+     * The <code>WorkManager</code> executing the scheduled <code>Work</code>.
+     */
+    private final WorkManager mPinnedWorkManager;
 
-   /** Item id for {@link #equals(Object)}, {@link #hashCode()}, and {@link #compareTo(Object)}. */
-   private final Long mItemId;
+    /**
+     * Item id for {@link #equals(Object)}, {@link #hashCode()}, and {@link #compareTo(Object)}.
+     */
+    private final Long mItemId;
 
-   /**
-    * Work completed listeners. Generally, the only listener will be the child
-    * work manager that created this item.
-    */
-   private final Collection<IAeChildWorkCompletedListener> mWorkCompletedListeners = new ArrayList<>(1);
+    /**
+     * Work completed listeners. Generally, the only listener will be the child
+     * work manager that created this item.
+     */
+    private final Collection<IAeChildWorkCompletedListener> mWorkCompletedListeners = new ArrayList<>(1);
 
-   /**
-    * <code>true</code> if and only if the associated work is completed.
-    */
-   private boolean mIsWorkCompleted;
+    /**
+     * <code>true</code> if and only if the associated work is completed.
+     */
+    private boolean mIsWorkCompleted;
 
-   /**
-    * The scheduled <code>WorkItem</code> or <code>null</code> if the
-    * <code>Work</code> has not yet been scheduled.
-    */
-   private WorkItem mScheduledWorkItem;
+    /**
+     * The scheduled <code>WorkItem</code> or <code>null</code> if the
+     * <code>Work</code> has not yet been scheduled.
+     */
+    private WorkItem mScheduledWorkItem;
 
-   /**
-    * Constructor.
-    *
-    * @param aWork
-    * @param aPinnedWorkManager
-    */
-   public AeChildWorkItem(Work aWork, WorkListener aWorkListener, WorkManager aPinnedWorkManager)
-   {
-      mWork = new AeChildWork(aWork);
-      mWorkListener = aWorkListener;
-      mPinnedWorkManager = aPinnedWorkManager;
-      mItemId = getNextItemId();
-   }
+    /**
+     * Constructor.
+     *
+     * @param aWork
+     * @param aPinnedWorkManager
+     */
+    public AeChildWorkItem(Work aWork, WorkListener aWorkListener, WorkManager aPinnedWorkManager) {
+        mWork = new AeChildWork(aWork);
+        mWorkListener = aWorkListener;
+        mPinnedWorkManager = aPinnedWorkManager;
+        mItemId = getNextItemId();
+    }
 
-   /**
-    * Adds a work completed listener.
-    *
-    * @param aListener
-    */
-   public void addChildWorkCompletedListener(IAeChildWorkCompletedListener aListener)
-   {
-      synchronized (mWorkCompletedListeners)
-      {
-         mWorkCompletedListeners.add(aListener);
-      }
-   }
+    /**
+     * Adds a work completed listener.
+     *
+     * @param aListener
+     */
+    public void addChildWorkCompletedListener(IAeChildWorkCompletedListener aListener) {
+        synchronized (mWorkCompletedListeners) {
+            mWorkCompletedListeners.add(aListener);
+        }
+    }
 
-   /**
-    * @return this item's id
-    */
-   protected Long getItemId()
-   {
-      return mItemId;
-   }
+    /**
+     * @return this item's id
+     */
+    protected Long getItemId() {
+        return mItemId;
+    }
 
-   /**
-    * @return the next available item id
-    *
-    * @see #getItemId()
-    */
-   protected synchronized static Long getNextItemId()
-   {
-      return sNextItemId++;
-   }
+    /**
+     * @return the next available item id
+     * @see #getItemId()
+     */
+    protected synchronized static Long getNextItemId() {
+        return sNextItemId++;
+    }
 
-   /**
-    * @return the scheduled <code>WorkItem</code> or <code>null</code> if the <code>Work</code> has not yet been scheduled
-    */
-   protected WorkItem getScheduledWorkItem()
-   {
-      return mScheduledWorkItem;
-   }
+    /**
+     * @return the scheduled <code>WorkItem</code> or <code>null</code> if the <code>Work</code> has not yet been scheduled
+     */
+    protected WorkItem getScheduledWorkItem() {
+        return mScheduledWorkItem;
+    }
 
-   /**
-    * @return the <code>Work</code> to schedule
-    */
-   protected Work getWork()
-   {
-      return mWork;
-   }
+    /**
+     * @return the <code>Work</code> to schedule
+     */
+    protected Work getWork() {
+        return mWork;
+    }
 
-   /**
-    * @return associated <code>WorkListener</code>, which may be <code>null</code>
-    */
-   protected WorkListener getWorkListener()
-   {
-      return mWorkListener;
-   }
+    /**
+     * @return associated <code>WorkListener</code>, which may be <code>null</code>
+     */
+    protected WorkListener getWorkListener() {
+        return mWorkListener;
+    }
 
-   /**
-    * @return <code>true</code> if and only if the associated work is completed
-    */
-   public boolean isWorkCompleted()
-   {
-      return mIsWorkCompleted;
-   }
+    /**
+     * @return <code>true</code> if and only if the associated work is completed
+     */
+    public boolean isWorkCompleted() {
+        return mIsWorkCompleted;
+    }
 
-   /**
-    * Notifies all work completed listeners that the work has completed.
-    */
-   protected void notifyChildWorkCompletedListeners()
-   {
-      synchronized (mWorkCompletedListeners)
-      {
-          for (IAeChildWorkCompletedListener l : mWorkCompletedListeners) {
-              try {
-                  l.workCompleted(this);
-              } catch (Throwable t) {
-                  AeException.logError(t);
-              }
-          }
-      }
-   }
+    /**
+     * Notifies all work completed listeners that the work has completed.
+     */
+    protected void notifyChildWorkCompletedListeners() {
+        synchronized (mWorkCompletedListeners) {
+            for (IAeChildWorkCompletedListener l : mWorkCompletedListeners) {
+                try {
+                    l.workCompleted(this);
+                } catch (Throwable t) {
+                    AeException.logError(t);
+                }
+            }
+        }
+    }
 
-   /**
-    * Sets the actual <code>WorkItem</code> returned by a
-    * <code>WorkManager</code> when this item's <code>Work</code> is scheduled.
-    */
-   protected void setScheduledWorkItem(WorkItem aScheduledWorkItem)
-   {
-      mScheduledWorkItem = aScheduledWorkItem;
-   }
+    /**
+     * Sets the actual <code>WorkItem</code> returned by a
+     * <code>WorkManager</code> when this item's <code>Work</code> is scheduled.
+     */
+    protected void setScheduledWorkItem(WorkItem aScheduledWorkItem) {
+        mScheduledWorkItem = aScheduledWorkItem;
+    }
 
-   /**
-    * Called when the work is completed. 
-    */
-   protected void workCompleted()
-   {
-      mIsWorkCompleted = true;
-      
-      notifyChildWorkCompletedListeners();
-   }
+    /**
+     * Called when the work is completed.
+     */
+    protected void workCompleted() {
+        mIsWorkCompleted = true;
 
-   /**
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object aOther)
-   {
-      return this == aOther;
-   }
+        notifyChildWorkCompletedListeners();
+    }
 
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return getItemId().hashCode();
-   }
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object aOther) {
+        return this == aOther;
+    }
 
-   /**
-    * @see java.lang.Comparable#compareTo(java.lang.Object)
-    */
-   public int compareTo(Object aOther)
-   {
-      Long otherItemId = ((AeChildWorkItem) aOther).getItemId();
-      return getItemId().compareTo(otherItemId);
-   }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return getItemId().hashCode();
+    }
 
-   /**
-    * @see commonj.work.WorkItem#getResult()
-    */
-   public Work getResult()
-   {
-      Work result = (getScheduledWorkItem() == null) ? null : getScheduledWorkItem().getResult();
+    /**
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(Object aOther) {
+        Long otherItemId = ((AeChildWorkItem) aOther).getItemId();
+        return getItemId().compareTo(otherItemId);
+    }
 
-      if (result instanceof AeChildWork)
-      {
-         result = ((AeChildWork) result).getDelegateWork();
-      }
+    /**
+     * @see commonj.work.WorkItem#getResult()
+     */
+    public Work getResult() {
+        Work result = (getScheduledWorkItem() == null) ? null : getScheduledWorkItem().getResult();
 
-      return result;
-   }
+        if (result instanceof AeChildWork) {
+            result = ((AeChildWork) result).getDelegateWork();
+        }
 
-   /**
-    * @see commonj.work.WorkItem#getStatus()
-    */
-   public int getStatus()
-   {
-      return (getScheduledWorkItem() == null) ? WorkEvent.WORK_ACCEPTED : getScheduledWorkItem().getStatus();
-   }
+        return result;
+    }
 
-   /**
-    * @see commonj.work.RemoteWorkItem#getPinnedWorkManager()
-    */
-   public WorkManager getPinnedWorkManager()
-   {
-      return mPinnedWorkManager;
-   }
+    /**
+     * @see commonj.work.WorkItem#getStatus()
+     */
+    public int getStatus() {
+        return (getScheduledWorkItem() == null) ? WorkEvent.WORK_ACCEPTED : getScheduledWorkItem().getStatus();
+    }
 
-   /**
-    * @see commonj.work.RemoteWorkItem#release()
-    */
-   public void release()
-   {
-      getWork().release();
-   }
+    /**
+     * @see commonj.work.RemoteWorkItem#getPinnedWorkManager()
+     */
+    public WorkManager getPinnedWorkManager() {
+        return mPinnedWorkManager;
+    }
 
-   /**
-    * Extends {@link AeDelegatingWork} to notify this child work item when the
-    * <code>Work</code> has completed. We use this <code>Work</code> wrapper
-    * instead of a <code>WorkListener</code> to guarantee notification even if
-    * the parent work manager implementation is not absolutely reliable about
-    * firing work completed events.
-    */
-   protected class AeChildWork extends AeDelegatingWork implements Work
-   {
-      /**
-       * Constructor.
-       *
-       * @param aDelegateWork
-       */
-      public AeChildWork(Work aDelegateWork)
-      {
-         super(aDelegateWork);
-      }
+    /**
+     * @see commonj.work.RemoteWorkItem#release()
+     */
+    public void release() {
+        getWork().release();
+    }
 
-      /**
-       * @see java.lang.Runnable#run()
-       */
-      public void run()
-      {
-         try
-         {
-            super.run();
-         }
-         finally
-         {
-            // Notify the work item that the work is completed.
-            workCompleted();
-         }
-      }
-   }
+    /**
+     * Extends {@link AeDelegatingWork} to notify this child work item when the
+     * <code>Work</code> has completed. We use this <code>Work</code> wrapper
+     * instead of a <code>WorkListener</code> to guarantee notification even if
+     * the parent work manager implementation is not absolutely reliable about
+     * firing work completed events.
+     */
+    protected class AeChildWork extends AeDelegatingWork implements Work {
+        /**
+         * Constructor.
+         *
+         * @param aDelegateWork
+         */
+        public AeChildWork(Work aDelegateWork) {
+            super(aDelegateWork);
+        }
+
+        /**
+         * @see java.lang.Runnable#run()
+         */
+        public void run() {
+            try {
+                super.run();
+            } finally {
+                // Notify the work item that the work is completed.
+                workCompleted();
+            }
+        }
+    }
 }

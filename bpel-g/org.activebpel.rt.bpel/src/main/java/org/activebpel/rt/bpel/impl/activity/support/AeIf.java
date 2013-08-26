@@ -19,30 +19,27 @@ import org.activebpel.rt.bpel.impl.activity.AeActivityIfImpl;
 /**
  * An implementation object for the first boolean clause of an if activity.
  */
-public class AeIf extends AeElseIf
-{
-   /**
-    * Constructs the if object.
-    * 
-    * @param aDef
-    * @param aParent
-    */
-   public AeIf(AeIfDef aDef, AeActivityIfImpl aParent)
-   {
-      super(aDef, aParent);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeElseIf#fireEvalEvent(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef, boolean)
-    */
-   protected void fireEvalEvent(AeElseIfDef aDef, boolean aResult)
-   {
-	   AeProcessInfoEventType eventId = AeProcessInfoEventType.InfoIf;
-      if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(getProcess().getBPELNamespace()))
-         eventId = AeProcessInfoEventType.InfoCase;
+public class AeIf extends AeElseIf {
+    /**
+     * Constructs the if object.
+     *
+     * @param aDef
+     * @param aParent
+     */
+    public AeIf(AeIfDef aDef, AeActivityIfImpl aParent) {
+        super(aDef, aParent);
+    }
 
-      getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
-            aDef.getConditionDef().getExpression(), eventId, getLocationPath(),
-            Boolean.toString(aResult));
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeElseIf#fireEvalEvent(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef, boolean)
+     */
+    protected void fireEvalEvent(AeElseIfDef aDef, boolean aResult) {
+        AeProcessInfoEventType eventId = AeProcessInfoEventType.InfoIf;
+        if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(getProcess().getBPELNamespace()))
+            eventId = AeProcessInfoEventType.InfoCase;
+
+        getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
+                aDef.getConditionDef().getExpression(), eventId, getLocationPath(),
+                Boolean.toString(aResult));
+    }
 }

@@ -18,63 +18,55 @@ import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 
 /**
- * This is a visitor used by the BPEL 1.1 -> BPEL 2.0 converter.  It is responsible for adding 
+ * This is a visitor used by the BPEL 1.1 -> BPEL 2.0 converter.  It is responsible for adding
  * a scope child to all onEvent constructs.
  */
-public class AeBPWSToWSBPELOnEventVisitor extends AeAbstractBPWSToWSBPELVisitor
-{
-   /**
-    * Constructor.
-    */
-   public AeBPWSToWSBPELOnEventVisitor()
-   {
-      super();
-   }
+public class AeBPWSToWSBPELOnEventVisitor extends AeAbstractBPWSToWSBPELVisitor {
+    /**
+     * Constructor.
+     */
+    public AeBPWSToWSBPELOnEventVisitor() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void visit(AeOnEventDef def)
-   {
-      String variable = def.getVariable();
-      AeVariableDef varDef = AeDefUtil.getVariableByName(variable, def);
-      if (varDef != null)
-      {
-         def.setMessageType(varDef.getMessageType());
-      }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        String variable = def.getVariable();
+        AeVariableDef varDef = AeDefUtil.getVariableByName(variable, def);
+        if (varDef != null) {
+            def.setMessageType(varDef.getMessageType());
+        }
 
-      AeActivityDef oldChild = def.getActivityDef();
-      AeActivityScopeDef childScope = null;
-      if (!(oldChild instanceof AeActivityScopeDef))
-      {
-         AeActivityScopeDef newScopeChild = new AeActivityScopeDef();
-         newScopeChild.setActivityDef(oldChild);
-         newScopeChild.setParentXmlDef(oldChild.getParent());
-         oldChild.setParentXmlDef(newScopeChild);
-         def.setActivityDef(newScopeChild);
+        AeActivityDef oldChild = def.getActivityDef();
+        AeActivityScopeDef childScope = null;
+        if (!(oldChild instanceof AeActivityScopeDef)) {
+            AeActivityScopeDef newScopeChild = new AeActivityScopeDef();
+            newScopeChild.setActivityDef(oldChild);
+            newScopeChild.setParentXmlDef(oldChild.getParent());
+            oldChild.setParentXmlDef(newScopeChild);
+            def.setActivityDef(newScopeChild);
 
-         childScope = newScopeChild;
-      }
-      else
-      {
-         childScope = (AeActivityScopeDef) oldChild;
-      }
-      
-      // Now create the variable and mark it as implicit.
-      AeVariableDef newVariable = new AeVariableDef();
-      newVariable.setName(variable);
-      newVariable.setMessageType(varDef.getMessageType());
-      newVariable.setImplicit(true);
+            childScope = newScopeChild;
+        } else {
+            childScope = (AeActivityScopeDef) oldChild;
+        }
 
-      AeVariablesDef variablesDef = childScope.getVariablesDef();
-      if (variablesDef == null)
-      {
-         variablesDef = new AeVariablesDef();
-         childScope.setVariablesDef(variablesDef);
-      }
-      
-      variablesDef.addVariableDef(newVariable);
+        // Now create the variable and mark it as implicit.
+        AeVariableDef newVariable = new AeVariableDef();
+        newVariable.setName(variable);
+        newVariable.setMessageType(varDef.getMessageType());
+        newVariable.setImplicit(true);
 
-      super.visit(def);
-   }
+        AeVariablesDef variablesDef = childScope.getVariablesDef();
+        if (variablesDef == null) {
+            variablesDef = new AeVariablesDef();
+            childScope.setVariablesDef(variablesDef);
+        }
+
+        variablesDef.addVariableDef(newVariable);
+
+        super.visit(def);
+    }
 }

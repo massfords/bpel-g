@@ -19,64 +19,60 @@ import org.activebpel.rt.xml.def.io.IAeExtensionRegistry;
  * object is available for this extension def and will assign it to the
  * extension def
  */
-public class AeWSBPELAssignExtObjVisitor extends AeAbstractDefVisitor
-{
-   /** Extension registry. */
-   private IAeExtensionRegistry mExtensionRegistry;
+public class AeWSBPELAssignExtObjVisitor extends AeAbstractDefVisitor {
+    /**
+     * Extension registry.
+     */
+    private IAeExtensionRegistry mExtensionRegistry;
 
-   /**
-    * C'tor
-    * @param aExtensionRegistry
-    */
-   public AeWSBPELAssignExtObjVisitor(IAeExtensionRegistry aExtensionRegistry)
-   {
-      setTraversalVisitor( new AeTraversalVisitor(new AeDefTraverser(), this));
-      setExtensionRegistry(aExtensionRegistry);
-   }
+    /**
+     * C'tor
+     *
+     * @param aExtensionRegistry
+     */
+    public AeWSBPELAssignExtObjVisitor(IAeExtensionRegistry aExtensionRegistry) {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+        setExtensionRegistry(aExtensionRegistry);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
-    */
-   public void visit(AeChildExtensionActivityDef def)
-   {
-      if (mExtensionRegistry != null)
-         def.setExtensionObject(mExtensionRegistry.getExtensionObject(def.getElementName()));
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
+     */
+    public void visit(AeChildExtensionActivityDef def) {
+        if (mExtensionRegistry != null)
+            def.setExtensionObject(mExtensionRegistry.getExtensionObject(def.getElementName()));
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visit(org.activebpel.rt.xml.def.AeExtensionAttributeDef)
-    */
-   public void visit(AeExtensionAttributeDef aDef)
-   {
-      if (mExtensionRegistry != null)
-         aDef.setExtensionObject(mExtensionRegistry.getExtensionObject(aDef.getQName()));
-      super.visit(aDef);
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visit(org.activebpel.rt.xml.def.AeExtensionAttributeDef)
+     */
+    public void visit(AeExtensionAttributeDef aDef) {
+        if (mExtensionRegistry != null)
+            aDef.setExtensionObject(mExtensionRegistry.getExtensionObject(aDef.getQName()));
+        super.visit(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
-    */
-   public void visit(AeExtensionElementDef aDef)
-   {
-      if (mExtensionRegistry != null)
-         aDef.setExtensionObject(mExtensionRegistry.getExtensionObject(aDef.getElementQName()));
-      super.visit(aDef);
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
+     */
+    public void visit(AeExtensionElementDef aDef) {
+        if (mExtensionRegistry != null)
+            aDef.setExtensionObject(mExtensionRegistry.getExtensionObject(aDef.getElementQName()));
+        super.visit(aDef);
+    }
 
-   /**
-    * @return the extensionRegistry
-    */
-   protected IAeExtensionRegistry getExtensionRegistry()
-   {
-      return mExtensionRegistry;
-   }
+    /**
+     * @return the extensionRegistry
+     */
+    protected IAeExtensionRegistry getExtensionRegistry() {
+        return mExtensionRegistry;
+    }
 
-   /**
-    * @param aExtensionRegistry the extensionRegistry to set
-    */
-   protected void setExtensionRegistry(IAeExtensionRegistry aExtensionRegistry)
-   {
-      mExtensionRegistry = aExtensionRegistry;
-   }
+    /**
+     * @param aExtensionRegistry the extensionRegistry to set
+     */
+    protected void setExtensionRegistry(IAeExtensionRegistry aExtensionRegistry) {
+        mExtensionRegistry = aExtensionRegistry;
+    }
 }

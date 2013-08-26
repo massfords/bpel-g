@@ -16,53 +16,53 @@ import java.awt.Image;
 /**
  * Draws a text label with an icon on the left.
  */
-public class AeIconLabel extends AeContainer
-{
-   /**
-     * 
+public class AeIconLabel extends AeContainer {
+    /**
+     *
      */
     private static final long serialVersionUID = 1503463084475457607L;
-/** Icon to be displayed. */
-   private AeIcon mIcon = null;
-   /** Text label to be displayed. */
-   private final AeTextLabel mLabel;
+    /**
+     * Icon to be displayed.
+     */
+    private AeIcon mIcon = null;
+    /**
+     * Text label to be displayed.
+     */
+    private final AeTextLabel mLabel;
 
-   /**
-    * Constructs an label with the given text and icon image.
-    * @param aText text to be displayed.
-    * @param aIconImage image to be displayed. 
-    */
-   public AeIconLabel(String aText, Image aIconImage)
-   {
-      super(aText);
-      setLayout( new FlowLayout(FlowLayout.CENTER,0,0));
-      if (aIconImage != null)
-      {
-         mIcon = new AeIcon(aIconImage);
-         add(mIcon);
-      }      
-      mLabel = new AeTextLabel(aText);
-      add(mLabel);
-   }
-   
-   /**
-    * Overrides method to set the font.
-    * @see java.awt.Component#setFont(java.awt.Font)
-    */
-   public void setFont(Font aFont)
-   {
-      super.setFont(aFont);
-      if (mLabel != null)
-      {
-         mLabel.setFont(aFont);
-      }
-   }
-   
-   /** 
-    * @return Icon associated with this component or null if one does not exist.
-    */
-   public AeIcon getIcon()
-   {
-      return mIcon;
-   }
+    /**
+     * Constructs an label with the given text and icon image.
+     *
+     * @param aText      text to be displayed.
+     * @param aIconImage image to be displayed.
+     */
+    public AeIconLabel(String aText, Image aIconImage) {
+        super(aText);
+        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        if (aIconImage != null) {
+            mIcon = new AeIcon(aIconImage);
+            add(mIcon);
+        }
+        mLabel = new AeTextLabel(aText);
+        add(mLabel);
+    }
+
+    /**
+     * Overrides method to set the font.
+     *
+     * @see java.awt.Component#setFont(java.awt.Font)
+     */
+    public void setFont(Font aFont) {
+        super.setFont(aFont);
+        if (mLabel != null) {
+            mLabel.setFont(aFont);
+        }
+    }
+
+    /**
+     * @return Icon associated with this component or null if one does not exist.
+     */
+    public AeIcon getIcon() {
+        return mIcon;
+    }
 }

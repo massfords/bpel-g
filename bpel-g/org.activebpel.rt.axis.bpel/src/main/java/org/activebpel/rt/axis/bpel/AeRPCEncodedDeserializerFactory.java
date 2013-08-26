@@ -1,4 +1,5 @@
 package org.activebpel.rt.axis.bpel;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -19,43 +20,44 @@ import org.apache.axis.encoding.DeserializerFactory;
 /////////////////////////////////////////////////////////////////////////////
 
 /**
- * Factory for creating rpc-encoded deserializers 
+ * Factory for creating rpc-encoded deserializers
  */
-public class AeRPCEncodedDeserializerFactory implements DeserializerFactory
-{
-   /**
-     * 
+public class AeRPCEncodedDeserializerFactory implements DeserializerFactory {
+    /**
+     *
      */
     private static final long serialVersionUID = 1765829277682766807L;
-   /** Supported mechanisms is singleton list for axis only deserialization */
-   private static final List<String> SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
-   /** context provides access to the schema types that we need to handle deserialization */
-   private final IAeTypesContext mTypesContext;
-   
-   /**
-    * Constructor for deserializer factory is configured with all of the schemas
-    * it needs to create a deserializer instance.
-    * @param aTypesContext
-    */
-   public AeRPCEncodedDeserializerFactory(IAeTypesContext aTypesContext)
-   {
-      mTypesContext = aTypesContext;
-   }
+    /**
+     * Supported mechanisms is singleton list for axis only deserialization
+     */
+    private static final List<String> SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
+    /**
+     * context provides access to the schema types that we need to handle deserialization
+     */
+    private final IAeTypesContext mTypesContext;
 
-   /**
-    * @see javax.xml.rpc.encoding.DeserializerFactory#getDeserializerAs(java.lang.String)
-    */
-   public Deserializer getDeserializerAs(String mechanismType)
-   {
-      return new AeRPCEncodedDeserializer(mTypesContext);
-   }
+    /**
+     * Constructor for deserializer factory is configured with all of the schemas
+     * it needs to create a deserializer instance.
+     *
+     * @param aTypesContext
+     */
+    public AeRPCEncodedDeserializerFactory(IAeTypesContext aTypesContext) {
+        mTypesContext = aTypesContext;
+    }
 
-   /**
-    * @see javax.xml.rpc.encoding.DeserializerFactory#getSupportedMechanismTypes()
-    */
-   public Iterator<String> getSupportedMechanismTypes()
-   {
-      return SUPPORTED_MECHANISMS.iterator();
-   }
+    /**
+     * @see javax.xml.rpc.encoding.DeserializerFactory#getDeserializerAs(java.lang.String)
+     */
+    public Deserializer getDeserializerAs(String mechanismType) {
+        return new AeRPCEncodedDeserializer(mTypesContext);
+    }
+
+    /**
+     * @see javax.xml.rpc.encoding.DeserializerFactory#getSupportedMechanismTypes()
+     */
+    public Iterator<String> getSupportedMechanismTypes() {
+        return SUPPORTED_MECHANISMS.iterator();
+    }
 
 }

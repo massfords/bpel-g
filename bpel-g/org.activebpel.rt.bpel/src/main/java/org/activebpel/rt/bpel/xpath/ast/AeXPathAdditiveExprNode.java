@@ -13,29 +13,25 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for additive expressions.
  */
-public class AeXPathAdditiveExprNode extends AeAbstractXPathOperatorNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathAdditiveExprNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_ADDITIVE_EXPR);
-   }
-   
-   /**
-    * @return Returns the additiveOperator.
-    */
-   public int getAdditiveOperator()
-   {
-      return getOperator();
-   }
+public class AeXPathAdditiveExprNode extends AeAbstractXPathOperatorNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathAdditiveExprNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_ADDITIVE_EXPR);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @return Returns the additiveOperator.
+     */
+    public int getAdditiveOperator() {
+        return getOperator();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

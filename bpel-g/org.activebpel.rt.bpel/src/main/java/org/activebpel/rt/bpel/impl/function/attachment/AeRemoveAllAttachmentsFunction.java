@@ -31,48 +31,48 @@ import java.util.List;
  * <em>Return:</em> Integer, containing the number of attachments deleted.
  * </p>
  */
-public class AeRemoveAllAttachmentsFunction extends AeAbstractAttachmentFunction
-{
+public class AeRemoveAllAttachmentsFunction extends AeAbstractAttachmentFunction {
 
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "removeAllAttachments"; //$NON-NLS-1$
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "removeAllAttachments"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeRemoveAllAttachmentsFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+    /**
+     * Constructor.
+     */
+    public AeRemoveAllAttachmentsFunction() {
+        super(FUNCTION_NAME);
+    }
 
-   /**
-    * Execution of XPath function.
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      Object result = null;
+    /**
+     * Execution of XPath function.
+     *
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        Object result = null;
 
-      // Validate that we have the proper number of arguments
-      int numArgs = aArgs.size();
-      if ( numArgs != 1 )
-         throwFunctionException(INVALID_PARAMS, getFunctionName());
+        // Validate that we have the proper number of arguments
+        int numArgs = aArgs.size();
+        if (numArgs != 1)
+            throwFunctionException(INVALID_PARAMS, getFunctionName());
 
-      // Get the variable name from the first function argument
-      String variableNames = aArgs.get(0).toString();
+        // Get the variable name from the first function argument
+        String variableNames = aArgs.get(0).toString();
 
-      // Now get the list of variables
-      Collection variables = resolveVariables(aContext, variableNames);
-      int count = 0;
-       for (Object variable1 : variables) {
-           IAeVariable variable = (IAeVariable) variable1;
+        // Now get the list of variables
+        Collection variables = resolveVariables(aContext, variableNames);
+        int count = 0;
+        for (Object variable1 : variables) {
+            IAeVariable variable = (IAeVariable) variable1;
 
-           count += variable.getAttachmentData().size();
-           variable.getAttachmentData().clear();
-       }
+            count += variable.getAttachmentData().size();
+            variable.getAttachmentData().clear();
+        }
 
-      result = count;
+        result = count;
 
-      return result;
-   }
+        return result;
+    }
 }

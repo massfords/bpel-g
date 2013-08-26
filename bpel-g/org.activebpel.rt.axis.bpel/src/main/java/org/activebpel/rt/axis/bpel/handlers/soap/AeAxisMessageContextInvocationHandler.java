@@ -22,56 +22,51 @@ import org.apache.axis.MessageContext;
  * An invocation handler that is used to proxy an Axis MessageContext.  This handler only kicks
  * in when the getMessage() method is called (in order to return a proxied Message object).
  */
-public class AeAxisMessageContextInvocationHandler implements InvocationHandler
-{
-   /** The proxied msg ctx. */
-   private MessageContext mProxiedMessageContext;
+public class AeAxisMessageContextInvocationHandler implements InvocationHandler {
+    /**
+     * The proxied msg ctx.
+     */
+    private MessageContext mProxiedMessageContext;
 
-   /**
-    * Constructs the invocation handler with the given message context.
-    *
-    * @param aProxiedMessageContext
-    */
-   public AeAxisMessageContextInvocationHandler(MessageContext aProxiedMessageContext)
-   {
-      setProxiedMessageContext(aProxiedMessageContext);
-   }
+    /**
+     * Constructs the invocation handler with the given message context.
+     *
+     * @param aProxiedMessageContext
+     */
+    public AeAxisMessageContextInvocationHandler(MessageContext aProxiedMessageContext) {
+        setProxiedMessageContext(aProxiedMessageContext);
+    }
 
-   /**
-    * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-    */
-   public Object invoke(Object aProxy, Method aMethod, Object[] args) throws Throwable
-   {
-      if (aMethod.equals(getGetMessageMethod()))
-      {
-         return AeAxisObjectProxyFactory.getMessageProxy((Message) getProxiedMessageContext().getMessage());
-      }
-      return aMethod.invoke(getProxiedMessageContext(), args);
-   }
+    /**
+     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+     */
+    public Object invoke(Object aProxy, Method aMethod, Object[] args) throws Throwable {
+        if (aMethod.equals(getGetMessageMethod())) {
+            return AeAxisObjectProxyFactory.getMessageProxy((Message) getProxiedMessageContext().getMessage());
+        }
+        return aMethod.invoke(getProxiedMessageContext(), args);
+    }
 
-   /**
-    * Returns the getMessage() method reference.
-    *
-    * @throws NoSuchMethodException
-    */
-   private Method getGetMessageMethod() throws NoSuchMethodException
-   {
-      return SOAPMessageContext.class.getMethod("getMessage", (Class[])null); //$NON-NLS-1$
-   }
+    /**
+     * Returns the getMessage() method reference.
+     *
+     * @throws NoSuchMethodException
+     */
+    private Method getGetMessageMethod() throws NoSuchMethodException {
+        return SOAPMessageContext.class.getMethod("getMessage", (Class[]) null); //$NON-NLS-1$
+    }
 
-   /**
-    * @return Returns the proxiedMessageContext.
-    */
-   protected MessageContext getProxiedMessageContext()
-   {
-      return mProxiedMessageContext;
-   }
+    /**
+     * @return Returns the proxiedMessageContext.
+     */
+    protected MessageContext getProxiedMessageContext() {
+        return mProxiedMessageContext;
+    }
 
-   /**
-    * @param aProxiedMessageContext The proxiedMessageContext to set.
-    */
-   protected void setProxiedMessageContext(MessageContext aProxiedMessageContext)
-   {
-      mProxiedMessageContext = aProxiedMessageContext;
-   }
+    /**
+     * @param aProxiedMessageContext The proxiedMessageContext to set.
+     */
+    protected void setProxiedMessageContext(MessageContext aProxiedMessageContext) {
+        mProxiedMessageContext = aProxiedMessageContext;
+    }
 }

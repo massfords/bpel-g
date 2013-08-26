@@ -12,15 +12,13 @@ package org.activebpel.rt.bpeladmin.war.graph.bpel.controller;
 /**
  * Controller tagged for BPEL Pick type activities.
  */
-public class AeBpelPickActivityController extends AeBpelChoiceContainerController
-{
+public class AeBpelPickActivityController extends AeBpelChoiceContainerController {
 
-   /**
-    * Default constructor.
-    */
-   public AeBpelPickActivityController()
-   {
-      super();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeBpelPickActivityController() {
+        super();
+    }
 
 }

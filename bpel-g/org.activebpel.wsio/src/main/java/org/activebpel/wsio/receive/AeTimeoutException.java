@@ -7,25 +7,23 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.wsio.receive; 
+package org.activebpel.wsio.receive;
 
 /**
- * Signals that the request to the engine timed out before a response was received. 
+ * Signals that the request to the engine timed out before a response was received.
  */
-public class AeTimeoutException extends AeRequestException
-{
-   /**
-     * 
+public class AeTimeoutException extends AeRequestException {
+    /**
+     *
      */
     private static final long serialVersionUID = 3157387382162579964L;
 
-/**
-    * Creates the exception with the specified message.
-    * 
-    * @param aMessage
-    */
-   public AeTimeoutException(String aMessage)
-   {
-      super(aMessage);
-   }
+    /**
+     * Creates the exception with the specified message.
+     *
+     * @param aMessage
+     */
+    public AeTimeoutException(String aMessage) {
+        super(aMessage);
+    }
 }

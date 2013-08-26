@@ -27,276 +27,272 @@ import org.w3c.dom.Element;
 /**
  * Provides a context for an incoming message to the bpel engine.
  */
-public class AeMessageContext implements IAeMessageContext
-{
-   /**
-     * 
+public class AeMessageContext implements IAeMessageContext {
+    /**
+     *
      */
     private static final long serialVersionUID = -1528522641504715136L;
-// error constants
-   private static final String CANNOT_SET_SERVICENAME = "AeMessageContext.ERROR_2"; //$NON-NLS-1$
-   private static final String CANNOT_SET_PROCESSNAME = "AeMessageContext.ERROR_1"; //$NON-NLS-1$
+    // error constants
+    private static final String CANNOT_SET_SERVICENAME = "AeMessageContext.ERROR_2"; //$NON-NLS-1$
+    private static final String CANNOT_SET_PROCESSNAME = "AeMessageContext.ERROR_1"; //$NON-NLS-1$
 
-   /** name of the process being hit */
-   private QName mProcessName;
-   /** the service name. */
-   private String mServiceName;
-   /** name of the partner link being hit */
-   private String mPartnerLink;
-   /** name of the operation being invoked */
-   private String mOperation;
-   /** authenticated principal or null if none */
-   private String mPrincipal;
-   /** version number that the message is intended for or null for the current version */
-   private String mProcessVersion;
-   /** container for the business process properties */
-   private final Map<String, String> mBusinessProcessProperties = new HashMap<>();
-   /** container for the message reference properties */
-   private List<Element> mRefProps = new ArrayList<>();
-   /** Collected WS-Addressing Headers from inbound message */
-   private IAeWsAddressingHeaders mWsaHeaders;
-   /** Name of the intended receive side handler */
-   private String mReceiveHandler;
+    /**
+     * name of the process being hit
+     */
+    private QName mProcessName;
+    /**
+     * the service name.
+     */
+    private String mServiceName;
+    /**
+     * name of the partner link being hit
+     */
+    private String mPartnerLink;
+    /**
+     * name of the operation being invoked
+     */
+    private String mOperation;
+    /**
+     * authenticated principal or null if none
+     */
+    private String mPrincipal;
+    /**
+     * version number that the message is intended for or null for the current version
+     */
+    private String mProcessVersion;
+    /**
+     * container for the business process properties
+     */
+    private final Map<String, String> mBusinessProcessProperties = new HashMap<>();
+    /**
+     * container for the message reference properties
+     */
+    private List<Element> mRefProps = new ArrayList<>();
+    /**
+     * Collected WS-Addressing Headers from inbound message
+     */
+    private IAeWsAddressingHeaders mWsaHeaders;
+    /**
+     * Name of the intended receive side handler
+     */
+    private String mReceiveHandler;
 
-   /**
-    * No-arg ctor
-    */
-   public AeMessageContext()
-   {
-   }
+    /**
+     * No-arg ctor
+     */
+    public AeMessageContext() {
+    }
 
-   /**
-    * Creates a message context with the minimum information required for message delivery.
-    *
-    * @param aPartnerLink
-    * @param aOperation
-    */
-   public AeMessageContext(String aPartnerLink, String aOperation)
-   {
-      setPartnerLink(aPartnerLink);
-      setOperation(aOperation);
-   }
+    /**
+     * Creates a message context with the minimum information required for message delivery.
+     *
+     * @param aPartnerLink
+     * @param aOperation
+     */
+    public AeMessageContext(String aPartnerLink, String aOperation) {
+        setPartnerLink(aPartnerLink);
+        setOperation(aOperation);
+    }
 
-   /**
-    * Copy constructor
-    * @param aContext
-    */
-   public AeMessageContext(IAeMessageContext aContext)
-   {
-      Map<String, String> map = aContext.getBusinessProcessProperties();
-      if (map != null)
-         mBusinessProcessProperties.putAll(map);
+    /**
+     * Copy constructor
+     *
+     * @param aContext
+     */
+    public AeMessageContext(IAeMessageContext aContext) {
+        Map<String, String> map = aContext.getBusinessProcessProperties();
+        if (map != null)
+            mBusinessProcessProperties.putAll(map);
 
-      setWsAddressingHeaders(aContext.getWsAddressingHeaders());
-      setOperation(aContext.getOperation());
-      setPartnerLink(aContext.getPartnerLink());
-      setPrincipal(aContext.getPrincipal());
-      setProcessName(aContext.getProcessName());
-      setProcessVersion(aContext.getProcessVersion());
-      setServiceName(aContext.getServiceName());
-   }
+        setWsAddressingHeaders(aContext.getWsAddressingHeaders());
+        setOperation(aContext.getOperation());
+        setPartnerLink(aContext.getPartnerLink());
+        setPrincipal(aContext.getPrincipal());
+        setProcessName(aContext.getProcessName());
+        setProcessVersion(aContext.getProcessVersion());
+        setServiceName(aContext.getServiceName());
+    }
 
-   /**
-    * Convenience method for converting the message context from the interface
-    * to our impl. Uses the copy constructor if the interface is not our impl.
-    *
-    * @param aContext
-    */
-   public static AeMessageContext convert(IAeMessageContext aContext)
-   {
-      if (aContext instanceof AeMessageContext)
-         return (AeMessageContext) aContext;
-      else
-         return new AeMessageContext(aContext);
-   }
+    /**
+     * Convenience method for converting the message context from the interface
+     * to our impl. Uses the copy constructor if the interface is not our impl.
+     *
+     * @param aContext
+     */
+    public static AeMessageContext convert(IAeMessageContext aContext) {
+        if (aContext instanceof AeMessageContext)
+            return (AeMessageContext) aContext;
+        else
+            return new AeMessageContext(aContext);
+    }
 
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getProcessName()
-    */
-   public QName getProcessName()
-   {
-      return mProcessName;
-   }
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageContext#getProcessName()
+     */
+    public QName getProcessName() {
+        return mProcessName;
+    }
 
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getOperation()
-    */
-   public String getOperation()
-   {
-      return mOperation;
-   }
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageContext#getOperation()
+     */
+    public String getOperation() {
+        return mOperation;
+    }
 
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getPrincipal()
-    */
-   public String getPrincipal()
-   {
-      return mPrincipal;
-   }
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageContext#getPrincipal()
+     */
+    public String getPrincipal() {
+        return mPrincipal;
+    }
 
-   /**
-    * @param aOperation The operation to set.
-    */
-   public void setOperation(String aOperation)
-   {
-      mOperation = aOperation;
-   }
+    /**
+     * @param aOperation The operation to set.
+     */
+    public void setOperation(String aOperation) {
+        mOperation = aOperation;
+    }
 
-   /**
-    * @param aPrincipal The principal to set.
-    */
-   public void setPrincipal(String aPrincipal)
-   {
-      mPrincipal = aPrincipal;
-   }
+    /**
+     * @param aPrincipal The principal to set.
+     */
+    public void setPrincipal(String aPrincipal) {
+        mPrincipal = aPrincipal;
+    }
 
-   /**
-    * @param aProcessName The processName to set.
-    */
-   public void setProcessName(QName aProcessName)
-   {
-      if( getServiceName() != null )
-      {
-         throw new IllegalArgumentException( AeMessages.format( CANNOT_SET_PROCESSNAME, getServiceName() ) ); 
-      }
-      mProcessName = aProcessName;
-   }
+    /**
+     * @param aProcessName The processName to set.
+     */
+    public void setProcessName(QName aProcessName) {
+        if (getServiceName() != null) {
+            throw new IllegalArgumentException(AeMessages.format(CANNOT_SET_PROCESSNAME, getServiceName()));
+        }
+        mProcessName = aProcessName;
+    }
 
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getProcessVersion()
-    */
-   public String getProcessVersion()
-   {
-      return mProcessVersion;
-   }
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageContext#getProcessVersion()
+     */
+    public String getProcessVersion() {
+        return mProcessVersion;
+    }
 
-   /**
-    * Setter for the process version.
-    *
-    * @param aProcessVersion
-    */
-   public void setProcessVersion(String aProcessVersion)
-   {
-      mProcessVersion = aProcessVersion;
-   }
+    /**
+     * Setter for the process version.
+     *
+     * @param aProcessVersion
+     */
+    public void setProcessVersion(String aProcessVersion) {
+        mProcessVersion = aProcessVersion;
+    }
 
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getBusinessProcessProperties()
-    */
-   public Map<String, String> getBusinessProcessProperties()
-   {
-      return mBusinessProcessProperties;
-   }
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageContext#getBusinessProcessProperties()
+     */
+    public Map<String, String> getBusinessProcessProperties() {
+        return mBusinessProcessProperties;
+    }
 
-   /**
-    * Setter for properties that will be passed to the business process instance.
-    * @param aName
-    * @param aValue
-    */
-   public void setBusinessProcessProperty( String aName, String aValue )
-   {
-      getBusinessProcessProperties().put( aName, aValue );
-   }
+    /**
+     * Setter for properties that will be passed to the business process instance.
+     *
+     * @param aName
+     * @param aValue
+     */
+    public void setBusinessProcessProperty(String aName, String aValue) {
+        getBusinessProcessProperties().put(aName, aValue);
+    }
 
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getServiceName()
-    */
-   public String getServiceName()
-   {
-      return mServiceName;
-   }
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageContext#getServiceName()
+     */
+    public String getServiceName() {
+        return mServiceName;
+    }
 
-   /**
-    * Set the service name.
-    * @param aServiceName
-    */
-   public void setServiceName( String aServiceName )
-   {
-      if( aServiceName != null && getProcessName() != null )
-      {
-         throw new IllegalArgumentException( AeMessages.format(CANNOT_SET_SERVICENAME, getProcessName().toString() ) ); 
-      }
-      mServiceName = aServiceName;
-   }
+    /**
+     * Set the service name.
+     *
+     * @param aServiceName
+     */
+    public void setServiceName(String aServiceName) {
+        if (aServiceName != null && getProcessName() != null) {
+            throw new IllegalArgumentException(AeMessages.format(CANNOT_SET_SERVICENAME, getProcessName().toString()));
+        }
+        mServiceName = aServiceName;
+    }
 
-   /**
-    * Implements method to add a reference property for this endpoint reference.
-    */
-   public void addReferenceProperty(Element aRefElement)
-   {
-      if (mRefProps == null)
-         mRefProps = new ArrayList<>();
-      mRefProps.add(aRefElement);
-   }
+    /**
+     * Implements method to add a reference property for this endpoint reference.
+     */
+    public void addReferenceProperty(Element aRefElement) {
+        if (mRefProps == null)
+            mRefProps = new ArrayList<>();
+        mRefProps.add(aRefElement);
+    }
 
-   /**
-    * Gets an Iterator of all reference property elements.
-    * @return Iterator for reference property elements.
-    */
-   public Iterator getReferenceProperties()
-   {
-      return mRefProps != null ? mRefProps.iterator() : null;
+    /**
+     * Gets an Iterator of all reference property elements.
+     *
+     * @return Iterator for reference property elements.
+     */
+    public Iterator getReferenceProperties() {
+        return mRefProps != null ? mRefProps.iterator() : null;
 
-   }
+    }
 
-   /**
-    * Setter for the list of reference property elements.
-    * @param aList
-    */
-   public void setReferenceProperties(List<Element> aList)
-   {
-      mRefProps = aList;
-   }
+    /**
+     * Setter for the list of reference property elements.
+     *
+     * @param aList
+     */
+    public void setReferenceProperties(List<Element> aList) {
+        mRefProps = aList;
+    }
 
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getPartnerLink()
-    */
-   public String getPartnerLink()
-   {
-      return mPartnerLink;
-   }
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageContext#getPartnerLink()
+     */
+    public String getPartnerLink() {
+        return mPartnerLink;
+    }
 
-   /**
-    * @param aPartnerLink The partnerLink to set.
-    */
-   public void setPartnerLink(String aPartnerLink)
-   {
-      mPartnerLink = aPartnerLink;
-   }
+    /**
+     * @param aPartnerLink The partnerLink to set.
+     */
+    public void setPartnerLink(String aPartnerLink) {
+        mPartnerLink = aPartnerLink;
+    }
 
-   /**
-    * @return Returns the wsaHeaders.
-    */
-   public IAeWsAddressingHeaders getWsAddressingHeaders()
-   {
-      if (mWsaHeaders == null)
-      {
-         setWsAddressingHeaders(new AeWsAddressingHeaders(IAeWsAddressingConstants.WSA_NAMESPACE_URI));
-      }
-      return mWsaHeaders;
-   }
+    /**
+     * @return Returns the wsaHeaders.
+     */
+    public IAeWsAddressingHeaders getWsAddressingHeaders() {
+        if (mWsaHeaders == null) {
+            setWsAddressingHeaders(new AeWsAddressingHeaders(IAeWsAddressingConstants.WSA_NAMESPACE_URI));
+        }
+        return mWsaHeaders;
+    }
 
-   /**
-    * @param aWsaHeaders The wsaHeaders to set.
-    */
-   public void setWsAddressingHeaders(IAeWsAddressingHeaders aWsaHeaders)
-   {
-      mWsaHeaders = aWsaHeaders;
-   }
+    /**
+     * @param aWsaHeaders The wsaHeaders to set.
+     */
+    public void setWsAddressingHeaders(IAeWsAddressingHeaders aWsaHeaders) {
+        mWsaHeaders = aWsaHeaders;
+    }
 
-   /**
-    * @param aReceiveHandler
-    */
-   public void setReceiveHandler(String aReceiveHandler)
-   {
-      mReceiveHandler = aReceiveHandler;
-   }
-   
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getReceiveHandler()
-    */
-   public String getReceiveHandler()
-   {
-      return mReceiveHandler;
-   }
+    /**
+     * @param aReceiveHandler
+     */
+    public void setReceiveHandler(String aReceiveHandler) {
+        mReceiveHandler = aReceiveHandler;
+    }
+
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageContext#getReceiveHandler()
+     */
+    public String getReceiveHandler() {
+        return mReceiveHandler;
+    }
 }

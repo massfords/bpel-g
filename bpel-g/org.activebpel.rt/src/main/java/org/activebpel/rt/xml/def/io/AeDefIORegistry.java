@@ -21,88 +21,84 @@ import org.activebpel.rt.xml.def.io.writers.IAeDefWriterRegistry;
 /**
  * An abstract base class for def registries.
  */
-public class AeDefIORegistry implements IAeDefRegistry
-{
-   /** reader registry impl */
-   private IAeDefReaderRegistry mReaderRegistry;
-   /** writer registry impl */
-   private IAeDefWriterRegistry mWriterRegistry;
-   /** extension reader impl */
-   private IAeDefReader mExtensionReader;
+public class AeDefIORegistry implements IAeDefRegistry {
+    /**
+     * reader registry impl
+     */
+    private IAeDefReaderRegistry mReaderRegistry;
+    /**
+     * writer registry impl
+     */
+    private IAeDefWriterRegistry mWriterRegistry;
+    /**
+     * extension reader impl
+     */
+    private IAeDefReader mExtensionReader;
 
-   /**
-    * Default constructor - creates the reader and writer registries (delegates the actual
-    * construction to subclasses).
-    */
-   public AeDefIORegistry(IAeDefReaderRegistry aReaderRegistry, IAeDefWriterRegistry aWriterRegistry)
-   {
-      setReaderRegistry(aReaderRegistry);
-      setWriterRegistry(aWriterRegistry);
-   }
+    /**
+     * Default constructor - creates the reader and writer registries (delegates the actual
+     * construction to subclasses).
+     */
+    public AeDefIORegistry(IAeDefReaderRegistry aReaderRegistry, IAeDefWriterRegistry aWriterRegistry) {
+        setReaderRegistry(aReaderRegistry);
+        setWriterRegistry(aWriterRegistry);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.io.IAeDefRegistry#getReader(AeBaseXmlDef, javax.xml.namespace.QName)
-    */
-   public IAeDefReader getReader(AeBaseXmlDef aParentDef, QName aQName)
-   {
-      return getReaderRegistry().getReader(aParentDef, aQName);
-   }
-   
-   /**
-    * @see org.activebpel.rt.xml.def.io.IAeDefRegistry#getExtensionReader()
-    */
-   public IAeDefReader getExtensionReader()
-   {
-      if (mExtensionReader == null)
-         mExtensionReader = getReaderRegistry().getExtensionReader();
-      return mExtensionReader;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.io.IAeDefRegistry#getReader(AeBaseXmlDef, javax.xml.namespace.QName)
+     */
+    public IAeDefReader getReader(AeBaseXmlDef aParentDef, QName aQName) {
+        return getReaderRegistry().getReader(aParentDef, aQName);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.io.IAeDefRegistry#getWriter(java.lang.Class, AeBaseXmlDef)
-    */
-   public IAeDefWriter getWriter(Class aParentClass, AeBaseXmlDef aDef)
-   {
-      return getWriterRegistry().getWriter(aParentClass, aDef);
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.io.IAeDefRegistry#getExtensionReader()
+     */
+    public IAeDefReader getExtensionReader() {
+        if (mExtensionReader == null)
+            mExtensionReader = getReaderRegistry().getExtensionReader();
+        return mExtensionReader;
+    }
 
-   /**
-    * @return Returns the readerRegistry.
-    */
-   public IAeDefReaderRegistry getReaderRegistry()
-   {
-      return mReaderRegistry;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.io.IAeDefRegistry#getWriter(java.lang.Class, AeBaseXmlDef)
+     */
+    public IAeDefWriter getWriter(Class aParentClass, AeBaseXmlDef aDef) {
+        return getWriterRegistry().getWriter(aParentClass, aDef);
+    }
 
-   /**
-    * @param aReaderRegistry The readerRegistry to set.
-    */
-   protected void setReaderRegistry(IAeDefReaderRegistry aReaderRegistry)
-   {
-      mReaderRegistry = aReaderRegistry;
-   }
+    /**
+     * @return Returns the readerRegistry.
+     */
+    public IAeDefReaderRegistry getReaderRegistry() {
+        return mReaderRegistry;
+    }
 
-   /**
-    * @return Returns the writerRegistry.
-    */
-   public IAeDefWriterRegistry getWriterRegistry()
-   {
-      return mWriterRegistry;
-   }
+    /**
+     * @param aReaderRegistry The readerRegistry to set.
+     */
+    protected void setReaderRegistry(IAeDefReaderRegistry aReaderRegistry) {
+        mReaderRegistry = aReaderRegistry;
+    }
 
-   /**
-    * @param aWriterRegistry The writerRegistry to set.
-    */
-   protected void setWriterRegistry(IAeDefWriterRegistry aWriterRegistry)
-   {
-      mWriterRegistry = aWriterRegistry;
-   }
+    /**
+     * @return Returns the writerRegistry.
+     */
+    public IAeDefWriterRegistry getWriterRegistry() {
+        return mWriterRegistry;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.io.IAeDefRegistry#setExtensionReader(org.activebpel.rt.xml.def.io.readers.IAeDefReader)
-    */
-   public void setExtensionReader(IAeDefReader aExtensionReader)
-   {
-      mExtensionReader = aExtensionReader;
-   }
+    /**
+     * @param aWriterRegistry The writerRegistry to set.
+     */
+    protected void setWriterRegistry(IAeDefWriterRegistry aWriterRegistry) {
+        mWriterRegistry = aWriterRegistry;
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.def.io.IAeDefRegistry#setExtensionReader(org.activebpel.rt.xml.def.io.readers.IAeDefReader)
+     */
+    public void setExtensionReader(IAeDefReader aExtensionReader) {
+        mExtensionReader = aExtensionReader;
+    }
 }

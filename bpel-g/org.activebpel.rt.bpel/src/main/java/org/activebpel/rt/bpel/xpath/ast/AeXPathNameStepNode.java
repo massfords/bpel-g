@@ -13,80 +13,77 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for name step.
  */
-public class AeXPathNameStepNode extends AeAbstractXPathAxisNode implements IAeXPathQualifiedNode
-{
-   /** The prefix used by the node step. */
-   private String mPrefix;
-   /** The namespace. */
-   private String mNamespace;
-   /** The local name. */
-   private String mLocalName;
+public class AeXPathNameStepNode extends AeAbstractXPathAxisNode implements IAeXPathQualifiedNode {
+    /**
+     * The prefix used by the node step.
+     */
+    private String mPrefix;
+    /**
+     * The namespace.
+     */
+    private String mNamespace;
+    /**
+     * The local name.
+     */
+    private String mLocalName;
 
-   /**
-    * Default c'tor.
-    */
-   public AeXPathNameStepNode(int aAxis, String aPrefix, String aNamespace, String aLocalName)
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_NAME_STEP, aAxis);
-      
-      setNamespace(aNamespace);
-      setPrefix(aPrefix);
-      setLocalName(aLocalName);
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeXPathNameStepNode(int aAxis, String aPrefix, String aNamespace, String aLocalName) {
+        super(AeAbstractXPathNode.NODE_TYPE_NAME_STEP, aAxis);
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getLocalName()
-    */
-   public String getLocalName()
-   {
-      return mLocalName;
-   }
+        setNamespace(aNamespace);
+        setPrefix(aPrefix);
+        setLocalName(aLocalName);
+    }
 
-   /**
-    * @param aLocalName The localName to set.
-    */
-   protected void setLocalName(String aLocalName)
-   {
-      mLocalName = aLocalName;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getLocalName()
+     */
+    public String getLocalName() {
+        return mLocalName;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getNamespace()
-    */
-   public String getNamespace()
-   {
-      return mNamespace;
-   }
+    /**
+     * @param aLocalName The localName to set.
+     */
+    protected void setLocalName(String aLocalName) {
+        mLocalName = aLocalName;
+    }
 
-   /**
-    * @param aNamespace The namespace to set.
-    */
-   protected void setNamespace(String aNamespace)
-   {
-      mNamespace = aNamespace;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getNamespace()
+     */
+    public String getNamespace() {
+        return mNamespace;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getPrefix()
-    */
-   public String getPrefix()
-   {
-      return mPrefix;
-   }
+    /**
+     * @param aNamespace The namespace to set.
+     */
+    protected void setNamespace(String aNamespace) {
+        mNamespace = aNamespace;
+    }
 
-   /**
-    * @param aPrefix The prefix to set.
-    */
-   public void setPrefix(String aPrefix)
-   {
-      mPrefix = aPrefix;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getPrefix()
+     */
+    public String getPrefix() {
+        return mPrefix;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @param aPrefix The prefix to set.
+     */
+    public void setPrefix(String aPrefix) {
+        mPrefix = aPrefix;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

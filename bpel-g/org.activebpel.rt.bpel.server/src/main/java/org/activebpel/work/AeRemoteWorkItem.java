@@ -17,37 +17,36 @@ import commonj.work.WorkManager;
  * Remote work items are returned to the caller when the work that was scheduled
  * implements Serializable. The current work manager implementation doesn't support
  * scheduling work in other jvms but it's still required to return a remote
- * work item when something Serializable is scheduled.  
+ * work item when something Serializable is scheduled.
  */
-public class AeRemoteWorkItem extends AeWorkItem implements RemoteWorkItem
-{
-   /** work manager that executed the work */
-   private final WorkManager mWorkManager;
-   
-   /**
-    * Constructor accepts the work manager and the work to be done.
-    * @param aWorkManager
-    * @param aWork
-    */
-   public AeRemoteWorkItem(WorkManager aWorkManager, Work aWork)
-   {
-      super(aWork);
-      mWorkManager = aWorkManager;
-   }
+public class AeRemoteWorkItem extends AeWorkItem implements RemoteWorkItem {
+    /**
+     * work manager that executed the work
+     */
+    private final WorkManager mWorkManager;
 
-   /**
-    * @see commonj.work.RemoteWorkItem#release()
-    */
-   public void release()
-   {
-      getWork().release();
-   }
+    /**
+     * Constructor accepts the work manager and the work to be done.
+     *
+     * @param aWorkManager
+     * @param aWork
+     */
+    public AeRemoteWorkItem(WorkManager aWorkManager, Work aWork) {
+        super(aWork);
+        mWorkManager = aWorkManager;
+    }
 
-   /**
-    * @see commonj.work.RemoteWorkItem#getPinnedWorkManager()
-    */
-   public WorkManager getPinnedWorkManager()
-   {
-      return mWorkManager;
-   }
+    /**
+     * @see commonj.work.RemoteWorkItem#release()
+     */
+    public void release() {
+        getWork().release();
+    }
+
+    /**
+     * @see commonj.work.RemoteWorkItem#getPinnedWorkManager()
+     */
+    public WorkManager getPinnedWorkManager() {
+        return mWorkManager;
+    }
 }

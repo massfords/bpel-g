@@ -15,29 +15,28 @@ package org.activebpel.rt.wsresource.validation;
  * interface allows the validation engine to decide what to validate, what
  * severity an error is, etc.
  */
-public interface IAeWSResourceValidationPreferences
-{
-   /*
-    * Constants defining the validation severity levels.
-    */
-   public final int SEVERITY_ERROR = 0;
-   public final int SEVERITY_WARNING = 1;
-   public final int SEVERITY_INFO = 2;
-   public final int SEVERITY_SKIP = 3;
+public interface IAeWSResourceValidationPreferences {
+    /*
+     * Constants defining the validation severity levels.
+     */
+    public final int SEVERITY_ERROR = 0;
+    public final int SEVERITY_WARNING = 1;
+    public final int SEVERITY_INFO = 2;
+    public final int SEVERITY_SKIP = 3;
 
-   /**
-    * Returns true if schema-validation is enabled for the given
-    * web service resource type.
-    *
-    * @param aWSResourceType
-    */
-   public boolean isSchemaValidationEnabled(String aWSResourceType);
+    /**
+     * Returns true if schema-validation is enabled for the given
+     * web service resource type.
+     *
+     * @param aWSResourceType
+     */
+    public boolean isSchemaValidationEnabled(String aWSResourceType);
 
-   /**
-    * Gets the severity of the given web service resource validation
-    * rule.
-    *
-    * @param aValidationRule
-    */
-   public int getSeverity(IAeWSResourceValidationRule aValidationRule);
+    /**
+     * Gets the severity of the given web service resource validation
+     * rule.
+     *
+     * @param aValidationRule
+     */
+    public int getSeverity(IAeWSResourceValidationRule aValidationRule);
 }

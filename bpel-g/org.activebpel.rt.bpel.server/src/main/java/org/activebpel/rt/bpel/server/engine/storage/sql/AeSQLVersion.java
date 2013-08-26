@@ -20,73 +20,64 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Implements database version lookup in the database.
  */
-public class AeSQLVersion extends AeSQLObject
-{
-   /** Singleton instance. */
-   private static final AeSQLVersion mInstance = new AeSQLVersion(); 
+public class AeSQLVersion extends AeSQLObject {
+    /**
+     * Singleton instance.
+     */
+    private static final AeSQLVersion mInstance = new AeSQLVersion();
 
-   /**
-    * Constructor.
-    */
-   protected AeSQLVersion()
-   {
-   }
+    /**
+     * Constructor.
+     */
+    protected AeSQLVersion() {
+    }
 
-   /**
-    * Returns singleton instance.
-    */
-   public static AeSQLVersion getInstance()
-   {
-      return mInstance;
-   }
+    /**
+     * Returns singleton instance.
+     */
+    public static AeSQLVersion getInstance() {
+        return mInstance;
+    }
 
-   /**
-    * Returns the version of the databse structure.
-    * @return The version of the databsse structure/
-    * @throws AeStorageException
-    */
-   public String getVersion() throws AeStorageException
-   {
-      try
-      {
-         Connection connection = getConnection();
+    /**
+     * Returns the version of the databse structure.
+     *
+     * @return The version of the databsse structure/
+     * @throws AeStorageException
+     */
+    public String getVersion() throws AeStorageException {
+        try {
+            Connection connection = getConnection();
 
-         try
-         {
-            return getVersion(connection);
-         }
-         finally
-         {
-            AeCloser.close(connection);
-         }
-      }
-      catch (SQLException e)
-      {
-         throw new AeStorageException(AeMessages.getString("AeSQLVersion.ERROR_0"), e); //$NON-NLS-1$
-      }
-   }
+            try {
+                return getVersion(connection);
+            } finally {
+                AeCloser.close(connection);
+            }
+        } catch (SQLException e) {
+            throw new AeStorageException(AeMessages.getString("AeSQLVersion.ERROR_0"), e); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * Returns current version of the database structure as set in the AeMetaInfo table.
-    * @param aConnection The database connection to use.
-    * @return String
-    * @throws AeStorageException
-    * @throws SQLException
-    */
-   private String getVersion(Connection aConnection) throws AeStorageException, SQLException
-   {
-      String sql = getDataSource().getSQLConfig().getSQLStatement("MetaInfo.GetVersion"); //$NON-NLS-1$
-      if (AeUtil.isNullOrEmpty(sql))
-      {
-         throw new AeStorageException(AeMessages.getString("AeSQLVersion.ERROR_2")); //$NON-NLS-1$
-      }
+    /**
+     * Returns current version of the database structure as set in the AeMetaInfo table.
+     *
+     * @param aConnection The database connection to use.
+     * @return String
+     * @throws AeStorageException
+     * @throws SQLException
+     */
+    private String getVersion(Connection aConnection) throws AeStorageException, SQLException {
+        String sql = getDataSource().getSQLConfig().getSQLStatement("MetaInfo.GetVersion"); //$NON-NLS-1$
+        if (AeUtil.isNullOrEmpty(sql)) {
+            throw new AeStorageException(AeMessages.getString("AeSQLVersion.ERROR_2")); //$NON-NLS-1$
+        }
 
-      String value = getQueryRunner().query(aConnection, sql, AeResultSetHandlers.getStringHandler());
-      if (value == null)
-      {
-         throw new AeStorageException(AeMessages.getString("AeSQLVersion.ERROR_0")); //$NON-NLS-1$
-      }
+        String value = getQueryRunner().query(aConnection, sql, AeResultSetHandlers.getStringHandler());
+        if (value == null) {
+            throw new AeStorageException(AeMessages.getString("AeSQLVersion.ERROR_0")); //$NON-NLS-1$
+        }
 
-      return value;
-   }
+        return value;
+    }
 }

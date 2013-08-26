@@ -18,112 +18,103 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
 import org.jaxen.Context;
 
 /**
- * Provides a runtime evaluation context for calling expression functions.  It wraps the jaxen 
+ * Provides a runtime evaluation context for calling expression functions.  It wraps the jaxen
  * runtime function context.
  */
-public class AeXPathContext implements IAeFunctionExecutionContext
-{
-   /** The jaxen context. */
-   private Context mContext;
-   /** The proxied function exec context. */
-   private IAeFunctionExecutionContext mFunctionExecContext;
+public class AeXPathContext implements IAeFunctionExecutionContext {
+    /**
+     * The jaxen context.
+     */
+    private Context mContext;
+    /**
+     * The proxied function exec context.
+     */
+    private IAeFunctionExecutionContext mFunctionExecContext;
 
-   /**
-    * Constructs an xpath context from a jaxen function context.
-    * 
-    * @param aContext
-    */
-   public AeXPathContext(Context aContext, IAeFunctionExecutionContext aFunctionExecContext)
-   {
-      setContext(aContext);
-      setFunctionExecContext(aFunctionExecContext);
-   }
+    /**
+     * Constructs an xpath context from a jaxen function context.
+     *
+     * @param aContext
+     */
+    public AeXPathContext(Context aContext, IAeFunctionExecutionContext aFunctionExecContext) {
+        setContext(aContext);
+        setFunctionExecContext(aFunctionExecContext);
+    }
 
-   /**
-    * @return Returns the context.
-    */
-   public Context getContext()
-   {
-      return mContext;
-   }
+    /**
+     * @return Returns the context.
+     */
+    public Context getContext() {
+        return mContext;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getNamespaceContext()
-    */
-   public IAeNamespaceContext getNamespaceContext()
-   {
-      return getFunctionExecContext().getNamespaceContext();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getNamespaceContext()
+     */
+    public IAeNamespaceContext getNamespaceContext() {
+        return getFunctionExecContext().getNamespaceContext();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getFunctionFactory()
-    */
-   public IAeFunctionFactory getFunctionFactory()
-   {
-      return getFunctionExecContext().getFunctionFactory();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getFunctionFactory()
+     */
+    public IAeFunctionFactory getFunctionFactory() {
+        return getFunctionExecContext().getFunctionFactory();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getEvaluationContext()
-    */
-   public Object getEvaluationContext()
-   {
-      return getFunctionExecContext().getEvaluationContext();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getEvaluationContext()
+     */
+    public Object getEvaluationContext() {
+        return getFunctionExecContext().getEvaluationContext();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getAbstractBpelObject()
-    */
-   public AeAbstractBpelObject getAbstractBpelObject()
-   {
-      return getFunctionExecContext().getAbstractBpelObject();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getAbstractBpelObject()
+     */
+    public AeAbstractBpelObject getAbstractBpelObject() {
+        return getFunctionExecContext().getAbstractBpelObject();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getFaultFactory()
-    */
-   public IAeFaultFactory getFaultFactory()
-   {
-      return getAbstractBpelObject().getFaultFactory();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getBpelNamespace()
-    */
-   public String getBpelNamespace()
-   {
-      return getFunctionExecContext().getBpelNamespace();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getTypeConverter()
-    */
-   public IAeExpressionTypeConverter getTypeConverter()
-   {
-      return getFunctionExecContext().getTypeConverter();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getFaultFactory()
+     */
+    public IAeFaultFactory getFaultFactory() {
+        return getAbstractBpelObject().getFaultFactory();
+    }
 
-   /**
-    * @param aContext The context to set.
-    */
-   protected void setContext(Context aContext)
-   {
-      mContext = aContext;
-   }
-   
-   /**
-    * @return Returns the functionExecContext.
-    */
-   protected IAeFunctionExecutionContext getFunctionExecContext()
-   {
-      return mFunctionExecContext;
-   }
-   
-   /**
-    * @param aFunctionExecContext The functionExecContext to set.
-    */
-   protected void setFunctionExecContext(IAeFunctionExecutionContext aFunctionExecContext)
-   {
-      mFunctionExecContext = aFunctionExecContext;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getBpelNamespace()
+     */
+    public String getBpelNamespace() {
+        return getFunctionExecContext().getBpelNamespace();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getTypeConverter()
+     */
+    public IAeExpressionTypeConverter getTypeConverter() {
+        return getFunctionExecContext().getTypeConverter();
+    }
+
+    /**
+     * @param aContext The context to set.
+     */
+    protected void setContext(Context aContext) {
+        mContext = aContext;
+    }
+
+    /**
+     * @return Returns the functionExecContext.
+     */
+    protected IAeFunctionExecutionContext getFunctionExecContext() {
+        return mFunctionExecContext;
+    }
+
+    /**
+     * @param aFunctionExecContext The functionExecContext to set.
+     */
+    protected void setFunctionExecContext(IAeFunctionExecutionContext aFunctionExecContext) {
+        mFunctionExecContext = aFunctionExecContext;
+    }
 }

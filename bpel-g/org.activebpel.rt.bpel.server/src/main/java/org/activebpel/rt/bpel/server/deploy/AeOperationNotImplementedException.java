@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.deploy; 
+package org.activebpel.rt.bpel.server.deploy;
 
 import javax.xml.namespace.QName;
 
@@ -16,24 +16,23 @@ import org.activebpel.rt.bpel.server.AeMessages;
 
 /**
  * Exception that indicates that the process exists but it doesn't provide
- * an IMA for the requested operation. 
+ * an IMA for the requested operation.
  */
-public class AeOperationNotImplementedException extends AeException
-{
-   /**
-     * 
+public class AeOperationNotImplementedException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = -8048770745915843658L;
 
-/**
-    * Ctor
-    * @param aService
-    * @param aPortType
-    * @param aOperation
-    */
-   public AeOperationNotImplementedException(String aService, QName aPortType, String aOperation)
-   {
-      super(AeMessages.format("AeOperationNotImplementedException.Message", new String[] {aService, aPortType.getNamespaceURI(), aPortType.getLocalPart(), aOperation})); //$NON-NLS-1$
-   }
+    /**
+     * Ctor
+     *
+     * @param aService
+     * @param aPortType
+     * @param aOperation
+     */
+    public AeOperationNotImplementedException(String aService, QName aPortType, String aOperation) {
+        super(AeMessages.format("AeOperationNotImplementedException.Message", new String[]{aService, aPortType.getNamespaceURI(), aPortType.getLocalPart(), aOperation})); //$NON-NLS-1$
+    }
 }
  

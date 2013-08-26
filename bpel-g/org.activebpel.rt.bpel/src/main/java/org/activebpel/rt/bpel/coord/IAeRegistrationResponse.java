@@ -10,27 +10,28 @@
 package org.activebpel.rt.bpel.coord;
 
 /**
- * Interface for a WS-Coordination registation response. 
- * 
+ * Interface for a WS-Coordination registation response.
+ * <p/>
  * Note: This is an internal implementation tailored to be used with requirement 111
- * i.e. the interface provides a simple property getter and setter. 
- * 
+ * i.e. the interface provides a simple property getter and setter.
+ * <p/>
  * The final implementation should follow something close to the RegisterResponse definition
  * as per http://schemas.xmlsoap.org/ws/2004/10/wsoor.
- * Maybe refactor this interface to wsio.IWebServiceCoordRegistrationResponse. 
+ * Maybe refactor this interface to wsio.IWebServiceCoordRegistrationResponse.
  */
-public interface IAeRegistrationResponse
-{  
-   /**
-    * Returns the coordination protocol identifier.
-    * @return protocol identifier.
-    */
-   public String getProtocolIdentifier();
-   
-   /**
-    * Returns a custom property value given the name.
-    * @param aName name of property.
-    * @return property value if available or null otherwise.
-    */
-   public String getProperty(String aName);
+public interface IAeRegistrationResponse {
+    /**
+     * Returns the coordination protocol identifier.
+     *
+     * @return protocol identifier.
+     */
+    public String getProtocolIdentifier();
+
+    /**
+     * Returns a custom property value given the name.
+     *
+     * @param aName name of property.
+     * @return property value if available or null otherwise.
+     */
+    public String getProperty(String aName);
 }

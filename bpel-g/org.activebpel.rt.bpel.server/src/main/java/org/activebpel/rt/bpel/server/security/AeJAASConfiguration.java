@@ -19,112 +19,114 @@ import javax.security.auth.login.Configuration;
  * module to the existing configuration.
  */
 public class AeJAASConfiguration extends Configuration {
-	/** Name of entry for login module entry. */
-	public static final String LOGIN_MODULE_ENTRY = "LoginModule"; //$NON-NLS-1$
+    /**
+     * Name of entry for login module entry.
+     */
+    public static final String LOGIN_MODULE_ENTRY = "LoginModule"; //$NON-NLS-1$
 
-	private String mAppName;
-	private final Configuration mDelegateConfig;
-	private AppConfigurationEntry[] mEntry;
-	private String mLoginModule;
+    private String mAppName;
+    private final Configuration mDelegateConfig;
+    private AppConfigurationEntry[] mEntry;
+    private String mLoginModule;
 
-	/**
-	 * Constructor that takes the engine configuration
-	 * 
-	 * @param aConfig
-	 */
-	public AeJAASConfiguration() {
-		// Get the current config as the delegate
-		mDelegateConfig = Configuration.getConfiguration();
-	}
+    /**
+     * Constructor that takes the engine configuration
+     *
+     * @param aConfig
+     */
+    public AeJAASConfiguration() {
+        // Get the current config as the delegate
+        mDelegateConfig = Configuration.getConfiguration();
+    }
 
-	public void init() {
-		mEntry = createEntries();
-	}
+    public void init() {
+        mEntry = createEntries();
+    }
 
-	/**
-	 * Retreives the config for the application. Will check the original
-	 * configuration first. If not found, will return the configuration from the
-	 * bpel engine.
-	 * 
-	 * @see javax.security.auth.login.Configuration#getAppConfigurationEntry(java.lang.String)
-	 */
-	public AppConfigurationEntry[] getAppConfigurationEntry(
-			String aConfigAppName) {
-		AppConfigurationEntry[] entries = null;
-		try {
-			// try from the original config first
-			entries = getDelegate().getAppConfigurationEntry(aConfigAppName);
-			if (entries == null) {
-				// Return engine login module.
-				entries = getEntriesFromEngineConfig(aConfigAppName);
-			}
-		} catch (IllegalArgumentException e) {
-			// Weblogic throws a runtime exception if the
-			// config is not found, rather than simply returning null
-			// so we'll return the entries based the engine configuration
-			if (getEntriesFromEngineConfig(aConfigAppName) != null) {
-				return getEntriesFromEngineConfig(aConfigAppName);
-			} else {
-				throw e;
-			}
-		}
-		return entries;
-	}
+    /**
+     * Retreives the config for the application. Will check the original
+     * configuration first. If not found, will return the configuration from the
+     * bpel engine.
+     *
+     * @see javax.security.auth.login.Configuration#getAppConfigurationEntry(java.lang.String)
+     */
+    public AppConfigurationEntry[] getAppConfigurationEntry(
+            String aConfigAppName) {
+        AppConfigurationEntry[] entries = null;
+        try {
+            // try from the original config first
+            entries = getDelegate().getAppConfigurationEntry(aConfigAppName);
+            if (entries == null) {
+                // Return engine login module.
+                entries = getEntriesFromEngineConfig(aConfigAppName);
+            }
+        } catch (IllegalArgumentException e) {
+            // Weblogic throws a runtime exception if the
+            // config is not found, rather than simply returning null
+            // so we'll return the entries based the engine configuration
+            if (getEntriesFromEngineConfig(aConfigAppName) != null) {
+                return getEntriesFromEngineConfig(aConfigAppName);
+            } else {
+                throw e;
+            }
+        }
+        return entries;
+    }
 
-	/**
-	 * @see javax.security.auth.login.Configuration#refresh()
-	 */
-	public void refresh() {
-		getDelegate().refresh();
-	}
+    /**
+     * @see javax.security.auth.login.Configuration#refresh()
+     */
+    public void refresh() {
+        getDelegate().refresh();
+    }
 
-	/**
-	 * Creates configuration entries from settings in the engine config
-	 */
-	protected AppConfigurationEntry[] createEntries() {
-		if (getLoginModule() != null) {
-			AppConfigurationEntry entry = new AppConfigurationEntry(
-					getLoginModule(),
-					AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
-					new HashMap<String,Object>());
-			return new AppConfigurationEntry[] { entry };
-		} else {
-			return null;
-		}
-	}
+    /**
+     * Creates configuration entries from settings in the engine config
+     */
+    protected AppConfigurationEntry[] createEntries() {
+        if (getLoginModule() != null) {
+            AppConfigurationEntry entry = new AppConfigurationEntry(
+                    getLoginModule(),
+                    AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
+                    new HashMap<String, Object>());
+            return new AppConfigurationEntry[]{entry};
+        } else {
+            return null;
+        }
+    }
 
-	/**
-	 * @return the original configuration
-	 */
-	protected Configuration getDelegate() {
-		return mDelegateConfig;
-	}
+    /**
+     * @return the original configuration
+     */
+    protected Configuration getDelegate() {
+        return mDelegateConfig;
+    }
 
-	/**
-	 * @return the entries
-	 */
-	protected AppConfigurationEntry[] getEntriesFromEngineConfig(String aAppName) {
-		if (mAppName.equals(aAppName)) {
-			return mEntry;
-		} else {
-			return null;
-		}
-	}
+    /**
+     * @return the entries
+     */
+    protected AppConfigurationEntry[] getEntriesFromEngineConfig(String aAppName) {
+        if (mAppName.equals(aAppName)) {
+            return mEntry;
+        } else {
+            return null;
+        }
+    }
 
-	public String getAppName() {
-		return mAppName;
-	}
+    public String getAppName() {
+        return mAppName;
+    }
 
-	public void setAppName(String aAppName) {
-		mAppName = aAppName;
-	}
+    public void setAppName(String aAppName) {
+        mAppName = aAppName;
+    }
 
-	public String getLoginModule() {
-		return mLoginModule;
-	}
+    public String getLoginModule() {
+        return mLoginModule;
+    }
 
-	public void setLoginModule(String aLoginModule) {
-		mLoginModule = aLoginModule;
-	}
+    public void setLoginModule(String aLoginModule) {
+        mLoginModule = aLoginModule;
+    }
 
 }

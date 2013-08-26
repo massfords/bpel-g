@@ -17,35 +17,30 @@ import bpelg.services.deploy.types.pdd.SuspendFlag;
 /**
  * Utility class for process exception management.
  */
-public class AeExceptionManagementUtil
-{
+public class AeExceptionManagementUtil {
 
-   /**
-    * Return true if the process should be suspended if it encounters an
-    * uncaught fault based on its persisten type and exception management
-    * type.
-    * @param aSuspendFlag
-    * @param aPersistenceType
-    */
-	// FIXME deploy - fix this in the schema, this looks weird
-   public static boolean isSuspendOnUncaughtFaultEnabled( 
-         SuspendFlag aSuspendFlag, 
-         PersistenceType aPersistenceType )
-   {
-      boolean suspendMe = false;
-      
-      // if the process is a service flow, we will never suspend it
-      if( PersistenceType.NONE != aPersistenceType )
-      {
-         if( aSuspendFlag == null )
-         {
-            suspendMe = AePreferences.isSuspendProcessOnUncaughtFault();
-         }
-         else
-         {
-            suspendMe = aSuspendFlag == SuspendFlag.TRUE; 
-         }
-      }
-      return suspendMe;
-   }
+    /**
+     * Return true if the process should be suspended if it encounters an
+     * uncaught fault based on its persisten type and exception management
+     * type.
+     *
+     * @param aSuspendFlag
+     * @param aPersistenceType
+     */
+    // FIXME deploy - fix this in the schema, this looks weird
+    public static boolean isSuspendOnUncaughtFaultEnabled(
+            SuspendFlag aSuspendFlag,
+            PersistenceType aPersistenceType) {
+        boolean suspendMe = false;
+
+        // if the process is a service flow, we will never suspend it
+        if (PersistenceType.NONE != aPersistenceType) {
+            if (aSuspendFlag == null) {
+                suspendMe = AePreferences.isSuspendProcessOnUncaughtFault();
+            } else {
+                suspendMe = aSuspendFlag == SuspendFlag.TRUE;
+            }
+        }
+        return suspendMe;
+    }
 }

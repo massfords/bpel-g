@@ -13,29 +13,25 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for a relational expression.
  */
-public class AeXPathRelationalExprNode extends AeAbstractXPathOperatorNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathRelationalExprNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_RELATIONAL_EXPR);
-   }
+public class AeXPathRelationalExprNode extends AeAbstractXPathOperatorNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathRelationalExprNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_RELATIONAL_EXPR);
+    }
 
-   /**
-    * @return Returns the relationalOperator.
-    */
-   public int getRelationalOperator()
-   {
-      return getOperator();
-   }
+    /**
+     * @return Returns the relationalOperator.
+     */
+    public int getRelationalOperator() {
+        return getOperator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

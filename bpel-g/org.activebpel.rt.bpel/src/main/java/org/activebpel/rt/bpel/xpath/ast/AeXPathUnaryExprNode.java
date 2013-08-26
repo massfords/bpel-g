@@ -13,29 +13,25 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for a unary expression.
  */
-public class AeXPathUnaryExprNode extends AeAbstractXPathOperatorNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathUnaryExprNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_UNARY_EXPR);
-   }
+public class AeXPathUnaryExprNode extends AeAbstractXPathOperatorNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathUnaryExprNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_UNARY_EXPR);
+    }
 
-   /**
-    * @return Returns the unaryOperation.
-    */
-   public int getUnaryOperation()
-   {
-      return getOperator();
-   }
+    /**
+     * @return Returns the unaryOperation.
+     */
+    public int getUnaryOperation() {
+        return getOperator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

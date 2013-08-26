@@ -13,16 +13,16 @@ package org.activebpel.rt.bpeladmin.war.web;
 /**
  * Wraps the partner definitions listing.
  */
-public class AePartnerDefsBean
-{
-   /** Wrapper principal names. */
-   protected AeJavaTypesWrapper[] mPartners;
-   
-   /**
-    * Constructor.  Initializes the wrapped details.
-    */
-   public AePartnerDefsBean()
-   {
+public class AePartnerDefsBean {
+    /**
+     * Wrapper principal names.
+     */
+    protected AeJavaTypesWrapper[] mPartners;
+
+    /**
+     * Constructor.  Initializes the wrapped details.
+     */
+    public AePartnerDefsBean() {
 ////      String[] partners = 
 ////            AeEngineManagementFactory.getBean().getPartnerAddressingAdmin().getPrincipals();
 //
@@ -30,35 +30,32 @@ public class AePartnerDefsBean
 //      {
 //         mPartners = AeJavaTypesWrapper.wrap( partners );            
 //      }
-   }
-   
-   /**
-    * Returns true if there are no details to display.
-    */
-   public boolean isEmpty()
-   {
-      return mPartners == null || mPartners.length == 0;
-   }
-   
-   /**
-    * Indexed property accessor for the wrapped principal.
-    * @param aIndex
-    * @return AeJavaTypesWrapper Wraps the string name.
-    */
-   public AeJavaTypesWrapper getPrincipal( int aIndex )
-   {
-      return mPartners[aIndex];
-   }
-   
-   /**
-    * Returns the size of the indexed property array.
-    */
-   public int getPrincipalSize()
-   {
-      if( mPartners == null )
-      {
-         return 0;
-      }
-      return mPartners.length;
-   }
+    }
+
+    /**
+     * Returns true if there are no details to display.
+     */
+    public boolean isEmpty() {
+        return mPartners == null || mPartners.length == 0;
+    }
+
+    /**
+     * Indexed property accessor for the wrapped principal.
+     *
+     * @param aIndex
+     * @return AeJavaTypesWrapper Wraps the string name.
+     */
+    public AeJavaTypesWrapper getPrincipal(int aIndex) {
+        return mPartners[aIndex];
+    }
+
+    /**
+     * Returns the size of the indexed property array.
+     */
+    public int getPrincipalSize() {
+        if (mPartners == null) {
+            return 0;
+        }
+        return mPartners.length;
+    }
 }

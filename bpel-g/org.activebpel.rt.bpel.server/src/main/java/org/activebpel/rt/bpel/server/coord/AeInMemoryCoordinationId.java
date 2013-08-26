@@ -11,32 +11,30 @@ package org.activebpel.rt.bpel.server.coord;
 
 
 /**
- * Class to construct a coordination id based on the process id and 
+ * Class to construct a coordination id based on the process id and
  * the invoke acitivity's location path.
  */
-public class AeInMemoryCoordinationId implements IAeCoordinationId
-{
-   /**
-    * context id.
-    */
-   private String mIdentifier = null;
-   
-   /**
-    * Constructs a coordination id given the process id and the location path.
-    * @param aProcessId
-    * @param aLocationPath
-    */
-   public AeInMemoryCoordinationId(String aProcessId, String aLocationPath)
-   {
-      mIdentifier = "activebpel:coord-id:" + aProcessId + ":" + aLocationPath;  //$NON-NLS-1$  //$NON-NLS-2$
-   }
-   
-   /**
-    * Returns the coordination context id.
-    */
-   public String getIdentifier()
-   {
-      return mIdentifier;
-   }
-   
+public class AeInMemoryCoordinationId implements IAeCoordinationId {
+    /**
+     * context id.
+     */
+    private String mIdentifier = null;
+
+    /**
+     * Constructs a coordination id given the process id and the location path.
+     *
+     * @param aProcessId
+     * @param aLocationPath
+     */
+    public AeInMemoryCoordinationId(String aProcessId, String aLocationPath) {
+        mIdentifier = "activebpel:coord-id:" + aProcessId + ":" + aLocationPath;  //$NON-NLS-1$  //$NON-NLS-2$
+    }
+
+    /**
+     * Returns the coordination context id.
+     */
+    public String getIdentifier() {
+        return mIdentifier;
+    }
+
 }

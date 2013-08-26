@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.logging; 
+package org.activebpel.rt.bpel.server.logging;
 
 import java.util.Set;
 
@@ -18,27 +18,29 @@ import org.activebpel.rt.bpel.AeProcessEventType;
 /**
  * Interface used to filter log events
  */
-public interface IAeLoggingFilter
-{
-   /**
-    * Returns true if the process event should be logged
-    * @param aEvent
-    */
-   public boolean accept(IAeProcessEvent aEvent);
-   
-   /**
-    * Returns true if the process info event should be logged
-    * @param aInfoEvent
-    */
-   public boolean accept(IAeProcessInfoEvent aInfoEvent);
-   
-   /**
-    * Returns true if the filter will accept one or more process info events. 
-    * If false, then there's no reason to listen for process events.
-    */
-   public boolean isEnabled();
-   
-   public Set<AeProcessEventType> getEnabledEventTypes();
-   public void setEnabledEventTypes(Set<AeProcessEventType> aEnabledEvents);
+public interface IAeLoggingFilter {
+    /**
+     * Returns true if the process event should be logged
+     *
+     * @param aEvent
+     */
+    public boolean accept(IAeProcessEvent aEvent);
+
+    /**
+     * Returns true if the process info event should be logged
+     *
+     * @param aInfoEvent
+     */
+    public boolean accept(IAeProcessInfoEvent aInfoEvent);
+
+    /**
+     * Returns true if the filter will accept one or more process info events.
+     * If false, then there's no reason to listen for process events.
+     */
+    public boolean isEnabled();
+
+    public Set<AeProcessEventType> getEnabledEventTypes();
+
+    public void setEnabledEventTypes(Set<AeProcessEventType> aEnabledEvents);
 }
  

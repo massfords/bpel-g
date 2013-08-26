@@ -14,52 +14,49 @@ package org.activebpel.rt.bpeladmin.war.web;
  * Wraps the deployment logs listing and allows access to
  * a single log file via its name.
  */
-public class AeDeploymentLogsBean
-{
-   /** Types wrapper around deployment log file names. */
-   protected final AeJavaTypesWrapper[] mLogFiles;
-   /** A specific log file name. */
-   protected final String mLogFile;
+public class AeDeploymentLogsBean {
+    /**
+     * Types wrapper around deployment log file names.
+     */
+    protected final AeJavaTypesWrapper[] mLogFiles;
+    /**
+     * A specific log file name.
+     */
+    protected final String mLogFile;
 
-   /**
-    * Constructor.
-    */
-   public AeDeploymentLogsBean()
-   {
-      mLogFiles = AeJavaTypesWrapper.wrap(new String[]{"Not Used"});
-         
-      mLogFile = "Logging not implemented";         
-   }
-     
-   /**
-    * Returns the contents of the named log file as a string.
-    */
-   public String getLogFile()
-   {
-      return mLogFile;
-   }
-   
-   /**
-    * Accessor for the log file listing size.
-    */
-   public int getLogListingSize()
-   {
-      if( mLogFiles != null )
-      {
-         return mLogFiles.length;
-      }
-      else
-      {
-         return 0;
-      }
-   }
-   
-   /**
-    * Indexed accessor for the log file listing.
-    * @param aIndex
-    */
-   public AeJavaTypesWrapper getLogListing( int aIndex )
-   {
-      return mLogFiles[aIndex];
-   }
+    /**
+     * Constructor.
+     */
+    public AeDeploymentLogsBean() {
+        mLogFiles = AeJavaTypesWrapper.wrap(new String[]{"Not Used"});
+
+        mLogFile = "Logging not implemented";
+    }
+
+    /**
+     * Returns the contents of the named log file as a string.
+     */
+    public String getLogFile() {
+        return mLogFile;
+    }
+
+    /**
+     * Accessor for the log file listing size.
+     */
+    public int getLogListingSize() {
+        if (mLogFiles != null) {
+            return mLogFiles.length;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Indexed accessor for the log file listing.
+     *
+     * @param aIndex
+     */
+    public AeJavaTypesWrapper getLogListing(int aIndex) {
+        return mLogFiles[aIndex];
+    }
 }

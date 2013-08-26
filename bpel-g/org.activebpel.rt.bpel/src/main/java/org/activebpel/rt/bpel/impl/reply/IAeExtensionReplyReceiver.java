@@ -12,23 +12,23 @@ package org.activebpel.rt.bpel.impl.reply;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 
 /**
- * Extension ReplyReceiver Interface  
+ * Extension ReplyReceiver Interface
  */
-public interface IAeExtensionReplyReceiver extends IAeReplyReceiver
-{
-   /**
-    * Sets engine on the reply receiver
-    * @param aEngine
-    */
-   public void setEngine(IAeBusinessProcessEngineInternal aEngine);
-   
-   /**
-    * @return long processId
-    */
-   public long getProcessId();
-   
-   /**
-    * @return String Location Path
-    */
-   public String getLocationPath();
+public interface IAeExtensionReplyReceiver extends IAeReplyReceiver {
+    /**
+     * Sets engine on the reply receiver
+     *
+     * @param aEngine
+     */
+    public void setEngine(IAeBusinessProcessEngineInternal aEngine);
+
+    /**
+     * @return long processId
+     */
+    public long getProcessId();
+
+    /**
+     * @return String Location Path
+     */
+    public String getLocationPath();
 }

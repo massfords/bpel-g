@@ -12,29 +12,28 @@ package org.activebpel.rt.war.tags;
 import javax.servlet.jsp.JspException;
 
 /**
- * A tag that includes its body content only if the 
+ * A tag that includes its body content only if the
  * given value property does not match the string value of the
  * specified property for a named bean.
  * NOTE: the return type of the bean property can be
- * any type, but the evaluation will be performed 
+ * any type, but the evaluation will be performed
  * against its toString method.
  */
-public class AeIfPropertyNotMatchesTag extends AeIfPropertyMatchesTag
-{
+public class AeIfPropertyNotMatchesTag extends AeIfPropertyMatchesTag {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -8086873932321804093L;
 
-/**
-    * Returns true of the string value of the actual argument does not match the tag value.
-    * @param aActualValue property object to compared to
-    * @return true if property does not matche the value.
-    */
-   protected boolean handleCompareValue(Object aActualValue) throws JspException
-   {
-      return !( super.handleCompareValue(aActualValue.toString()) ); 
-   }   
+    /**
+     * Returns true of the string value of the actual argument does not match the tag value.
+     *
+     * @param aActualValue property object to compared to
+     * @return true if property does not matche the value.
+     */
+    protected boolean handleCompareValue(Object aActualValue) throws JspException {
+        return !(super.handleCompareValue(aActualValue.toString()));
+    }
 
 }

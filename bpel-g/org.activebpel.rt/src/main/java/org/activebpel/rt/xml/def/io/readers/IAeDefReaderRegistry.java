@@ -17,21 +17,20 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 /**
  * Defines a Def reader registry.
  */
-public interface IAeDefReaderRegistry
-{
-   /**
-    * Return the appropriate IAeDefReader impl for this
-    * parent def and QName mapping.
-    * 
-    * @param aParentDef parent AeBaseXmlDef in the object model
-    * @param aElementQName the child element QName
-    * @return IAeDefReader impl for deserializing this element or null if not found
-    */
-   public IAeDefReader getReader(AeBaseXmlDef aParentDef, QName aElementQName)
-         throws UnsupportedOperationException;
+public interface IAeDefReaderRegistry {
+    /**
+     * Return the appropriate IAeDefReader impl for this
+     * parent def and QName mapping.
+     *
+     * @param aParentDef    parent AeBaseXmlDef in the object model
+     * @param aElementQName the child element QName
+     * @return IAeDefReader impl for deserializing this element or null if not found
+     */
+    public IAeDefReader getReader(AeBaseXmlDef aParentDef, QName aElementQName)
+            throws UnsupportedOperationException;
 
-   /**
-    * Gets a reader to read an extension
-    */
-   public IAeDefReader getExtensionReader();
+    /**
+     * Gets a reader to read an extension
+     */
+    public IAeDefReader getExtensionReader();
 }

@@ -16,23 +16,20 @@ import org.activebpel.rt.xml.def.AeExtensionElementDef;
 /**
  * Base class for validating an extension element def.
  */
-public abstract class AeAbstractExtensionElementValidator extends AeBaseValidator
-{
-   /**
-    * Constructor.
-    * 
-    * @param aDef
-    */
-   public AeAbstractExtensionElementValidator(AeExtensionElementDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * Convenience method for getting the def already cast.
-    */
-   protected AeExtensionElementDef getDef()
-   {
-      return (AeExtensionElementDef) getDefinition();
-   }
+public abstract class AeAbstractExtensionElementValidator extends AeBaseValidator {
+    /**
+     * Constructor.
+     *
+     * @param aDef
+     */
+    public AeAbstractExtensionElementValidator(AeExtensionElementDef aDef) {
+        super(aDef);
+    }
+
+    /**
+     * Convenience method for getting the def already cast.
+     */
+    protected AeExtensionElementDef getDef() {
+        return (AeExtensionElementDef) getDefinition();
+    }
 }

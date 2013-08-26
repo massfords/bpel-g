@@ -21,35 +21,34 @@ import java.io.File;
 /**
  * Interface for interacting with file system deployments.
  */
-public interface IAeDeploymentFileHandler
-{
-   
-   /**
-    * Start scanning the deployment directory to look for changes.
-    */
-   public void startScanning();
-   
-   /**
-    * Handle any initial deployments that need to be processed before
-    * the engine can be started.
-    */
-   public void handleInitialDeployments() throws UnhandledException, MissingResourcesException;
+public interface IAeDeploymentFileHandler {
 
-   /**
-    * Handle the deployment of a single BPR/WSR.
-    * 
-    * @param aFile
-    * @param aBprName
-    * @param aLogger
-    * @throws AeException
-    */
-   public void handleDeployment(File aFile, String aBprName, IAeDeploymentLogger aLogger) throws AeException, UnhandledException, MissingResourcesException;
-   
-   public boolean undeploy(UndeploymentRequest aRequest);
+    /**
+     * Start scanning the deployment directory to look for changes.
+     */
+    public void startScanning();
 
-   /**
-    * Stop scanning and release any resources.
-    */
-   public void stopScanning();
-   
+    /**
+     * Handle any initial deployments that need to be processed before
+     * the engine can be started.
+     */
+    public void handleInitialDeployments() throws UnhandledException, MissingResourcesException;
+
+    /**
+     * Handle the deployment of a single BPR/WSR.
+     *
+     * @param aFile
+     * @param aBprName
+     * @param aLogger
+     * @throws AeException
+     */
+    public void handleDeployment(File aFile, String aBprName, IAeDeploymentLogger aLogger) throws AeException, UnhandledException, MissingResourcesException;
+
+    public boolean undeploy(UndeploymentRequest aRequest);
+
+    /**
+     * Stop scanning and release any resources.
+     */
+    public void stopScanning();
+
 }

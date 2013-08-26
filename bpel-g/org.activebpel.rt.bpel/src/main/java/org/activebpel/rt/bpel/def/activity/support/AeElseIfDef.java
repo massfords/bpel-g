@@ -17,44 +17,41 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * Models the 'elseIf' construct in WS-BPEL 2.0.  Note that for bpel 1.1 processes, this class
  * models the switch's case child.
  */
-public class AeElseIfDef extends AeElseDef implements IAeConditionParentDef
-{
-   /**
-     * 
+public class AeElseIfDef extends AeElseDef implements IAeConditionParentDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -5301690943976343313L;
-/** The elseif's condition. */
-   private AeConditionDef mCondition;
+    /**
+     * The elseif's condition.
+     */
+    private AeConditionDef mCondition;
 
-   /**
-    * Default c'tor.
-    */
-   public AeElseIfDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeElseIfDef() {
+        super();
+    }
 
-   /**
-    * @return Returns the condition.
-    */
-   public AeConditionDef getConditionDef()
-   {
-      return mCondition;
-   }
+    /**
+     * @return Returns the condition.
+     */
+    public AeConditionDef getConditionDef() {
+        return mCondition;
+    }
 
-   /**
-    * @param aCondition The condition to set.
-    */
-   public void setConditionDef(AeConditionDef aCondition)
-   {
-      mCondition = aCondition;
-   }
+    /**
+     * @param aCondition The condition to set.
+     */
+    public void setConditionDef(AeConditionDef aCondition) {
+        mCondition = aCondition;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.support.AeElseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.support.AeElseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

@@ -29,255 +29,230 @@ import java.util.List;
 
 /**
  * Implementation of a repeatable alarm for use when a scope onAlarm contains
- * the repeatEvery syntax. 
+ * the repeatEvery syntax.
  */
-public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopeParent
-{
-   // TODO (MF) refactor the event classes to enable some code reuse between the repeatable alarms and onEvent. Perhaps make all events support the notion of concurrency but only enable for some?  
-   
-   /** list of child scope instances created during onAlarm routines */
-   private List<IAeActivity> mChildren = new ArrayList<>();
+public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopeParent {
+    // TODO (MF) refactor the event classes to enable some code reuse between the repeatable alarms and onEvent. Perhaps make all events support the notion of concurrency but only enable for some?
 
-   /** 
-    * list of child scope instances that have been restored for compensation 
-    * purposes 
-    */
-   private List<IAeActivity> mCompensatableChildren = new ArrayList<>();
+    /**
+     * list of child scope instances created during onAlarm routines
+     */
+    private List<IAeActivity> mChildren = new ArrayList<>();
 
-   /** value for the next scope instance created for this onAlarm */
-   private int mInstanceValue = 1;
-   
-   /** calculated interval for the repeatEvery expression */
-   private AeSchemaDuration mRepeatEveryDuration;
-   
-   /**
-    * Ctor accepts def and parent
-    * 
-    * @param aDef
-    * @param aParent
-    */
-   public AeRepeatableOnAlarm(AeOnAlarmDef aDef, IAeEventParent aParent)
-   {
-      super(aDef, aParent);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * list of child scope instances that have been restored for compensation
+     * purposes
+     */
+    private List<IAeActivity> mCompensatableChildren = new ArrayList<>();
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      if (isConcurrent())
-      {
-          for (IAeActivity iAeActivity : getChildren()) {
-              AeActivityScopeImpl scope = (AeActivityScopeImpl) iAeActivity;
-              if (scope.isNormalCompletion()) {
-                  getCompensatableChildren().add(scope);
-              }
-          }
-         getChildren().clear();
-      }
-      
-      // calculate repeatEvery duration and record as part of our state
-      // TODO (MF) may change with the resolution of Issue R30
-      setRepeatEveryDuration(AeAlarmCalculator.calculateRepeatInterval(this, getDef().getRepeatEveryDef()));
-      if (getRepeatEveryDuration().isNegative() || getRepeatEveryDuration().isZero())
-      {
-         objectCompletedWithFault(getFaultFactory().getInvalidExpressionValue(IAeFaultFactory.TYPE_DURATION));
-      }
-      else
-      {
-         super.execute();
-      }
-   }
+    /**
+     * value for the next scope instance created for this onAlarm
+     */
+    private int mInstanceValue = 1;
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm#onAlarm()
-    */
-   public void onAlarm() throws AeBusinessProcessException
-   {
-      if (isConcurrent())
-      {
-         reschedule();
-      }
+    /**
+     * calculated interval for the repeatEvery expression
+     */
+    private AeSchemaDuration mRepeatEveryDuration;
 
-      AeActivityScopeImpl scope = createScopeInstance();
+    /**
+     * Ctor accepts def and parent
+     *
+     * @param aDef
+     * @param aParent
+     */
+    public AeRepeatableOnAlarm(AeOnAlarmDef aDef, IAeEventParent aParent) {
+        super(aDef, aParent);
+    }
 
-      getProcess().queueObjectToExecute(scope);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Creates the child scope instance
-    */
-   protected AeActivityScopeImpl createScopeInstance()
-   {
-      // get and increment the instance value
-      int instance = getInstanceValue();
-      setInstanceValue(getInstanceValue() + 1);
-      
-      // create a dynamic scope
-      List<AeActivityScopeImpl> scopes = AeDynamicScopeCreator.create(true, this, instance, instance);
-      AeActivityScopeImpl scope = scopes.get(0);
-      
-      // add to our list of children
-      getChildren().add(scope);
-      return scope;
-   }
-
-   /**
-    * If there are no more children executing then the event will notify the 
-    * scope that it is quiescent and give the scope a chance to complete.
-    * 
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#childComplete(org.activebpel.rt.bpel.impl.IAeBpelObject)
-    */
-   public void childComplete(IAeBpelObject aChild) throws AeBusinessProcessException
-   {
-      if (isConcurrent())
-      {
-         for (Iterator<? extends IAeBpelObject> iter = getChildrenForStateChange(); iter.hasNext();)
-         {
-        	IAeBpelObject scope = iter.next();
-            if (!scope.getState().isFinal())
-            {
-               return;
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        if (isConcurrent()) {
+            for (IAeActivity iAeActivity : getChildren()) {
+                AeActivityScopeImpl scope = (AeActivityScopeImpl) iAeActivity;
+                if (scope.isNormalCompletion()) {
+                    getCompensatableChildren().add(scope);
+                }
             }
-         }
-         findEnclosingScope().alarmCompleted(this);
-      }
-      else
-      {
-         super.childComplete(aChild);
-      }
-   }
+            getChildren().clear();
+        }
 
-   /**
-    * Reschedules the repeatEvery alarm
-    * @throws AeBusinessProcessException
-    */
-   public void reschedule() throws AeBusinessProcessException
-   {
-      Date deadline = getRepeatEveryDuration().toDeadline(); 
-      queueAlarm(deadline);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getChildren()
-    */
-   public List<IAeActivity> getChildren()
-   {
-      return mChildren;
-   }
+        // calculate repeatEvery duration and record as part of our state
+        // TODO (MF) may change with the resolution of Issue R30
+        setRepeatEveryDuration(AeAlarmCalculator.calculateRepeatInterval(this, getDef().getRepeatEveryDef()));
+        if (getRepeatEveryDuration().isNegative() || getRepeatEveryDuration().isZero()) {
+            objectCompletedWithFault(getFaultFactory().getInvalidExpressionValue(IAeFaultFactory.TYPE_DURATION));
+        } else {
+            super.execute();
+        }
+    }
 
-   /**
-    * @param aChildren the children to set
-    */
-   protected void setChildren(List<IAeActivity> aChildren)
-   {
-      mChildren = aChildren;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm#onAlarm()
+     */
+    public void onAlarm() throws AeBusinessProcessException {
+        if (isConcurrent()) {
+            reschedule();
+        }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getCompensatableChildren()
-    */
-   public List<IAeActivity> getCompensatableChildren()
-   {
-      return mCompensatableChildren;
-   }
+        AeActivityScopeImpl scope = createScopeInstance();
 
-   /**
-    * @param aCompensatableChildren the compensatableChildren to set
-    */
-   protected void setCompensatableChildren(List<IAeActivity> aCompensatableChildren)
-   {
-      mCompensatableChildren = aCompensatableChildren;
-   }
+        getProcess().queueObjectToExecute(scope);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getInstanceValue()
-    */
-   public int getInstanceValue()
-   {
-      return mInstanceValue;
-   }
+    /**
+     * Creates the child scope instance
+     */
+    protected AeActivityScopeImpl createScopeInstance() {
+        // get and increment the instance value
+        int instance = getInstanceValue();
+        setInstanceValue(getInstanceValue() + 1);
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#setInstanceValue(int)
-    */
-   public void setInstanceValue(int aInstanceValue)
-   {
-      mInstanceValue = aInstanceValue;
-   }
+        // create a dynamic scope
+        List<AeActivityScopeImpl> scopes = AeDynamicScopeCreator.create(true, this, instance, instance);
+        AeActivityScopeImpl scope = scopes.get(0);
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#addActivity(org.activebpel.rt.bpel.IAeActivity)
-    */
-   public void addActivity(IAeActivity aActivity)
-   {
-      getChildren().add(aActivity);
-   }
+        // add to our list of children
+        getChildren().add(scope);
+        return scope;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#getActivity()
-    */
-   public IAeActivity getActivity()
-   {
-      // TODO (MF) remove after changing base class
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * If there are no more children executing then the event will notify the
+     * scope that it is quiescent and give the scope a chance to complete.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#childComplete(org.activebpel.rt.bpel.impl.IAeBpelObject)
+     */
+    public void childComplete(IAeBpelObject aChild) throws AeBusinessProcessException {
+        if (isConcurrent()) {
+            for (Iterator<? extends IAeBpelObject> iter = getChildrenForStateChange(); iter.hasNext(); ) {
+                IAeBpelObject scope = iter.next();
+                if (!scope.getState().isFinal()) {
+                    return;
+                }
+            }
+            findEnclosingScope().alarmCompleted(this);
+        } else {
+            super.childComplete(aChild);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#setActivity(org.activebpel.rt.bpel.IAeActivity)
-    */
-   protected void setActivity(IAeActivity aActivity)
-   {
-      // TODO (MF) remove after changing base class
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * Reschedules the repeatEvery alarm
+     *
+     * @throws AeBusinessProcessException
+     */
+    public void reschedule() throws AeBusinessProcessException {
+        Date deadline = getRepeatEveryDuration().toDeadline();
+        queueAlarm(deadline);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm#isConcurrent()
-    */
-   public boolean isConcurrent()
-   {
-      return true;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getChildren()
+     */
+    public List<IAeActivity> getChildren() {
+        return mChildren;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#getChildrenForStateChange()
-    */
-   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
-   {
-      return getChildren().iterator();
-   }
+    /**
+     * @param aChildren the children to set
+     */
+    protected void setChildren(List<IAeActivity> aChildren) {
+        mChildren = aChildren;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getChildScopeDef()
-    */
-   public AeActivityScopeDef getChildScopeDef()
-   {
-      return (AeActivityScopeDef) getDef().getActivityDef();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getCompensatableChildren()
+     */
+    public List<IAeActivity> getCompensatableChildren() {
+        return mCompensatableChildren;
+    }
 
-   /**
-    * @return the repeatEveryDuration
-    */
-   public AeSchemaDuration getRepeatEveryDuration()
-   {
-      return mRepeatEveryDuration;
-   }
+    /**
+     * @param aCompensatableChildren the compensatableChildren to set
+     */
+    protected void setCompensatableChildren(List<IAeActivity> aCompensatableChildren) {
+        mCompensatableChildren = aCompensatableChildren;
+    }
 
-   /**
-    * @param aRepeatEveryDuration the repeatEveryDuration to set
-    */
-   public void setRepeatEveryDuration(AeSchemaDuration aRepeatEveryDuration)
-   {
-      mRepeatEveryDuration = aRepeatEveryDuration;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getInstanceValue()
+     */
+    public int getInstanceValue() {
+        return mInstanceValue;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#setInstanceValue(int)
+     */
+    public void setInstanceValue(int aInstanceValue) {
+        mInstanceValue = aInstanceValue;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#addActivity(org.activebpel.rt.bpel.IAeActivity)
+     */
+    public void addActivity(IAeActivity aActivity) {
+        getChildren().add(aActivity);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#getActivity()
+     */
+    public IAeActivity getActivity() {
+        // TODO (MF) remove after changing base class
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#setActivity(org.activebpel.rt.bpel.IAeActivity)
+     */
+    protected void setActivity(IAeActivity aActivity) {
+        // TODO (MF) remove after changing base class
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm#isConcurrent()
+     */
+    public boolean isConcurrent() {
+        return true;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#getChildrenForStateChange()
+     */
+    public Iterator<? extends IAeBpelObject> getChildrenForStateChange() {
+        return getChildren().iterator();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getChildScopeDef()
+     */
+    public AeActivityScopeDef getChildScopeDef() {
+        return (AeActivityScopeDef) getDef().getActivityDef();
+    }
+
+    /**
+     * @return the repeatEveryDuration
+     */
+    public AeSchemaDuration getRepeatEveryDuration() {
+        return mRepeatEveryDuration;
+    }
+
+    /**
+     * @param aRepeatEveryDuration the repeatEveryDuration to set
+     */
+    public void setRepeatEveryDuration(AeSchemaDuration aRepeatEveryDuration) {
+        mRepeatEveryDuration = aRepeatEveryDuration;
+    }
 }

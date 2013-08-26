@@ -17,24 +17,23 @@ package org.activebpel.rt.war.tags;
  * The property value must be a string.
  */
 
-public class AeIfPropertyNotInListTag extends AeIfPropertyInListTag
-{
+public class AeIfPropertyNotInListTag extends AeIfPropertyInListTag {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 2978206630222934200L;
 
-/**
-    * Returns true if the string representation of <code>aActualValue</code> is 
-    * <strong>not</strong> in a given list of comma separated strings.
-    * @param aActualValue property object to compared to
-    * @return true if property is  not in the comma separated list of values.
-    */   
-   protected boolean handleCompareValue(Object aActualValue)
-   {
-      return !( super.handleCompareValue(aActualValue.toString()) ); 
-   }   
-   
+    /**
+     * Returns true if the string representation of <code>aActualValue</code> is
+     * <strong>not</strong> in a given list of comma separated strings.
+     *
+     * @param aActualValue property object to compared to
+     * @return true if property is  not in the comma separated list of values.
+     */
+    protected boolean handleCompareValue(Object aActualValue) {
+        return !(super.handleCompareValue(aActualValue.toString()));
+    }
+
 
 }

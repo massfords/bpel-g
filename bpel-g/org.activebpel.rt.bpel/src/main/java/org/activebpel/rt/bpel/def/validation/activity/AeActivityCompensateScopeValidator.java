@@ -22,63 +22,55 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Model for validating the compensateScope activity.
  */
-public class AeActivityCompensateScopeValidator extends AeActivityCompensateValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityCompensateScopeValidator(AeActivityCompensateScopeDef aDef)
-   {
-      super(aDef);
-   }
+public class AeActivityCompensateScopeValidator extends AeActivityCompensateValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityCompensateScopeValidator(AeActivityCompensateScopeDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * Getter for the def.
-    */
-   protected AeActivityCompensateScopeDef getCompensateScopeDef()
-   {
-      return (AeActivityCompensateScopeDef) getDefinition();
-   }
+    /**
+     * Getter for the def.
+     */
+    protected AeActivityCompensateScopeDef getCompensateScopeDef() {
+        return (AeActivityCompensateScopeDef) getDefinition();
+    }
 
-   /**
-    * Validates that the compensateScope activity has a valid 'target' attribute.
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
+    /**
+     * Validates that the compensateScope activity has a valid 'target' attribute.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-      if (AeUtil.notNullOrEmpty(getCompensateScopeDef().getTarget()))
-      {
-         validateScopeTarget(getCompensateScopeDef().getTarget());
-      }
-      else
-      {
-         getReporter().reportProblem(BPEL_COMPENSATE_SCOPE_EMPTY_CODE, IAeValidationDefs.ERROR_COMPENSATE_SCOPE_EMPTY, null, getDefinition());
-      }
-   }
-   
-   /**
-    * Validates that the scope target can be resolved
-    * @param aScopeName
-    */
-   protected void validateScopeTarget(String aScopeName)
-   {
-      AeScopeDef rootScope = getDef().findRootScopeForCompensation();
-      List<AeActivityScopeDef> targetScopes = AeAmbigousCompensateScopeVisitor.findChildScopesByName(rootScope, aScopeName);
-      if (targetScopes.size() == 0)
-      {
-         getReporter().reportProblem( BPEL_SCOPE_NOT_FOUND_CODE, ERROR_SCOPE_NOT_FOUND,
-               new String[] { aScopeName },
-               getDefinition() );
-      }
-      else if (targetScopes.size() > 1)
-      {
-         getReporter().reportProblem( BPEL_TOO_MANY_SCOPES_FOUND_CODE, TOO_MANY_SCOPES_FOUND,
-               new String[] { aScopeName },
-               getDefinition() );
-      }
+        if (AeUtil.notNullOrEmpty(getCompensateScopeDef().getTarget())) {
+            validateScopeTarget(getCompensateScopeDef().getTarget());
+        } else {
+            getReporter().reportProblem(BPEL_COMPENSATE_SCOPE_EMPTY_CODE, IAeValidationDefs.ERROR_COMPENSATE_SCOPE_EMPTY, null, getDefinition());
+        }
+    }
 
-   }
+    /**
+     * Validates that the scope target can be resolved
+     *
+     * @param aScopeName
+     */
+    protected void validateScopeTarget(String aScopeName) {
+        AeScopeDef rootScope = getDef().findRootScopeForCompensation();
+        List<AeActivityScopeDef> targetScopes = AeAmbigousCompensateScopeVisitor.findChildScopesByName(rootScope, aScopeName);
+        if (targetScopes.size() == 0) {
+            getReporter().reportProblem(BPEL_SCOPE_NOT_FOUND_CODE, ERROR_SCOPE_NOT_FOUND,
+                    new String[]{aScopeName},
+                    getDefinition());
+        } else if (targetScopes.size() > 1) {
+            getReporter().reportProblem(BPEL_TOO_MANY_SCOPES_FOUND_CODE, TOO_MANY_SCOPES_FOUND,
+                    new String[]{aScopeName},
+                    getDefinition());
+        }
+
+    }
 }

@@ -18,117 +18,114 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * A base class impl for process events.
  */
-public abstract class AeBaseProcessEvent extends AeEvent implements IAeBaseProcessEvent
-{
-   /** The process ID of the event being triggered. */
-   private long mProcessID;
-   /** The path of the bpel object triggering the event (xpath) */
-   private String mNodePath;
-   /** The Fault associated with this event, if any. */
-   private String mFaultName;
-   /** Extra info registered wih the event by the triggerer. */
-   private String mAncillaryInfo;
+public abstract class AeBaseProcessEvent extends AeEvent implements IAeBaseProcessEvent {
+    /**
+     * The process ID of the event being triggered.
+     */
+    private long mProcessID;
+    /**
+     * The path of the bpel object triggering the event (xpath)
+     */
+    private String mNodePath;
+    /**
+     * The Fault associated with this event, if any.
+     */
+    private String mFaultName;
+    /**
+     * Extra info registered wih the event by the triggerer.
+     */
+    private String mAncillaryInfo;
 
-   /**
-    * Constructs the process event.
-    * 
-    * @param aPID
-    * @param aPath
-    * @param aEventID
-    * @param aFault
-    * @param aInfo
-    */
-   public AeBaseProcessEvent(long aPID, String aPath, String aFault, String aInfo)
-   {
-      super();
-      
-      setProcessID(aPID);
-      setNodePath(aPath);
-      setFaultName(aFault);
-      setAncillaryInfo(AeUtil.getSafeString(aInfo));
-   }
-   
-   /**
-    * Constructs the process event (with the given timestamp).
-    * 
-    * @param aPID
-    * @param aPath
-    * @param aEventID
-    * @param aFault
-    * @param aInfo
-    * @param aTimestamp
-    */
-   public AeBaseProcessEvent(long aPID, String aPath, String aFault, String aInfo, Date aTimestamp)
-   {
-      super(aTimestamp);
-      
-      setProcessID(aPID);
-      setNodePath(aPath);
-      setFaultName(aFault);
-      setAncillaryInfo(AeUtil.getSafeString(aInfo));
-   }
+    /**
+     * Constructs the process event.
+     *
+     * @param aPID
+     * @param aPath
+     * @param aEventID
+     * @param aFault
+     * @param aInfo
+     */
+    public AeBaseProcessEvent(long aPID, String aPath, String aFault, String aInfo) {
+        super();
 
-   /**
-    * @see org.activebpel.rt.bpel.IAeBaseProcessEvent#getNodePath()
-    */
-   public String getNodePath()
-   {
-      return mNodePath;
-   }
+        setProcessID(aPID);
+        setNodePath(aPath);
+        setFaultName(aFault);
+        setAncillaryInfo(AeUtil.getSafeString(aInfo));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.IAeBaseProcessEvent#getFaultName()
-    */
-   public String getFaultName()
-   {
-      return mFaultName;
-   }
+    /**
+     * Constructs the process event (with the given timestamp).
+     *
+     * @param aPID
+     * @param aPath
+     * @param aEventID
+     * @param aFault
+     * @param aInfo
+     * @param aTimestamp
+     */
+    public AeBaseProcessEvent(long aPID, String aPath, String aFault, String aInfo, Date aTimestamp) {
+        super(aTimestamp);
 
-   /**
-    * @see org.activebpel.rt.bpel.IAeBaseProcessEvent#getAncillaryInfo()
-    */
-   public String getAncillaryInfo()
-   {
-      return mAncillaryInfo;
-   }
+        setProcessID(aPID);
+        setNodePath(aPath);
+        setFaultName(aFault);
+        setAncillaryInfo(AeUtil.getSafeString(aInfo));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.IAeBaseProcessEvent#getPID()
-    */
-   public long getPID()
-   {
-      return mProcessID;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.IAeBaseProcessEvent#getNodePath()
+     */
+    public String getNodePath() {
+        return mNodePath;
+    }
 
-   /**
-    * @param aProcessID The processID to set.
-    */
-   protected void setProcessID(long aProcessID)
-   {
-      mProcessID = aProcessID;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.IAeBaseProcessEvent#getFaultName()
+     */
+    public String getFaultName() {
+        return mFaultName;
+    }
 
-   /**
-    * @param aAncillaryInfo The ancillaryInfo to set.
-    */
-   protected void setAncillaryInfo(String aAncillaryInfo)
-   {
-      mAncillaryInfo = aAncillaryInfo;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.IAeBaseProcessEvent#getAncillaryInfo()
+     */
+    public String getAncillaryInfo() {
+        return mAncillaryInfo;
+    }
 
-   /**
-    * @param aFaultName The faultName to set.
-    */
-   protected void setFaultName(String aFaultName)
-   {
-      mFaultName = aFaultName;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.IAeBaseProcessEvent#getPID()
+     */
+    public long getPID() {
+        return mProcessID;
+    }
 
-   /**
-    * @param aNodePath The nodePath to set.
-    */
-   protected void setNodePath(String aNodePath)
-   {
-      mNodePath = aNodePath;
-   }
+    /**
+     * @param aProcessID The processID to set.
+     */
+    protected void setProcessID(long aProcessID) {
+        mProcessID = aProcessID;
+    }
+
+    /**
+     * @param aAncillaryInfo The ancillaryInfo to set.
+     */
+    protected void setAncillaryInfo(String aAncillaryInfo) {
+        mAncillaryInfo = aAncillaryInfo;
+    }
+
+    /**
+     * @param aFaultName The faultName to set.
+     */
+    protected void setFaultName(String aFaultName) {
+        mFaultName = aFaultName;
+    }
+
+    /**
+     * @param aNodePath The nodePath to set.
+     */
+    protected void setNodePath(String aNodePath) {
+        mNodePath = aNodePath;
+    }
 }

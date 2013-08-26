@@ -26,44 +26,37 @@ import org.apache.bsf.BSFManager;
  * simply extending it and providing an implementation of <code>getEngineType</code> and (optionally)
  * <code>getTypeConverter</code>.
  */
-public abstract class AeBSFExpressionRunner extends AeAbstractExpressionRunner
-{
-   /**
-    * Must be implemented by subclasses.  This returns the BSF engine type, such as "jython" or "javascript".
-    * 
-    * @return Returns the engineType.
-    */
-   protected abstract String getEngineType();
+public abstract class AeBSFExpressionRunner extends AeAbstractExpressionRunner {
+    /**
+     * Must be implemented by subclasses.  This returns the BSF engine type, such as "jython" or "javascript".
+     *
+     * @return Returns the engineType.
+     */
+    protected abstract String getEngineType();
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
-    */
-   protected Object doExecuteExpression(String aExpression, IAeExpressionRunnerContext aContext)
-         throws AeBpelException
-   {
-      try
-      {
-         BSFManager manager = new BSFManager();
-         IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
-         IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
+     */
+    protected Object doExecuteExpression(String aExpression, IAeExpressionRunnerContext aContext)
+            throws AeBpelException {
+        try {
+            BSFManager manager = new BSFManager();
+            IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
+            IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
 
-         AeBSFGenericExtensionFunctionBean bean1 = new AeBSFGenericExtensionFunctionBean(funcExecContext);
-         manager.declareBean("bpel", bean1, AeBSFGenericExtensionFunctionBean.class); //$NON-NLS-1$
-         AeBSFBpelExtensionFunctionBean bean2 = new AeBSFBpelExtensionFunctionBean(funcExecContext, IAeBPELConstants.BPWS_NAMESPACE_URI);
-         manager.declareBean("bpws", bean2, AeBSFBpelExtensionFunctionBean.class); //$NON-NLS-1$
-         AeBSFAbxExtensionFunctionBean bean3 = new AeBSFAbxExtensionFunctionBean(funcExecContext);
-         manager.declareBean("abx", bean3, AeBSFAbxExtensionFunctionBean.class); //$NON-NLS-1$
+            AeBSFGenericExtensionFunctionBean bean1 = new AeBSFGenericExtensionFunctionBean(funcExecContext);
+            manager.declareBean("bpel", bean1, AeBSFGenericExtensionFunctionBean.class); //$NON-NLS-1$
+            AeBSFBpelExtensionFunctionBean bean2 = new AeBSFBpelExtensionFunctionBean(funcExecContext, IAeBPELConstants.BPWS_NAMESPACE_URI);
+            manager.declareBean("bpws", bean2, AeBSFBpelExtensionFunctionBean.class); //$NON-NLS-1$
+            AeBSFAbxExtensionFunctionBean bean3 = new AeBSFAbxExtensionFunctionBean(funcExecContext);
+            manager.declareBean("abx", bean3, AeBSFAbxExtensionFunctionBean.class); //$NON-NLS-1$
 
-         return manager.eval(getEngineType(), "(bpel)", 1, 1, aExpression); //$NON-NLS-1$
-      }
-      catch (AeExpressionException ee)
-      {
-         throw ee.getWrappedException();
-      }
-      catch (Throwable t)
-      {
-         throwSubLangExecutionFault(aExpression, t, aContext);
-         return null; // Will never get here - the above call will always throw.
-      }
-   }
+            return manager.eval(getEngineType(), "(bpel)", 1, 1, aExpression); //$NON-NLS-1$
+        } catch (AeExpressionException ee) {
+            throw ee.getWrappedException();
+        } catch (Throwable t) {
+            throwSubLangExecutionFault(aExpression, t, aContext);
+            return null; // Will never get here - the above call will always throw.
+        }
+    }
 }

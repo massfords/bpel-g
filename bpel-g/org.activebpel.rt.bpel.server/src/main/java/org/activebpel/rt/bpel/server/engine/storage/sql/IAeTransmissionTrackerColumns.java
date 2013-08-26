@@ -12,9 +12,8 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 /**
  * Column names used in SQL table for the transmission id manager.
  */
-public interface IAeTransmissionTrackerColumns
-{
-   public static final String TRANSMISSION_ID   = "TransmissionId"; //$NON-NLS-1$
-   public static final String STATE             = "State"; //$NON-NLS-1$
-   public static final String MESSAGE_ID        = "MessageId"; //$NON-NLS-1$   
+public interface IAeTransmissionTrackerColumns {
+    public static final String TRANSMISSION_ID = "TransmissionId"; //$NON-NLS-1$
+    public static final String STATE = "State"; //$NON-NLS-1$
+    public static final String MESSAGE_ID = "MessageId"; //$NON-NLS-1$
 }

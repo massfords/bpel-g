@@ -13,7 +13,6 @@ package org.activebpel.rt.bpel.impl.fastdom;
  * Defines the interface for objects that can be visited by
  * <code>IAeVisitor</code>.
  */
-public interface IAeVisitable
-{
-   public void accept(IAeVisitor aVisitor);
+public interface IAeVisitable {
+    public void accept(IAeVisitor aVisitor);
 }

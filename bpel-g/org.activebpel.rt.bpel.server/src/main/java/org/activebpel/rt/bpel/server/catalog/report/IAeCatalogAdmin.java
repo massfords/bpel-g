@@ -17,29 +17,31 @@ import org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter;
 import org.xml.sax.InputSource;
 
 /**
- *  Admin interface into the catalog.
+ * Admin interface into the catalog.
  */
-public interface IAeCatalogAdmin
-{
-   /**
-    * Return the <code>AeCatalogListResult</code> for the catalog
-    * contents listing.
-    * @param aFilter
-    */
-   public AeCatalogListResult getCatalogListing( AeCatalogListingFilter aFilter );
-   
-   /**
-    * Return a <code>AeCatalogItemDetail</code> object for a single resource deployment.
-    * @param aLocationHint
-    * @return catalog item detail if available or <code>null</code> if not found.
-    */
-   public AeCatalogItemDetail getCatalogItemDetail( String aLocationHint );
+public interface IAeCatalogAdmin {
+    /**
+     * Return the <code>AeCatalogListResult</code> for the catalog
+     * contents listing.
+     *
+     * @param aFilter
+     */
+    public AeCatalogListResult getCatalogListing(AeCatalogListingFilter aFilter);
 
-   /**
-    * Return a <code>InputSource</code> object for a catalog item.
-    * @param aLocationHint
-    */
-   public InputSource getCatalogInputSource(String aLocationHint);
-   
-   public Statistics getCacheStatistics();
+    /**
+     * Return a <code>AeCatalogItemDetail</code> object for a single resource deployment.
+     *
+     * @param aLocationHint
+     * @return catalog item detail if available or <code>null</code> if not found.
+     */
+    public AeCatalogItemDetail getCatalogItemDetail(String aLocationHint);
+
+    /**
+     * Return a <code>InputSource</code> object for a catalog item.
+     *
+     * @param aLocationHint
+     */
+    public InputSource getCatalogInputSource(String aLocationHint);
+
+    public Statistics getCacheStatistics();
 }

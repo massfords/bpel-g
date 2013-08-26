@@ -30,324 +30,299 @@ import java.util.Map;
  * Visits a tree of BPEL implementation objects to restore {@link AeCompInfo}
  * objects from an instance of <code>AeRestoreImplState</code>.
  */
-public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
-{
-   /**
-    * Constructor.
-    *
-    * @param aImplState The state object from which to restore state.
-    */
-   public AeRestoreCompInfoVisitor(AeRestoreImplState aImplState)
-   {
-      super(aImplState);
-   }
+public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor {
+    /**
+     * Constructor.
+     *
+     * @param aImplState The state object from which to restore state.
+     */
+    public AeRestoreCompInfoVisitor(AeRestoreImplState aImplState) {
+        super(aImplState);
+    }
 
-   /**
-    * Creates the compensation info object for the specified implementation
-    * object, if the compensation info exists.
-    *
-    * @param aImpl
-    * @return AeCompInfo
-    * @throws AeBusinessProcessException
-    */
-   protected AeCompInfo createCompInfo(AeAbstractBpelObject aImpl) throws AeBusinessProcessException
-   {
-      Element implElement = getImplState().getElement(aImpl);
-      String xpath = "./" + STATE_COMPINFO; //$NON-NLS-1$
-      Element compInfoElement = (Element) selectOptionalNode(implElement, xpath, "Error restoring compensation info"); //$NON-NLS-1$
+    /**
+     * Creates the compensation info object for the specified implementation
+     * object, if the compensation info exists.
+     *
+     * @param aImpl
+     * @return AeCompInfo
+     * @throws AeBusinessProcessException
+     */
+    protected AeCompInfo createCompInfo(AeAbstractBpelObject aImpl) throws AeBusinessProcessException {
+        Element implElement = getImplState().getElement(aImpl);
+        String xpath = "./" + STATE_COMPINFO; //$NON-NLS-1$
+        Element compInfoElement = (Element) selectOptionalNode(implElement, xpath, "Error restoring compensation info"); //$NON-NLS-1$
 
-      return (compInfoElement == null) ? null : createCompInfo(compInfoElement);
-   }
-   
-   /**
-    * Creates an instance of <code>AeCompInfo</code> from its serialization.
-    *
-    * @param aElement
-    * @return AeCompInfo
-    * @throws AeBusinessProcessException
-    */
-   protected AeCompInfo createCompInfo(Element aElement) throws AeBusinessProcessException
-   {
-      int id = getAttributeInt(aElement, STATE_ID);
-      AeCompInfo compInfo = (AeCompInfo) getObject(id);
+        return (compInfoElement == null) ? null : createCompInfo(compInfoElement);
+    }
 
-      if (compInfo == null)
-      {
-         // Haven't seen this object id yet. Create the compensation info
-         // object.
-         AeActivityScopeImpl scope = null;
-         // Try to read the location first, then fallback to id if not found
-         String scopeLocation = getAttribute(aElement, STATE_SCOPE_LOCATION);
-         if (AeUtil.notNullOrEmpty(scopeLocation))
-         {
-            scope = (AeActivityScopeImpl) getImplState().getProcess().findBpelObject(scopeLocation);
-         }
-         if (scope == null)
-         {
-            int scopeLocationId = getAttributeInt(aElement, STATE_SCOPE);
-            scope = (AeActivityScopeImpl) getImplState().getProcess().findBpelObject(scopeLocationId);
-         }
-         
-         if (scope == null)
-         {
-         	// TODO (MF) should defer the restore of the scope until the compInfo executes. This requires reworking the restore of the scope snapshot data below.
-         
-            // The scope could be null if it references a previous iteration of
-            // a forEach that is no longer accessible. Attempt to restore this
-            // scope and have it parented by its forEach.
-            scopeLocation = getAttribute(aElement, STATE_SCOPE_LOCATION);
-            scope = restoreScopeInstance(scopeLocation, true);
-         }
-         
-         boolean hasCoordination = getAttributeBoolean(aElement, STATE_HASCOORDINATIONS);
+    /**
+     * Creates an instance of <code>AeCompInfo</code> from its serialization.
+     *
+     * @param aElement
+     * @return AeCompInfo
+     * @throws AeBusinessProcessException
+     */
+    protected AeCompInfo createCompInfo(Element aElement) throws AeBusinessProcessException {
+        int id = getAttributeInt(aElement, STATE_ID);
+        AeCompInfo compInfo = (AeCompInfo) getObject(id);
 
-         if (hasCoordination)
-         {
-            String coordinationId = getAttribute(aElement, STATE_COORDINATION_ID);
-            compInfo = new AeCoordinatorCompInfo(scope, coordinationId);
-         }
-         else
-         {
-            compInfo = new AeCompInfo(scope);
-         }
+        if (compInfo == null) {
+            // Haven't seen this object id yet. Create the compensation info
+            // object.
+            AeActivityScopeImpl scope = null;
+            // Try to read the location first, then fallback to id if not found
+            String scopeLocation = getAttribute(aElement, STATE_SCOPE_LOCATION);
+            if (AeUtil.notNullOrEmpty(scopeLocation)) {
+                scope = (AeActivityScopeImpl) getImplState().getProcess().findBpelObject(scopeLocation);
+            }
+            if (scope == null) {
+                int scopeLocationId = getAttributeInt(aElement, STATE_SCOPE);
+                scope = (AeActivityScopeImpl) getImplState().getProcess().findBpelObject(scopeLocationId);
+            }
 
-         putIdObject(id, compInfo);
+            if (scope == null) {
+                // TODO (MF) should defer the restore of the scope until the compInfo executes. This requires reworking the restore of the scope snapshot data below.
 
-         boolean enabled = getAttributeBoolean(aElement, STATE_ENABLED);
-         compInfo.setEnabled(enabled);
+                // The scope could be null if it references a previous iteration of
+                // a forEach that is no longer accessible. Attempt to restore this
+                // scope and have it parented by its forEach.
+                scopeLocation = getAttribute(aElement, STATE_SCOPE_LOCATION);
+                scope = restoreScopeInstance(scopeLocation, true);
+            }
 
-         if (enabled)
-         {
-            // This element contains the compensation info object's inner data.
-            // Reconstruct the variables, correlation sets, partner links, and enclosed
-            // compensation info objects.
-            Map<String,IAeVariable> variables = createCompInfoVariables(aElement, scope);
-            Map<String, AeCorrelationSet> correlationSets = createCompInfoCorrelationSets(aElement, scope);
-            Map<String,IAePartnerLink> partnerLinks = createCompInfoPartnerLinks(aElement, scope);
-            AeScopeSnapshot snapshot = new AeScopeSnapshot(variables, correlationSets, partnerLinks);
-            compInfo.setSnapshot(snapshot);
+            boolean hasCoordination = getAttributeBoolean(aElement, STATE_HASCOORDINATIONS);
 
-            String xpath = "./" + STATE_COMPINFO; //$NON-NLS-1$
-            List enclosedScopeElements = selectNodes(aElement, xpath, "Error restoring enclosed compensation info"); //$NON-NLS-1$
-            LinkedList<AeCompInfo> enclosedScopes = new LinkedList<>();
+            if (hasCoordination) {
+                String coordinationId = getAttribute(aElement, STATE_COORDINATION_ID);
+                compInfo = new AeCoordinatorCompInfo(scope, coordinationId);
+            } else {
+                compInfo = new AeCompInfo(scope);
+            }
 
-             for (Object enclosedScopeElement : enclosedScopeElements) {
-                 Element element = (Element) enclosedScopeElement;
-                 AeCompInfo enclosedScope = createCompInfo(element);
-                 enclosedScope.setParent(compInfo);
-                 enclosedScopes.addLast(enclosedScope);
-             }
+            putIdObject(id, compInfo);
 
-            compInfo.setEnclosedScopes(enclosedScopes);
-         }
-      }
+            boolean enabled = getAttributeBoolean(aElement, STATE_ENABLED);
+            compInfo.setEnabled(enabled);
 
-      return compInfo;
-   }
+            if (enabled) {
+                // This element contains the compensation info object's inner data.
+                // Reconstruct the variables, correlation sets, partner links, and enclosed
+                // compensation info objects.
+                Map<String, IAeVariable> variables = createCompInfoVariables(aElement, scope);
+                Map<String, AeCorrelationSet> correlationSets = createCompInfoCorrelationSets(aElement, scope);
+                Map<String, IAePartnerLink> partnerLinks = createCompInfoPartnerLinks(aElement, scope);
+                AeScopeSnapshot snapshot = new AeScopeSnapshot(variables, correlationSets, partnerLinks);
+                compInfo.setSnapshot(snapshot);
 
-   /**
-    * Creates a <code>Map</code> of correlation sets from their serialization
-    * in a compensation info serialization.
-    *
-    * @param aCompInfoElement
-    * @param aScope
-    * @return Map
-    * @throws AeBusinessProcessException
-    */
-   protected Map<String, AeCorrelationSet> createCompInfoCorrelationSets(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException
-   {
-      String xpath = "./" + STATE_CORRSET; //$NON-NLS-1$
-      List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info correlation sets"); //$NON-NLS-1$
-      Map<String, AeCorrelationSet> map = new HashMap<>();
+                String xpath = "./" + STATE_COMPINFO; //$NON-NLS-1$
+                List enclosedScopeElements = selectNodes(aElement, xpath, "Error restoring enclosed compensation info"); //$NON-NLS-1$
+                LinkedList<AeCompInfo> enclosedScopes = new LinkedList<>();
 
-       for (Object element1 : elements) {
-           Element element = (Element) element1;
-           String name = getAttribute(element, STATE_NAME);
+                for (Object enclosedScopeElement : enclosedScopeElements) {
+                    Element element = (Element) enclosedScopeElement;
+                    AeCompInfo enclosedScope = createCompInfo(element);
+                    enclosedScope.setParent(compInfo);
+                    enclosedScopes.addLast(enclosedScope);
+                }
 
-           int versionNumber = getAttributeInt(element, STATE_VERSION);
-           AeCorrelationSet correlationSet = aScope.findCorrelationSet(name);
+                compInfo.setEnclosedScopes(enclosedScopes);
+            }
+        }
 
-           if (versionNumber != correlationSet.getVersionNumber()) {
-               // Different version from the correlation set in the scope. Clone a
-               // new correlation set from the scope correlation set.
-               correlationSet = (AeCorrelationSet) correlationSet.clone();
-               restoreCorrelationSet(element, correlationSet);
-           }
+        return compInfo;
+    }
 
-           map.put(name, correlationSet);
-       }
+    /**
+     * Creates a <code>Map</code> of correlation sets from their serialization
+     * in a compensation info serialization.
+     *
+     * @param aCompInfoElement
+     * @param aScope
+     * @return Map
+     * @throws AeBusinessProcessException
+     */
+    protected Map<String, AeCorrelationSet> createCompInfoCorrelationSets(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException {
+        String xpath = "./" + STATE_CORRSET; //$NON-NLS-1$
+        List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info correlation sets"); //$NON-NLS-1$
+        Map<String, AeCorrelationSet> map = new HashMap<>();
 
-      return map;
-   }
+        for (Object element1 : elements) {
+            Element element = (Element) element1;
+            String name = getAttribute(element, STATE_NAME);
 
-   /**
-    * Creates a <code>Map</code> of variables from their serialization in a
-    * compensation info serialization.
-    *
-    * @param aCompInfoElement
-    * @param aScope
-    * @return Map
-    * @throws AeBusinessProcessException
-    */
-   protected Map<String,IAeVariable> createCompInfoVariables(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException
-   {
-      String xpath = "./" + STATE_VAR; //$NON-NLS-1$
-      List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info variables"); //$NON-NLS-1$
-      Map<String,IAeVariable> map = new HashMap<>();
+            int versionNumber = getAttributeInt(element, STATE_VERSION);
+            AeCorrelationSet correlationSet = aScope.findCorrelationSet(name);
 
-       for (Object element1 : elements) {
-           Element element = (Element) element1;
-           String name = getAttribute(element, STATE_NAME);
+            if (versionNumber != correlationSet.getVersionNumber()) {
+                // Different version from the correlation set in the scope. Clone a
+                // new correlation set from the scope correlation set.
+                correlationSet = (AeCorrelationSet) correlationSet.clone();
+                restoreCorrelationSet(element, correlationSet);
+            }
 
-           int versionNumber = getAttributeInt(element, STATE_VERSION);
-           AeVariable variable = (AeVariable) aScope.findVariable(name);
+            map.put(name, correlationSet);
+        }
 
-           if (versionNumber != variable.getVersionNumber()) {
-               // Different version from the variable in the scope. Clone a new
-               // variable from the scope variable.
-               variable = (AeVariable) variable.clone();
-               restoreVariable(element, variable);
-           }
+        return map;
+    }
 
-           map.put(name, variable);
-       }
+    /**
+     * Creates a <code>Map</code> of variables from their serialization in a
+     * compensation info serialization.
+     *
+     * @param aCompInfoElement
+     * @param aScope
+     * @return Map
+     * @throws AeBusinessProcessException
+     */
+    protected Map<String, IAeVariable> createCompInfoVariables(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException {
+        String xpath = "./" + STATE_VAR; //$NON-NLS-1$
+        List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info variables"); //$NON-NLS-1$
+        Map<String, IAeVariable> map = new HashMap<>();
 
-      return map;
-   }
+        for (Object element1 : elements) {
+            Element element = (Element) element1;
+            String name = getAttribute(element, STATE_NAME);
 
-   /**
-    * Creates a <code>Map</code> of partner links from their serialization in a
-    * compensation info serialization.
-    * 
-    * @param aCompInfoElement
-    * @param aScope
-    * @throws AeBusinessProcessException
-    */
-   protected Map<String,IAePartnerLink> createCompInfoPartnerLinks(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException
-   {
-      String xpath = "./" + STATE_PLINK; //$NON-NLS-1$
-      List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info partner links"); //$NON-NLS-1$
-      Map<String,IAePartnerLink> map = new HashMap<>();
+            int versionNumber = getAttributeInt(element, STATE_VERSION);
+            AeVariable variable = (AeVariable) aScope.findVariable(name);
 
-       for (Object element1 : elements) {
-           Element element = (Element) element1;
-           String name = getAttribute(element, STATE_NAME);
+            if (versionNumber != variable.getVersionNumber()) {
+                // Different version from the variable in the scope. Clone a new
+                // variable from the scope variable.
+                variable = (AeVariable) variable.clone();
+                restoreVariable(element, variable);
+            }
 
-           int versionNumber = getAttributeInt(element, STATE_VERSION);
-           IAePartnerLink plink = aScope.findPartnerLink(name);
+            map.put(name, variable);
+        }
 
-           if (versionNumber != plink.getVersionNumber()) {
-               // Different version from the partner link in the scope. Clone a new
-               // partner link from the scope partner link.
-               plink = (AePartnerLink) plink.clone();
-               restorePartnerLink(element, plink);
-           }
+        return map;
+    }
 
-           map.put(name, plink);
-       }
+    /**
+     * Creates a <code>Map</code> of partner links from their serialization in a
+     * compensation info serialization.
+     *
+     * @param aCompInfoElement
+     * @param aScope
+     * @throws AeBusinessProcessException
+     */
+    protected Map<String, IAePartnerLink> createCompInfoPartnerLinks(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException {
+        String xpath = "./" + STATE_PLINK; //$NON-NLS-1$
+        List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info partner links"); //$NON-NLS-1$
+        Map<String, IAePartnerLink> map = new HashMap<>();
 
-      return map;
-   }
+        for (Object element1 : elements) {
+            Element element = (Element) element1;
+            String name = getAttribute(element, STATE_NAME);
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visitBase(org.activebpel.rt.bpel.impl.AeAbstractBpelObject)
-    */
-   protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException
-   {
-      Element element = getImplState().getElement(aImpl);
+            int versionNumber = getAttributeInt(element, STATE_VERSION);
+            IAePartnerLink plink = aScope.findPartnerLink(name);
 
-      boolean skipChildren = getAttributeBoolean(element, STATE_SKIPCHILDREN);
-      if (!skipChildren)
-      {
-         super.visitBase(aImpl);
-      }
-   }
+            if (versionNumber != plink.getVersionNumber()) {
+                // Different version from the partner link in the scope. Clone a new
+                // partner link from the scope partner link.
+                plink = (AePartnerLink) plink.clone();
+                restorePartnerLink(element, plink);
+            }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitScope(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
-    */
-   protected void visitScope(AeActivityScopeImpl aImpl)
-         throws AeBusinessProcessException
-   {
-      super.visitScope(aImpl);
-      AeCompInfo info = createCompInfo(aImpl);
-      aImpl.setCompInfo(info);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.AeBusinessProcess)
-    */
-   public void visit(AeBusinessProcess aImpl) throws AeBusinessProcessException
-   {
-      visit((AeActivityScopeImpl) aImpl);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler)
-    */
-   public void visit(AeCompensationHandler aImpl) throws AeBusinessProcessException
-   {
-      super.visit(aImpl);
+            map.put(name, plink);
+        }
 
-      AeCompInfo info = createCompInfo(aImpl);
-      aImpl.setCompInfo(info);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.AeActivityForEachParallelImpl)
-    */
-   public void visit(AeActivityForEachParallelImpl aImpl)
-         throws AeBusinessProcessException
-   {
-      super.visit(aImpl);
-      
-      restoreCompensatableChildren(aImpl);
-   }
+        return map;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeOnEvent)
-    */
-   public void visit(AeOnEvent aImpl) throws AeBusinessProcessException
-   {
-      super.visit(aImpl);
-      restoreCompensatableChildren(aImpl);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visitBase(org.activebpel.rt.bpel.impl.AeAbstractBpelObject)
+     */
+    protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException {
+        Element element = getImplState().getElement(aImpl);
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeRepeatableOnAlarm)
-    */
-   public void visit(AeRepeatableOnAlarm aImpl) throws AeBusinessProcessException
-   {
-      super.visit(aImpl);
-      restoreCompensatableChildren(aImpl);
-   }
+        boolean skipChildren = getAttributeBoolean(element, STATE_SKIPCHILDREN);
+        if (!skipChildren) {
+            super.visitBase(aImpl);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler)
-    */
-   public void visit(AeImplicitCompensationHandler aImpl) throws AeBusinessProcessException
-   {
-      visit((AeCompensationHandler) aImpl);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeCoordinatorCompensationHandler)
-    */
-   public void visit(AeCoordinatorCompensationHandler aImpl) throws AeBusinessProcessException
-   {
-      visit((AeCompensationHandler) aImpl);
-   }      
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitScope(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
+     */
+    protected void visitScope(AeActivityScopeImpl aImpl)
+            throws AeBusinessProcessException {
+        super.visitScope(aImpl);
+        AeCompInfo info = createCompInfo(aImpl);
+        aImpl.setCompInfo(info);
+    }
 
-   /**
-    * Restores all of the compensatable scopes for dynamic scope parents
-    * @param aImpl
-    */
-   protected void restoreCompensatableChildren(IAeDynamicScopeParent aImpl) throws AeBusinessProcessException
-   {
-      // now visit the compensatable scopes
-       for (IAeActivity iAeActivity : aImpl.getCompensatableChildren()) {
-           AeActivityScopeImpl scope = (AeActivityScopeImpl) iAeActivity;
-           scope.accept(this);
-       }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.AeBusinessProcess)
+     */
+    public void visit(AeBusinessProcess aImpl) throws AeBusinessProcessException {
+        visit((AeActivityScopeImpl) aImpl);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler)
+     */
+    public void visit(AeCompensationHandler aImpl) throws AeBusinessProcessException {
+        super.visit(aImpl);
+
+        AeCompInfo info = createCompInfo(aImpl);
+        aImpl.setCompInfo(info);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.AeActivityForEachParallelImpl)
+     */
+    public void visit(AeActivityForEachParallelImpl aImpl)
+            throws AeBusinessProcessException {
+        super.visit(aImpl);
+
+        restoreCompensatableChildren(aImpl);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeOnEvent)
+     */
+    public void visit(AeOnEvent aImpl) throws AeBusinessProcessException {
+        super.visit(aImpl);
+        restoreCompensatableChildren(aImpl);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeRepeatableOnAlarm)
+     */
+    public void visit(AeRepeatableOnAlarm aImpl) throws AeBusinessProcessException {
+        super.visit(aImpl);
+        restoreCompensatableChildren(aImpl);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler)
+     */
+    public void visit(AeImplicitCompensationHandler aImpl) throws AeBusinessProcessException {
+        visit((AeCompensationHandler) aImpl);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeCoordinatorCompensationHandler)
+     */
+    public void visit(AeCoordinatorCompensationHandler aImpl) throws AeBusinessProcessException {
+        visit((AeCompensationHandler) aImpl);
+    }
+
+    /**
+     * Restores all of the compensatable scopes for dynamic scope parents
+     *
+     * @param aImpl
+     */
+    protected void restoreCompensatableChildren(IAeDynamicScopeParent aImpl) throws AeBusinessProcessException {
+        // now visit the compensatable scopes
+        for (IAeActivity iAeActivity : aImpl.getCompensatableChildren()) {
+            AeActivityScopeImpl scope = (AeActivityScopeImpl) iAeActivity;
+            scope.accept(this);
+        }
+    }
 }

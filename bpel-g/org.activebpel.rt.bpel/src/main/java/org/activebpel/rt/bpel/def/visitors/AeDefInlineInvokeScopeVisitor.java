@@ -22,7 +22,7 @@ import org.activebpel.rt.util.AeUtil;
  * other words, if an invoke is the only child of a scope, and the scope
  * meets the following criteria, then the scope will be removed and its
  * fault and compensation handlers inlined under the invoke itself:
- * 
+ * <p/>
  * 1) the scope must not be isolated
  * 2) the scope must not have a termination handler
  * 3) the scope must not have any event handlers
@@ -31,108 +31,99 @@ import org.activebpel.rt.util.AeUtil;
  * 6) the scope must not have any declared partner links
  * 7) the scope must not have any extension elements or attributes
  */
-public class AeDefInlineInvokeScopeVisitor extends AeAbstractDefVisitor
-{
-   /**
-    * Default c'tor.
-    */
-   public AeDefInlineInvokeScopeVisitor()
-   {
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
+public class AeDefInlineInvokeScopeVisitor extends AeAbstractDefVisitor {
+    /**
+     * Default c'tor.
+     */
+    public AeDefInlineInvokeScopeVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * Returns true if the scope can be inlined.
-    * 
-    * @param aDef
-    */
-   private static boolean canScopeBeInlined(AeActivityScopeDef aDef)
-   {
-      AeScopeDef scope = aDef.getScopeDef();
-      return (aDef.getActivityDef() instanceof AeActivityInvokeDef)
-          && !aDef.isIsolated()
-          && !scope.hasTerminationHandler()
-          && !scope.hasEventHandlers()
-          && !scope.hasVariables()
-          && !scope.hasCorrelationSets()
-          && !scope.hasPartnerLinks()
-          && !scopeContainsExtensions(aDef);
-   }
+    /**
+     * Returns true if the scope can be inlined.
+     *
+     * @param aDef
+     */
+    private static boolean canScopeBeInlined(AeActivityScopeDef aDef) {
+        AeScopeDef scope = aDef.getScopeDef();
+        return (aDef.getActivityDef() instanceof AeActivityInvokeDef)
+                && !aDef.isIsolated()
+                && !scope.hasTerminationHandler()
+                && !scope.hasEventHandlers()
+                && !scope.hasVariables()
+                && !scope.hasCorrelationSets()
+                && !scope.hasPartnerLinks()
+                && !scopeContainsExtensions(aDef);
+    }
 
-   /**
-    * Returns true if the invoke can be inlined.  An invoke can be inlined 
-    * as long as it has no links to or from it.
-    * 
-    * @param aInvoke
-    */
-   private static boolean canInvokeBeInlined(AeActivityInvokeDef aInvoke)
-   {
-      return !aInvoke.getSourceDefs().hasNext() && !aInvoke.getTargetDefs().hasNext();
-   }
-   
-   /**
-    * Returns true if the given scope contains any extension 
-    * element or extension attributes.
-    * 
-    * @param aDef
-    */
-   private static boolean scopeContainsExtensions(AeActivityScopeDef aDef)
-   {
-      AeDefExtensionFinderVisitor visitor = new AeDefExtensionFinderVisitor();
-      aDef.accept(visitor);
-      return visitor.isFound();
-   }
+    /**
+     * Returns true if the invoke can be inlined.  An invoke can be inlined
+     * as long as it has no links to or from it.
+     *
+     * @param aInvoke
+     */
+    private static boolean canInvokeBeInlined(AeActivityInvokeDef aInvoke) {
+        return !aInvoke.getSourceDefs().hasNext() && !aInvoke.getTargetDefs().hasNext();
+    }
 
-   /**
-    * Returns true if the scope and invoke names match (for inlining).  The
-    * names match if they are either 1) the same or 2) the scope name is 
-    * empty.
-    * 
-    * This behavior is a holdover from ActiveBPEL 2.x.  I believe this 
-    * behavior stems from the ActiveBPEL Designer training, where we tell
-    * users to model an inline invoke scope by creating a named scope with
-    * an un-named invoke inside the scope.
-    * 
-    * @param aScope
-    * @param aInvoke
-    */
-   private static boolean isNameMatch(AeActivityScopeDef aScope, AeActivityInvokeDef aInvoke)
-   {
-      return AeUtil.compareObjects(aScope.getName(), aInvoke.getName()) || 
-             AeUtil.isNullOrEmpty(aInvoke.getName());
-   }
+    /**
+     * Returns true if the given scope contains any extension
+     * element or extension attributes.
+     *
+     * @param aDef
+     */
+    private static boolean scopeContainsExtensions(AeActivityScopeDef aDef) {
+        AeDefExtensionFinderVisitor visitor = new AeDefExtensionFinderVisitor();
+        aDef.accept(visitor);
+        return visitor.isFound();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
-    */
-   public void visit(AeActivityScopeDef def)
-   {
-      if (canScopeBeInlined(def))
-      {
-         AeActivityInvokeDef invokeDef = (AeActivityInvokeDef) def.getActivityDef();
-         if (canInvokeBeInlined(invokeDef) && isNameMatch(def, invokeDef))
-         {
-            invokeDef.setImplicitScopeDef(def);
-            // Clear out the scope's child
-            def.setActivityDef(null);
-            
-            // Set the scope's name as the invoke's name.
-            invokeDef.setName(def.getName());
-            
-            // Move the sources and targets from the scope to the invoke.
-            invokeDef.setSourcesDef(def.getSourcesDef());
-            invokeDef.setTargetsDef(def.getTargetsDef());
-            def.setSourcesDef(null);
-            def.setTargetsDef(null);
-            
-            // Tell the scope's parent to replace the scope with the invoke
-            invokeDef.setParentXmlDef(def.getParent());
-            ((IAeActivityContainerDef) def.getParent()).replaceActivityDef(def, invokeDef);
-            def.setParentXmlDef(null);
-            def.getScopeDef().setParentXmlDef(invokeDef);
-         }
-      }
-      
-      super.visit(def);
-   }
+    /**
+     * Returns true if the scope and invoke names match (for inlining).  The
+     * names match if they are either 1) the same or 2) the scope name is
+     * empty.
+     * <p/>
+     * This behavior is a holdover from ActiveBPEL 2.x.  I believe this
+     * behavior stems from the ActiveBPEL Designer training, where we tell
+     * users to model an inline invoke scope by creating a named scope with
+     * an un-named invoke inside the scope.
+     *
+     * @param aScope
+     * @param aInvoke
+     */
+    private static boolean isNameMatch(AeActivityScopeDef aScope, AeActivityInvokeDef aInvoke) {
+        return AeUtil.compareObjects(aScope.getName(), aInvoke.getName()) ||
+                AeUtil.isNullOrEmpty(aInvoke.getName());
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
+     */
+    public void visit(AeActivityScopeDef def) {
+        if (canScopeBeInlined(def)) {
+            AeActivityInvokeDef invokeDef = (AeActivityInvokeDef) def.getActivityDef();
+            if (canInvokeBeInlined(invokeDef) && isNameMatch(def, invokeDef)) {
+                invokeDef.setImplicitScopeDef(def);
+                // Clear out the scope's child
+                def.setActivityDef(null);
+
+                // Set the scope's name as the invoke's name.
+                invokeDef.setName(def.getName());
+
+                // Move the sources and targets from the scope to the invoke.
+                invokeDef.setSourcesDef(def.getSourcesDef());
+                invokeDef.setTargetsDef(def.getTargetsDef());
+                def.setSourcesDef(null);
+                def.setTargetsDef(null);
+
+                // Tell the scope's parent to replace the scope with the invoke
+                invokeDef.setParentXmlDef(def.getParent());
+                ((IAeActivityContainerDef) def.getParent()).replaceActivityDef(def, invokeDef);
+                def.setParentXmlDef(null);
+                def.getScopeDef().setParentXmlDef(invokeDef);
+            }
+        }
+
+        super.visit(def);
+    }
 }

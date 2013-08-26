@@ -19,34 +19,36 @@ import org.activebpel.rt.xml.def.io.writers.IAeDefWriter;
  * Interface for retrieving AeDef object serializers and
  * deserializers.
  */
-public interface IAeDefRegistry
-{
-   /**
-    * Retrieve the appropriate reader based on the parent
-    * def object and QName mapping.
-    * @param aParentDef
-    * @param aQName
-    * @return IAeBpelDefReader impl
-    */
-   public IAeDefReader getReader( AeBaseXmlDef aParentDef, QName aQName );
+public interface IAeDefRegistry {
+    /**
+     * Retrieve the appropriate reader based on the parent
+     * def object and QName mapping.
+     *
+     * @param aParentDef
+     * @param aQName
+     * @return IAeBpelDefReader impl
+     */
+    public IAeDefReader getReader(AeBaseXmlDef aParentDef, QName aQName);
 
-   /**
-    * Returns the extension reader configured for the registry.
-    */
-   public IAeDefReader getExtensionReader();
-   
-   /**
-    * Sets the extension reader
-    * @param aExtensionReader 
-    */
-   public void setExtensionReader(IAeDefReader aExtensionReader);
-   
-   /**
-    * Retrieve the appropriate writer based on the parent class
-    * and the current AeDef object.
-    * @param aParentClass
-    * @param aDef
-    * @return IAeBpelDefWriter impl
-    */
-   public IAeDefWriter getWriter( Class aParentClass, AeBaseXmlDef aDef );
+    /**
+     * Returns the extension reader configured for the registry.
+     */
+    public IAeDefReader getExtensionReader();
+
+    /**
+     * Sets the extension reader
+     *
+     * @param aExtensionReader
+     */
+    public void setExtensionReader(IAeDefReader aExtensionReader);
+
+    /**
+     * Retrieve the appropriate writer based on the parent class
+     * and the current AeDef object.
+     *
+     * @param aParentClass
+     * @param aDef
+     * @return IAeBpelDefWriter impl
+     */
+    public IAeDefWriter getWriter(Class aParentClass, AeBaseXmlDef aDef);
 }

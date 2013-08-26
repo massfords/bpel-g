@@ -30,107 +30,95 @@ import org.w3c.dom.Node;
 
 
 /**
- * Class representing the function used by expression evaluators to handle 
+ * Class representing the function used by expression evaluators to handle
  * the BPEL getVariableData() function call.
  */
-public class AeGetMyRolePropertyFunction extends AeAbstractBpelFunction implements IAeFunction
-{   
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "getMyRoleProperty"; //$NON-NLS-1$
-   
-   // error message constants
-   private static final String INVALID_ARGS            = AeMessages.getString( "AeAbstractBpelObject.ERROR_45" ); //$NON-NLS-1$
-   private static final String INVALID_PARTNER_LINK    = AeMessages.getString( "AeAbstractBpelObject.ERROR_42" ); //$NON-NLS-1$ 
-   private static final String INVALID_MYROLE          = AeMessages.getString( "AeAbstractBpelObject.ERROR_43" ); //$NON-NLS-1$ 
-   private static final String ERROR_EVALUATING_QUERY  = AeMessages.getString( "AeAbstractBpelObject.ERROR_28" ); //$NON-NLS-1$
-   private static final String TAG_HEADERS = "Headers"; //$NON-NLS-1$
-   private static final String TAG_OPERATION = "operation"; //$NON-NLS-1$
+public class AeGetMyRolePropertyFunction extends AeAbstractBpelFunction implements IAeFunction {
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "getMyRoleProperty"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeGetMyRolePropertyFunction()
-   {
-       super(FUNCTION_NAME);
-   }
-   
-   /**
-    * Execution of XPath function. 
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      Object result = null;
+    // error message constants
+    private static final String INVALID_ARGS = AeMessages.getString("AeAbstractBpelObject.ERROR_45"); //$NON-NLS-1$
+    private static final String INVALID_PARTNER_LINK = AeMessages.getString("AeAbstractBpelObject.ERROR_42"); //$NON-NLS-1$
+    private static final String INVALID_MYROLE = AeMessages.getString("AeAbstractBpelObject.ERROR_43"); //$NON-NLS-1$
+    private static final String ERROR_EVALUATING_QUERY = AeMessages.getString("AeAbstractBpelObject.ERROR_28"); //$NON-NLS-1$
+    private static final String TAG_HEADERS = "Headers"; //$NON-NLS-1$
+    private static final String TAG_OPERATION = "operation"; //$NON-NLS-1$
 
-      try
-      {
+    /**
+     * Constructor.
+     */
+    public AeGetMyRolePropertyFunction() {
+        super(FUNCTION_NAME);
+    }
 
-         // Validate that we have the proper number of arguments
-         int numArgs = aArgs.size();
-         if ( numArgs < 2 || numArgs > 3 )
-            throw new AeFunctionCallException(INVALID_ARGS);
+    /**
+     * Execution of XPath function.
+     *
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        Object result = null;
 
-         // Get the partner link
-         IAePartnerLink plink = aContext.getAbstractBpelObject().findPartnerLink(getStringArg(aArgs,0));
-         if ( plink == null )
-            // no such partner link
-            throw new AeFunctionCallException(INVALID_PARTNER_LINK);
+        try {
 
-         // get myRole endpoint reference
-         IAeEndpointReference myRef = plink.getMyReference();
-         if ( myRef == null )
-            // myRole endpoint not initialized
-            throw new AeFunctionCallException(INVALID_MYROLE);
+            // Validate that we have the proper number of arguments
+            int numArgs = aArgs.size();
+            if (numArgs < 2 || numArgs > 3)
+                throw new AeFunctionCallException(INVALID_ARGS);
 
-         // Get Headers for operation from Extensibility Elements
-         for (Iterator it = myRef.getExtensibilityElements(); it.hasNext();)
-         {
-            Element elem = (Element)it.next();
-            // Find Headers for operation
-            if ( elem.getLocalName().equals(TAG_HEADERS) && elem.getNamespaceURI().equals(IAeConstants.ABX_NAMESPACE_URI) )
-            {
-               if ( elem.getAttribute(TAG_OPERATION).equals(getStringArg(aArgs,1)) )
-               {
-                  result = elem;
-                  break;
-               }
+            // Get the partner link
+            IAePartnerLink plink = aContext.getAbstractBpelObject().findPartnerLink(getStringArg(aArgs, 0));
+            if (plink == null)
+                // no such partner link
+                throw new AeFunctionCallException(INVALID_PARTNER_LINK);
+
+            // get myRole endpoint reference
+            IAeEndpointReference myRef = plink.getMyReference();
+            if (myRef == null)
+                // myRole endpoint not initialized
+                throw new AeFunctionCallException(INVALID_MYROLE);
+
+            // Get Headers for operation from Extensibility Elements
+            for (Iterator it = myRef.getExtensibilityElements(); it.hasNext(); ) {
+                Element elem = (Element) it.next();
+                // Find Headers for operation
+                if (elem.getLocalName().equals(TAG_HEADERS) && elem.getNamespaceURI().equals(IAeConstants.ABX_NAMESPACE_URI)) {
+                    if (elem.getAttribute(TAG_OPERATION).equals(getStringArg(aArgs, 1))) {
+                        result = elem;
+                        break;
+                    }
+                }
             }
-         }
 
-         // if the third argument is used it represents a query against the headers element
-         if ( result != null && numArgs > 2 )
-         {
-            try
-            {
-               String xpathQuery = getStringArg(aArgs,2);
-               AeXPathHelper xpathHelper = AeXPathHelper.getInstance(aContext.getBpelNamespace());
-               Document headerDoc = AeXmlUtil.newDocument();
-               headerDoc.appendChild(headerDoc.importNode((Node) result, true));
-               Object xpathContext = headerDoc;
-               AeXPathFunctionContext funcContext = new AeXPathFunctionContext(aContext);
-               AeXPathNamespaceContext namespaceContext = new AeXPathNamespaceContext(
-                     aContext.getAbstractBpelObject());
-               
-               // Execute the xpath query/expression to get the result.
-               result = xpathHelper.executeXPathExpression(xpathQuery, xpathContext, funcContext,
-                     namespaceContext);
-            }
-            catch (AeBusinessProcessException ex)
-            {
-               throw new AeFunctionCallException(ERROR_EVALUATING_QUERY, ex);
-            }
-         }
-      }
-      catch (AeFunctionCallException fce)
-      {
-         throw fce;
-      }
-      catch (Exception e)
-      {
-         throw new AeFunctionCallException(ERROR_EVALUATING_QUERY, e);
-      }
+            // if the third argument is used it represents a query against the headers element
+            if (result != null && numArgs > 2) {
+                try {
+                    String xpathQuery = getStringArg(aArgs, 2);
+                    AeXPathHelper xpathHelper = AeXPathHelper.getInstance(aContext.getBpelNamespace());
+                    Document headerDoc = AeXmlUtil.newDocument();
+                    headerDoc.appendChild(headerDoc.importNode((Node) result, true));
+                    Object xpathContext = headerDoc;
+                    AeXPathFunctionContext funcContext = new AeXPathFunctionContext(aContext);
+                    AeXPathNamespaceContext namespaceContext = new AeXPathNamespaceContext(
+                            aContext.getAbstractBpelObject());
 
-      return result;
-   }
+                    // Execute the xpath query/expression to get the result.
+                    result = xpathHelper.executeXPathExpression(xpathQuery, xpathContext, funcContext,
+                            namespaceContext);
+                } catch (AeBusinessProcessException ex) {
+                    throw new AeFunctionCallException(ERROR_EVALUATING_QUERY, ex);
+                }
+            }
+        } catch (AeFunctionCallException fce) {
+            throw fce;
+        } catch (Exception e) {
+            throw new AeFunctionCallException(ERROR_EVALUATING_QUERY, e);
+        }
+
+        return result;
+    }
 
 }

@@ -12,35 +12,32 @@ package org.activebpel.rt.bpel.server.security;
 /**
  * Simple implementation of a principal that holds the name of a user, group or role
  */
-public class AeSimpleNamePrincipal implements IAePrincipal
-{
-   private final String mName;
+public class AeSimpleNamePrincipal implements IAePrincipal {
+    private final String mName;
 
-   /**
-    * Constructor with name of user or group
-    * @param aName
-    */
-   public AeSimpleNamePrincipal(String aName)
-   {
-      mName = aName;
-   }
+    /**
+     * Constructor with name of user or group
+     *
+     * @param aName
+     */
+    public AeSimpleNamePrincipal(String aName) {
+        mName = aName;
+    }
 
-   /**
-    * Returns true if the name matches the rolename
-    * 
-    * @see org.activebpel.rt.bpel.server.security.IAePrincipal#isUserInRole(java.lang.String)
-    */
-   public boolean isUserInRole(String aRolename)
-   {
-      return getName().equals(aRolename);
-   }
+    /**
+     * Returns true if the name matches the rolename
+     *
+     * @see org.activebpel.rt.bpel.server.security.IAePrincipal#isUserInRole(java.lang.String)
+     */
+    public boolean isUserInRole(String aRolename) {
+        return getName().equals(aRolename);
+    }
 
-   /**
-    * @see java.security.Principal#getName()
-    */
-   public String getName()
-   {
-      return mName;
-   }
+    /**
+     * @see java.security.Principal#getName()
+     */
+    public String getName() {
+        return mName;
+    }
 
 }

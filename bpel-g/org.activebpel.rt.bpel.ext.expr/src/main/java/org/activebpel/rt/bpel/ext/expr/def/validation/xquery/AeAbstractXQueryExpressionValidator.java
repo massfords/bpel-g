@@ -29,69 +29,60 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
 /**
  * Implements an expression validator for the XQuery 1.0 expression language.
  */
-public abstract class AeAbstractXQueryExpressionValidator extends AeAbstractExpressionValidator
-{
-   /**
-    * Overrides method to do additional validation on the xquery parse tree for join conditions.  This
-    * method delegates to the superclass to do most of the validation, but then does a little bit extra.
-    * 
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#doJoinConditionValidation(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   protected void doJoinConditionValidation(IAeExpressionParseResult aParseResult,
-         AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
-   {
-      super.doJoinConditionValidation(aParseResult, aValidationResult, aContext);
-      
-      Expression node = ((AeAbstractXQueryParseResult) aParseResult).getXQueryExpression();
-      validateXQueryNode(node, aParseResult, aValidationResult);
-   }
+public abstract class AeAbstractXQueryExpressionValidator extends AeAbstractExpressionValidator {
+    /**
+     * Overrides method to do additional validation on the xquery parse tree for join conditions.  This
+     * method delegates to the superclass to do most of the validation, but then does a little bit extra.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#doJoinConditionValidation(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    protected void doJoinConditionValidation(IAeExpressionParseResult aParseResult,
+                                             AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext) {
+        super.doJoinConditionValidation(aParseResult, aValidationResult, aContext);
 
-   /**
-    * Validates that the given node is ok for a join condition.  This specifically looks for 
-    * literal nodes that are not contained within function calls.
-    * 
-    * @param aNode
-    * @param aParseResult
-    * @param aValidationResult
-    */
-   protected void validateXQueryNode(Expression aNode, IAeExpressionParseResult aParseResult, 
-         AeExpressionValidationResult aValidationResult)
-   {
-      if (aNode instanceof FunctionCall)
-      {
-         return;
-      }
-      else if (aNode instanceof AtomicValue && !(aNode instanceof BooleanValue))
-      {
-         AtomicValue value = (AtomicValue) aNode;
-         addError(aValidationResult, AeMessages.getString("AeXQueryExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
-               new Object [] { value.getStringValue(), aParseResult.getExpression() });
-         return;
-      }
+        Expression node = ((AeAbstractXQueryParseResult) aParseResult).getXQueryExpression();
+        validateXQueryNode(node, aParseResult, aValidationResult);
+    }
 
-      // Now process all of the children.
-      for (Iterator iter = aNode.iterateSubExpressions(); iter.hasNext(); )
-      {
-         Expression child = (Expression) iter.next();
-         validateXQueryNode(child, aParseResult, aValidationResult);
-      }
-   }
+    /**
+     * Validates that the given node is ok for a join condition.  This specifically looks for
+     * literal nodes that are not contained within function calls.
+     *
+     * @param aNode
+     * @param aParseResult
+     * @param aValidationResult
+     */
+    protected void validateXQueryNode(Expression aNode, IAeExpressionParseResult aParseResult,
+                                      AeExpressionValidationResult aValidationResult) {
+        if (aNode instanceof FunctionCall) {
+            return;
+        } else if (aNode instanceof AtomicValue && !(aNode instanceof BooleanValue)) {
+            AtomicValue value = (AtomicValue) aNode;
+            addError(aValidationResult, AeMessages.getString("AeXQueryExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
+                    new Object[]{value.getStringValue(), aParseResult.getExpression()});
+            return;
+        }
 
-   /**
-    * Overrides method to supply the xpath expression parser.
-    * 
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)
-   {
-      return new AeBPWSXQueryExpressionParser(aContext);
-   }
+        // Now process all of the children.
+        for (Iterator iter = aNode.iterateSubExpressions(); iter.hasNext(); ) {
+            Expression child = (Expression) iter.next();
+            validateXQueryNode(child, aParseResult, aValidationResult);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#handleNoFunctionsInJoinCondition(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult)
-    */
-   protected void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult)
-   {
-      // Do nothing, you can have a valid boolean XQuery expression without using functions.
-   }
+    /**
+     * Overrides method to supply the xpath expression parser.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext) {
+        return new AeBPWSXQueryExpressionParser(aContext);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#handleNoFunctionsInJoinCondition(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult)
+     */
+    protected void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult) {
+        // Do nothing, you can have a valid boolean XQuery expression without using functions.
+    }
 }

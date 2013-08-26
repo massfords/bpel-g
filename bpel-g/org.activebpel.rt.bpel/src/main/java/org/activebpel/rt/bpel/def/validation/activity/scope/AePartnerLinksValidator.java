@@ -31,7 +31,7 @@ public class AePartnerLinksValidator extends AeBaseValidator {
 
     @Override
     public void validate() {
-        AeContainerValidatorUtil.checkForDupes(getReporter(), "partnerLink", (AePartnerLinksDef)getDefinition());
+        AeContainerValidatorUtil.checkForDupes(getReporter(), "partnerLink", (AePartnerLinksDef) getDefinition());
         super.validate();
     }
 

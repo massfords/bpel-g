@@ -8,7 +8,7 @@
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 ////////////////////////////////////////////////////////////////////////////
 
-package org.activebpel.rt.xml.schema.sampledata.structure; 
+package org.activebpel.rt.xml.schema.sampledata.structure;
 
 import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 
@@ -16,29 +16,25 @@ import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 /**
  * Model class for a Schema abstract complexType definition.
  */
-public class AeAbstractElement extends AeBaseElement
-{
-   /**
-    * Ctor 
-    */
-   public AeAbstractElement()
-   {
-   }
-   
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeBaseElement#isAbstractElement()
-    */
-   public boolean isAbstractElement()
-   {
-      return true;
-   }
+public class AeAbstractElement extends AeBaseElement {
+    /**
+     * Ctor
+     */
+    public AeAbstractElement() {
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
-    */
-   public void accept(IAeSampleDataVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeBaseElement#isAbstractElement()
+     */
+    public boolean isAbstractElement() {
+        return true;
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
+     */
+    public void accept(IAeSampleDataVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }
  

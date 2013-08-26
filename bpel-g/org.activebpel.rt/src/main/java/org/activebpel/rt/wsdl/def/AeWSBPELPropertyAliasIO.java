@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.wsdl.def; 
+package org.activebpel.rt.wsdl.def;
 
 import javax.wsdl.Definition;
 
@@ -19,13 +19,11 @@ import org.w3c.dom.NodeList;
 /**
  * Reads and writes WS BPEL property alias elements
  */
-public class AeWSBPELPropertyAliasIO extends AePropertyAliasIO
-{
-   /**
-    * @see org.activebpel.rt.wsdl.def.AePropertyAliasIO#writePropertyAlias(org.activebpel.rt.wsdl.def.IAePropertyAlias, org.w3c.dom.Element, javax.wsdl.Definition)
-    */
-   protected void writePropertyAlias(IAePropertyAlias aPropAlias, Element aElement, Definition aDefinition)
-   {
+public class AeWSBPELPropertyAliasIO extends AePropertyAliasIO {
+    /**
+     * @see org.activebpel.rt.wsdl.def.AePropertyAliasIO#writePropertyAlias(org.activebpel.rt.wsdl.def.IAePropertyAlias, org.w3c.dom.Element, javax.wsdl.Definition)
+     */
+    protected void writePropertyAlias(IAePropertyAlias aPropAlias, Element aElement, Definition aDefinition) {
       /*
         &lt;bpel:propertyAlias propertyName="QName" 
                   messageType="QName"? part="NCName"? 
@@ -35,69 +33,54 @@ public class AeWSBPELPropertyAliasIO extends AePropertyAliasIO
               &lt;/bpel:query&gt; 
         &lt;/bpel:propertyAlias&gt;
        */
-      addPropertyName(aPropAlias, aElement, aDefinition);
-      if (aPropAlias.getType() == IAePropertyAlias.MESSAGE_TYPE)
-      {
-         addMessageData(aPropAlias, aElement, aDefinition);
-      }
-      else if (aPropAlias.getType() == IAePropertyAlias.TYPE)
-      {
-         String type = toString(aDefinition, aPropAlias.getTypeName());
-         aElement.setAttribute(COMPLEX_TYPE_ATTRIB, type);
-      }
-      else
-      {
-         String element = toString(aDefinition, aPropAlias.getElementName());
-         aElement.setAttribute(ELEMENT_TYPE_ATTRIB, element);
-      }
-      addQuery(aPropAlias, aElement);
-   }
-   
-   /**
-    * @see org.activebpel.rt.wsdl.def.AePropertyAliasIO#addQuery(org.activebpel.rt.wsdl.def.IAePropertyAlias, org.w3c.dom.Element)
-    */
-   protected void addQuery(IAePropertyAlias aPropAlias, Element aElement)
-   {
-      if (AeUtil.notNullOrEmpty(aPropAlias.getQuery()))
-      {
-         Element queryElement = aElement.getOwnerDocument().createElementNS(aElement.getNamespaceURI(), aElement.getPrefix() + ":" + QUERY_ATTRIB); //$NON-NLS-1$
-         aElement.appendChild(queryElement);
-         if(AeUtil.notNullOrEmpty(aPropAlias.getQueryLanguage()))
-         {
-            queryElement.setAttribute(QUERY_LANGUAGE, aPropAlias.getQueryLanguage());
-         }
-         queryElement.appendChild(queryElement.getOwnerDocument().createTextNode(aPropAlias.getQuery()));
-      }
-   }
+        addPropertyName(aPropAlias, aElement, aDefinition);
+        if (aPropAlias.getType() == IAePropertyAlias.MESSAGE_TYPE) {
+            addMessageData(aPropAlias, aElement, aDefinition);
+        } else if (aPropAlias.getType() == IAePropertyAlias.TYPE) {
+            String type = toString(aDefinition, aPropAlias.getTypeName());
+            aElement.setAttribute(COMPLEX_TYPE_ATTRIB, type);
+        } else {
+            String element = toString(aDefinition, aPropAlias.getElementName());
+            aElement.setAttribute(ELEMENT_TYPE_ATTRIB, element);
+        }
+        addQuery(aPropAlias, aElement);
+    }
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.AePropertyAliasIO#updatePropAliasData(org.activebpel.rt.wsdl.def.AePropertyAliasImpl, org.w3c.dom.Element)
-    */
-   protected void updatePropAliasData(AePropertyAliasImpl aPropAlias, Element aPropertyElem)
-   {
-      aPropAlias.setPropertyName( AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(PROPERTY_NAME_ATTRIB)));
+    /**
+     * @see org.activebpel.rt.wsdl.def.AePropertyAliasIO#addQuery(org.activebpel.rt.wsdl.def.IAePropertyAlias, org.w3c.dom.Element)
+     */
+    protected void addQuery(IAePropertyAlias aPropAlias, Element aElement) {
+        if (AeUtil.notNullOrEmpty(aPropAlias.getQuery())) {
+            Element queryElement = aElement.getOwnerDocument().createElementNS(aElement.getNamespaceURI(), aElement.getPrefix() + ":" + QUERY_ATTRIB); //$NON-NLS-1$
+            aElement.appendChild(queryElement);
+            if (AeUtil.notNullOrEmpty(aPropAlias.getQueryLanguage())) {
+                queryElement.setAttribute(QUERY_LANGUAGE, aPropAlias.getQueryLanguage());
+            }
+            queryElement.appendChild(queryElement.getOwnerDocument().createTextNode(aPropAlias.getQuery()));
+        }
+    }
 
-      if (aPropertyElem.hasAttribute(MESSAGE_TYPE_ATTRIB)) 
-      {
-         aPropAlias.setMessageName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(MESSAGE_TYPE_ATTRIB)));
-         aPropAlias.setPart(aPropertyElem.getAttribute(PART_ATTRIB));
-      }
-      else if (aPropertyElem.hasAttribute(ELEMENT_TYPE_ATTRIB)) 
-      {
-         aPropAlias.setElementName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(ELEMENT_TYPE_ATTRIB)));
-      }
-      else if (aPropertyElem.hasAttribute(COMPLEX_TYPE_ATTRIB)) 
-      {
-         aPropAlias.setTypeName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(COMPLEX_TYPE_ATTRIB)));
-      }
-      
-      NodeList children = aPropertyElem.getElementsByTagNameNS(aPropertyElem.getNamespaceURI(), QUERY_ATTRIB);
-      Element queryElement = (Element) children.item(0);
-      if (queryElement != null && queryElement.getParentNode() == aPropertyElem)
-      {
-         aPropAlias.setQueryLanguage(queryElement.getAttribute(QUERY_LANGUAGE));
-         aPropAlias.setQuery(AeXmlUtil.getText(queryElement));
-      }
-   }
+    /**
+     * @see org.activebpel.rt.wsdl.def.AePropertyAliasIO#updatePropAliasData(org.activebpel.rt.wsdl.def.AePropertyAliasImpl, org.w3c.dom.Element)
+     */
+    protected void updatePropAliasData(AePropertyAliasImpl aPropAlias, Element aPropertyElem) {
+        aPropAlias.setPropertyName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(PROPERTY_NAME_ATTRIB)));
+
+        if (aPropertyElem.hasAttribute(MESSAGE_TYPE_ATTRIB)) {
+            aPropAlias.setMessageName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(MESSAGE_TYPE_ATTRIB)));
+            aPropAlias.setPart(aPropertyElem.getAttribute(PART_ATTRIB));
+        } else if (aPropertyElem.hasAttribute(ELEMENT_TYPE_ATTRIB)) {
+            aPropAlias.setElementName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(ELEMENT_TYPE_ATTRIB)));
+        } else if (aPropertyElem.hasAttribute(COMPLEX_TYPE_ATTRIB)) {
+            aPropAlias.setTypeName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(COMPLEX_TYPE_ATTRIB)));
+        }
+
+        NodeList children = aPropertyElem.getElementsByTagNameNS(aPropertyElem.getNamespaceURI(), QUERY_ATTRIB);
+        Element queryElement = (Element) children.item(0);
+        if (queryElement != null && queryElement.getParentNode() == aPropertyElem) {
+            aPropAlias.setQueryLanguage(queryElement.getAttribute(QUERY_LANGUAGE));
+            aPropAlias.setQuery(AeXmlUtil.getText(queryElement));
+        }
+    }
 }
  

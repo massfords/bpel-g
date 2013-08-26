@@ -12,64 +12,57 @@ package org.activebpel.rt.bpel.coord;
 /**
  * Exception to indicate a coordination or context was not found in the server.
  */
-public class AeCoordinationNotFoundException extends AeCoordinationException
-{
+public class AeCoordinationNotFoundException extends AeCoordinationException {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 8583803109364367829L;
-/**
-    * Coordination lookup id or key..
-    */
-   private String mCoordinationIdKey;
+    /**
+     * Coordination lookup id or key..
+     */
+    private String mCoordinationIdKey;
 
-   /**
-    * Default ctor
-    */
-   public AeCoordinationNotFoundException()
-   {
-   }
+    /**
+     * Default ctor
+     */
+    public AeCoordinationNotFoundException() {
+    }
 
-   /**
-    * @param aCoordinationIdKey
-    */
-   public AeCoordinationNotFoundException(String aCoordinationIdKey)
-   {
-      setCoordinationIdKey(aCoordinationIdKey);
-   }
+    /**
+     * @param aCoordinationIdKey
+     */
+    public AeCoordinationNotFoundException(String aCoordinationIdKey) {
+        setCoordinationIdKey(aCoordinationIdKey);
+    }
 
-   /**
-    * @param aRootCause
-    */
-   public AeCoordinationNotFoundException(Throwable aRootCause)
-   {
-      this("", aRootCause);//$NON-NLS-1$
-   }
+    /**
+     * @param aRootCause
+     */
+    public AeCoordinationNotFoundException(Throwable aRootCause) {
+        this("", aRootCause);//$NON-NLS-1$
+    }
 
-   /**
-    * @param aCoordinationIdKey
-    * @param aRootCause
-    */
-   public AeCoordinationNotFoundException(String aCoordinationIdKey, Throwable aRootCause)
-   {
-      super(aRootCause);
-      setCoordinationIdKey(aCoordinationIdKey);
-   }
+    /**
+     * @param aCoordinationIdKey
+     * @param aRootCause
+     */
+    public AeCoordinationNotFoundException(String aCoordinationIdKey, Throwable aRootCause) {
+        super(aRootCause);
+        setCoordinationIdKey(aCoordinationIdKey);
+    }
 
-   /**
-    * @return Returns the coordinationIdKey.
-    */
-   public String getCoordinationIdKey()
-   {
-      return mCoordinationIdKey;
-   }
+    /**
+     * @return Returns the coordinationIdKey.
+     */
+    public String getCoordinationIdKey() {
+        return mCoordinationIdKey;
+    }
 
-   /**
-    * @param aCoordinationIdKey The coordinationIdKey to set.
-    */
-   public void setCoordinationIdKey(String aCoordinationIdKey)
-   {
-      mCoordinationIdKey = aCoordinationIdKey;
-   }
+    /**
+     * @param aCoordinationIdKey The coordinationIdKey to set.
+     */
+    public void setCoordinationIdKey(String aCoordinationIdKey) {
+        mCoordinationIdKey = aCoordinationIdKey;
+    }
 }

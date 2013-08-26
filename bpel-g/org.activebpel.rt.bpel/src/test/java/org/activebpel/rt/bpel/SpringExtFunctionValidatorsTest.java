@@ -26,11 +26,12 @@ public class SpringExtFunctionValidatorsTest extends Assert {
 
         IAeFunctionValidator validator = factory.getValidator(
                 new QName(
-                "http://docs.oasis-open.org/wsbpel/2.0/process/executable",
-                "getVariableProperty"));
+                        "http://docs.oasis-open.org/wsbpel/2.0/process/executable",
+                        "getVariableProperty"));
 
         assertNotNull(validator);
     }
+
     @Test
     public void bpelExpressionLanguageFactory() throws Exception {
         ApplicationContext context = new FileSystemXmlApplicationContext(

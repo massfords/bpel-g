@@ -13,16 +13,15 @@ package org.activebpel.rt.bpel.def.activity;
 /**
  * Marker interface for identifying AE provided extension activities.
  */
-public interface IAeExtensionActivityDef
-{
+public interface IAeExtensionActivityDef {
 
-   /**
-    * Returns true if the engine understands this extension activity.
-    */
-   public boolean isUnderstood();
+    /**
+     * Returns true if the engine understands this extension activity.
+     */
+    public boolean isUnderstood();
 
-   /**
-    * Returns the namespace of this extension activity.
-    */
-   public String getNamespace();
+    /**
+     * Returns the namespace of this extension activity.
+     */
+    public String getNamespace();
 }

@@ -13,17 +13,16 @@ package org.activebpel.rt.bpel.def;
 /**
  * Parents of the 'correlationSets' construct should implement this interface.
  */
-public interface IAeCorrelationSetsParentDef
-{
-   /**
-    * Sets the 'correlationSets' def.
-    * 
-    * @param aDef
-    */
-   public void setCorrelationSetsDef(AeCorrelationSetsDef aDef);
-   
-   /**
-    * Gets the 'correlationSets' def.
-    */
-   public AeCorrelationSetsDef getCorrelationSetsDef();
+public interface IAeCorrelationSetsParentDef {
+    /**
+     * Sets the 'correlationSets' def.
+     *
+     * @param aDef
+     */
+    public void setCorrelationSetsDef(AeCorrelationSetsDef aDef);
+
+    /**
+     * Gets the 'correlationSets' def.
+     */
+    public AeCorrelationSetsDef getCorrelationSetsDef();
 }

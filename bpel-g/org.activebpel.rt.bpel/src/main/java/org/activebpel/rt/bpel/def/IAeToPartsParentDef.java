@@ -18,22 +18,21 @@ import org.activebpel.rt.bpel.def.activity.support.AeToPartsDef;
 /**
  * Defs that can have a toParts child construct will implement this interface.
  */
-public interface IAeToPartsParentDef
-{
-   /**
-    * Adds a toParts def to the activity.
-    * 
-    * @param aDef
-    */
-   public void setToPartsDef(AeToPartsDef aDef);
-   
-   /**
-    * Gets the toParts def from the activity.
-    */
-   public AeToPartsDef getToPartsDef();
+public interface IAeToPartsParentDef {
+    /**
+     * Adds a toParts def to the activity.
+     *
+     * @param aDef
+     */
+    public void setToPartsDef(AeToPartsDef aDef);
 
-   /**
-    * Gets an iterator over the list of toPart defs.
-    */
-   public Iterator<? extends AeToPartDef> getToPartDefs();
+    /**
+     * Gets the toParts def from the activity.
+     */
+    public AeToPartsDef getToPartsDef();
+
+    /**
+     * Gets an iterator over the list of toPart defs.
+     */
+    public Iterator<? extends AeToPartDef> getToPartDefs();
 }

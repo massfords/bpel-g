@@ -21,49 +21,43 @@ import bpelg.services.deploy.types.pdd.ReferenceType;
 /**
  * Servlet designed to provide the WSDL which is part of a BPR deployment.
  */
-public class AeCatalogHelper
-{
-   /**
-    * Returns the wsdl file loaded in a string based on the passed wsdl entry name. It uses the
-    * passed request url to fixup any imported other catalog entries.
-    * @param aEntry The wsdl catalog entry.
-    * @param aRequestURL The url the entry is being requested via for fixup purposes.
-    */
-   public static String getCatalogWsdl(String aEntry, String aRequestURL) throws AeException
-   {
-      try
-      {
-         // Get the WSDL and make a copy before modfiying to make this thread safe
-         ReferenceType key = new ReferenceType().withLocation(aEntry).withTypeURI(IAeBPELExtendedWSDLConst.WSDL_NAMESPACE);
-         AeBPELExtendedWSDLDef def = (AeBPELExtendedWSDLDef)AeEngineFactory.getBean(IAeCatalog.class).getResourceCache().getResource( key );
-         AeBPELExtendedWSDLDef defCopy = new AeBPELExtendedWSDLDef(def);
-         AeWsdlImportFixup.fixupImportReferences(aRequestURL, defCopy);
-         return defCopy.toString();
-      }
-      catch (AeException ex)
-      {
-         ex.logError();
-         throw ex;
-      } 
-   }
+public class AeCatalogHelper {
+    /**
+     * Returns the wsdl file loaded in a string based on the passed wsdl entry name. It uses the
+     * passed request url to fixup any imported other catalog entries.
+     *
+     * @param aEntry      The wsdl catalog entry.
+     * @param aRequestURL The url the entry is being requested via for fixup purposes.
+     */
+    public static String getCatalogWsdl(String aEntry, String aRequestURL) throws AeException {
+        try {
+            // Get the WSDL and make a copy before modfiying to make this thread safe
+            ReferenceType key = new ReferenceType().withLocation(aEntry).withTypeURI(IAeBPELExtendedWSDLConst.WSDL_NAMESPACE);
+            AeBPELExtendedWSDLDef def = (AeBPELExtendedWSDLDef) AeEngineFactory.getBean(IAeCatalog.class).getResourceCache().getResource(key);
+            AeBPELExtendedWSDLDef defCopy = new AeBPELExtendedWSDLDef(def);
+            AeWsdlImportFixup.fixupImportReferences(aRequestURL, defCopy);
+            return defCopy.toString();
+        } catch (AeException ex) {
+            ex.logError();
+            throw ex;
+        }
+    }
 
-   /**
-    * Returns the schema file loaded in a string based on the passed schema entry name. It uses the
-    * passed request url to fixup any imported other catalog entries.
-    * @param aEntry The entry name in the catalog
-    * @param aRequestURL The url the catalog is being requested via for fixups.
-    * @return The schema as a string.
-    */
-   public static String getCatalogSchema(String aEntry, String aRequestURL) {
-      AeCatalogItemDetail detail = AeEngineFactory.getEngineAdministration().getCatalogAdmin().getCatalogItemDetail(aEntry);
-      if (detail != null)
-      {
-         return detail.getText();
-      }
-      else
-      {
-         // item detail not found for the given entry/location hint.
-         return null;
-      }
-   }
+    /**
+     * Returns the schema file loaded in a string based on the passed schema entry name. It uses the
+     * passed request url to fixup any imported other catalog entries.
+     *
+     * @param aEntry      The entry name in the catalog
+     * @param aRequestURL The url the catalog is being requested via for fixups.
+     * @return The schema as a string.
+     */
+    public static String getCatalogSchema(String aEntry, String aRequestURL) {
+        AeCatalogItemDetail detail = AeEngineFactory.getEngineAdministration().getCatalogAdmin().getCatalogItemDetail(aEntry);
+        if (detail != null) {
+            return detail.getText();
+        } else {
+            // item detail not found for the given entry/location hint.
+            return null;
+        }
+    }
 }

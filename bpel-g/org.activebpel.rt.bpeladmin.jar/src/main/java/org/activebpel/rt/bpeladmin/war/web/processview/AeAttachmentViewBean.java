@@ -22,149 +22,140 @@ import java.util.Map.Entry;
 /**
  * A simple wrapper around attachment viewable items make them accessable by JSP pages
  */
-public class AeAttachmentViewBean
-{
-   /** Mime headers associated with the attachment */
-   private Map<String, String> mHeaders;
+public class AeAttachmentViewBean {
+    /**
+     * Mime headers associated with the attachment
+     */
+    private Map<String, String> mHeaders;
 
-   /** attachment content id */
-   private final long mAttachmentId;
-   /** The index of the attachment */
-   private final int mIndex;
+    /**
+     * attachment content id
+     */
+    private final long mAttachmentId;
+    /**
+     * The index of the attachment
+     */
+    private final int mIndex;
 
-   /**
-    * Constructor
-    * @param aAttachmentId
-    */
-   public AeAttachmentViewBean(long aAttachmentId, int aIndex)
-   {
-      mAttachmentId = aAttachmentId;
-      mIndex = aIndex;
-   }
+    /**
+     * Constructor
+     *
+     * @param aAttachmentId
+     */
+    public AeAttachmentViewBean(long aAttachmentId, int aIndex) {
+        mAttachmentId = aAttachmentId;
+        mIndex = aIndex;
+    }
 
-   /**
-    * Returns the mimetype which is encoded
-    */
-   public String getMimeTypeEncoded()
-   {
-      String mimeType = getMimeType();
-      try
-      {
-         return AeUTF8Util.urlEncode(mimeType == null ? "unknown" : mimeType); //$NON-NLS-1$
-      }
-      catch (UnsupportedEncodingException ex)
-      {
-         return mimeType;
-      }
-   }
+    /**
+     * Returns the mimetype which is encoded
+     */
+    public String getMimeTypeEncoded() {
+        String mimeType = getMimeType();
+        try {
+            return AeUTF8Util.urlEncode(mimeType == null ? "unknown" : mimeType); //$NON-NLS-1$
+        } catch (UnsupportedEncodingException ex) {
+            return mimeType;
+        }
+    }
 
-   /**
-    * Returns the mimeType of the attachment
-    */
-   public String getMimeType()
-   {
-      return AeMimeUtil.getMimeType(mHeaders);
-   }
-   
-   /**
-    * Sets header properties Helper method
-    * @param aName
-    * @param aValue
-    */
-   public void setHeader(String aName, String aValue)
-   {
-      if (mHeaders == null)
-         mHeaders = new LinkedHashMap<>();
-      
-      mHeaders.put(aName, aValue);
-   }
+    /**
+     * Returns the mimeType of the attachment
+     */
+    public String getMimeType() {
+        return AeMimeUtil.getMimeType(mHeaders);
+    }
 
-   /**
-    * AttachmentId used to get the attachment content for download
-    */
-   public long getAttachmentId()
-   {
-      return mAttachmentId;
-   }
+    /**
+     * Sets header properties Helper method
+     *
+     * @param aName
+     * @param aValue
+     */
+    public void setHeader(String aName, String aValue) {
+        if (mHeaders == null)
+            mHeaders = new LinkedHashMap<>();
 
-   /**
-    * Returns index of attachment
-    */
-   public long getIndex()
-   {
-      return mIndex;
-   }
+        mHeaders.put(aName, aValue);
+    }
 
-   /**
-    * Return a reasonable file name for downloading the attachment
-    */
-   public String getFileName()
-   {
-      return AeMimeUtil.getFileName(mHeaders, "attachment_" + getAttachmentId()); //$NON-NLS-1$
-   }
+    /**
+     * AttachmentId used to get the attachment content for download
+     */
+    public long getAttachmentId() {
+        return mAttachmentId;
+    }
 
-   /**
-    * @return true if this bean has top level properties to be displayed.
-    */
-   public boolean isHasHeaders()
-   {
-      return (! mHeaders.isEmpty() );
-   }
+    /**
+     * Returns index of attachment
+     */
+    public long getIndex() {
+        return mIndex;
+    }
 
-   /**
-    * Returns the list of headers in the form of AeAttachmentHeader objects
-    */
-   public List<AeAttachmentHeader> getHeaders()
-   {
-      List<AeAttachmentHeader> headers = new ArrayList<>();
-       for (Entry<String, String> entry : mHeaders.entrySet()) {
-           headers.add(new AeAttachmentHeader(entry.getKey(), entry.getValue()));
-       }
-      
-      return headers;
-   }
+    /**
+     * Return a reasonable file name for downloading the attachment
+     */
+    public String getFileName() {
+        return AeMimeUtil.getFileName(mHeaders, "attachment_" + getAttachmentId()); //$NON-NLS-1$
+    }
 
-   /**
-    * @return  Returns the number of properties. Thus method is used to support Indexed JSP tags.
-    */
-   public int getHeadersSize()
-   {
-      return mHeaders.size();
-   }
+    /**
+     * @return true if this bean has top level properties to be displayed.
+     */
+    public boolean isHasHeaders() {
+        return (!mHeaders.isEmpty());
+    }
 
-   /**
-    * Attachment header data used by bean.
-    */
-   protected static class AeAttachmentHeader
-   {
-      private final String mName;
-      private final String mValue;
+    /**
+     * Returns the list of headers in the form of AeAttachmentHeader objects
+     */
+    public List<AeAttachmentHeader> getHeaders() {
+        List<AeAttachmentHeader> headers = new ArrayList<>();
+        for (Entry<String, String> entry : mHeaders.entrySet()) {
+            headers.add(new AeAttachmentHeader(entry.getKey(), entry.getValue()));
+        }
 
-      /**
-       * Constructor
-       * @param aName
-       * @param aValue
-       */
-      public AeAttachmentHeader(String aName, String aValue)
-      {
-         mName  = aName;
-         mValue = aValue;
-      }
+        return headers;
+    }
 
-      /**
-       * @return the name
-       */
-      public String getName()
-      {
-         return mName;
-      }
+    /**
+     * @return Returns the number of properties. Thus method is used to support Indexed JSP tags.
+     */
+    public int getHeadersSize() {
+        return mHeaders.size();
+    }
 
-      /**
-       * @return the value
-       */
-      public String getValue()
-      {
-         return mValue;
-      }
-   }
+    /**
+     * Attachment header data used by bean.
+     */
+    protected static class AeAttachmentHeader {
+        private final String mName;
+        private final String mValue;
+
+        /**
+         * Constructor
+         *
+         * @param aName
+         * @param aValue
+         */
+        public AeAttachmentHeader(String aName, String aValue) {
+            mName = aName;
+            mValue = aValue;
+        }
+
+        /**
+         * @return the name
+         */
+        public String getName() {
+            return mName;
+        }
+
+        /**
+         * @return the value
+         */
+        public String getValue() {
+            return mValue;
+        }
+    }
 }

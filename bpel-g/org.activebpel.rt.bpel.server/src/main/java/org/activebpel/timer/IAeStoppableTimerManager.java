@@ -15,10 +15,9 @@ import commonj.timers.TimerManager;
  * Defines interface for timer managers that can be stopped automatically when
  * the engine shuts down.
  */
-public interface IAeStoppableTimerManager extends TimerManager
-{
+public interface IAeStoppableTimerManager extends TimerManager {
     /**
      * Stops this timer manager.
-     */ 
+     */
     public void stop();
 }

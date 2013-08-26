@@ -7,36 +7,33 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityExitDef;
 
 /**
  * model for validating the exit activity
  */
-public class AeActivityExitValidator extends AeActivityValidator
-{
+public class AeActivityExitValidator extends AeActivityValidator {
 
-   /**
-    * ctor 
-    * @param aDef
-    */
-   public AeActivityExitValidator(AeActivityExitDef aDef)
-   {
-      super(aDef);
-   }
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityExitValidator(AeActivityExitDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      if ( getProcessDef().isAbstractProcess() )
-      {
-         getReporter().reportProblem( BPEL_TERM_NOT_ALLOWED_CODE, ERROR_TERM_NOT_ALLOWED, null, getDefinition());
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        if (getProcessDef().isAbstractProcess()) {
+            getReporter().reportProblem(BPEL_TERM_NOT_ALLOWED_CODE, ERROR_TERM_NOT_ALLOWED, null, getDefinition());
+        }
+    }
 }
  

@@ -7,19 +7,18 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.addressing; 
+package org.activebpel.rt.bpel.server.addressing;
 
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
 
 /**
  * Extends the URN resolver by adding a reload method that reloads the mappings
- * from its storage. 
+ * from its storage.
  */
-public interface IAeStorageBackedURNResolver extends IAeURNResolver
-{
-   /**
-    * Reloads the mappings from the underlying storage layer.
-    */
-   public void reload();
+public interface IAeStorageBackedURNResolver extends IAeURNResolver {
+    /**
+     * Reloads the mappings from the underlying storage layer.
+     */
+    public void reload();
 }
  

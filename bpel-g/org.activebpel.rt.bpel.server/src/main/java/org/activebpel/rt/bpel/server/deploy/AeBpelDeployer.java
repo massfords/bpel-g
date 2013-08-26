@@ -61,7 +61,7 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
                                 AeMessages.getString("AeDeploymentHandler.4"), pddName)); //$NON-NLS-1$
                     }
                     aLogger.addInfo(
-                            AeMessages.getString("AeDeploymentHandler.SUCCESSFULLY_DEPLOYED_PDD"), new Object[] {}, null); //$NON-NLS-1$
+                            AeMessages.getString("AeDeploymentHandler.SUCCESSFULLY_DEPLOYED_PDD"), new Object[]{}, null); //$NON-NLS-1$
                     success = true;
                 } else {
                     sLog.error(MessageFormat.format(
@@ -70,7 +70,7 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
             } catch (Throwable t) {
                 AeException.logError(t, t.getLocalizedMessage());
                 aLogger.addError(
-                        AeMessages.getString("AeDeploymentHandler.ERROR_15"), new Object[] { pddName, t.getLocalizedMessage() }, null); //$NON-NLS-1$
+                        AeMessages.getString("AeDeploymentHandler.ERROR_15"), new Object[]{pddName, t.getLocalizedMessage()}, null); //$NON-NLS-1$
             } finally {
                 aLogger.processDeploymentFinished(success);
             }
@@ -87,7 +87,7 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
                         source.getPdd().getName());
                 IAeProcessManager pm = AeEngineFactory.getBean(IAeProcessManager.class);
                 ProcessFilterType filter = new ProcessFilterType().withProcessName(source.getPdd().getName());
-				pm.removeProcesses(filter);
+                pm.removeProcesses(filter);
             } catch (AeException e) {
                 sLog.error(
                         MessageFormat.format(
@@ -98,7 +98,7 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
     }
 
     public void deployBpel(String containerId, IAeDeploymentSource aSource, IAeBaseErrorReporter aReporter,
-            boolean aSkipValidation) throws AeException {
+                           boolean aSkipValidation) throws AeException {
         IAeProcessDeployment deployment = create(containerId, aSource);
         if (!aSkipValidation) {
             AeDeploymentValidator deploymentValidator = new AeDeploymentValidator(
@@ -114,7 +114,7 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
 
     /**
      * Create the process deployment.
-     * 
+     *
      * @param aSource
      * @throws AeDeploymentException
      */

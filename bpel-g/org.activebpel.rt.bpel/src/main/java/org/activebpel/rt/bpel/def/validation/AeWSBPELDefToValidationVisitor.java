@@ -37,58 +37,53 @@ import org.activebpel.rt.xml.def.AeExtensionElementDef;
 /**
  * WSBPEL validation visitor
  */
-public class AeWSBPELDefToValidationVisitor extends AeDefToValidationVisitor
-{
-   /**
-    * Ctor
-    * 
-    * @param aContext
-    */
-   public AeWSBPELDefToValidationVisitor(IAeValidationContext aContext)
-   {
-      super(aContext);
-   }
+public class AeWSBPELDefToValidationVisitor extends AeDefToValidationVisitor {
+    /**
+     * Ctor
+     *
+     * @param aContext
+     */
+    public AeWSBPELDefToValidationVisitor(IAeValidationContext aContext) {
+        super(aContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeDefToValidationVisitor#initMap()
-    */
-   protected void initMap()
-   {
-      super.initMap();
-      getDefToValidatorMap().put(AeProcessDef.class, AeWSBPELProcessValidator.class);
-      getDefToValidatorMap().put(AeCatchDef.class, AeWSBPELCatchValidator.class);
-      getDefToValidatorMap().put(AeActivityThrowDef.class, AeWSBPELActivityThrowValidator.class);
-      getDefToValidatorMap().put(AeToDef.class, AeWSBPELToValidator.class);
-      getDefToValidatorMap().put(AeOnAlarmDef.class, AeWSBPELOnAlarmValidator.class);
-      getDefToValidatorMap().put(AeExtensionActivityDef.class, AeWSBPELExtensionActivityValidator.class);
-      getDefToValidatorMap().put(AeCompensationHandlerDef.class, AeWSBPELCompensationHandlerValidator.class);
-      getDefToValidatorMap().put(AeTerminationHandlerDef.class, AeWSBPELTerminationHandlerValidator.class);
-      getDefToValidatorMap().put(AeActivityScopeDef.class, AeWSBPELActivityScopeValidator.class);
-      getDefToValidatorMap().put(AeFaultHandlersDef.class, AeWSBPELFaultHandlersValidator.class);
-      getDefToValidatorMap().put(AeExtensionAttributeDef.class, AeWSBPELExtensionAttributeValidator.class);
-      getDefToValidatorMap().put(AeExtensionElementDef.class, AeWSBPELExtensionElementValidator.class);
-      getDefToValidatorMap().put(AeChildExtensionActivityDef.class, AeWSBPELChildExtensionActivityValidator.class);
-      getDefToValidatorMap().put(AePartnerLinkDef.class, AeWSBPELPartnerLinkValidator.class);
-      getDefToValidatorMap().put(AeVariableDef.class, AeWSBPELVariableValidator.class);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeDefToValidationVisitor#initMap()
+     */
+    protected void initMap() {
+        super.initMap();
+        getDefToValidatorMap().put(AeProcessDef.class, AeWSBPELProcessValidator.class);
+        getDefToValidatorMap().put(AeCatchDef.class, AeWSBPELCatchValidator.class);
+        getDefToValidatorMap().put(AeActivityThrowDef.class, AeWSBPELActivityThrowValidator.class);
+        getDefToValidatorMap().put(AeToDef.class, AeWSBPELToValidator.class);
+        getDefToValidatorMap().put(AeOnAlarmDef.class, AeWSBPELOnAlarmValidator.class);
+        getDefToValidatorMap().put(AeExtensionActivityDef.class, AeWSBPELExtensionActivityValidator.class);
+        getDefToValidatorMap().put(AeCompensationHandlerDef.class, AeWSBPELCompensationHandlerValidator.class);
+        getDefToValidatorMap().put(AeTerminationHandlerDef.class, AeWSBPELTerminationHandlerValidator.class);
+        getDefToValidatorMap().put(AeActivityScopeDef.class, AeWSBPELActivityScopeValidator.class);
+        getDefToValidatorMap().put(AeFaultHandlersDef.class, AeWSBPELFaultHandlersValidator.class);
+        getDefToValidatorMap().put(AeExtensionAttributeDef.class, AeWSBPELExtensionAttributeValidator.class);
+        getDefToValidatorMap().put(AeExtensionElementDef.class, AeWSBPELExtensionElementValidator.class);
+        getDefToValidatorMap().put(AeChildExtensionActivityDef.class, AeWSBPELChildExtensionActivityValidator.class);
+        getDefToValidatorMap().put(AePartnerLinkDef.class, AeWSBPELPartnerLinkValidator.class);
+        getDefToValidatorMap().put(AeVariableDef.class, AeWSBPELVariableValidator.class);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
-    */
-   public void visit(AeActivityIfDef def)
-   {
-      AeActivityIfValidator ifModel = new AeActivityIfValidator(def);
-      ifModel.setMissingConditionError(IAeValidationDefs.IF_MISSING_CONDITION);
-      traverse(def, ifModel);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
+     */
+    public void visit(AeActivityIfDef def) {
+        AeActivityIfValidator ifModel = new AeActivityIfValidator(def);
+        ifModel.setMissingConditionError(IAeValidationDefs.IF_MISSING_CONDITION);
+        traverse(def, ifModel);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
-    */
-   public void visit(AeElseDef def)
-   {
-      AeElseValidator elseModel = new AeElseValidator(def);
-      elseModel.setTagName(AeElseDef.TAG_ELSE);
-      traverse(def, elseModel);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
+     */
+    public void visit(AeElseDef def) {
+        AeElseValidator elseModel = new AeElseValidator(def);
+        elseModel.setTagName(AeElseDef.TAG_ELSE);
+        traverse(def, elseModel);
+    }
 }

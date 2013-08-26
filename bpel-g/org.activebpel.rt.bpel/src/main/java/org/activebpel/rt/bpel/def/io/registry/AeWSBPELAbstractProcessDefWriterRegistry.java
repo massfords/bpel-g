@@ -19,29 +19,25 @@ import org.w3c.dom.Element;
 /**
  * A WSBPEL 2.0 Abstract process's implementation of a Def Writer Registry.
  */
-public class AeWSBPELAbstractProcessDefWriterRegistry extends AeWSBPELDefWriterRegistry
-{
-   /**
-    * Creates the writer def factory that the dispatch writer will use to create visitors to dispatch to.
-    */
-   private static final IAeDefWriterFactory sFactory = new IAeDefWriterFactory()
-      {
-         /**
-          * @see org.activebpel.rt.xml.def.io.writers.IAeDefWriterFactory#createDefWriter(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element, java.lang.String, java.lang.String)
-          */
-         public IAeDefWriter createDefWriter(AeBaseXmlDef aDef, Element aParentElement,
-               String aNamespaceUri, String aTagName)
-         {
+public class AeWSBPELAbstractProcessDefWriterRegistry extends AeWSBPELDefWriterRegistry {
+    /**
+     * Creates the writer def factory that the dispatch writer will use to create visitors to dispatch to.
+     */
+    private static final IAeDefWriterFactory sFactory = new IAeDefWriterFactory() {
+        /**
+         * @see org.activebpel.rt.xml.def.io.writers.IAeDefWriterFactory#createDefWriter(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element, java.lang.String, java.lang.String)
+         */
+        public IAeDefWriter createDefWriter(AeBaseXmlDef aDef, Element aParentElement,
+                                            String aNamespaceUri, String aTagName) {
             return new AeWSBPELAbstractProcessWriterVisitor(aDef, aParentElement, aNamespaceUri, aTagName, true);
-         }
-      };
+        }
+    };
 
-   /**
-    * Default ctor.
-    */
-   public AeWSBPELAbstractProcessDefWriterRegistry()
-   {
-      super(IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, sFactory);
-   }
+    /**
+     * Default ctor.
+     */
+    public AeWSBPELAbstractProcessDefWriterRegistry() {
+        super(IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, sFactory);
+    }
 
 }

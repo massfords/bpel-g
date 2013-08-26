@@ -10,7 +10,7 @@ public interface IAeDeploymentContainerFactory {
     /**
      * Create and configure the <code>IAeDeploymentContainer</code>for
      * deployment.
-     * 
+     *
      * @param aInfo
      * @throws AeException
      */
@@ -20,7 +20,7 @@ public interface IAeDeploymentContainerFactory {
     /**
      * Create and configure the <code>IAeDeploymentContainer</code>for
      * undeployment.
-     * 
+     *
      * @param aInfo
      * @throws AeException
      */

@@ -17,41 +17,37 @@ import org.activebpel.wsio.IAeWebServiceEndpointReference;
 import org.w3c.dom.Element;
 
 /**
- * Endpoint serializer for WS-Addressing endpoints in the 2005 namespace. 
+ * Endpoint serializer for WS-Addressing endpoints in the 2005 namespace.
  */
-public class AeWsa2005EndpointSerializer extends AeWSAddressingEndpointSerializer
-{
-   /**
-    * ctor with namespace
-    */
-   protected AeWsa2005EndpointSerializer(String aNamespace)
-   {
-      super(aNamespace);
-   }   
+public class AeWsa2005EndpointSerializer extends AeWSAddressingEndpointSerializer {
+    /**
+     * ctor with namespace
+     */
+    protected AeWsa2005EndpointSerializer(String aNamespace) {
+        super(aNamespace);
+    }
 
-   /**
-    * Overrides method to create a wsa:ReferenceParameters element instead of a wsa:ReferenceProperties element
-    * @see org.activebpel.rt.bpel.impl.endpoints.AeWSAddressingEndpointSerializer#addReferenceProps(org.activebpel.wsio.IAeWebServiceEndpointReference, org.w3c.dom.Element)
-    */
-   protected void serializeReferenceProps(IAeWebServiceEndpointReference aRef, Element aElement)
-   {
-      if (!aRef.getReferenceProperties().isEmpty())
-      {
-         Element props = AeXmlUtil.addElementNS(aElement, aElement.getNamespaceURI(), "wsa:ReferenceParameters", null); //$NON-NLS-1$
-         addReferenceProps(aRef, props);
-      }
-   }
-   
-   /**
-    * Overrides method to put policy and extensibility elements in a wsa:Metadata element as defined in the 2005 spec 
-    * @see org.activebpel.rt.bpel.impl.endpoints.AeWSAddressingEndpointSerializer#addMetadata(org.activebpel.wsio.IAeWebServiceEndpointReference, org.w3c.dom.Element)
-    */
-   protected void addMetadata(IAeWebServiceEndpointReference aRef, Element aElement, Map<String, String> aQNamePrefixMap)
-   {
-      if (!AeUtil.isNullOrEmpty(aRef.getServiceName()) || aRef.getExtensibilityElements().hasNext() || !aRef.getPolicies().isEmpty())
-      {
-         Element meta = AeXmlUtil.addElementNS(aElement, aElement.getNamespaceURI(), "wsa:Metadata", null); //$NON-NLS-1$
-         super.addMetadata(aRef, meta, aQNamePrefixMap);
-      }
-   }
+    /**
+     * Overrides method to create a wsa:ReferenceParameters element instead of a wsa:ReferenceProperties element
+     *
+     * @see org.activebpel.rt.bpel.impl.endpoints.AeWSAddressingEndpointSerializer#addReferenceProps(org.activebpel.wsio.IAeWebServiceEndpointReference, org.w3c.dom.Element)
+     */
+    protected void serializeReferenceProps(IAeWebServiceEndpointReference aRef, Element aElement) {
+        if (!aRef.getReferenceProperties().isEmpty()) {
+            Element props = AeXmlUtil.addElementNS(aElement, aElement.getNamespaceURI(), "wsa:ReferenceParameters", null); //$NON-NLS-1$
+            addReferenceProps(aRef, props);
+        }
+    }
+
+    /**
+     * Overrides method to put policy and extensibility elements in a wsa:Metadata element as defined in the 2005 spec
+     *
+     * @see org.activebpel.rt.bpel.impl.endpoints.AeWSAddressingEndpointSerializer#addMetadata(org.activebpel.wsio.IAeWebServiceEndpointReference, org.w3c.dom.Element)
+     */
+    protected void addMetadata(IAeWebServiceEndpointReference aRef, Element aElement, Map<String, String> aQNamePrefixMap) {
+        if (!AeUtil.isNullOrEmpty(aRef.getServiceName()) || aRef.getExtensibilityElements().hasNext() || !aRef.getPolicies().isEmpty()) {
+            Element meta = AeXmlUtil.addElementNS(aElement, aElement.getNamespaceURI(), "wsa:Metadata", null); //$NON-NLS-1$
+            super.addMetadata(aRef, meta, aQNamePrefixMap);
+        }
+    }
 }

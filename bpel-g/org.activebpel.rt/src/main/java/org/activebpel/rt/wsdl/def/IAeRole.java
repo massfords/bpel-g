@@ -16,28 +16,30 @@ import java.io.Serializable;
  * This interface represents a Partner Link Type's Role element.  Roles
  * contain Port Types elements.
  */
-public interface IAeRole extends Serializable
-{
-   /**
-    * Get the name attribute value of this Role
-    * @return String
-    */
-   public String getName();
+public interface IAeRole extends Serializable {
+    /**
+     * Get the name attribute value of this Role
+     *
+     * @return String
+     */
+    public String getName();
 
-   /**
-    * Set the name attribute value of this Role
-    * @param aName
-    */
-   public void setName(String aName);
+    /**
+     * Set the name attribute value of this Role
+     *
+     * @param aName
+     */
+    public void setName(String aName);
 
-   /**
-    * Sets the PortType for this Role
-    * @param aPortType the port type to be set
-    */
-   public void setPortType(IAePortType aPortType);
+    /**
+     * Sets the PortType for this Role
+     *
+     * @param aPortType the port type to be set
+     */
+    public void setPortType(IAePortType aPortType);
 
-   /**
-    * Gets the PortType for this Role.
-    */
-   public IAePortType getPortType();
+    /**
+     * Gets the PortType for this Role.
+     */
+    public IAePortType getPortType();
 }

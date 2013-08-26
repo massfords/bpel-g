@@ -24,87 +24,81 @@ import org.activebpel.rt.message.IAeMessageData;
 /**
  * Implementation of the bpel reply activity.
  */
-public class AeActivityReplyImpl extends AeWSIOActivityImpl implements IAeMessageProducerParentAdapter
-{
-   /** default constructor for activity */
-   public AeActivityReplyImpl(AeActivityReplyDef aActivityDef, IAeActivityParent aParent)
-   {
-      super(aActivityDef, aParent);
-   }
+public class AeActivityReplyImpl extends AeWSIOActivityImpl implements IAeMessageProducerParentAdapter {
+    /**
+     * default constructor for activity
+     */
+    public AeActivityReplyImpl(AeActivityReplyDef aActivityDef, IAeActivityParent aParent) {
+        super(aActivityDef, aParent);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept( IAeImplVisitor aVisitor ) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Convenience method to avoid casting of definition.
-    */
-   private AeActivityReplyDef getDef()
-   {
-      return (AeActivityReplyDef) getDefinition();
-   }
+    /**
+     * Convenience method to avoid casting of definition.
+     */
+    private AeActivityReplyDef getDef() {
+        return (AeActivityReplyDef) getDefinition();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      super.execute();
-      IAeMessageData inputMessage = getMessageDataProducer().produceMessageData(new AeActivityReplyProducerContext(this));
-      IAePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        super.execute();
+        IAeMessageData inputMessage = getMessageDataProducer().produceMessageData(new AeActivityReplyProducerContext(this));
+        IAePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
 
-      // Validate only if we know the outgoing message type. In particular, we
-      // won't know the outgoing message type if we are replying with a fault
-      // that was not defined as part of the WSDL operation.
-      // TODO (MF) When static analysis is updated, then remove this check. 
-      if (getDef().getProducerMessagePartsMap() != null)
-      {
-         List policies = null;
-         if (plink != null && plink.getMyReference() != null)
-            policies = plink.getMyReference().getEffectivePolicies(getProcess().getProcessPlan());
-         getMessageValidator().validateOutbound(getProcess(), getDef(), inputMessage, policies);
-      }
+        // Validate only if we know the outgoing message type. In particular, we
+        // won't know the outgoing message type if we are replying with a fault
+        // that was not defined as part of the WSDL operation.
+        // TODO (MF) When static analysis is updated, then remove this check.
+        if (getDef().getProducerMessagePartsMap() != null) {
+            List policies = null;
+            if (plink != null && plink.getMyReference() != null)
+                policies = plink.getMyReference().getEffectivePolicies(getProcess().getProcessPlan());
+            getMessageValidator().validateOutbound(getProcess(), getDef(), inputMessage, policies);
+        }
 
-      // get the correlation sets we are creating via input and initiate
-      if (getResponseCorrelations() != null)
-         getResponseCorrelations().initiateOrValidate(inputMessage, getDef().getProducerMessagePartsMap());
+        // get the correlation sets we are creating via input and initiate
+        if (getResponseCorrelations() != null)
+            getResponseCorrelations().initiateOrValidate(inputMessage, getDef().getProducerMessagePartsMap());
 
-      // Queue our invocation of the partner operation we will be called back when it is done
-      // note that we may be called back via onMessage or onFault before this returns
-      String messageExchangePath = findEnclosingScope().getMessageExchangePath(getDef().getMessageExchange());
-      AePartnerLinkOpImplKey plOpKey = new AePartnerLinkOpImplKey(plink, getDef().getOperation());
-      getProcess().queueReply(inputMessage, getDef().getFaultName(), plOpKey, messageExchangePath);
+        // Queue our invocation of the partner operation we will be called back when it is done
+        // note that we may be called back via onMessage or onFault before this returns
+        String messageExchangePath = findEnclosingScope().getMessageExchangePath(getDef().getMessageExchange());
+        AePartnerLinkOpImplKey plOpKey = new AePartnerLinkOpImplKey(plink, getDef().getOperation());
+        getProcess().queueReply(inputMessage, getDef().getFaultName(), plOpKey, messageExchangePath);
 
-      // fixme (MF-3.1) introduce a callback so we can be sure that the reply was successful.                   
-      objectCompleted();
-   }
-   
-   /** 
-    * Overrides method to remove the open IMA before changing state to COMPLETED.
-    * 
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#exceptionManagementCompleteActivity()
-    */
-   public void exceptionManagementCompleteActivity() throws AeBusinessProcessException
-   {
-      // Remove the open IMA from the process open IMA list.
-	  IAePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
-      AePartnerLinkOpImplKey plOpKey = new AePartnerLinkOpImplKey(plink, getDef().getOperation());
-      String messageExchangePath = findEnclosingScope().getMessageExchangePath(getDef().getMessageExchange());
-      
-      getProcess().removeReply(plOpKey, messageExchangePath);
+        // fixme (MF-3.1) introduce a callback so we can be sure that the reply was successful.
+        objectCompleted();
+    }
 
-      super.exceptionManagementCompleteActivity();
-   }
+    /**
+     * Overrides method to remove the open IMA before changing state to COMPLETED.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#exceptionManagementCompleteActivity()
+     */
+    public void exceptionManagementCompleteActivity() throws AeBusinessProcessException {
+        // Remove the open IMA from the process open IMA list.
+        IAePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
+        AePartnerLinkOpImplKey plOpKey = new AePartnerLinkOpImplKey(plink, getDef().getOperation());
+        String messageExchangePath = findEnclosingScope().getMessageExchangePath(getDef().getMessageExchange());
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeMessageProducerParentAdapter#getMessageDataProducerDef()
-    */
-   public IAeMessageDataProducerDef getMessageDataProducerDef()
-   {
-      return getDef();
-   }
+        getProcess().removeReply(plOpKey, messageExchangePath);
+
+        super.exceptionManagementCompleteActivity();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeMessageProducerParentAdapter#getMessageDataProducerDef()
+     */
+    public IAeMessageDataProducerDef getMessageDataProducerDef() {
+        return getDef();
+    }
 }

@@ -14,13 +14,12 @@ import commonj.work.WorkItem;
 /**
  * Defines interface for listeners to be notified when a work item completes.
  */
-public interface IAeChildWorkCompletedListener
-{
-   /**
-    * Called when the <code>Work</code> associated with the given
-    * <code>WorkItem</code> completes.
-    *
-    * @param aWorkItem
-    */
-   public void workCompleted(WorkItem aWorkItem);
+public interface IAeChildWorkCompletedListener {
+    /**
+     * Called when the <code>Work</code> associated with the given
+     * <code>WorkItem</code> completes.
+     *
+     * @param aWorkItem
+     */
+    public void workCompleted(WorkItem aWorkItem);
 }

@@ -16,24 +16,24 @@ import org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler;
 /**
  * Interface mark an activity as compensatable.
  */
-public interface IAeCompensatableActivity
-{
+public interface IAeCompensatableActivity {
 
-   /**
-    * Getter for the AeCompInfo object.
-    */
-   public AeCompInfo getCompInfo();
-   
-   /** 
-    * Returns the compensation handler. If a handler has not been installed, then
-    * an implicit handler will be installed and returned.
-    * @return the compensation handler.
-    */
-   public AeCompensationHandler getCompensationHandler();
-   
-   /**
-    * Terminates currently active compensation handler if the compensation
-    * handler is executing.
-    */
-   public void terminateCompensationHandler() throws AeBusinessProcessException;
+    /**
+     * Getter for the AeCompInfo object.
+     */
+    public AeCompInfo getCompInfo();
+
+    /**
+     * Returns the compensation handler. If a handler has not been installed, then
+     * an implicit handler will be installed and returned.
+     *
+     * @return the compensation handler.
+     */
+    public AeCompensationHandler getCompensationHandler();
+
+    /**
+     * Terminates currently active compensation handler if the compensation
+     * handler is executing.
+     */
+    public void terminateCompensationHandler() throws AeBusinessProcessException;
 }

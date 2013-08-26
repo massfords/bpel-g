@@ -24,90 +24,78 @@ import org.activebpel.rt.bpel.impl.activity.support.IAeIMACorrelations;
  * executing and initialized the correlation sets. After this happens, the non-starting
  * activity will be notified via a callback that it can queue itself for execution.
  */
-public class AeMultiStartHelper
-{
-   /**
-    * If the activity is a create instance then we need to check to see if we
-    * were the activity that kicked off the process. If not, then we cannot queue
-    * ourselves until our correlated sets are ready. Instead, we'll wait for the
-    * starting activity to initialize the correlation sets and call us back to proceed.
-    */
-   public static boolean checkForMultiStartBehavior(IAeMessageReceiverActivity aActivity)
-      throws AeBusinessProcessException
-   {
-      boolean okToQueue = true; 
-      if (aActivity.getProcess().isStartMessageAvailable() && aActivity.canCreateInstance())
-      {
-         if ( ! isReceiveDataQueued(aActivity) )
-         {
-            // if the start message doesn't match what we're looking for, then there
-            // is no reason for us to get queued. 
-            //  
-            okToQueue = false;
-            
-            if ( ! isCorrelatedDataAvailable(aActivity) )  
-            {
-               // In a multi-start setup, the createInstances must use the same
-               // correlation sets. 
-               // As such, the facts that... 
-               //    1)our data wasn't present
-               //    2)our cs aren't initialized
-               // ...means that some other receive/onMessage is going to be starting
-               // the process and I should wait for them before queing myself.
-               // ergo, add self as listener to each of the cs (make this happen 
-               // in the is check)
-               setupCorrelationListener(aActivity);
-            }
-         }
-      }
-      return okToQueue;
-   }
-   
-   /**
-    * Returns true if the receive's data is queued by the process. 
-    */
-   private static boolean isReceiveDataQueued(IAeMessageReceiverActivity aActivity) {
-      return aActivity.getProcess().isReceiveDataQueued(aActivity.getPartnerLinkOperationImplKey());
-   }
+public class AeMultiStartHelper {
+    /**
+     * If the activity is a create instance then we need to check to see if we
+     * were the activity that kicked off the process. If not, then we cannot queue
+     * ourselves until our correlated sets are ready. Instead, we'll wait for the
+     * starting activity to initialize the correlation sets and call us back to proceed.
+     */
+    public static boolean checkForMultiStartBehavior(IAeMessageReceiverActivity aActivity)
+            throws AeBusinessProcessException {
+        boolean okToQueue = true;
+        if (aActivity.getProcess().isStartMessageAvailable() && aActivity.canCreateInstance()) {
+            if (!isReceiveDataQueued(aActivity)) {
+                // if the start message doesn't match what we're looking for, then there
+                // is no reason for us to get queued.
+                //
+                okToQueue = false;
 
-   /**
-    * Returns true if all of the receive's correlation sets are initialized.
-    * If this method returns false, then the caller should add themselves as
-    * a listener on the correlation set to get a callback when it gets initialized
-    */
-   public static boolean isCorrelatedDataAvailable(IAeMessageReceiverActivity aActivity) throws AeBusinessProcessException
-   {
-      boolean correlatedDataAvailable = true;
-      IAeIMACorrelations receiveCorrelations = aActivity.getCorrelations();
-      if (receiveCorrelations != null)
-      {
-         for(Iterator iter = receiveCorrelations.getCorrelationDefs(); iter.hasNext() && correlatedDataAvailable; )
-         {
-            AeCorrelationDef corrDef = (AeCorrelationDef)iter.next();
-            AeCorrelationSet corrSet = aActivity.findCorrelationSet(corrDef.getCorrelationSetName());
-            if(!corrSet.isInitialized())
-            {
-               correlatedDataAvailable = false;            
+                if (!isCorrelatedDataAvailable(aActivity)) {
+                    // In a multi-start setup, the createInstances must use the same
+                    // correlation sets.
+                    // As such, the facts that...
+                    //    1)our data wasn't present
+                    //    2)our cs aren't initialized
+                    // ...means that some other receive/onMessage is going to be starting
+                    // the process and I should wait for them before queing myself.
+                    // ergo, add self as listener to each of the cs (make this happen
+                    // in the is check)
+                    setupCorrelationListener(aActivity);
+                }
             }
-         }
-      }
-      return correlatedDataAvailable;
-   }
-   
-   /**
-    * Walks the correlation sets and adds self as a listener on each of the 
-    * correlation sets that aren't initialized.
-    */
-   private static void setupCorrelationListener(IAeMessageReceiverActivity aActivity) throws AeBusinessProcessException
-   {
-      for(Iterator iter = aActivity.getCorrelations().getCorrelationDefs(); iter.hasNext(); )
-      {
-         AeCorrelationDef corrDef = (AeCorrelationDef)iter.next();
-         AeCorrelationSet corrSet = aActivity.findCorrelationSet(corrDef.getCorrelationSetName());
-         if(!corrSet.isInitialized())
-         {
-            corrSet.addCorrelationListener(aActivity);
-         }
-      }
-   }
+        }
+        return okToQueue;
+    }
+
+    /**
+     * Returns true if the receive's data is queued by the process.
+     */
+    private static boolean isReceiveDataQueued(IAeMessageReceiverActivity aActivity) {
+        return aActivity.getProcess().isReceiveDataQueued(aActivity.getPartnerLinkOperationImplKey());
+    }
+
+    /**
+     * Returns true if all of the receive's correlation sets are initialized.
+     * If this method returns false, then the caller should add themselves as
+     * a listener on the correlation set to get a callback when it gets initialized
+     */
+    public static boolean isCorrelatedDataAvailable(IAeMessageReceiverActivity aActivity) throws AeBusinessProcessException {
+        boolean correlatedDataAvailable = true;
+        IAeIMACorrelations receiveCorrelations = aActivity.getCorrelations();
+        if (receiveCorrelations != null) {
+            for (Iterator iter = receiveCorrelations.getCorrelationDefs(); iter.hasNext() && correlatedDataAvailable; ) {
+                AeCorrelationDef corrDef = (AeCorrelationDef) iter.next();
+                AeCorrelationSet corrSet = aActivity.findCorrelationSet(corrDef.getCorrelationSetName());
+                if (!corrSet.isInitialized()) {
+                    correlatedDataAvailable = false;
+                }
+            }
+        }
+        return correlatedDataAvailable;
+    }
+
+    /**
+     * Walks the correlation sets and adds self as a listener on each of the
+     * correlation sets that aren't initialized.
+     */
+    private static void setupCorrelationListener(IAeMessageReceiverActivity aActivity) throws AeBusinessProcessException {
+        for (Iterator iter = aActivity.getCorrelations().getCorrelationDefs(); iter.hasNext(); ) {
+            AeCorrelationDef corrDef = (AeCorrelationDef) iter.next();
+            AeCorrelationSet corrSet = aActivity.findCorrelationSet(corrDef.getCorrelationSetName());
+            if (!corrSet.isInitialized()) {
+                corrSet.addCorrelationListener(aActivity);
+            }
+        }
+    }
 }

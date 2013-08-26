@@ -17,58 +17,53 @@ import org.activebpel.rt.bpel.server.AeMessages;
 /**
  * Implements a recovered item to add a message receiver.
  */
-public class AeRecoveredAddReceiverItem extends AeRecoveredLocationIdItem
-{
-   /** The message receiver. */
-   private final AeMessageReceiver mMessageReceiver;
+public class AeRecoveredAddReceiverItem extends AeRecoveredLocationIdItem {
+    /**
+     * The message receiver.
+     */
+    private final AeMessageReceiver mMessageReceiver;
 
-   /**
-    * Constructs a recovered item to add a message receiver.
-    */
-   public AeRecoveredAddReceiverItem(AeMessageReceiver aMessageReceiver)
-   {
-      super(aMessageReceiver.getProcessId(), aMessageReceiver.getMessageReceiverPathId());
+    /**
+     * Constructs a recovered item to add a message receiver.
+     */
+    public AeRecoveredAddReceiverItem(AeMessageReceiver aMessageReceiver) {
+        super(aMessageReceiver.getProcessId(), aMessageReceiver.getMessageReceiverPathId());
 
-      mMessageReceiver = aMessageReceiver;
-   }
+        mMessageReceiver = aMessageReceiver;
+    }
 
-   /**
-    * Constructs a recovered item to match another add message receiver item by
-    * location id.
-    */
-   public AeRecoveredAddReceiverItem(int aLocationId)
-   {
-      super(0, aLocationId);
+    /**
+     * Constructs a recovered item to match another add message receiver item by
+     * location id.
+     */
+    public AeRecoveredAddReceiverItem(int aLocationId) {
+        super(0, aLocationId);
 
-      mMessageReceiver = null;
-   }
+        mMessageReceiver = null;
+    }
 
-   /**
-    * Returns the message receiver.
-    */
-   public AeMessageReceiver getMessageReceiver()
-   {
-      return mMessageReceiver;
-   }
+    /**
+     * Returns the message receiver.
+     */
+    public AeMessageReceiver getMessageReceiver() {
+        return mMessageReceiver;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException
-   {
-      if (getMessageReceiver() == null)
-      {
-         throw new IllegalStateException(AeMessages.getString("AeRecoveredAddReceiverItem.ERROR_0")); //$NON-NLS-1$
-      }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException {
+        if (getMessageReceiver() == null) {
+            throw new IllegalStateException(AeMessages.getString("AeRecoveredAddReceiverItem.ERROR_0")); //$NON-NLS-1$
+        }
 
-      aTargetEngine.getQueueManager().addMessageReceiver(getMessageReceiver());
-   }
+        aTargetEngine.getQueueManager().addMessageReceiver(getMessageReceiver());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
-    */
-   public boolean isRemoval()
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
+     */
+    public boolean isRemoval() {
+        return false;
+    }
 }

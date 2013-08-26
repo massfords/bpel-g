@@ -16,50 +16,51 @@ import commonj.work.WorkItem;
 import org.activebpel.rt.bpel.server.AeMessages;
 
 /**
- * Event that gets fired to a WorkListener to report progress on a Work object. 
+ * Event that gets fired to a WorkListener to report progress on a Work object.
  */
-public class AeWorkEvent implements WorkEvent
-{
-   /** type of event */
-   private final int mType;
-   /** WorkItem that event relates to */
-   private WorkItem mWorkItem;
-   /** exception, if any, that was a result of the work's execution */
-   private final WorkException mException;
-   
-   /**
-    * Creates a work event for the specified work object and type.  
-    */
-   public AeWorkEvent(WorkItem aWorkItem, int aType, WorkException aException)
-   {
-      mType = aType;
-      mException = aException;
+public class AeWorkEvent implements WorkEvent {
+    /**
+     * type of event
+     */
+    private final int mType;
+    /**
+     * WorkItem that event relates to
+     */
+    private WorkItem mWorkItem;
+    /**
+     * exception, if any, that was a result of the work's execution
+     */
+    private final WorkException mException;
 
-      if (aException != null && aType != WorkEvent.WORK_COMPLETED)
-         throw new IllegalArgumentException(AeMessages.getString("AeWorkEvent.ERROR_0")); //$NON-NLS-1$
-   }
+    /**
+     * Creates a work event for the specified work object and type.
+     */
+    public AeWorkEvent(WorkItem aWorkItem, int aType, WorkException aException) {
+        mType = aType;
+        mException = aException;
 
-   /**
-    * @see commonj.work.WorkEvent#getType()
-    */
-   public int getType()
-   {
-      return mType;
-   }
+        if (aException != null && aType != WorkEvent.WORK_COMPLETED)
+            throw new IllegalArgumentException(AeMessages.getString("AeWorkEvent.ERROR_0")); //$NON-NLS-1$
+    }
 
-   /**
-    * @see commonj.work.WorkEvent#getException()
-    */
-   public WorkException getException()
-   {
-      return mException;
-   }
+    /**
+     * @see commonj.work.WorkEvent#getType()
+     */
+    public int getType() {
+        return mType;
+    }
 
-   /**
-    * @see commonj.work.WorkEvent#getWorkItem()
-    */
-   public WorkItem getWorkItem()
-   {
-      return mWorkItem;
-   }
+    /**
+     * @see commonj.work.WorkEvent#getException()
+     */
+    public WorkException getException() {
+        return mException;
+    }
+
+    /**
+     * @see commonj.work.WorkEvent#getWorkItem()
+     */
+    public WorkItem getWorkItem() {
+        return mWorkItem;
+    }
 }

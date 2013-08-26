@@ -21,129 +21,118 @@ import org.activebpel.rt.util.AeUtil;
  * </p>
  * <p>
  * You can also set a value supplied as an attribute.
- * Eg: &lt;ae:SetProperty name="beanName" property="methodname" value="property value" /&gt; 
+ * Eg: &lt;ae:SetProperty name="beanName" property="methodname" value="property value" /&gt;
  * </p>
  * <p>
  * Finally, you can also set a value supplied from the http request parameter.
- * Eg: &lt;ae:SetProperty name="beanName" property="methodname" param="http param name" /&gt; 
+ * Eg: &lt;ae:SetProperty name="beanName" property="methodname" param="http param name" /&gt;
  * </p>
- * 
  */
-public class AeSetPropertyTag extends AeAbstractBeanPropertyTag
-{
-   /**
-     * 
+public class AeSetPropertyTag extends AeAbstractBeanPropertyTag {
+    /**
+     *
      */
     private static final long serialVersionUID = 4803266339158935104L;
-/** Name of the param to read from the request */
-   private String mParam;
-   /** Value attribute. */
-   private String mValue;
-   /**  Copy from bean name */
-   private String mFromName;
-   /** Copy from bean property name. */
-   private String mFromProperty;
+    /**
+     * Name of the param to read from the request
+     */
+    private String mParam;
+    /**
+     * Value attribute.
+     */
+    private String mValue;
+    /**
+     * Copy from bean name
+     */
+    private String mFromName;
+    /**
+     * Copy from bean property name.
+     */
+    private String mFromProperty;
 
-   /**
-    * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      if (AeUtil.notNullOrEmpty( getFromName() ) && AeUtil.notNullOrEmpty( getFromProperty() ) )
-      {
-         // set value obtained from another bean.
-         Object fromBean = pageContext.findAttribute( getFromName() );
-         if (fromBean != null)
-         {
-            Object value = getPropertyFromBean(fromBean, getFromProperty());
-            if (value != null)
-            {
-               setPropertyOnBean(value, value.getClass());
+    /**
+     * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        if (AeUtil.notNullOrEmpty(getFromName()) && AeUtil.notNullOrEmpty(getFromProperty())) {
+            // set value obtained from another bean.
+            Object fromBean = pageContext.findAttribute(getFromName());
+            if (fromBean != null) {
+                Object value = getPropertyFromBean(fromBean, getFromProperty());
+                if (value != null) {
+                    setPropertyOnBean(value, value.getClass());
+                }
             }
-         }
-      }
-      else if (getValue() != null)
-      {
-         // set value from 'value' attribute in the tag.
-         setPropertyOnBean(getValue(), String.class);
-      }
-      else if ( getParamValue() != null)
-      {
-         // set value from request parameter
-         setPropertyOnBean(getParamValue(), String.class);
-      }
-      return SKIP_BODY;
-   }
+        } else if (getValue() != null) {
+            // set value from 'value' attribute in the tag.
+            setPropertyOnBean(getValue(), String.class);
+        } else if (getParamValue() != null) {
+            // set value from request parameter
+            setPropertyOnBean(getParamValue(), String.class);
+        }
+        return SKIP_BODY;
+    }
 
-   /**
-    * Gets the param value that's converted to a date.
-    */
-   protected String getParamValue()
-   {
-      return pageContext.getRequest().getParameter(getParam());
-   }
+    /**
+     * Gets the param value that's converted to a date.
+     */
+    protected String getParamValue() {
+        return pageContext.getRequest().getParameter(getParam());
+    }
 
-   /**
-    * @return Returns the param.
-    */
-   public String getParam()
-   {
-      return mParam;
-   }
+    /**
+     * @return Returns the param.
+     */
+    public String getParam() {
+        return mParam;
+    }
 
-   /**
-    * @param aParam The param to set.
-    */
-   public void setParam(String aParam)
-   {
-      mParam = aParam;
-   }
+    /**
+     * @param aParam The param to set.
+     */
+    public void setParam(String aParam) {
+        mParam = aParam;
+    }
 
-   /**
-    * @return the fromName
-    */
-   public String getFromName()
-   {
-      return mFromName;
-   }
+    /**
+     * @return the fromName
+     */
+    public String getFromName() {
+        return mFromName;
+    }
 
-   /**
-    * @param aFromName the fromName to set
-    */
-   public void setFromName(String aFromName)
-   {
-      mFromName = aFromName;
-   }
+    /**
+     * @param aFromName the fromName to set
+     */
+    public void setFromName(String aFromName) {
+        mFromName = aFromName;
+    }
 
-   /**
-    * @return the fromProperty
-    */
-   public String getFromProperty()
-   {
-      return mFromProperty;
-   }
+    /**
+     * @return the fromProperty
+     */
+    public String getFromProperty() {
+        return mFromProperty;
+    }
 
-   /**
-    * @param aFromProperty the fromProperty to set
-    */
-   public void setFromProperty(String aFromProperty)
-   {
-      mFromProperty = aFromProperty;
-   }
+    /**
+     * @param aFromProperty the fromProperty to set
+     */
+    public void setFromProperty(String aFromProperty) {
+        mFromProperty = aFromProperty;
+    }
 
-   /**
-    * @return the value
-    */
-   public String getValue()
-   {
-      return mValue;
-   }
+    /**
+     * @return the value
+     */
+    public String getValue() {
+        return mValue;
+    }
 
-   /**
-    * @param aValue the value to set
-    */
-   public void setValue(String aValue)
-   {
-      mValue = aValue;
-   }
+    /**
+     * @param aValue the value to set
+     */
+    public void setValue(String aValue) {
+        mValue = aValue;
+    }
 }

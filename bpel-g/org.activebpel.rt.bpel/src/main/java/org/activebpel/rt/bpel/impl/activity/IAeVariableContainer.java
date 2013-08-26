@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity; 
+package org.activebpel.rt.bpel.impl.activity;
 
 import java.util.Iterator;
 
@@ -17,35 +17,36 @@ import org.activebpel.rt.bpel.impl.IAeBpelObject;
 
 /**
  * Provides method for adding a variable to an impl. Added to support special variables on non-scope
- * activities like the catch that defines/declares a variable. 
+ * activities like the catch that defines/declares a variable.
  */
-public interface IAeVariableContainer
-{
-   /**
-    * Gets the variable by its name
-    * @param aVariableName
-    */
-   public IAeVariable findVariable(String aVariableName);
-   
-   /**
-    * Adds the variable
-    * @param aVariable
-    */
-   public void addVariable(IAeVariable aVariable);
-   
-   /**
-    * Gets an iterator over the IAeVariables within this container
-    */
-   public Iterator<IAeVariable> iterator();
-   
-   /**
-    * Initializes the variables in the container
-    */
-   public void initialize() throws AeBpelException;
-   
-   /**
-    * Gets the parent of the variables container
-    */
-   public IAeBpelObject getParent();
+public interface IAeVariableContainer {
+    /**
+     * Gets the variable by its name
+     *
+     * @param aVariableName
+     */
+    public IAeVariable findVariable(String aVariableName);
+
+    /**
+     * Adds the variable
+     *
+     * @param aVariable
+     */
+    public void addVariable(IAeVariable aVariable);
+
+    /**
+     * Gets an iterator over the IAeVariables within this container
+     */
+    public Iterator<IAeVariable> iterator();
+
+    /**
+     * Initializes the variables in the container
+     */
+    public void initialize() throws AeBpelException;
+
+    /**
+     * Gets the parent of the variables container
+     */
+    public IAeBpelObject getParent();
 }
  

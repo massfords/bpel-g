@@ -15,44 +15,41 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for the 'compensateScope' activity.
  */
-public class AeActivityCompensateScopeDef extends AeActivityCompensateDef
-{
-   /**
-     * 
+public class AeActivityCompensateScopeDef extends AeActivityCompensateDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 3457033038309144216L;
-/** The name of the scope to compensate (the value of the 'target' attribute). */
-   private String mTarget;  // Note: also models the BPEL 1.1 'scope' attribute of the 'compensate' activity.
+    /**
+     * The name of the scope to compensate (the value of the 'target' attribute).
+     */
+    private String mTarget;  // Note: also models the BPEL 1.1 'scope' attribute of the 'compensate' activity.
 
-   /**
-    * Default constructor
-    */
-   public AeActivityCompensateScopeDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityCompensateScopeDef() {
+        super();
+    }
 
-   /**
-    * @return Returns the target.
-    */
-   public String getTarget()
-   {
-      return mTarget;
-   }
+    /**
+     * @return Returns the target.
+     */
+    public String getTarget() {
+        return mTarget;
+    }
 
-   /**
-    * @param aTarget The target to set.
-    */
-   public void setTarget(String aTarget)
-   {
-      mTarget = aTarget;
-   }
+    /**
+     * @param aTarget The target to set.
+     */
+    public void setTarget(String aTarget) {
+        mTarget = aTarget;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

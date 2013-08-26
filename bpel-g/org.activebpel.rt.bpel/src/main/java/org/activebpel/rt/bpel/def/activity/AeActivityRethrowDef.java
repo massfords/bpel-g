@@ -16,26 +16,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'rethrow' bpel construct that was introduced in WS-BPEL 2.0.
  */
-public class AeActivityRethrowDef extends AeActivityDef
-{
-   /**
-     * 
+public class AeActivityRethrowDef extends AeActivityDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -7681516990162573194L;
 
-/**
-    * Default c'tor.
-    */
-   public AeActivityRethrowDef()
-   {
-      super();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeActivityRethrowDef() {
+        super();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

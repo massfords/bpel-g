@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityAssignDef;
 import org.activebpel.rt.bpel.def.validation.activity.assign.AeAssignCopyValidator;
@@ -15,34 +15,31 @@ import org.activebpel.rt.bpel.def.validation.activity.assign.AeAssignCopyValidat
 /**
  * Performs validation for the assign activity
  */
-public class AeActivityAssignValidator extends AeActivityValidator
-{
-   /**
-    * ctor 
-    * @param aDef
-    */
-   public AeActivityAssignValidator(AeActivityAssignDef aDef)
-   {
-      super(aDef);
-   }
+public class AeActivityAssignValidator extends AeActivityValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityAssignValidator(AeActivityAssignDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      validateAssignOperations();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-   /**
-    * validates that the assign has children
-    */
-   protected void validateAssignOperations()
-   {
-      if ( getChildren(AeAssignCopyValidator.class).size() == 0 )
-         getReporter().reportProblem( BPEL_NO_COPY_CODE, ERROR_NO_COPY, null, getDefinition() );
-   }
+        validateAssignOperations();
+    }
+
+    /**
+     * validates that the assign has children
+     */
+    protected void validateAssignOperations() {
+        if (getChildren(AeAssignCopyValidator.class).size() == 0)
+            getReporter().reportProblem(BPEL_NO_COPY_CODE, ERROR_NO_COPY, null, getDefinition());
+    }
 }
  

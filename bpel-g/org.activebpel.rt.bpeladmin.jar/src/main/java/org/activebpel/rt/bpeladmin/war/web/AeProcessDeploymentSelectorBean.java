@@ -30,133 +30,136 @@ import bpelg.services.processes.types.ProcessDeployments;
  * Bean for selecting the info on a specific process deployment.
  */
 public class AeProcessDeploymentSelectorBean extends AeAbstractAdminBean {
-	/** The process deployment id. */
-	protected int mProcessDeploymentId;
+    /**
+     * The process deployment id.
+     */
+    protected int mProcessDeploymentId;
 
-	/** The specified process deployment */
-	protected ProcessDeployment mDetail;
+    /**
+     * The specified process deployment
+     */
+    protected ProcessDeployment mDetail;
 
-	/**
-	 * Default constructor.
-	 */
-	public AeProcessDeploymentSelectorBean() {
+    /**
+     * Default constructor.
+     */
+    public AeProcessDeploymentSelectorBean() {
 
-	}
+    }
 
-	/**
-	 * The offset indicating a specific process deployment.
-	 * 
-	 * @param aOffset
-	 */
-	public void setSelection(int aOffset) {
-		ProcessDeployments deployedProcesses = fetchDeployments();
-		List<ProcessDeployment> list = deployedProcesses.getProcessDeployment();
-		if (list.size() > 0 && aOffset >= 0 && aOffset < list.size()) {
-			mDetail = list.get(aOffset);
-		} else {
-			mDetail = null;
-		}
-		setProcessDeploymentId(aOffset);
-	}
+    /**
+     * The offset indicating a specific process deployment.
+     *
+     * @param aOffset
+     */
+    public void setSelection(int aOffset) {
+        ProcessDeployments deployedProcesses = fetchDeployments();
+        List<ProcessDeployment> list = deployedProcesses.getProcessDeployment();
+        if (list.size() > 0 && aOffset >= 0 && aOffset < list.size()) {
+            mDetail = list.get(aOffset);
+        } else {
+            mDetail = null;
+        }
+        setProcessDeploymentId(aOffset);
+    }
 
-	protected ProcessDeployments fetchDeployments() {
-		ProcessDeployments deployedProcesses = AeEngineManagementFactory
-				.getProcessManager().getProcessDeployments(
-						new GetProcessDeployments());
-		return deployedProcesses;
-	}
+    protected ProcessDeployments fetchDeployments() {
+        ProcessDeployments deployedProcesses = AeEngineManagementFactory
+                .getProcessManager().getProcessDeployments(
+                        new GetProcessDeployments());
+        return deployedProcesses;
+    }
 
-	/**
-	 * The qname indicating a specific process deployment.
-	 * 
-	 * @param aQName
-	 */
-	public void setPlanQName(String aQName) {
-		if (!AeUtil.isNullOrEmpty(aQName)) {
-			String ns = null;
-			String localPart = aQName;
+    /**
+     * The qname indicating a specific process deployment.
+     *
+     * @param aQName
+     */
+    public void setPlanQName(String aQName) {
+        if (!AeUtil.isNullOrEmpty(aQName)) {
+            String ns = null;
+            String localPart = aQName;
 
-			int colonIndex = aQName.lastIndexOf(':');
-			if (colonIndex != -1) {
-				ns = aQName.substring(0, colonIndex);
-				localPart = aQName.substring(colonIndex + 1);
-			}
+            int colonIndex = aQName.lastIndexOf(':');
+            if (colonIndex != -1) {
+                ns = aQName.substring(0, colonIndex);
+                localPart = aQName.substring(colonIndex + 1);
+            }
 
-			QName qname = new QName(ns, localPart);
-			mDetail = AeEngineManagementFactory.getProcessManager().getProcessDeploymentByName(qname);
-		}
-	}
+            QName qname = new QName(ns, localPart);
+            mDetail = AeEngineManagementFactory.getProcessManager().getProcessDeploymentByName(qname);
+        }
+    }
 
-	/**
-	 * Getter for the process qname local part.
-	 */
-	public String getLocalName() {
-		if (mDetail != null) {
-			return mDetail.getProcess().getName().getLocalPart();
-		} else {
-			return AeMessages
-					.getString("AeProcessDeploymentSelectorBean.DETAILS_NOT_AVAILABLE"); //$NON-NLS-1$
-		}
-	}
+    /**
+     * Getter for the process qname local part.
+     */
+    public String getLocalName() {
+        if (mDetail != null) {
+            return mDetail.getProcess().getName().getLocalPart();
+        } else {
+            return AeMessages
+                    .getString("AeProcessDeploymentSelectorBean.DETAILS_NOT_AVAILABLE"); //$NON-NLS-1$
+        }
+    }
 
-	/**
-	 * Getter for the process qname namespace uri.
-	 */
-	public String getNamespaceURI() {
-		if (mDetail != null) {
-			return mDetail.getProcess().getName().getNamespaceURI();
-		} else {
-			return AeMessages
-					.getString("AeProcessDeploymentSelectorBean.DETAILS_NOT_AVAILABLE"); //$NON-NLS-1$
-		}
-	}
+    /**
+     * Getter for the process qname namespace uri.
+     */
+    public String getNamespaceURI() {
+        if (mDetail != null) {
+            return mDetail.getProcess().getName().getNamespaceURI();
+        } else {
+            return AeMessages
+                    .getString("AeProcessDeploymentSelectorBean.DETAILS_NOT_AVAILABLE"); //$NON-NLS-1$
+        }
+    }
 
-	/**
-	 * Getter for the process pdd source xml.
-	 */
-	public String getSourceXml() {
-		if (mDetail != null) {
-			Pdd pdd = mDetail.getProcess();
-			try {
-				JAXBContext context = JAXBContext.newInstance(Pdd.class);
-				Marshaller m = context.createMarshaller();
-				m.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-				StringWriter sw = new StringWriter();
-				m.marshal(pdd, sw);
-				return sw.toString();
-			} catch (JAXBException e) {
-				return "error generating source";
-			}
-		} else {
-			return AeMessages
-					.getString("AeProcessDeploymentSelectorBean.DETAILS_NOT_AVAILABLE"); //$NON-NLS-1$
-		}
-	}
+    /**
+     * Getter for the process pdd source xml.
+     */
+    public String getSourceXml() {
+        if (mDetail != null) {
+            Pdd pdd = mDetail.getProcess();
+            try {
+                JAXBContext context = JAXBContext.newInstance(Pdd.class);
+                Marshaller m = context.createMarshaller();
+                m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+                StringWriter sw = new StringWriter();
+                m.marshal(pdd, sw);
+                return sw.toString();
+            } catch (JAXBException e) {
+                return "error generating source";
+            }
+        } else {
+            return AeMessages
+                    .getString("AeProcessDeploymentSelectorBean.DETAILS_NOT_AVAILABLE"); //$NON-NLS-1$
+        }
+    }
 
-	/**
-	 * Getter for the bpel process source xml.
-	 */
-	public String getBpelSourceXml() {
-		if (mDetail != null) {
-			return mDetail.getSource();
-		} else {
-			return AeMessages
-					.getString("AeProcessDeploymentSelectorBean.DETAILS_NOT_AVAILABLE"); //$NON-NLS-1$
-		}
-	}
+    /**
+     * Getter for the bpel process source xml.
+     */
+    public String getBpelSourceXml() {
+        if (mDetail != null) {
+            return mDetail.getSource();
+        } else {
+            return AeMessages
+                    .getString("AeProcessDeploymentSelectorBean.DETAILS_NOT_AVAILABLE"); //$NON-NLS-1$
+        }
+    }
 
-	/**
-	 * @return Returns the processDeploymentId.
-	 */
-	public int getProcessDeploymentId() {
-		return mProcessDeploymentId;
-	}
+    /**
+     * @return Returns the processDeploymentId.
+     */
+    public int getProcessDeploymentId() {
+        return mProcessDeploymentId;
+    }
 
-	/**
-	 * @param aProcessDeploymentId
-	 *            The processDeploymentId to set.
-	 */
-	public void setProcessDeploymentId(int aProcessDeploymentId) {
-		mProcessDeploymentId = aProcessDeploymentId;
-	}
+    /**
+     * @param aProcessDeploymentId The processDeploymentId to set.
+     */
+    public void setProcessDeploymentId(int aProcessDeploymentId) {
+        mProcessDeploymentId = aProcessDeploymentId;
+    }
 }

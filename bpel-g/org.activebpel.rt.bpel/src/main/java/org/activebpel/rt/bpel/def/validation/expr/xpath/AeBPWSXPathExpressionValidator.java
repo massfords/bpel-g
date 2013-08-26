@@ -22,41 +22,37 @@ import java.util.Set;
  * Implements an expression validator for the XPath 1.0 expression language.  This is the default languge used
  * for BPEL 1.1 (when no expression language is specified).
  */
-public class AeBPWSXPathExpressionValidator extends AeAbstractXPathExpressionValidator
-{
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#doCommonExpressionValidation(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   protected void doCommonExpressionValidation(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
-   {
-      super.doCommonExpressionValidation(aParseResult, aValidationResult, aContext);
-      
-      checkExpressionVariableReferences(aParseResult, aValidationResult);
-   }
+public class AeBPWSXPathExpressionValidator extends AeAbstractXPathExpressionValidator {
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#doCommonExpressionValidation(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    protected void doCommonExpressionValidation(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext) {
+        super.doCommonExpressionValidation(aParseResult, aValidationResult, aContext);
 
-   /**
-    * Checks for variable references in the expression.
-    * 
-    * @param aParseResult
-    * @param aValidationResult
-    */
-   protected void checkExpressionVariableReferences(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult)
-   {
-      Set variables = aParseResult.getVariableReferences();
-       for (Object variable : variables) {
-           AeScriptVarDef varDef = (AeScriptVarDef) variable;
-           addError(aValidationResult, AeMessages.getString("AeBPEL4WSXPathExpressionValidator.ERROR_RESOLVING_XPATH_VARIABLE"), //$NON-NLS-1$
-                   new Object[]{varDef.getName()});
-       }
-   }
+        checkExpressionVariableReferences(aParseResult, aValidationResult);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#handleNoFunctionsInJoinCondition(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult)
-    */
-   protected void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult)
-   {
-      addError(aValidationResult,
-            AeMessages.getString("AeBPWSXPathExpressionValidator.INVALID_JOIN_CONDITION1_ERROR"),  //$NON-NLS-1$
-            new Object[] { aParseResult.getExpression() });
-   }
+    /**
+     * Checks for variable references in the expression.
+     *
+     * @param aParseResult
+     * @param aValidationResult
+     */
+    protected void checkExpressionVariableReferences(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult) {
+        Set variables = aParseResult.getVariableReferences();
+        for (Object variable : variables) {
+            AeScriptVarDef varDef = (AeScriptVarDef) variable;
+            addError(aValidationResult, AeMessages.getString("AeBPEL4WSXPathExpressionValidator.ERROR_RESOLVING_XPATH_VARIABLE"), //$NON-NLS-1$
+                    new Object[]{varDef.getName()});
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#handleNoFunctionsInJoinCondition(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult)
+     */
+    protected void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult) {
+        addError(aValidationResult,
+                AeMessages.getString("AeBPWSXPathExpressionValidator.INVALID_JOIN_CONDITION1_ERROR"),  //$NON-NLS-1$
+                new Object[]{aParseResult.getExpression()});
+    }
 }

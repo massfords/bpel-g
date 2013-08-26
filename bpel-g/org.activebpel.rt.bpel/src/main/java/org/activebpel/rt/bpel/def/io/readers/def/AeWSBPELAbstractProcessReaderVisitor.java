@@ -16,23 +16,21 @@ import org.w3c.dom.Element;
 /**
  * Implements a WS-BPEL 2.0 abstract process version of the def reader visitor.
  */
-public class AeWSBPELAbstractProcessReaderVisitor extends AeWSBPELReaderVisitor
-{
-   /**
-    * Constructor.
-    */
-   public AeWSBPELAbstractProcessReaderVisitor(AeBaseDef aParentDef, Element aElement)
-   {
-      super(aParentDef, aElement);
-   }
+public class AeWSBPELAbstractProcessReaderVisitor extends AeWSBPELReaderVisitor {
+    /**
+     * Constructor.
+     */
+    public AeWSBPELAbstractProcessReaderVisitor(AeBaseDef aParentDef, Element aElement) {
+        super(aParentDef, aElement);
+    }
 
-   /**
-    * Overrides method to read abstract process profile attribute.
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void visit(AeProcessDef def)
-   {
-      super.visit(def);
-      def.setAbstractProcessProfile(getAttribute(TAG_ABSTRACT_PROCESS_PROFILE));
-   }
+    /**
+     * Overrides method to read abstract process profile attribute.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void visit(AeProcessDef def) {
+        super.visit(def);
+        def.setAbstractProcessProfile(getAttribute(TAG_ABSTRACT_PROCESS_PROFILE));
+    }
 }

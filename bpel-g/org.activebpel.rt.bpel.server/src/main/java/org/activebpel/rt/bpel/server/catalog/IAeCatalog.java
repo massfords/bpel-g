@@ -15,55 +15,61 @@ import org.activebpel.rt.wsdl.IAeWSDLProvider;
 
 /**
  * Global Catalog interface.
- * 
+ * <p/>
  * All access to resources should be via this interface.
  */
-public interface IAeCatalog extends IAeWSDLProvider
-{
-   /** constants for replace wsdl flag */
-   public static final boolean KEEP_EXISTING_RESOURCE = false;
-   
-   /**
-    * Adds an array of catalog mapping entries.
-    * @param aDeploymentId the id for the deployment or null if none to be recorded
-    * @param aMappings the mappings to add
-    * @param aReplaceFlag If this flag is set to true any previous wsdl entries
-    * mapped to the same location hint will be over written.
-    */
-   public void addCatalogEntries( IAeDeploymentId aDeploymentId, IAeCatalogMapping[] aMappings, boolean aReplaceFlag );
-   
-   /**
-    * Get a mapping to our in-memory map of catalog items. or null if it doesn't exist
-    * @param aLocation
-    * @return IAeCatalogMapping if it exists, null if not
-    */
-   public IAeCatalogMapping getMappingForLocation(String aLocation);
+public interface IAeCatalog extends IAeWSDLProvider {
+    /**
+     * constants for replace wsdl flag
+     */
+    public static final boolean KEEP_EXISTING_RESOURCE = false;
 
-   /**
-    * Remove the deployment context.
-    * @param aDeploymentId
-    */
-   public void remove( IAeDeploymentId aDeploymentId );
-   
-   /**
-    * Accessor for the resource cache.
-    */
-   public IAeResourceCache getResourceCache();
-   
-   /**
-    * Add the catalog listener.
-    * @param aListener
-    */
-   public void addCatalogListener( IAeCatalogListener aListener );
-   
-   /**
-    * Remove the catalog listner.
-    * @param aListener
-    */
-   public void removeCatalogListener( IAeCatalogListener aListener );
-   
-   /**
-    * clears the catalog 
-    */
-   public void clear();
+    /**
+     * Adds an array of catalog mapping entries.
+     *
+     * @param aDeploymentId the id for the deployment or null if none to be recorded
+     * @param aMappings     the mappings to add
+     * @param aReplaceFlag  If this flag is set to true any previous wsdl entries
+     *                      mapped to the same location hint will be over written.
+     */
+    public void addCatalogEntries(IAeDeploymentId aDeploymentId, IAeCatalogMapping[] aMappings, boolean aReplaceFlag);
+
+    /**
+     * Get a mapping to our in-memory map of catalog items. or null if it doesn't exist
+     *
+     * @param aLocation
+     * @return IAeCatalogMapping if it exists, null if not
+     */
+    public IAeCatalogMapping getMappingForLocation(String aLocation);
+
+    /**
+     * Remove the deployment context.
+     *
+     * @param aDeploymentId
+     */
+    public void remove(IAeDeploymentId aDeploymentId);
+
+    /**
+     * Accessor for the resource cache.
+     */
+    public IAeResourceCache getResourceCache();
+
+    /**
+     * Add the catalog listener.
+     *
+     * @param aListener
+     */
+    public void addCatalogListener(IAeCatalogListener aListener);
+
+    /**
+     * Remove the catalog listner.
+     *
+     * @param aListener
+     */
+    public void removeCatalogListener(IAeCatalogListener aListener);
+
+    /**
+     * clears the catalog
+     */
+    public void clear();
 }

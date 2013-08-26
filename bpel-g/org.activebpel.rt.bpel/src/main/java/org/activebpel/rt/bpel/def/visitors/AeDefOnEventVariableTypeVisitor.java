@@ -26,66 +26,58 @@ import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
  * <code>fromPart</code> variable references by
  * {@link org.activebpel.rt.bpel.def.visitors.AeWSBPELImplicitVariableVisitor}.
  */
-public class AeDefOnEventVariableTypeVisitor extends AeAbstractDefVisitor
-{
-   /** The WSDL provider set during visitor creation. */
-   private final IAeContextWSDLProvider mWSDLProvider;
+public class AeDefOnEventVariableTypeVisitor extends AeAbstractDefVisitor {
+    /**
+     * The WSDL provider set during visitor creation.
+     */
+    private final IAeContextWSDLProvider mWSDLProvider;
 
-   /**
-    * Constructs the visitor with the given WSDL provider.
-    *
-    * @param aWSDLProvider
-    */
-   public AeDefOnEventVariableTypeVisitor(IAeContextWSDLProvider aWSDLProvider)
-   {
-      mWSDLProvider = aWSDLProvider;
+    /**
+     * Constructs the visitor with the given WSDL provider.
+     *
+     * @param aWSDLProvider
+     */
+    public AeDefOnEventVariableTypeVisitor(IAeContextWSDLProvider aWSDLProvider) {
+        mWSDLProvider = aWSDLProvider;
 
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * Returns the WSDL provider.
-    */
-   protected IAeContextWSDLProvider getWSDLProvider()
-   {
-      return mWSDLProvider;
-   }
+    /**
+     * Returns the WSDL provider.
+     */
+    protected IAeContextWSDLProvider getWSDLProvider() {
+        return mWSDLProvider;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void visit(AeOnEventDef def)
-   {
-      if (def.getFromPartsDef() != null)
-      {
-         AeActivityScopeDef scopeDef = def.getChildScope();
-         if (scopeDef != null)
-         {
-            Message message = AeWSDLDefHelper.getInputMessage(getWSDLProvider(), def.getPortType(), def.getOperation());
-            if (message != null)
-            {
-               for (Iterator i = def.getFromPartDefs(); i.hasNext(); )
-               {
-                  AeFromPartDef fromPartDef = (AeFromPartDef) i.next();
-                  String variableName = fromPartDef.getToVariable();
-                  String partName = fromPartDef.getPart();
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        if (def.getFromPartsDef() != null) {
+            AeActivityScopeDef scopeDef = def.getChildScope();
+            if (scopeDef != null) {
+                Message message = AeWSDLDefHelper.getInputMessage(getWSDLProvider(), def.getPortType(), def.getOperation());
+                if (message != null) {
+                    for (Iterator i = def.getFromPartDefs(); i.hasNext(); ) {
+                        AeFromPartDef fromPartDef = (AeFromPartDef) i.next();
+                        String variableName = fromPartDef.getToVariable();
+                        String partName = fromPartDef.getPart();
 
-                  if ((variableName != null) && (partName != null))
-                  {
-                     AeVariableDef variableDef = scopeDef.getVariableDef(variableName);
-                     Part part = message.getPart(partName);
-   
-                     if ((variableDef != null) && (part != null))
-                     {
-                        variableDef.setElement(part.getElementName());
-                        variableDef.setType(part.getTypeName());
-                     }
-                  }
-               }
+                        if ((variableName != null) && (partName != null)) {
+                            AeVariableDef variableDef = scopeDef.getVariableDef(variableName);
+                            Part part = message.getPart(partName);
+
+                            if ((variableDef != null) && (part != null)) {
+                                variableDef.setElement(part.getElementName());
+                                variableDef.setType(part.getTypeName());
+                            }
+                        }
+                    }
+                }
             }
-         }
-      }
+        }
 
-      super.visit(def);
-   }
+        super.visit(def);
+    }
 }

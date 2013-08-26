@@ -17,13 +17,11 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 /**
  * A WS-BPEL version of an XQuery expression validator.
  */
-public class AeWSBPELXQueryExpressionValidator extends AeAbstractXQueryExpressionValidator
-{
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeAbstractXQueryExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)
-   {
-      return new AeWSBPELXQueryExpressionParser(aContext);
-   }
+public class AeWSBPELXQueryExpressionValidator extends AeAbstractXQueryExpressionValidator {
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeAbstractXQueryExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext) {
+        return new AeWSBPELXQueryExpressionParser(aContext);
+    }
 }

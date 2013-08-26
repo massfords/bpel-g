@@ -18,30 +18,28 @@ import org.w3c.dom.Element;
 /**
  * A WS-BPEL 2.0  Abstract Process implementation of a writer visitor.
  */
-public class AeWSBPELAbstractProcessWriterVisitor extends AeWSBPELWriterVisitor
-{
+public class AeWSBPELAbstractProcessWriterVisitor extends AeWSBPELWriterVisitor {
 
-   /**
-    * Constructs a ws-bpel 2.0 abstract process writer visitor.
-    *
-    * @param aDef
-    * @param aParentElement
-    * @param aNamespace
-    * @param aTagName
-    * @param aWritePortTypeAttrib indicates the portType attribute should be written for the WSIO Activities. 
-    */
-   public AeWSBPELAbstractProcessWriterVisitor(AeBaseXmlDef aDef, Element aParentElement, String aNamespace, String aTagName,
-                                               boolean aWritePortTypeAttrib)
-   {
-      super(aDef, aParentElement, aNamespace, aTagName, aWritePortTypeAttrib);
-   }
+    /**
+     * Constructs a ws-bpel 2.0 abstract process writer visitor.
+     *
+     * @param aDef
+     * @param aParentElement
+     * @param aNamespace
+     * @param aTagName
+     * @param aWritePortTypeAttrib indicates the portType attribute should be written for the WSIO Activities.
+     */
+    public AeWSBPELAbstractProcessWriterVisitor(AeBaseXmlDef aDef, Element aParentElement, String aNamespace, String aTagName,
+                                                boolean aWritePortTypeAttrib) {
+        super(aDef, aParentElement, aNamespace, aTagName, aWritePortTypeAttrib);
+    }
 
-   /**
-    * Overrides method to write the attribute in the default (abstract process) namespace.
-    * @see org.activebpel.rt.bpel.def.io.writers.def.AeWSBPELWriterVisitor#writeAbstractProcessProfileAttribute(org.activebpel.rt.bpel.def.AeProcessDef, org.activebpel.rt.xml.IAeMutableNamespaceContext)
-    */
-   protected void writeAbstractProcessProfileAttribute(AeProcessDef aDef, IAeMutableNamespaceContext aNsContext)
-   {
-      setAttribute(IAeBPELConstants.TAG_ABSTRACT_PROCESS_PROFILE, aDef.getAbstractProcessProfile());
-   }
+    /**
+     * Overrides method to write the attribute in the default (abstract process) namespace.
+     *
+     * @see org.activebpel.rt.bpel.def.io.writers.def.AeWSBPELWriterVisitor#writeAbstractProcessProfileAttribute(org.activebpel.rt.bpel.def.AeProcessDef, org.activebpel.rt.xml.IAeMutableNamespaceContext)
+     */
+    protected void writeAbstractProcessProfileAttribute(AeProcessDef aDef, IAeMutableNamespaceContext aNsContext) {
+        setAttribute(IAeBPELConstants.TAG_ABSTRACT_PROCESS_PROFILE, aDef.getAbstractProcessProfile());
+    }
 }

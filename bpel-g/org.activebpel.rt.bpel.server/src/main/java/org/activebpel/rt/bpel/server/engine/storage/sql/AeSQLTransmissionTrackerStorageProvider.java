@@ -25,120 +25,102 @@ import org.activebpel.rt.util.AeCloser;
  * SQL implementation of the storage provider for the transmission - receive manager.
  */
 public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorageProvider implements
-      IAeTransmissionTrackerStorageProvider
-{
+        IAeTransmissionTrackerStorageProvider {
     private AeCounter mCounter;
-   /** Config prefix. */
-   protected static final String TRANSMISSION_TRACKER_STORAGE_PREFIX = "TransmissionTrackerStorage."; //$NON-NLS-1$
-   
-   /**
-    * Default ctor.
-    */
-   public AeSQLTransmissionTrackerStorageProvider()
-   {
-      setPrefix(TRANSMISSION_TRACKER_STORAGE_PREFIX);
-   }
+    /**
+     * Config prefix.
+     */
+    protected static final String TRANSMISSION_TRACKER_STORAGE_PREFIX = "TransmissionTrackerStorage."; //$NON-NLS-1$
 
-   /**  
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#getNextTransmissionId()
-    */
-   public long getNextTransmissionId() throws AeStorageException
-   {
-      return getCounter().getNextValue();
-   }
+    /**
+     * Default ctor.
+     */
+    public AeSQLTransmissionTrackerStorageProvider() {
+        setPrefix(TRANSMISSION_TRACKER_STORAGE_PREFIX);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#add(org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry)
-    */
-   public void add(AeTransmissionTrackerEntry aEntry) throws AeStorageException
-   { 
-      Object[] params = new Object[] {
-              aEntry.getTransmissionId(),
-              aEntry.getState(),
-            getStringOrSqlNullVarchar( aEntry.getMessageId() )
-      };
-      // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-      Connection conn = null;
-      try
-      {
-         conn = getTransactionConnection();
-         update(conn, IAeTransmissionTrackerSQLKeys.INSERT_ENTRY, params);
-      }
-      catch(Throwable t)
-      {
-         AeException.logError(t);
-         throw new AeStorageException(t);
-      }
-      finally
-      {
-         AeCloser.close(conn);
-      }      
-      
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#getNextTransmissionId()
+     */
+    public long getNextTransmissionId() throws AeStorageException {
+        return getCounter().getNextValue();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#get(long)
-    */
-   public AeTransmissionTrackerEntry get(long aTransmissionId) throws AeStorageException
-   {
-      return query(IAeTransmissionTrackerSQLKeys.GET_ENTRY, new AeTransmissionTrackerResultSetHandler(), aTransmissionId);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#update(org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry)
-    */
-   public void update(AeTransmissionTrackerEntry aEntry) throws AeStorageException
-   {
-      // Note: This method updates both - message id and state.
-      Object[] params = new Object[] {
-              aEntry.getState(),
-            getStringOrSqlNullVarchar( aEntry.getMessageId() ),
-              aEntry.getTransmissionId()
-      };
-      // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.      
-      Connection conn = null;
-      try
-      {
-         conn = getTransactionConnection();
-         update(conn, IAeTransmissionTrackerSQLKeys.UPDATE_ENTRY, params);
-      }
-      finally
-      {
-         AeCloser.close(conn);
-      }            
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#remove(org.activebpel.rt.util.AeLongSet)
-    */
-   public void remove(Set<Long> aTransmissionIds) throws AeStorageException
-   {     
-      if (!aTransmissionIds.isEmpty())
-      {                  
-         Connection conn = null;
-         // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-         try
-         {
-            Iterator it = aTransmissionIds.iterator();
-            conn = getTransactionConnection();         
-            while (it.hasNext()) 
-            {
-               Object[] params = new Object[] {(Long) it.next() };
-               update(conn, IAeTransmissionTrackerSQLKeys.DELETE_ENTRY, params);
-            }// while
-         }
-         finally
-         {
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#add(org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry)
+     */
+    public void add(AeTransmissionTrackerEntry aEntry) throws AeStorageException {
+        Object[] params = new Object[]{
+                aEntry.getTransmissionId(),
+                aEntry.getState(),
+                getStringOrSqlNullVarchar(aEntry.getMessageId())
+        };
+        // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
+        Connection conn = null;
+        try {
+            conn = getTransactionConnection();
+            update(conn, IAeTransmissionTrackerSQLKeys.INSERT_ENTRY, params);
+        } catch (Throwable t) {
+            AeException.logError(t);
+            throw new AeStorageException(t);
+        } finally {
             AeCloser.close(conn);
-         }                     
-      }
-   }
+        }
 
-public AeCounter getCounter() {
-    return mCounter;
-}
+    }
 
-public void setCounter(AeCounter aCounter) {
-    mCounter = aCounter;
-}
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#get(long)
+     */
+    public AeTransmissionTrackerEntry get(long aTransmissionId) throws AeStorageException {
+        return query(IAeTransmissionTrackerSQLKeys.GET_ENTRY, new AeTransmissionTrackerResultSetHandler(), aTransmissionId);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#update(org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry)
+     */
+    public void update(AeTransmissionTrackerEntry aEntry) throws AeStorageException {
+        // Note: This method updates both - message id and state.
+        Object[] params = new Object[]{
+                aEntry.getState(),
+                getStringOrSqlNullVarchar(aEntry.getMessageId()),
+                aEntry.getTransmissionId()
+        };
+        // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
+        Connection conn = null;
+        try {
+            conn = getTransactionConnection();
+            update(conn, IAeTransmissionTrackerSQLKeys.UPDATE_ENTRY, params);
+        } finally {
+            AeCloser.close(conn);
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#remove(org.activebpel.rt.util.AeLongSet)
+     */
+    public void remove(Set<Long> aTransmissionIds) throws AeStorageException {
+        if (!aTransmissionIds.isEmpty()) {
+            Connection conn = null;
+            // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
+            try {
+                Iterator it = aTransmissionIds.iterator();
+                conn = getTransactionConnection();
+                while (it.hasNext()) {
+                    Object[] params = new Object[]{(Long) it.next()};
+                    update(conn, IAeTransmissionTrackerSQLKeys.DELETE_ENTRY, params);
+                }// while
+            } finally {
+                AeCloser.close(conn);
+            }
+        }
+    }
+
+    public AeCounter getCounter() {
+        return mCounter;
+    }
+
+    public void setCounter(AeCounter aCounter) {
+        mCounter = aCounter;
+    }
 }

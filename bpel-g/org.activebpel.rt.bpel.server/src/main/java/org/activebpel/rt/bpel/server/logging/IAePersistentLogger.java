@@ -12,13 +12,13 @@ package org.activebpel.rt.bpel.server.logging;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 
 /**
- * Interface for handling logging in a persistent environment.  
+ * Interface for handling logging in a persistent environment.
  */
-public interface IAePersistentLogger extends IAeProcessLogger
-{
-   /**
-    * Returns the current log entry from the logger.
-    * @param aProcessId
-    */
-   public IAeProcessLogEntry getLogEntry(long aProcessId);
+public interface IAePersistentLogger extends IAeProcessLogger {
+    /**
+     * Returns the current log entry from the logger.
+     *
+     * @param aProcessId
+     */
+    public IAeProcessLogEntry getLogEntry(long aProcessId);
 }

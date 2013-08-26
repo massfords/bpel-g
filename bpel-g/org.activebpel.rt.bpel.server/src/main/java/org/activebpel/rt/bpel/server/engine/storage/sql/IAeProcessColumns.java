@@ -12,14 +12,13 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 /**
  * Defines constants for process column names.
  */
-public interface IAeProcessColumns
-{
-   public static final String END_DATE          = "EndDate"; //$NON-NLS-1$
-   public static final String PLAN_ID           = "PlanId"; //$NON-NLS-1$
-   public static final String PROCESS_ID        = "ProcessId"; //$NON-NLS-1$
-   public static final String PROCESS_NAME      = "ProcessName"; //$NON-NLS-1$
-   public static final String PROCESS_NAMESPACE = "ProcessNamespace"; //$NON-NLS-1$
-   public static final String PROCESS_STATE     = "ProcessState"; //$NON-NLS-1$
-   public static final String PROCESS_STATE_REASON = "ProcessStateReason"; //$NON-NLS-1$
-   public static final String START_DATE        = "StartDate"; //$NON-NLS-1$
+public interface IAeProcessColumns {
+    public static final String END_DATE = "EndDate"; //$NON-NLS-1$
+    public static final String PLAN_ID = "PlanId"; //$NON-NLS-1$
+    public static final String PROCESS_ID = "ProcessId"; //$NON-NLS-1$
+    public static final String PROCESS_NAME = "ProcessName"; //$NON-NLS-1$
+    public static final String PROCESS_NAMESPACE = "ProcessNamespace"; //$NON-NLS-1$
+    public static final String PROCESS_STATE = "ProcessState"; //$NON-NLS-1$
+    public static final String PROCESS_STATE_REASON = "ProcessStateReason"; //$NON-NLS-1$
+    public static final String START_DATE = "StartDate"; //$NON-NLS-1$
 }

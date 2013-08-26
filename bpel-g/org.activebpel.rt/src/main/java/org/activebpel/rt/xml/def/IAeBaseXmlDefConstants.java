@@ -15,11 +15,10 @@ import org.activebpel.rt.IAeConstants;
 /**
  * Some base xml def related constants.
  */
-public interface IAeBaseXmlDefConstants extends IAeConstants
-{
-   public static final String TAG_DOCUMENTATION = "documentation"; //$NON-NLS-1$
-   
-   public static final String ATTR_DOCUMENTATION_SOURCE = "source"; //$NON-NLS-1$
-   public static final String ATTR_DOCUMENTATION_LANG = "lang"; //$NON-NLS-1$
-   public static final String ATTR_XML_LANG = "xml:lang"; //$NON-NLS-1$
+public interface IAeBaseXmlDefConstants extends IAeConstants {
+    public static final String TAG_DOCUMENTATION = "documentation"; //$NON-NLS-1$
+
+    public static final String ATTR_DOCUMENTATION_SOURCE = "source"; //$NON-NLS-1$
+    public static final String ATTR_DOCUMENTATION_LANG = "lang"; //$NON-NLS-1$
+    public static final String ATTR_XML_LANG = "xml:lang"; //$NON-NLS-1$
 }

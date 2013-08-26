@@ -27,273 +27,269 @@ import org.w3c.dom.Element;
 /**
  * Context information necessary to execute and invoke.
  */
-public class AeInvokeContext
-{
-   /** IAeInvoke object */
-   private IAeInvoke mInvoke;
-   /** Invoke response object. */
-   private AeInvokeResponse mResponse;
-   /** The invoke service. */
-   private Service mService;
-   /** The invoke operation. */
-   private Operation mOperation;
-   /** Message parts that are destined for the header, they should not be added to the body */
-   private Collection<String> mInputHeaderParts;
-   /** Message parts that should be extracted from the response soap headers */
-   private Collection<String> mOutputHeaderParts;
-   /** Contains binding info for the operation being invoked */
-   private BindingOperation mBindingOperation;
-   /** Target Endpoint for the invoke */
-   private IAeEndpointReference mEndpoint;
-   /** ReplyTo Endpoint for the invoke */
-   private IAeEndpointReference mReplyTo;
-   /** resolved policies */
-   private List<Element> mPolicyList;
-   /** policy driven call properties */
-   private Map<String, Object> mCallProperties;
-   /** the address handling type */
-   private AeAddressHandlingType mAddressType;
-   /** the soapAction from the binding op */
-   private String mSoapAction;
-   
-   /**
-    * @return the soapAction
-    */
-   public String getSoapAction()
-   {
-      return mSoapAction;
-   }
+public class AeInvokeContext {
+    /**
+     * IAeInvoke object
+     */
+    private IAeInvoke mInvoke;
+    /**
+     * Invoke response object.
+     */
+    private AeInvokeResponse mResponse;
+    /**
+     * The invoke service.
+     */
+    private Service mService;
+    /**
+     * The invoke operation.
+     */
+    private Operation mOperation;
+    /**
+     * Message parts that are destined for the header, they should not be added to the body
+     */
+    private Collection<String> mInputHeaderParts;
+    /**
+     * Message parts that should be extracted from the response soap headers
+     */
+    private Collection<String> mOutputHeaderParts;
+    /**
+     * Contains binding info for the operation being invoked
+     */
+    private BindingOperation mBindingOperation;
+    /**
+     * Target Endpoint for the invoke
+     */
+    private IAeEndpointReference mEndpoint;
+    /**
+     * ReplyTo Endpoint for the invoke
+     */
+    private IAeEndpointReference mReplyTo;
+    /**
+     * resolved policies
+     */
+    private List<Element> mPolicyList;
+    /**
+     * policy driven call properties
+     */
+    private Map<String, Object> mCallProperties;
+    /**
+     * the address handling type
+     */
+    private AeAddressHandlingType mAddressType;
+    /**
+     * the soapAction from the binding op
+     */
+    private String mSoapAction;
 
-   /**
-    * @param aSoapAction the soapAction to set
-    */
-   public void setSoapAction(String aSoapAction)
-   {
-      mSoapAction = aSoapAction;
-   }
+    /**
+     * @return the soapAction
+     */
+    public String getSoapAction() {
+        return mSoapAction;
+    }
 
-   /**
-    * Default Constructor.
-    */
-   public AeInvokeContext()
-   {
-   }
+    /**
+     * @param aSoapAction the soapAction to set
+     */
+    public void setSoapAction(String aSoapAction) {
+        mSoapAction = aSoapAction;
+    }
 
-   /**
-    * @return Returns the invoke.
-    */
-   public IAeInvoke getInvoke()
-   {
-      return mInvoke;
-   }
-   
-   /**
-    * @param aInvoke The invoke to set.
-    */
-   public void setInvoke(IAeInvoke aInvoke)
-   {
-      mInvoke = aInvoke;
-   }
-   
-   /**
-    * @return Returns the operation.
-    */
-   public Operation getOperation()
-   {
-      return mOperation;
-   }
+    /**
+     * Default Constructor.
+     */
+    public AeInvokeContext() {
+    }
 
-   /**
-    * @param aOperation The operation to set.
-    */
-   public void setOperation(Operation aOperation)
-   {
-      mOperation = aOperation;
-   }
-   
-   /**
-    * @return Returns the response.
-    */
-   public AeInvokeResponse getResponse()
-   {
-      return mResponse;
-   }
+    /**
+     * @return Returns the invoke.
+     */
+    public IAeInvoke getInvoke() {
+        return mInvoke;
+    }
 
-   /**
-    * @param aResponse The response to set.
-    */
-   public void setResponse(AeInvokeResponse aResponse)
-   {
-      mResponse = aResponse;
-   }
+    /**
+     * @param aInvoke The invoke to set.
+     */
+    public void setInvoke(IAeInvoke aInvoke) {
+        mInvoke = aInvoke;
+    }
 
-   /**
-    * @return Returns the inputHeaderParts.
-    */
-   public Collection<String> getInputHeaderParts()
-   {
-      if (mInputHeaderParts == null)
-      {
-         mInputHeaderParts = Collections.<String>emptySet();
-      }
-      return mInputHeaderParts;
-   }
+    /**
+     * @return Returns the operation.
+     */
+    public Operation getOperation() {
+        return mOperation;
+    }
 
-   /**
-    * @param aInputHeaderParts The inputHeaderParts to set.
-    */
-   public void setInputHeaderParts(Collection<String> aInputHeaderParts)
-   {
-      mInputHeaderParts = aInputHeaderParts.isEmpty() ? null : new HashSet<>(aInputHeaderParts);
-   }
+    /**
+     * @param aOperation The operation to set.
+     */
+    public void setOperation(Operation aOperation) {
+        mOperation = aOperation;
+    }
 
-   /**
-    * @return Returns the outputHeaderParts.
-    */
-   public Collection<String> getOutputHeaderParts()
-   {
-      if (mOutputHeaderParts == null)
-      {
-         mOutputHeaderParts = Collections.<String>emptySet();
-      }
-      return mOutputHeaderParts;
-   }
+    /**
+     * @return Returns the response.
+     */
+    public AeInvokeResponse getResponse() {
+        return mResponse;
+    }
 
-   /**
-    * @param aOutputHeaderParts The outputHeaderParts to set.
-    */
-   public void setOutputHeaderParts(Collection<String> aOutputHeaderParts)
-   {
-      mOutputHeaderParts = aOutputHeaderParts.isEmpty() ? null : new HashSet<>(aOutputHeaderParts);
-   }
+    /**
+     * @param aResponse The response to set.
+     */
+    public void setResponse(AeInvokeResponse aResponse) {
+        mResponse = aResponse;
+    }
 
-   /**
-    * @return Returns the bindingOperation.
-    */
-   public BindingOperation getBindingOperation()
-   {
-      return mBindingOperation;
-   }
+    /**
+     * @return Returns the inputHeaderParts.
+     */
+    public Collection<String> getInputHeaderParts() {
+        if (mInputHeaderParts == null) {
+            mInputHeaderParts = Collections.<String>emptySet();
+        }
+        return mInputHeaderParts;
+    }
 
-   /**
-    * @param aBindingOperation The bindingOperation to set.
-    */
-   public void setBindingOperation(BindingOperation aBindingOperation)
-   {
-      mBindingOperation = aBindingOperation;
-   }
-   
-   /**
-    * Returns true if the part name is supposed to go in the soap header of the request.
-    * @param aPartName
-    */
-   public boolean isInputHeader(String aPartName)
-   {
-      return getInputHeaderParts().contains(aPartName);
-   }
-   
-   /**
-    * Returns true if the part name is supposed to be in the soap header of the response
-    * @param aPartName
-    */
-   public boolean isOutputHeader(String aPartName)
-   {
-      return getOutputHeaderParts().contains(aPartName);
-   }
+    /**
+     * @param aInputHeaderParts The inputHeaderParts to set.
+     */
+    public void setInputHeaderParts(Collection<String> aInputHeaderParts) {
+        mInputHeaderParts = aInputHeaderParts.isEmpty() ? null : new HashSet<>(aInputHeaderParts);
+    }
 
-   /**
-    * @return the service
-    */
-   public Service getService()
-   {
-      return mService;
-   }
+    /**
+     * @return Returns the outputHeaderParts.
+     */
+    public Collection<String> getOutputHeaderParts() {
+        if (mOutputHeaderParts == null) {
+            mOutputHeaderParts = Collections.<String>emptySet();
+        }
+        return mOutputHeaderParts;
+    }
 
-   /**
-    * @param aService the service to set
-    */
-   public void setService(Service aService)
-   {
-      mService = aService;
-   }
+    /**
+     * @param aOutputHeaderParts The outputHeaderParts to set.
+     */
+    public void setOutputHeaderParts(Collection<String> aOutputHeaderParts) {
+        mOutputHeaderParts = aOutputHeaderParts.isEmpty() ? null : new HashSet<>(aOutputHeaderParts);
+    }
 
-   /**
-    * @return the endpoint
-    */
-   public IAeEndpointReference getEndpoint()
-   {
-      return mEndpoint;
-   }
+    /**
+     * @return Returns the bindingOperation.
+     */
+    public BindingOperation getBindingOperation() {
+        return mBindingOperation;
+    }
 
-   /**
-    * @param aEndpoint the endpoint to set
-    */
-   public void setEndpoint(IAeEndpointReference aEndpoint)
-   {
-      mEndpoint = aEndpoint;
-   }
+    /**
+     * @param aBindingOperation The bindingOperation to set.
+     */
+    public void setBindingOperation(BindingOperation aBindingOperation) {
+        mBindingOperation = aBindingOperation;
+    }
 
-   /**
-    * @return the policyList
-    */
-   public List<Element> getPolicyList()
-   {
-      return mPolicyList;
-   }
+    /**
+     * Returns true if the part name is supposed to go in the soap header of the request.
+     *
+     * @param aPartName
+     */
+    public boolean isInputHeader(String aPartName) {
+        return getInputHeaderParts().contains(aPartName);
+    }
 
-   /**
-    * @param aPolicyList the policyList to set
-    */
-   public void setPolicyList(List<Element> aPolicyList)
-   {
-      mPolicyList = aPolicyList;
-   }
+    /**
+     * Returns true if the part name is supposed to be in the soap header of the response
+     *
+     * @param aPartName
+     */
+    public boolean isOutputHeader(String aPartName) {
+        return getOutputHeaderParts().contains(aPartName);
+    }
 
-   /**
-    * @return the replyTo
-    */
-   public IAeEndpointReference getReplyTo()
-   {
-      return mReplyTo;
-   }
+    /**
+     * @return the service
+     */
+    public Service getService() {
+        return mService;
+    }
 
-   /**
-    * @param aReplyTo the replyTo to set
-    */
-   public void setReplyTo(IAeEndpointReference aReplyTo)
-   {
-      mReplyTo = aReplyTo;
-   }
+    /**
+     * @param aService the service to set
+     */
+    public void setService(Service aService) {
+        mService = aService;
+    }
 
-   /**
-    * @return the addressType
-    */
-   public AeAddressHandlingType getAddressType()
-   {
-      return mAddressType;
-   }
+    /**
+     * @return the endpoint
+     */
+    public IAeEndpointReference getEndpoint() {
+        return mEndpoint;
+    }
 
-   /**
-    * @param aAddressType the addressType to set
-    */
-   public void setAddressType(AeAddressHandlingType aAddressType)
-   {
-      mAddressType = aAddressType;
-   }
+    /**
+     * @param aEndpoint the endpoint to set
+     */
+    public void setEndpoint(IAeEndpointReference aEndpoint) {
+        mEndpoint = aEndpoint;
+    }
 
-   /**
-    * @return the callProperties
-    */
-   public Map<String, Object> getCallProperties()
-   {
-      return mCallProperties;
-   }
+    /**
+     * @return the policyList
+     */
+    public List<Element> getPolicyList() {
+        return mPolicyList;
+    }
 
-   /**
-    * @param aCallProperties the callProperties to set
-    */
-   public void setCallProperties(Map<String, Object> aCallProperties)
-   {
-      mCallProperties = aCallProperties;
-   }
+    /**
+     * @param aPolicyList the policyList to set
+     */
+    public void setPolicyList(List<Element> aPolicyList) {
+        mPolicyList = aPolicyList;
+    }
+
+    /**
+     * @return the replyTo
+     */
+    public IAeEndpointReference getReplyTo() {
+        return mReplyTo;
+    }
+
+    /**
+     * @param aReplyTo the replyTo to set
+     */
+    public void setReplyTo(IAeEndpointReference aReplyTo) {
+        mReplyTo = aReplyTo;
+    }
+
+    /**
+     * @return the addressType
+     */
+    public AeAddressHandlingType getAddressType() {
+        return mAddressType;
+    }
+
+    /**
+     * @param aAddressType the addressType to set
+     */
+    public void setAddressType(AeAddressHandlingType aAddressType) {
+        mAddressType = aAddressType;
+    }
+
+    /**
+     * @return the callProperties
+     */
+    public Map<String, Object> getCallProperties() {
+        return mCallProperties;
+    }
+
+    /**
+     * @param aCallProperties the callProperties to set
+     */
+    public void setCallProperties(Map<String, Object> aCallProperties) {
+        mCallProperties = aCallProperties;
+    }
 }

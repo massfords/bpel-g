@@ -7,59 +7,58 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign; 
+package org.activebpel.rt.bpel.impl.activity.assign;
 
 
 /**
  * Base class for copy operation components like &lt;from&gt; and &lt;to&gt; variant
- * implementations. 
+ * implementations.
  */
-public class AeCopyOperationComponentBase
-{
-   /** name of the variable */
-   private String mVariableName;
-   
-   /** used to resolve variable names and execute expressions */
-   private IAeCopyOperation mCopyOperation;
-   
-   /**
-    * Ctor accepts the def and context
-    */
-   public AeCopyOperationComponentBase()
-   {
-   }
+public class AeCopyOperationComponentBase {
+    /**
+     * name of the variable
+     */
+    private String mVariableName;
 
-   /**
-    * @return Returns the copy operation.
-    */
-   protected IAeCopyOperation getCopyOperation()
-   {
-      return mCopyOperation;
-   }
+    /**
+     * used to resolve variable names and execute expressions
+     */
+    private IAeCopyOperation mCopyOperation;
 
-   /**
-    * @param aCopyOperation The context to set.
-    */
-   public void setCopyOperation(IAeCopyOperation aCopyOperation)
-   {
-      mCopyOperation = aCopyOperation;
-   }
+    /**
+     * Ctor accepts the def and context
+     */
+    public AeCopyOperationComponentBase() {
+    }
 
-   /**
-    * Getter for the variable name
-    */
-   public String getVariableName()
-   {
-      return mVariableName;
-   }
-   
-   /**
-    * Setter for the variable name
-    * @param aVariableName
-    */
-   public void setVariableName(String aVariableName)
-   {
-      mVariableName = aVariableName;
-   }
+    /**
+     * @return Returns the copy operation.
+     */
+    protected IAeCopyOperation getCopyOperation() {
+        return mCopyOperation;
+    }
+
+    /**
+     * @param aCopyOperation The context to set.
+     */
+    public void setCopyOperation(IAeCopyOperation aCopyOperation) {
+        mCopyOperation = aCopyOperation;
+    }
+
+    /**
+     * Getter for the variable name
+     */
+    public String getVariableName() {
+        return mVariableName;
+    }
+
+    /**
+     * Setter for the variable name
+     *
+     * @param aVariableName
+     */
+    public void setVariableName(String aVariableName) {
+        mVariableName = aVariableName;
+    }
 }
  

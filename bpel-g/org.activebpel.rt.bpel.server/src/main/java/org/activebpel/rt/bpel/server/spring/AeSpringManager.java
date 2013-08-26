@@ -13,19 +13,25 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Manager that keeps the references to Spring ApplicationContexts that have been deployed as part
- * of a BPR or ODE packaging. 
- * 
+ * of a BPR or ODE packaging.
+ *
  * @author mford
  */
 @Singleton
 public class AeSpringManager extends AeManagerAdapter {
 
-    /** map of contexts */
-    private final Map<String,GenericApplicationContext> mContextMap = new ConcurrentHashMap<>();
-    /** map of process qnames to their contexts */
-    private final Map<QName,GenericApplicationContext> mQNameContextMap = new ConcurrentHashMap<>();
-    /** map of keys to sets */
-    private final Map<String,Set<QName>> mNameMap = new ConcurrentHashMap<>();
+    /**
+     * map of contexts
+     */
+    private final Map<String, GenericApplicationContext> mContextMap = new ConcurrentHashMap<>();
+    /**
+     * map of process qnames to their contexts
+     */
+    private final Map<QName, GenericApplicationContext> mQNameContextMap = new ConcurrentHashMap<>();
+    /**
+     * map of keys to sets
+     */
+    private final Map<String, Set<QName>> mNameMap = new ConcurrentHashMap<>();
 
     /* start all of the contexts upon manager start
      * @see org.activebpel.rt.bpel.impl.AeManagerAdapter#start()
@@ -33,7 +39,7 @@ public class AeSpringManager extends AeManagerAdapter {
     @Override
     public void start() throws Exception {
         super.start();
-        for(GenericApplicationContext context : mContextMap.values()) { 
+        for (GenericApplicationContext context : mContextMap.values()) {
             context.start();
         }
     }
@@ -44,12 +50,14 @@ public class AeSpringManager extends AeManagerAdapter {
     @Override
     public void stop() {
         super.stop();
-        for(GenericApplicationContext context : mContextMap.values()) {
+        for (GenericApplicationContext context : mContextMap.values()) {
             context.stop();
         }
     }
-    
-    /** Add a new context to our map
+
+    /**
+     * Add a new context to our map
+     *
      * @param aKey
      * @param aContext
      */
@@ -59,23 +67,24 @@ public class AeSpringManager extends AeManagerAdapter {
         // record the key to the process set
         mNameMap.put(aKey, aProcessSet);
         // record all of the individual process qnames
-        for(QName name : aProcessSet) {
+        for (QName name : aProcessSet) {
             mQNameContextMap.put(name, aContext);
         }
         aContext.start();
     }
-    
+
     /**
      * Remove a context from the map
+     *
      * @param aKey
      */
     public GenericApplicationContext remove(String aKey) {
         // remove the context
-    	GenericApplicationContext context = mContextMap.remove(aKey);
-    	// remove the process names
+        GenericApplicationContext context = mContextMap.remove(aKey);
+        // remove the process names
         Set<QName> names = mNameMap.get(aKey);
         if (names != null) {
-            for(QName name : names) {
+            for (QName name : names) {
                 mQNameContextMap.remove(name);
             }
         }
@@ -86,7 +95,7 @@ public class AeSpringManager extends AeManagerAdapter {
         }
         return context;
     }
-    
+
     public <T> T getBean(QName aProcessName, Class<T> aClass) throws BeansException {
         ApplicationContext ac = mQNameContextMap.get(aProcessName);
         return ac.getBean(aClass);

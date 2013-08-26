@@ -18,103 +18,87 @@ import javax.servlet.jsp.PageContext;
 
 /**
  * Simple tag to iterate over a collection.
- *
+ * <p/>
  * &lt;ae:CollectionIterator name="nameOfBean" property="beanColletionPropertyName" id="indexName" /&gt;
- *    Item = &lt;jsp:getProperty name="indexName" property="propName" /&gt;  &lt;br/&gt;
+ * Item = &lt;jsp:getProperty name="indexName" property="propName" /&gt;  &lt;br/&gt;
  * &lt;/ae:CollectionIterator&gt;
  */
-public class AeCollectionIteratorTag extends AeAbstractBeanPropertyTag
-{
-   /**
-     * 
+public class AeCollectionIteratorTag extends AeAbstractBeanPropertyTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -2136661796158468887L;
-/**
-    * Collection iterator.
-    */
-   private Iterator mCollectionIterator = null;
+    /**
+     * Collection iterator.
+     */
+    private Iterator mCollectionIterator = null;
 
-   /**
-    * @return the collectionIterator
-    */
-   protected Iterator getCollectionIterator()
-   {
-      return mCollectionIterator;
-   }
+    /**
+     * @return the collectionIterator
+     */
+    protected Iterator getCollectionIterator() {
+        return mCollectionIterator;
+    }
 
-   /**
-    * @param aCollectionIterator the collectionIterator to set
-    */
-   protected void setCollectionIterator(Iterator aCollectionIterator)
-   {
-      mCollectionIterator = aCollectionIterator;
-   }
+    /**
+     * @param aCollectionIterator the collectionIterator to set
+     */
+    protected void setCollectionIterator(Iterator aCollectionIterator) {
+        mCollectionIterator = aCollectionIterator;
+    }
 
-   /**
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      if (getCollectionIterator() == null)
-      {
-         Object obj = getPropertyFromBean();
-         if (obj != null && obj instanceof Collection)
-         {
-            setCollectionIterator( ((Collection) obj).iterator() );
-         }
-      }
+    /**
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        if (getCollectionIterator() == null) {
+            Object obj = getPropertyFromBean();
+            if (obj != null && obj instanceof Collection) {
+                setCollectionIterator(((Collection) obj).iterator());
+            }
+        }
 
-      if( getCollectionIterator() != null && getCollectionIterator().hasNext() )
-      {
-         setPageContextValue();
-         return EVAL_BODY_INCLUDE;
-      }
-      else
-      {
-         return SKIP_BODY;
-      }
-   }
+        if (getCollectionIterator() != null && getCollectionIterator().hasNext()) {
+            setPageContextValue();
+            return EVAL_BODY_INCLUDE;
+        } else {
+            return SKIP_BODY;
+        }
+    }
 
-   /**
-    * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
-    */
-   public int doEndTag() throws JspException
-   {
-      if (getId() != null)
-      {
-         pageContext.removeAttribute(getId(), PageContext.PAGE_SCOPE);
-      }
-      setName(null);
-      setId(null);
-      setProperty(null);
-      setCollectionIterator(null);
-      return super.doEndTag();
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+     */
+    public int doEndTag() throws JspException {
+        if (getId() != null) {
+            pageContext.removeAttribute(getId(), PageContext.PAGE_SCOPE);
+        }
+        setName(null);
+        setId(null);
+        setProperty(null);
+        setCollectionIterator(null);
+        return super.doEndTag();
+    }
 
-   /**
-    * @see javax.servlet.jsp.tagext.IterationTag#doAfterBody()
-    */
-   public int doAfterBody() throws JspTagException
-   {
-      if( getCollectionIterator() != null && getCollectionIterator().hasNext() )
-      {
-         setPageContextValue();
-         return EVAL_BODY_AGAIN;
-      }
-      else
-      {
-         return SKIP_BODY;
-      }
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.IterationTag#doAfterBody()
+     */
+    public int doAfterBody() throws JspTagException {
+        if (getCollectionIterator() != null && getCollectionIterator().hasNext()) {
+            setPageContextValue();
+            return EVAL_BODY_AGAIN;
+        } else {
+            return SKIP_BODY;
+        }
+    }
 
-   /**
-    * Sets the current iterator value in the page context.
-    */
-   protected void setPageContextValue()
-   {
-      Object obj = getCollectionIterator().next();
-      pageContext.setAttribute(getId(), obj);
-   }
+    /**
+     * Sets the current iterator value in the page context.
+     */
+    protected void setPageContextValue() {
+        Object obj = getCollectionIterator().next();
+        pageContext.setAttribute(getId(), obj);
+    }
 
 }
 

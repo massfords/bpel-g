@@ -20,36 +20,31 @@ import org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem;
  * requests. Extends {@link java.util.LinkedHashMap} to preserve order of
  * insertion for {@link #getRecoveredItems()}.
  */
-public class AeRecoveredItemsSet extends LinkedHashMap<IAeRecoveredItem,IAeRecoveredItem> implements IAeRecoveredItemsSet
-{
-   private static final long serialVersionUID = 4790725409613185210L;
+public class AeRecoveredItemsSet extends LinkedHashMap<IAeRecoveredItem, IAeRecoveredItem> implements IAeRecoveredItemsSet {
+    private static final long serialVersionUID = 4790725409613185210L;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet#addRecoveredItem(org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem)
-    */
-   public void addRecoveredItem(IAeRecoveredItem aRecoveredItem) throws AeRecoveryConflictingRequestException
-   {
-      if (containsKey(aRecoveredItem))
-      {
-         throw new AeRecoveryConflictingRequestException();
-      }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet#addRecoveredItem(org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem)
+     */
+    public void addRecoveredItem(IAeRecoveredItem aRecoveredItem) throws AeRecoveryConflictingRequestException {
+        if (containsKey(aRecoveredItem)) {
+            throw new AeRecoveryConflictingRequestException();
+        }
 
-      put(aRecoveredItem, aRecoveredItem);
-   }
+        put(aRecoveredItem, aRecoveredItem);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet#getRecoveredItems()
-    */
-   public List<IAeRecoveredItem> getRecoveredItems()
-   {
-      return new LinkedList<>(this.values());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet#getRecoveredItems()
+     */
+    public List<IAeRecoveredItem> getRecoveredItems() {
+        return new LinkedList<>(this.values());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet#removeRecoveredItem(org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem)
-    */
-   public IAeRecoveredItem removeRecoveredItem(IAeRecoveredItem aItem)
-   {
-      return remove(aItem);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet#removeRecoveredItem(org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem)
+     */
+    public IAeRecoveredItem removeRecoveredItem(IAeRecoveredItem aItem) {
+        return remove(aItem);
+    }
 }

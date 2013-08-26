@@ -13,23 +13,24 @@ package org.activebpel.rt.bpel.impl.addressing;
  * Interface for a factory class that hands out the appropriate serializer/deserializer
  * for a given WSA namespace
  */
-public interface IAeWsAddressingFactory
-{
-   /**
-    * Returns the WS-Addressing deserializer for a given namespace.  
-    * The default deserializer is returned if the namespace parameter is null.
-    * @param aNamespace
-    * @return the Deserializer
-    */
-   public IAeAddressingDeserializer getDeserializer(String aNamespace);
-   
-   /**
-    * Returns the WS-Addressing serializer for a given namespace.  
-    * The default serializer is returned if the namespace parameter is null.
-    * @param aNamespace
-    * @return the Serializer
-    */
-   public IAeAddressingSerializer getSerializer(String aNamespace);
+public interface IAeWsAddressingFactory {
+    /**
+     * Returns the WS-Addressing deserializer for a given namespace.
+     * The default deserializer is returned if the namespace parameter is null.
+     *
+     * @param aNamespace
+     * @return the Deserializer
+     */
+    public IAeAddressingDeserializer getDeserializer(String aNamespace);
+
+    /**
+     * Returns the WS-Addressing serializer for a given namespace.
+     * The default serializer is returned if the namespace parameter is null.
+     *
+     * @param aNamespace
+     * @return the Serializer
+     */
+    public IAeAddressingSerializer getSerializer(String aNamespace);
 
 
 }

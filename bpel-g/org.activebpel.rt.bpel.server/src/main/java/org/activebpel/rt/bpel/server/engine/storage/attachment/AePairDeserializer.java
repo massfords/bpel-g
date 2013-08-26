@@ -26,43 +26,37 @@ import java.util.Map;
  * Utility class to convert between a java.util.Map containing name/value pairs and an AeFastDocument
  * Restrictions on the map: key and value are assumed to be Strings
  */
-public class AePairDeserializer
-{
+public class AePairDeserializer {
 
-   public static Map<String,String> deserialize(Document aDocument) throws AeBusinessProcessException
-   {
-      Map<String,String> headers = new HashMap<>();
-      
-      Element root = aDocument.getDocumentElement();
-      
-      List pairElements = selectNodes(root, "./" + AePairSerializer.PAIR_ELEMENT); //$NON-NLS-1$
+    public static Map<String, String> deserialize(Document aDocument) throws AeBusinessProcessException {
+        Map<String, String> headers = new HashMap<>();
 
-       for (Object pe : pairElements) {
-           Element pairElement = (Element) pe;
-           String name = pairElement.getAttribute(AePairSerializer.NAME_ATTRIBUTE);
-           headers.put(name, pairElement.getNodeValue());
-       }
-      return headers;
-   }
+        Element root = aDocument.getDocumentElement();
 
-   /**
-    * Selects nodes by XPath.
-    *
-    * @param aNode The node to select from.
-    * @param aPath The XPath expression.
-    * @return List The list of matching nodes.
-    * @throws AeBusinessProcessException
-    */
-   protected static List selectNodes(Node aNode, String aPath) throws AeBusinessProcessException
-   {
-      try
-      {
-         XPath xpath = new DOMXPath(aPath);
-         return xpath.selectNodes(aNode);
-      }
-      catch (JaxenException e)
-      {
-         throw new AeBusinessProcessException(AeMessages.getString("AePairDeserializer.ERROR_XPATH_QUERY") + aPath, e); //$NON-NLS-1$
-      }
-   }
+        List pairElements = selectNodes(root, "./" + AePairSerializer.PAIR_ELEMENT); //$NON-NLS-1$
+
+        for (Object pe : pairElements) {
+            Element pairElement = (Element) pe;
+            String name = pairElement.getAttribute(AePairSerializer.NAME_ATTRIBUTE);
+            headers.put(name, pairElement.getNodeValue());
+        }
+        return headers;
+    }
+
+    /**
+     * Selects nodes by XPath.
+     *
+     * @param aNode The node to select from.
+     * @param aPath The XPath expression.
+     * @return List The list of matching nodes.
+     * @throws AeBusinessProcessException
+     */
+    protected static List selectNodes(Node aNode, String aPath) throws AeBusinessProcessException {
+        try {
+            XPath xpath = new DOMXPath(aPath);
+            return xpath.selectNodes(aNode);
+        } catch (JaxenException e) {
+            throw new AeBusinessProcessException(AeMessages.getString("AePairDeserializer.ERROR_XPATH_QUERY") + aPath, e); //$NON-NLS-1$
+        }
+    }
 }

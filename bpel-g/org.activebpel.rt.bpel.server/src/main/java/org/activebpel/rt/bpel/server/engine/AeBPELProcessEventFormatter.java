@@ -25,142 +25,133 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Basic BPEL Engine Event formatting.
  */
-public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
-{
-   /** Singleton formatter instance. */
-   private static AeBPELProcessEventFormatter sFormatter ;
+public class AeBPELProcessEventFormatter extends AeEngineEventFormatter {
+    /**
+     * Singleton formatter instance.
+     */
+    private static AeBPELProcessEventFormatter sFormatter;
 
-   /** Map of format IDs to format strings. */
-   private final Map<Integer, String> mEventFormatMap = new HashMap<>();
+    /**
+     * Map of format IDs to format strings.
+     */
+    private final Map<Integer, String> mEventFormatMap = new HashMap<>();
 
-   /**
-    * Private ctor.  Get the singleton instance with getInstance().
-    */
-   private AeBPELProcessEventFormatter()
-   {
-      // Nothing special to add.
-      populateMap( null );
-   }
+    /**
+     * Private ctor.  Get the singleton instance with getInstance().
+     */
+    private AeBPELProcessEventFormatter() {
+        // Nothing special to add.
+        populateMap(null);
+    }
 
-   /**
-    * Get the singleton instance of this formatter.
-    * 
-    * @return AeBPELProcessEventFormatter
-    */
-   public static AeBPELProcessEventFormatter getInstance()
-   {
-      if ( sFormatter == null )
-         sFormatter = new AeBPELProcessEventFormatter();
-         
-      return sFormatter ; 
-   }
-   
-   /**
-    * Format a process event.
-    * 
-    * @param aEvent The event object to format.
-    * 
-    * @return String containing the formatted event.
-    */
-   public String formatEvent( IAeProcessEvent aEvent )
-   {
-      return format( aEvent.getEventType(), convertToArray(aEvent, aEvent.getEventType().code()));
-   }
+    /**
+     * Get the singleton instance of this formatter.
+     *
+     * @return AeBPELProcessEventFormatter
+     */
+    public static AeBPELProcessEventFormatter getInstance() {
+        if (sFormatter == null)
+            sFormatter = new AeBPELProcessEventFormatter();
 
-   /**
-    * Format a process info event.
-    * 
-    * @param aEvent The event object to format.
-    * 
-    * @return String containing the formatted event.
-    */
-   public String formatEvent( IAeProcessInfoEvent aEvent )
-   {
-      return super.format( aEvent.getProcessInfoEventType().code(), convertToArray(aEvent, aEvent.getProcessInfoEventType().code()));
-   }
+        return sFormatter;
+    }
 
-   public String format( AeProcessEventType aEventType, Object[] aArguments )
-   {
-      // Format the event message, then check to see if we should add an
-      //  error/fault indicator at the end.
-      //
-      String text = super.format( aEventType.code(), aArguments );
-      
-      // check aEventType to see if we're logging an error or a 
-      //  fault, and append the appropriate suffix, if so.
-      //
-      switch ( aEventType )
-      {
-         case DeadPathStatus:
-            text += " [d]" ; //$NON-NLS-1$
-            break ;
-            
-         case ExecuteFault:
-            text += " [f]" ; //$NON-NLS-1$
-            break ;
-            
-         default:
-            // don' do nuttin'
-            break ;
-      }
-      
-      return text ;
-   }
+    /**
+     * Format a process event.
+     *
+     * @param aEvent The event object to format.
+     * @return String containing the formatted event.
+     */
+    public String formatEvent(IAeProcessEvent aEvent) {
+        return format(aEvent.getEventType(), convertToArray(aEvent, aEvent.getEventType().code()));
+    }
 
-   /**
-    * @see org.activebpel.rt.util.AeMessageFormatter#getFormatMap()
-    */   
-   public Map<Integer, String> getFormatMap()
-   {
-      return mEventFormatMap ;
-   }
+    /**
+     * Format a process info event.
+     *
+     * @param aEvent The event object to format.
+     * @return String containing the formatted event.
+     */
+    public String formatEvent(IAeProcessInfoEvent aEvent) {
+        return super.format(aEvent.getProcessInfoEventType().code(), convertToArray(aEvent, aEvent.getProcessInfoEventType().code()));
+    }
 
-   /**
-    * @see org.activebpel.rt.util.AeMessageFormatter#getFormatString(java.lang.String)
-    */
-   public String getFormatString(String aKey)
-   {
-      String fmt = super.getFormatString( aKey );
+    public String format(AeProcessEventType aEventType, Object[] aArguments) {
+        // Format the event message, then check to see if we should add an
+        //  error/fault indicator at the end.
+        //
+        String text = super.format(aEventType.code(), aArguments);
 
-      // BPEL Server Engine Event messages include a timestamp/pid prefix.
-      //
-      if ( fmt == null || fmt.equals( aKey ))
-         return aKey ;
-      else
-         return getResourceString( "MessageFormatting.Engine.Event.PidAndTimestamp" ) + fmt ; //$NON-NLS-1$
-   }
+        // check aEventType to see if we're logging an error or a
+        //  fault, and append the appropriate suffix, if so.
+        //
+        switch (aEventType) {
+            case DeadPathStatus:
+                text += " [d]"; //$NON-NLS-1$
+                break;
 
-   /**
-    * Converts the event into an array for use in the formatting routine.
-    * 
-    * @param aEvent The info event to be formatted for output.
-    */
-   protected Object[] convertToArray(IAeBaseProcessEvent aEvent, int aCode)
-   {
-      Object[] args = new Object[getMaxArgs()];
-      Arrays.fill(args, ""); //$NON-NLS-1$
-      
-      String ancillaryInfo = aEvent.getAncillaryInfo();
-      if (AeUtil.isNullOrEmpty(ancillaryInfo))
-      {
-         ancillaryInfo = getResourceString("MessageFormatting.Engine.Event.AncillaryInfo.NULL"); //$NON-NLS-1$
-      }
+            case ExecuteFault:
+                text += " [f]"; //$NON-NLS-1$
+                break;
 
-      args[AER.ARG_NODE_OR_LINK_XPATH] = aEvent.getNodePath();
-      args[AER.ARG_PID] = String.valueOf(aEvent.getPID());
-      args[AER.ARG_EVENT_ID] = String.valueOf(aCode);
-      args[AER.ARG_FAULT_NAME] = aEvent.getFaultName();
-      args[AER.ARG_ANCILLARY_INFO] = ancillaryInfo;
-      String pattern = getResourceString( AER.sTSFormatKey );
-      if (AeUtil.notNullOrEmpty(pattern))
-         args[AER.ARG_TIMESTAMP] = AER.getFormattedTimestamp( pattern);
-      
-      // Engine puts evaluation info in ancillary attribute.
-      //
-      args[AER.ARG_LINK_XTN_CONDITION] = ancillaryInfo;
-      args[AER.ARG_EVALUATED_EXPRESSION] = ancillaryInfo;
-      args[AER.ARG_JOIN_CONDITION] = ancillaryInfo;
-      
-      return args;
-   }
+            default:
+                // don' do nuttin'
+                break;
+        }
+
+        return text;
+    }
+
+    /**
+     * @see org.activebpel.rt.util.AeMessageFormatter#getFormatMap()
+     */
+    public Map<Integer, String> getFormatMap() {
+        return mEventFormatMap;
+    }
+
+    /**
+     * @see org.activebpel.rt.util.AeMessageFormatter#getFormatString(java.lang.String)
+     */
+    public String getFormatString(String aKey) {
+        String fmt = super.getFormatString(aKey);
+
+        // BPEL Server Engine Event messages include a timestamp/pid prefix.
+        //
+        if (fmt == null || fmt.equals(aKey))
+            return aKey;
+        else
+            return getResourceString("MessageFormatting.Engine.Event.PidAndTimestamp") + fmt; //$NON-NLS-1$
+    }
+
+    /**
+     * Converts the event into an array for use in the formatting routine.
+     *
+     * @param aEvent The info event to be formatted for output.
+     */
+    protected Object[] convertToArray(IAeBaseProcessEvent aEvent, int aCode) {
+        Object[] args = new Object[getMaxArgs()];
+        Arrays.fill(args, ""); //$NON-NLS-1$
+
+        String ancillaryInfo = aEvent.getAncillaryInfo();
+        if (AeUtil.isNullOrEmpty(ancillaryInfo)) {
+            ancillaryInfo = getResourceString("MessageFormatting.Engine.Event.AncillaryInfo.NULL"); //$NON-NLS-1$
+        }
+
+        args[AER.ARG_NODE_OR_LINK_XPATH] = aEvent.getNodePath();
+        args[AER.ARG_PID] = String.valueOf(aEvent.getPID());
+        args[AER.ARG_EVENT_ID] = String.valueOf(aCode);
+        args[AER.ARG_FAULT_NAME] = aEvent.getFaultName();
+        args[AER.ARG_ANCILLARY_INFO] = ancillaryInfo;
+        String pattern = getResourceString(AER.sTSFormatKey);
+        if (AeUtil.notNullOrEmpty(pattern))
+            args[AER.ARG_TIMESTAMP] = AER.getFormattedTimestamp(pattern);
+
+        // Engine puts evaluation info in ancillary attribute.
+        //
+        args[AER.ARG_LINK_XTN_CONDITION] = ancillaryInfo;
+        args[AER.ARG_EVALUATED_EXPRESSION] = ancillaryInfo;
+        args[AER.ARG_JOIN_CONDITION] = ancillaryInfo;
+
+        return args;
+    }
 }

@@ -14,159 +14,158 @@ package org.activebpel.rt.bpel.xpath.ast;
  * This interface is implemented by visitors of the XPath AST.  Each node in the AST will be
  * visited by the visitor.
  */
-public interface IAeXPathNodeVisitor
-{
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathFunctionNode aNode);
+public interface IAeXPathNodeVisitor {
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathFunctionNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathVariableNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathVariableNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathLiteralNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathLiteralNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathAbsLocPathNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathAbsLocPathNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathAdditiveExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathAdditiveExprNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathAllNodeStepNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathAllNodeStepNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathAndExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathAndExprNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathCommentNodeStepNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathCommentNodeStepNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathEqualityExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathEqualityExprNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathFilterExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathFilterExprNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathMultiplicativeExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathMultiplicativeExprNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathNameStepNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathNameStepNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathOrExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathOrExprNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathPathExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathPathExprNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathPredicateNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathPredicateNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathProcessingInstructionNodeStepNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathProcessingInstructionNodeStepNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathRelationalExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathRelationalExprNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathRelativeLocPathNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathRelativeLocPathNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathRootXpathNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathRootXpathNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathTextNodeStepNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathTextNodeStepNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathUnaryExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathUnaryExprNode aNode);
 
-   /**
-    * Visit the given xpath AST node.
-    *
-    * @param aNode
-    */
-   public void visit(AeXPathUnionExprNode aNode);
+    /**
+     * Visit the given xpath AST node.
+     *
+     * @param aNode
+     */
+    public void visit(AeXPathUnionExprNode aNode);
 }

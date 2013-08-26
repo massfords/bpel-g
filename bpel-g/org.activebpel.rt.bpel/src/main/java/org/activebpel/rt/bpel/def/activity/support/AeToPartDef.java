@@ -16,62 +16,59 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the invoke|reply activity's 'toPart' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeToPartDef extends AeBaseDef
-{
-   /**
-     * 
+public class AeToPartDef extends AeBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 1327684805409077714L;
-/** The toPart's 'part' attribute. */
-   private String mPart;
-   /** The toPart's 'fromVariable' attribute. */
-   private String mFromVariable;
+    /**
+     * The toPart's 'part' attribute.
+     */
+    private String mPart;
+    /**
+     * The toPart's 'fromVariable' attribute.
+     */
+    private String mFromVariable;
 
-   /**
-    * Default c'tor.
-    */
-   public AeToPartDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeToPartDef() {
+        super();
+    }
 
-   /**
-    * @return Returns the fromVariable.
-    */
-   public String getFromVariable()
-   {
-      return mFromVariable;
-   }
+    /**
+     * @return Returns the fromVariable.
+     */
+    public String getFromVariable() {
+        return mFromVariable;
+    }
 
-   /**
-    * @param aFromVariable The fromVariable to set.
-    */
-   public void setFromVariable(String aFromVariable)
-   {
-      mFromVariable = aFromVariable;
-   }
+    /**
+     * @param aFromVariable The fromVariable to set.
+     */
+    public void setFromVariable(String aFromVariable) {
+        mFromVariable = aFromVariable;
+    }
 
-   /**
-    * @return Returns the part.
-    */
-   public String getPart()
-   {
-      return mPart;
-   }
+    /**
+     * @return Returns the part.
+     */
+    public String getPart() {
+        return mPart;
+    }
 
-   /**
-    * @param aPart The part to set.
-    */
-   public void setPart(String aPart)
-   {
-      mPart = aPart;
-   }
+    /**
+     * @param aPart The part to set.
+     */
+    public void setPart(String aPart) {
+        mPart = aPart;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

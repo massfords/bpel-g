@@ -24,12 +24,14 @@ import org.activebpel.rt.util.AeUtil;
  * model provides validation for the to def
  */
 public class AeToValidator extends AeBaseExpressionValidator {
-    /** adapter interface used to validate the query */
+    /**
+     * adapter interface used to validate the query
+     */
     private IAeExpressionDef mDefAdapter;
 
     /**
      * ctor
-     * 
+     *
      * @param aDef
      */
     public AeToValidator(AeToDef aDef) {
@@ -102,7 +104,7 @@ public class AeToValidator extends AeBaseExpressionValidator {
      * Validates: 1. to conforms to one of the prescribed variants 2. if
      * variable is provided, validate that it can be resolved and record usage
      * (message part, message part query, element query, property)
-     * 
+     *
      * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validate()
      */
     public void validate() {
@@ -114,7 +116,7 @@ public class AeToValidator extends AeBaseExpressionValidator {
             if (AeUtil.notNullOrEmpty(getDef().getVariable()) && varDef == null) {
                 getReporter().reportProblem(BPEL_TO_VAR_NOT_FOUND_CODE,
                         IAeValidationDefs.ERROR_VAR_NOT_FOUND,
-                        new String[] { getDef().getVariable() }, getDefinition());
+                        new String[]{getDef().getVariable()}, getDefinition());
             } else {
                 getReporter().reportProblem(BPEL_UNSUPPORTED_COPYOP_TO_CODE,
                         IAeValidationDefs.ERROR_UNSUPPORTED_COPYOP_TO, null, getDefinition());
@@ -141,7 +143,7 @@ public class AeToValidator extends AeBaseExpressionValidator {
                 plink.addReference();
 
                 if (AeUtil.isNullOrEmpty(plink.getDef().getPartnerRole())) {
-                    Object[] args = { plink.getName() };
+                    Object[] args = {plink.getName()};
                     getReporter().reportProblem(BPEL_PLINK_ASSIGN_TO_CODE,
                             IAeValidationDefs.ERROR_PLINK_ASSIGN_TO, args, getDefinition());
                 }

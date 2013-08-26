@@ -25,29 +25,25 @@ import org.apache.axis.deployment.wsdd.WSDDService;
 /**
  * Defines a provider for the BPEL Policy invocations.
  */
-public class AeBpelPolicyProvider extends WSDDProvider
-{
-   /**
-    * @see org.apache.axis.deployment.wsdd.WSDDProvider#newProviderInstance(org.apache.axis.deployment.wsdd.WSDDService, org.apache.axis.EngineConfiguration)
-    */
-   public Handler newProviderInstance(WSDDService service, EngineConfiguration registry) throws Exception
-   {
-      String handlerClass = service.getParameter(IAePolicyConstants.PARAM_HANDLER_CLASS);
-      if (AeUtil.isNullOrEmpty(handlerClass))
-      {
-         AeDeploymentException.logError(null, AeMessages.format("AeBpelPolicyProvider.0", service.getServiceDesc().getName())); //$NON-NLS-1$
-         return new AeBpelDocumentHandler();
-      }
-      IAePolicyHandler handler = (IAePolicyHandler) Class.forName(handlerClass).newInstance();
-      handler.init(service, registry); 
-      return (AeBpelHandler) handler;
-   }
+public class AeBpelPolicyProvider extends WSDDProvider {
+    /**
+     * @see org.apache.axis.deployment.wsdd.WSDDProvider#newProviderInstance(org.apache.axis.deployment.wsdd.WSDDService, org.apache.axis.EngineConfiguration)
+     */
+    public Handler newProviderInstance(WSDDService service, EngineConfiguration registry) throws Exception {
+        String handlerClass = service.getParameter(IAePolicyConstants.PARAM_HANDLER_CLASS);
+        if (AeUtil.isNullOrEmpty(handlerClass)) {
+            AeDeploymentException.logError(null, AeMessages.format("AeBpelPolicyProvider.0", service.getServiceDesc().getName())); //$NON-NLS-1$
+            return new AeBpelDocumentHandler();
+        }
+        IAePolicyHandler handler = (IAePolicyHandler) Class.forName(handlerClass).newInstance();
+        handler.init(service, registry);
+        return (AeBpelHandler) handler;
+    }
 
-   /**
-    * @see org.apache.axis.deployment.wsdd.WSDDProvider#getName()
-    */
-   public String getName()
-   {
-      return IAeWsddConstants.NAME_POLICY_BINDING;
-   }
+    /**
+     * @see org.apache.axis.deployment.wsdd.WSDDProvider#getName()
+     */
+    public String getName() {
+        return IAeWsddConstants.NAME_POLICY_BINDING;
+    }
 }

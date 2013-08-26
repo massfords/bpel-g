@@ -15,15 +15,13 @@ import org.activebpel.rt.xml.def.io.IAeDefRegistry;
 /**
  * A BPEL4WS 1.1 implementation of a bpel writer.
  */
-public class AeBPWSBpelWriter extends AeRegistryBasedBpelWriter
-{
-   /**
-    * Default c'tor.
-    * 
-    * @param aBpelRegistry
-    */
-   public AeBPWSBpelWriter(IAeDefRegistry aBpelRegistry)
-   {
-      super(aBpelRegistry);
-   }
+public class AeBPWSBpelWriter extends AeRegistryBasedBpelWriter {
+    /**
+     * Default c'tor.
+     *
+     * @param aBpelRegistry
+     */
+    public AeBPWSBpelWriter(IAeDefRegistry aBpelRegistry) {
+        super(aBpelRegistry);
+    }
 }

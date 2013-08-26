@@ -32,42 +32,42 @@ import java.io.StringWriter;
 
 public class AeCamelInvokeHandlerFactory implements IAeInvokeHandlerFactory, IAeInvokeHandler {
 
-	private final DefaultCamelContext mContext = new DefaultCamelContext();
+    private final DefaultCamelContext mContext = new DefaultCamelContext();
     @Inject
-	private AeSpringManager mSpringManager;
-	
-	public AeCamelInvokeHandlerFactory() {
-	    try {
-	        mContext.setLazyLoadTypeConverters(true);
+    private AeSpringManager mSpringManager;
+
+    public AeCamelInvokeHandlerFactory() {
+        try {
+            mContext.setLazyLoadTypeConverters(true);
             mContext.start();
         } catch (Exception e) {
             throw new RuntimeException();
         }
-	}
-	
-	@Override
-	public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
-			throws AeBusinessProcessException {
-		return this;
-	}
+    }
 
-	@Override
-	public String getQueryData(IAeInvoke aInvoke) {
-		return null;
-	}
+    @Override
+    public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
+            throws AeBusinessProcessException {
+        return this;
+    }
 
-	@Override
-	public IAeWebServiceResponse handleInvoke(IAeInvoke aInvoke,
-			String aQueryData) {
-		AeInvokeResponse response = new AeInvokeResponse();
-		
-		AeInvoke invoke = (AeInvoke) aInvoke;
-		String address = invoke.getPartnerReference().getAddress();
-		Endpoint ep = locate(aInvoke.getProcessName()).getEndpoint(address);
-		try {
-			Producer p = ep.createProducer();
+    @Override
+    public String getQueryData(IAeInvoke aInvoke) {
+        return null;
+    }
+
+    @Override
+    public IAeWebServiceResponse handleInvoke(IAeInvoke aInvoke,
+                                              String aQueryData) {
+        AeInvokeResponse response = new AeInvokeResponse();
+
+        AeInvoke invoke = (AeInvoke) aInvoke;
+        String address = invoke.getPartnerReference().getAddress();
+        Endpoint ep = locate(aInvoke.getProcessName()).getEndpoint(address);
+        try {
+            Producer p = ep.createProducer();
             p.start();
-			Exchange ex = p.createExchange();
+            Exchange ex = p.createExchange();
             // todo - do I really need to convert to a string? test this after commit.
             DOMSource source = new DOMSource((Node) invoke.getInputMessageData().getMessageData().values().iterator().next());
             StringWriter sw = new StringWriter();
@@ -75,46 +75,46 @@ public class AeCamelInvokeHandlerFactory implements IAeInvokeHandlerFactory, IAe
             TransformerFactory.newInstance().newTransformer().transform(source, r);
             //System.out.println(sw);
             ex.getIn().setBody(sw.toString());
-			p.process(ex);
+            p.process(ex);
             p.stop();
 
-			
-			if (!invoke.isOneWay()) {
-	            AeWebServiceMessageData data = new AeWebServiceMessageData();
-	            AeBPELExtendedWSDLDef def = findWsdlByPortType(aInvoke);
-	            PortType pt = def.getPortType(aInvoke.getPortType());
-	            Operation op = pt.getOperation(aInvoke.getOperation(), null, null);
-	            data.setName(op.getOutput().getMessage().getQName());
-    	        Message m = ex.getOut();
-    	        String body = m.getBody(String.class);
-	            AeXMLParserBase parser = new AeXMLParserBase();
-	            Document payload = parser.loadDocumentFromString(body, null);
-	            data.setData(op.getOutput().getMessage().getParts().keySet().iterator().next().toString(), payload);
+
+            if (!invoke.isOneWay()) {
+                AeWebServiceMessageData data = new AeWebServiceMessageData();
+                AeBPELExtendedWSDLDef def = findWsdlByPortType(aInvoke);
+                PortType pt = def.getPortType(aInvoke.getPortType());
+                Operation op = pt.getOperation(aInvoke.getOperation(), null, null);
+                data.setName(op.getOutput().getMessage().getQName());
+                Message m = ex.getOut();
+                String body = m.getBody(String.class);
+                AeXMLParserBase parser = new AeXMLParserBase();
+                Document payload = parser.loadDocumentFromString(body, null);
+                data.setData(op.getOutput().getMessage().getParts().keySet().iterator().next().toString(), payload);
                 response.setMessageData(data);
-			}
-			
-		} catch (Exception e) {
-			// FIXME need better strategy here
-			throw new RuntimeException(e);
-		}
-		return response;
-	}
-	
-	protected AeBPELExtendedWSDLDef findWsdlByPortType(IAeInvoke aInvoke) throws AeBusinessProcessException {
+            }
+
+        } catch (Exception e) {
+            // FIXME need better strategy here
+            throw new RuntimeException(e);
+        }
+        return response;
+    }
+
+    protected AeBPELExtendedWSDLDef findWsdlByPortType(IAeInvoke aInvoke) throws AeBusinessProcessException {
         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(
                 IAeDeploymentProvider.class).findDeploymentPlan(
                 aInvoke.getProcessId(), aInvoke.getProcessName());
         return AeWSDLDefHelper.getWSDLDefinitionForPortType(
                 wsdlProvider, aInvoke.getPortType());
-	}
-	
-	private CamelContext locate(QName aProcessName) {
-	    try {
+    }
+
+    private CamelContext locate(QName aProcessName) {
+        try {
             return getSpringManager().getBean(aProcessName, CamelContext.class);
         } catch (BeansException e) {
             return mContext;
         }
-	}
+    }
 
     public AeSpringManager getSpringManager() {
         return mSpringManager;

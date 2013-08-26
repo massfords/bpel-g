@@ -21,124 +21,122 @@ import javax.xml.namespace.QName;
  * extension within a WSDL document. It contains information about operations
  * associated with this Partner Link Type element.
  */
-public class AePartnerLinkTypeImpl implements ExtensibilityElement, IAePartnerLinkType, IAeBPELExtendedWSDLConst
-{
-   /**
-     * 
+public class AePartnerLinkTypeImpl implements ExtensibilityElement, IAePartnerLinkType, IAeBPELExtendedWSDLConst {
+    /**
+     *
      */
     private static final long serialVersionUID = -4834535980041774071L;
 
-// The QName of this extension element.
-   private QName mElementType;
+    // The QName of this extension element.
+    private QName mElementType;
 
-   // Indicates if the semantics of this extension are required.
-   private Boolean mRequired;
+    // Indicates if the semantics of this extension are required.
+    private Boolean mRequired;
 
-   // The name of this Partner Link Type.
-   private String mName;
+    // The name of this Partner Link Type.
+    private String mName;
 
-   // List of Role's associated with this Partner Link Type.
-   private final Map<String,IAeRole> mRolesMap = new HashMap<>();
+    // List of Role's associated with this Partner Link Type.
+    private final Map<String, IAeRole> mRolesMap = new HashMap<>();
 
-   /**
-    * Constructor.  This contructor is generally used for modeling a new Partner
-    * Link extension element.
-    */
-   public AePartnerLinkTypeImpl()
-   {
-      setElementType(new QName(PARTNER_LINK_NAMESPACE, PARTNER_LINK_TYPE_TAG));
-   }
+    /**
+     * Constructor.  This contructor is generally used for modeling a new Partner
+     * Link extension element.
+     */
+    public AePartnerLinkTypeImpl() {
+        setElementType(new QName(PARTNER_LINK_NAMESPACE, PARTNER_LINK_TYPE_TAG));
+    }
 
-   /**
-    * Add a Role element to this Partner Link Type.
-    * @param aRole
-    */
-   public void addRole(IAeRole aRole)
-   {
-      mRolesMap.put(aRole.getName(), aRole);
-   }
+    /**
+     * Add a Role element to this Partner Link Type.
+     *
+     * @param aRole
+     */
+    public void addRole(IAeRole aRole) {
+        mRolesMap.put(aRole.getName(), aRole);
+    }
 
-   /**
-    * Find a specific Role element given its Role name.
-    * @param aName
-    * @return IAeRole
-    */
-   public IAeRole findRole(String aName)
-   {
-      return mRolesMap.get(aName);
-   }
- 
-   /**
-    * Get all the Roles defined for this Partner Link Type.
-    * @return Iterator
-    */
-   public Iterator<IAeRole> getRoleList()
-   {
-      return mRolesMap.values().iterator();
-   }
-   
-   /**
-    * Remove a Role that is associated with this Partner Link Type.  Returns the
-    * removed Role if found, otherwise null is returned.
-    * @param aName
-    * @return IAeRole
-    */
-   public IAeRole removeRole(String aName)
-   {
-      return mRolesMap.remove(aName);
-   }
-   
-   /**
-    * Get the name of this Partner Link Type.
-    * @return String
-    */
-   public String getName()
-   {
-      return mName;
-   }
+    /**
+     * Find a specific Role element given its Role name.
+     *
+     * @param aName
+     * @return IAeRole
+     */
+    public IAeRole findRole(String aName) {
+        return mRolesMap.get(aName);
+    }
 
-   /**
-    * Set the name for Partner Link Type.
-    * @param aName
-    */
-   public void setName(String aName)
-   {
-      mName = aName;
-   }
+    /**
+     * Get all the Roles defined for this Partner Link Type.
+     *
+     * @return Iterator
+     */
+    public Iterator<IAeRole> getRoleList() {
+        return mRolesMap.values().iterator();
+    }
 
-   /**
-    * Get the QName of this Partner Link Type element.
-    * @return QName
-    */
-   public QName getElementType()
-   {
-      return mElementType;
-   }
+    /**
+     * Remove a Role that is associated with this Partner Link Type.  Returns the
+     * removed Role if found, otherwise null is returned.
+     *
+     * @param aName
+     * @return IAeRole
+     */
+    public IAeRole removeRole(String aName) {
+        return mRolesMap.remove(aName);
+    }
 
-   /**
-    * Set the QName of this Partner Link Type element.
-    * @param aElementType
-    */
-   public void setElementType(QName aElementType)
-   {
-      mElementType = aElementType;
-   }
+    /**
+     * Get the name of this Partner Link Type.
+     *
+     * @return String
+     */
+    public String getName() {
+        return mName;
+    }
 
-   /**
-    * Set whether or not the semantics of this extension are required.
-    * @param aRequired
-    */
-   public void setRequired(Boolean aRequired)
-   {
-      mRequired = aRequired;
-   }
+    /**
+     * Set the name for Partner Link Type.
+     *
+     * @param aName
+     */
+    public void setName(String aName) {
+        mName = aName;
+    }
 
-   /**
-    * Get whether or not the semantics of this extension are required.
-    * @return Boolean
-    */
-   public Boolean getRequired()
-   {
-      return mRequired;
-   }
+    /**
+     * Get the QName of this Partner Link Type element.
+     *
+     * @return QName
+     */
+    public QName getElementType() {
+        return mElementType;
+    }
+
+    /**
+     * Set the QName of this Partner Link Type element.
+     *
+     * @param aElementType
+     */
+    public void setElementType(QName aElementType) {
+        mElementType = aElementType;
+    }
+
+    /**
+     * Set whether or not the semantics of this extension are required.
+     *
+     * @param aRequired
+     */
+    public void setRequired(Boolean aRequired) {
+        mRequired = aRequired;
+    }
+
+    /**
+     * Get whether or not the semantics of this extension are required.
+     *
+     * @return Boolean
+     */
+    public Boolean getRequired() {
+        return mRequired;
+    }
 }

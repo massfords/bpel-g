@@ -16,24 +16,25 @@ import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
  * Interface for deployers that deploy/undeploy BPEL to the ActiveBPEL
  * engine.
  */
-public interface IAeBpelDeployer
-{
-   
-   /**
-    * Deploy all BPEL processes to the ActiveBPEL engine.
-    * @param aDeployment 
-    * @param aReporter Reports any validation issues.
-    * @param aSkipValidation 
-    * @throws AeException
-    */
-   public void deployBpel( IAeDeploymentSource aDeployment, IAeBaseErrorReporter aReporter, boolean aSkipValidation )
-   throws AeException;
-   
-   /**
-    * Remove all BPEL processes in the container from the ActiveBPEL engine.
-    * @param aDeployment
-    * @throws AeException
-    */
-   public void undeployBpel( IAeDeploymentSource aDeployment )
-   throws AeException;
+public interface IAeBpelDeployer {
+
+    /**
+     * Deploy all BPEL processes to the ActiveBPEL engine.
+     *
+     * @param aDeployment
+     * @param aReporter       Reports any validation issues.
+     * @param aSkipValidation
+     * @throws AeException
+     */
+    public void deployBpel(IAeDeploymentSource aDeployment, IAeBaseErrorReporter aReporter, boolean aSkipValidation)
+            throws AeException;
+
+    /**
+     * Remove all BPEL processes in the container from the ActiveBPEL engine.
+     *
+     * @param aDeployment
+     * @throws AeException
+     */
+    public void undeployBpel(IAeDeploymentSource aDeployment)
+            throws AeException;
 }

@@ -30,7 +30,7 @@ public class FunctionValidatorFactoryBeanDefParser extends AbstractSingleBeanDef
 
         try {
             List<Element> elements = AeXPathUtil.selectNodes(element, "./bpelg:validator", "bpelg", "urn:bpel-g:spring-ext");
-            for(Element e : elements) {
+            for (Element e : elements) {
                 Class c = Class.forName(e.getAttribute("class"));
                 IAeFunctionValidator v = (IAeFunctionValidator) c.newInstance();
                 map.put(AeXmlUtil.getAttributeQName(e, "name"), v);

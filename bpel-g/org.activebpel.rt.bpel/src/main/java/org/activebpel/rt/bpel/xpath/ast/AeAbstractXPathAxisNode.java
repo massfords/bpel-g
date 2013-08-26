@@ -14,36 +14,34 @@ package org.activebpel.rt.bpel.xpath.ast;
  * This class extends the basic xpath node and acts as a base class for any node that contains
  * an axis.
  */
-public abstract class AeAbstractXPathAxisNode extends AeAbstractXPathNode
-{
-   /** The axis of this node (parent, ancestor, child, etc...). */
-   private int mAxis;
-   
-   /**
-    * Constructor.
-    * 
-    * @param aType
-    * @param aAxis
-    */
-   public AeAbstractXPathAxisNode(String aType, int aAxis)
-   {
-      super(aType);
-      setAxis(aAxis);
-   }
+public abstract class AeAbstractXPathAxisNode extends AeAbstractXPathNode {
+    /**
+     * The axis of this node (parent, ancestor, child, etc...).
+     */
+    private int mAxis;
 
-   /**
-    * Gets the axis.
-    */
-   public int getAxis()
-   {
-      return mAxis;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aType
+     * @param aAxis
+     */
+    public AeAbstractXPathAxisNode(String aType, int aAxis) {
+        super(aType);
+        setAxis(aAxis);
+    }
 
-   /**
-    * @param aAxis The axis to set.
-    */
-   protected void setAxis(int aAxis)
-   {
-      mAxis = aAxis;
-   }
+    /**
+     * Gets the axis.
+     */
+    public int getAxis() {
+        return mAxis;
+    }
+
+    /**
+     * @param aAxis The axis to set.
+     */
+    protected void setAxis(int aAxis) {
+        mAxis = aAxis;
+    }
 }

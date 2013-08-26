@@ -15,10 +15,9 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
  * This interface is passed to the various methods of the IAevExpressionUtil interface to provide
  * contextual information for those activities.
  */
-public interface IAeExpressionAnalyzerContext
-{
-   /**
-    * Gets the namespace context.
-    */
-   public IAeNamespaceContext getNamespaceContext();
+public interface IAeExpressionAnalyzerContext {
+    /**
+     * Gets the namespace context.
+     */
+    public IAeNamespaceContext getNamespaceContext();
 }

@@ -18,42 +18,39 @@ import org.xml.sax.SAXParseException;
  * This class is a SAX handler that will relay all SAX errors and warnings to an instance of
  * <code>IAeResourceValidationErrorHandler</code>.
  */
-public class AeSaxErrorRelayHandler extends AeXMLParserErrorHandler
-{
-   /** The pdd validation error handler to relay the sax errors/warning to. */
-   private final IAeResourceValidationErrorHandler mHandler;
+public class AeSaxErrorRelayHandler extends AeXMLParserErrorHandler {
+    /**
+     * The pdd validation error handler to relay the sax errors/warning to.
+     */
+    private final IAeResourceValidationErrorHandler mHandler;
 
-   /**
-    * Constructor.
-    * 
-    * @param aHandler
-    */
-   public AeSaxErrorRelayHandler(IAeResourceValidationErrorHandler aHandler)
-   {
-      mHandler = aHandler;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aHandler
+     */
+    public AeSaxErrorRelayHandler(IAeResourceValidationErrorHandler aHandler) {
+        mHandler = aHandler;
+    }
 
-   /**
-    * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
-    */
-   public void warning(SAXParseException exception)
-   {
-      mHandler.parseWarning(exception.getMessage(), exception.getLineNumber());
-   }
+    /**
+     * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
+     */
+    public void warning(SAXParseException exception) {
+        mHandler.parseWarning(exception.getMessage(), exception.getLineNumber());
+    }
 
-   /**
-    * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
-    */
-   public void error(SAXParseException exception)
-   {
-      mHandler.parseError(exception.getMessage(), exception.getLineNumber());
-   }
+    /**
+     * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
+     */
+    public void error(SAXParseException exception) {
+        mHandler.parseError(exception.getMessage(), exception.getLineNumber());
+    }
 
-   /**
-    * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
-    */
-   public void fatalError(SAXParseException exception) throws SAXException
-   {
-      mHandler.parseFatalError(exception.getMessage(), exception.getLineNumber());
-   }
+    /**
+     * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
+     */
+    public void fatalError(SAXParseException exception) throws SAXException {
+        mHandler.parseFatalError(exception.getMessage(), exception.getLineNumber());
+    }
 }

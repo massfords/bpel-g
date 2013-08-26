@@ -15,74 +15,73 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 /**
  * Visitor that locates a child scope by name.
  */
-public class AeChildScopeByNameVisitor extends AeAbstractSearchVisitor
-{
-   /** name of the scope we're looking for */
-   private final String mScopeName;
-   /** the scope that we're looking for; <code>null</code> until it is found */
-   private AeActivityScopeDef mScopeDef;
-   
-   /**
-    * ctor
-    * @param aScopeName
-    */
-   protected AeChildScopeByNameVisitor(String aScopeName)
-   {
-      mScopeName = aScopeName;
-   }
+public class AeChildScopeByNameVisitor extends AeAbstractSearchVisitor {
+    /**
+     * name of the scope we're looking for
+     */
+    private final String mScopeName;
+    /**
+     * the scope that we're looking for; <code>null</code> until it is found
+     */
+    private AeActivityScopeDef mScopeDef;
 
-   /**
-    * Searches for a child scope of the given scope that has the given name.
-    * Returns the scope definition if a matching child scope is found;
-    * otherwise; returns <code>null</code>.
-    *
-    * @param aRootScopeDef
-    * @param aScopeName
-    */
-   public static AeActivityScopeDef findChildScopeByName(AeScopeDef aRootScopeDef, String aScopeName)
-   {
-      AeChildScopeByNameVisitor visitor = new AeChildScopeByNameVisitor(aScopeName);
-      aRootScopeDef.getActivityDef().accept(visitor);
-      return visitor.getScopeDef();
-   }
+    /**
+     * ctor
+     *
+     * @param aScopeName
+     */
+    protected AeChildScopeByNameVisitor(String aScopeName) {
+        mScopeName = aScopeName;
+    }
 
-   /**
-    * Returns the scope that we're looking for; <code>null</code> until it is
-    * found.
-    */
-   protected AeActivityScopeDef getScopeDef()
-   {
-      return mScopeDef;
-   }
-   
-   /**
-    * Setter for the scope def
-    * @param aScopeDef
-    */
-   protected void setScopeDef(AeActivityScopeDef aScopeDef)
-   {
-      mScopeDef = aScopeDef;
-   }
+    /**
+     * Searches for a child scope of the given scope that has the given name.
+     * Returns the scope definition if a matching child scope is found;
+     * otherwise; returns <code>null</code>.
+     *
+     * @param aRootScopeDef
+     * @param aScopeName
+     */
+    public static AeActivityScopeDef findChildScopeByName(AeScopeDef aRootScopeDef, String aScopeName) {
+        AeChildScopeByNameVisitor visitor = new AeChildScopeByNameVisitor(aScopeName);
+        aRootScopeDef.getActivityDef().accept(visitor);
+        return visitor.getScopeDef();
+    }
 
-   /**
-    * Returns <code>true</code> if and only if found.
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractSearchVisitor#isFound()
-    */
-   public boolean isFound()
-   {
-      return getScopeDef() != null;
-   }
+    /**
+     * Returns the scope that we're looking for; <code>null</code> until it is
+     * found.
+     */
+    protected AeActivityScopeDef getScopeDef() {
+        return mScopeDef;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
-    */
-   public void visit(AeActivityScopeDef def)
-   {
-      if (mScopeName.equals(def.getName()))
-      {
-         // found what we're looking for
-         setScopeDef(def);
-      }
-      // either way, no traversing into the def since we can only reference scopes 1 level deep.
-   }
+    /**
+     * Setter for the scope def
+     *
+     * @param aScopeDef
+     */
+    protected void setScopeDef(AeActivityScopeDef aScopeDef) {
+        mScopeDef = aScopeDef;
+    }
+
+    /**
+     * Returns <code>true</code> if and only if found.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractSearchVisitor#isFound()
+     */
+    public boolean isFound() {
+        return getScopeDef() != null;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
+     */
+    public void visit(AeActivityScopeDef def) {
+        if (mScopeName.equals(def.getName())) {
+            // found what we're looking for
+            setScopeDef(def);
+        }
+        // either way, no traversing into the def since we can only reference scopes 1 level deep.
+    }
 }

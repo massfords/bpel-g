@@ -21,259 +21,226 @@ import java.util.Map;
 /**
  * Utility methods for converting SOAPElements to DOM elements and vice-versa
  */
-public class AeSOAPElementUtil
-{
-   /**
-    * Creates a copy of an Element as a DOM element.  
-    * If the source is a SOAPElement, it is converted. Otherwise, it is copied with no conversion. 
-    * 
-    * @param aElement Element to copy
-    * @return DOM element
-    */
-   public static Element convertToDOM(Element aElement)
-   {
-      if (aElement instanceof SOAPElement)
-      {
-         return convertToDOM((SOAPElement) aElement, null);
-      }
-      else
-      {
-         return AeXmlUtil.cloneElement(aElement);
-      }
-   }
+public class AeSOAPElementUtil {
+    /**
+     * Creates a copy of an Element as a DOM element.
+     * If the source is a SOAPElement, it is converted. Otherwise, it is copied with no conversion.
+     *
+     * @param aElement Element to copy
+     * @return DOM element
+     */
+    public static Element convertToDOM(Element aElement) {
+        if (aElement instanceof SOAPElement) {
+            return convertToDOM((SOAPElement) aElement, null);
+        } else {
+            return AeXmlUtil.cloneElement(aElement);
+        }
+    }
 
-   /**
-    * Creates a copy of a SOAPElement as a DOM element. The primary function of this method is 
-    * to ensure that the namespace declarations are handled properly and the resulting element 
-    * will import correctly.
-    *  
-    * @param aSoapElement source element to copy
-    * @param aParent parent element of resulting copy, if null element is created in a new document
-    * @return copy of element as a child of the parent
-    */
-   public static Element convertToDOM(SOAPElement aSoapElement, Element aParent)
-   {
-      Element srcElement = aSoapElement;
-      String namespace = aSoapElement.getElementName().getURI();
-      String name = aSoapElement.getElementName().getQualifiedName();
-      
-      Node parent = aParent;
-      if (aParent == null)
-      {
-         // create element in a new document
-         Document doc = AeXmlUtil.newDocument();
-         parent = doc;
-      }
-      
-      Element element = AeXmlUtil.addElementNS(parent, namespace, name, null);
-      
-      // add any new or conflicting prefixes
-      addNewDOMPrefixes(aSoapElement, element);
-      
-      // add attributes
-      if (srcElement.hasAttributes())
-      {
-         NamedNodeMap attributes = srcElement.getAttributes();
-         for (int i = 0; i < attributes.getLength(); i++)
-         {
-            Node attr = attributes.item(i);
-            // skip namespace decls since we got them already
-            if (attr.getNodeName().startsWith("xmlns")) //$NON-NLS-1$
-            {
-               continue;
-            }
-            
-            namespace = attr.getNamespaceURI();
-            name = attr.getLocalName();
-            
-            if (AeUtil.isNullOrEmpty(namespace))
-            {
-               name = attr.getNodeName();
-               element.setAttribute(name, attr.getNodeValue());
-            }
-            else
-            {
-               String prefix = attr.getPrefix();
-               if (AeUtil.notNullOrEmpty(prefix))
-               {
-                  name = prefix + ":" + name; //$NON-NLS-1$
-               }
-               element.setAttributeNS(namespace, name, attr.getNodeValue());
-            }
-         }
-      }
-      
-      // add children
-      if (srcElement.hasChildNodes())
-      {
-         NodeList nodes = srcElement.getChildNodes();
-         for (int i = 0; i < nodes.getLength(); i++)
-         {
-            Node child = nodes.item(i);
-            if (child.getNodeType() == Node.ELEMENT_NODE)
-            {
-               convertToDOM((SOAPElement) child, element);
-            }
-            else
-            {
-               Node newChild = element.getOwnerDocument().importNode(child, true);
-               element.appendChild(newChild);
-            }
-         }
-      }
-      
-      return element;
-   }
-   
-   /**
-    * Adds the contents of a DOM element to a newly created SOAPElement 
-    * 
-    * @param aSource element to copy
-    * @param aSoapElement target element
-    * @throws SOAPException
-    */
-   public static SOAPElement copyToSOAP(Element aSource, SOAPElement aSoapElement) throws SOAPException
-   {
-      String namespace = aSoapElement.getElementName().getURI();
-      String name = aSoapElement.getElementName().getQualifiedName();
-      
-      Element element = aSoapElement;
-      
-      // add any new declarations
-      addNewSOAPPrefixes(aSource, aSoapElement);
-      
-      // add attributes
-      if (aSource.hasAttributes())
-      {
-         NamedNodeMap attributes = aSource.getAttributes();
-         for (int i = 0; i < attributes.getLength(); i++)
-         {
-            Node attr = attributes.item(i);
-            // skip namespace decls since we got them already
-            if (attr.getNodeName().startsWith("xmlns")) //$NON-NLS-1$
-            {
-               continue;
-            }
-            
-            namespace = attr.getNamespaceURI();
-            name = attr.getLocalName();
-            
-            if (AeUtil.isNullOrEmpty(namespace))
-            {
-               name = attr.getNodeName();
-               element.setAttribute(name, attr.getNodeValue());
-            }
-            else
-            {
-               String prefix = attr.getPrefix();
-               if (AeUtil.notNullOrEmpty(prefix))
-               {
-                  name = prefix + ":" + name; //$NON-NLS-1$
-               }
-               element.setAttributeNS(namespace, name, attr.getNodeValue());
-            }
-         }
-      }
-      
-      // add children
-      if (aSource.hasChildNodes())
-      {
-         NodeList nodes = aSource.getChildNodes();
-         for (int i = 0; i < nodes.getLength(); i++)
-         {
-            Node child = nodes.item(i);
-            element.appendChild(element.getOwnerDocument().importNode(child, true));
-         }
-      }
-      
-      return (SOAPElement) element;
-   }
-   
-   /**
-    * Finds all the namespaces and prefixes in effect for a SOAPElement
-    * using SAAJ interface methods
-    *  
-    * @param aElement element 
-    * @param aPrefixMap map of prefixes to namespaces
-    */
-   public static void getDeclaredNamespaces(SOAPElement aElement, Map<String, String> aPrefixMap)
-   {
-      for(SOAPElement element = aElement; element != null; element = element.getParentElement())
-      {
-         for (Iterator it = element.getNamespacePrefixes(); it.hasNext();)
-         {
-            String prefix = (String) it.next();
-            String ns = element.getNamespaceURI(prefix);
-            if (!aPrefixMap.containsKey(prefix))
-            {
-               aPrefixMap.put(prefix, ns);
-            }
-         }
-      }
-   }
-   
-   /**
-    * Finds any prefix declarations that are new or different 
-    * and adds a local declaration to the DOM element
-    * 
-    * @param aSource
-    * @param aTarget
-    */
-   private static void addNewDOMPrefixes(SOAPElement aSource, Element aTarget)
-   {
-      Map<String, String> sourcePrefixes = new HashMap<>();
-      getDeclaredNamespaces(aSource, sourcePrefixes);
-      Map<String, String> targetPrefixes = new HashMap<>();
-      AeXmlUtil.getDeclaredNamespaces(aTarget, targetPrefixes);
+    /**
+     * Creates a copy of a SOAPElement as a DOM element. The primary function of this method is
+     * to ensure that the namespace declarations are handled properly and the resulting element
+     * will import correctly.
+     *
+     * @param aSoapElement source element to copy
+     * @param aParent      parent element of resulting copy, if null element is created in a new document
+     * @return copy of element as a child of the parent
+     */
+    public static Element convertToDOM(SOAPElement aSoapElement, Element aParent) {
+        Element srcElement = aSoapElement;
+        String namespace = aSoapElement.getElementName().getURI();
+        String name = aSoapElement.getElementName().getQualifiedName();
 
-       for (Map.Entry<String, String> se : sourcePrefixes.entrySet()) {
-           Map.Entry entry = (Map.Entry) se;
-           if (AeUtil.notNullOrEmpty((String) entry.getValue())) {
-               String prefixToCheck = (String) entry.getKey();
-               String sourceNamespace = (String) entry.getValue();
+        Node parent = aParent;
+        if (aParent == null) {
+            // create element in a new document
+            Document doc = AeXmlUtil.newDocument();
+            parent = doc;
+        }
 
-               // find prefix in the target
-               String targetNamespace = targetPrefixes.get(prefixToCheck);
-               if (!sourceNamespace.equals(targetNamespace)) {
-                   if (AeUtil.notNullOrEmpty(prefixToCheck)) {
-                       aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefixToCheck, sourceNamespace); //$NON-NLS-1$
-                   } else {
-                       aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", sourceNamespace); //$NON-NLS-1$
-                   }
-               }
-           }
-       }
-   }
+        Element element = AeXmlUtil.addElementNS(parent, namespace, name, null);
 
-   /**
-    * Finds any prefix declarations that are new or different
-    * and adds a local declaration to the SOAPElement
-    * 
-    * @param aSource
-    * @param aTarget
-    */
-   private static void addNewSOAPPrefixes(Element aSource, SOAPElement aTarget) throws SOAPException
-   {
-      Map<String, String> sourcePrefixes = new HashMap<>();
-      AeXmlUtil.getDeclaredNamespaces(aSource, sourcePrefixes);
-      Map<String, String> targetPrefixes = new HashMap<>();
-      getDeclaredNamespaces(aTarget, targetPrefixes);
+        // add any new or conflicting prefixes
+        addNewDOMPrefixes(aSoapElement, element);
 
-       for (Map.Entry<String, String> se : sourcePrefixes.entrySet()) {
-           Map.Entry entry = (Map.Entry) se;
-           if (AeUtil.notNullOrEmpty((String) entry.getValue())) {
-               String prefixToCheck = (String) entry.getKey();
-               String sourceNamespace = (String) entry.getValue();
+        // add attributes
+        if (srcElement.hasAttributes()) {
+            NamedNodeMap attributes = srcElement.getAttributes();
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attr = attributes.item(i);
+                // skip namespace decls since we got them already
+                if (attr.getNodeName().startsWith("xmlns")) //$NON-NLS-1$
+                {
+                    continue;
+                }
 
-               // find prefix in the target
-               String targetNamespace = targetPrefixes.get(prefixToCheck);
-               if (!sourceNamespace.equals(targetNamespace)) {
-                   if (AeUtil.notNullOrEmpty(prefixToCheck)) {
-                       aTarget.addNamespaceDeclaration(prefixToCheck, sourceNamespace);
-                   }
-               }
-           }
-       }
-   }
-   
+                namespace = attr.getNamespaceURI();
+                name = attr.getLocalName();
+
+                if (AeUtil.isNullOrEmpty(namespace)) {
+                    name = attr.getNodeName();
+                    element.setAttribute(name, attr.getNodeValue());
+                } else {
+                    String prefix = attr.getPrefix();
+                    if (AeUtil.notNullOrEmpty(prefix)) {
+                        name = prefix + ":" + name; //$NON-NLS-1$
+                    }
+                    element.setAttributeNS(namespace, name, attr.getNodeValue());
+                }
+            }
+        }
+
+        // add children
+        if (srcElement.hasChildNodes()) {
+            NodeList nodes = srcElement.getChildNodes();
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node child = nodes.item(i);
+                if (child.getNodeType() == Node.ELEMENT_NODE) {
+                    convertToDOM((SOAPElement) child, element);
+                } else {
+                    Node newChild = element.getOwnerDocument().importNode(child, true);
+                    element.appendChild(newChild);
+                }
+            }
+        }
+
+        return element;
+    }
+
+    /**
+     * Adds the contents of a DOM element to a newly created SOAPElement
+     *
+     * @param aSource      element to copy
+     * @param aSoapElement target element
+     * @throws SOAPException
+     */
+    public static SOAPElement copyToSOAP(Element aSource, SOAPElement aSoapElement) throws SOAPException {
+        String namespace = aSoapElement.getElementName().getURI();
+        String name = aSoapElement.getElementName().getQualifiedName();
+
+        Element element = aSoapElement;
+
+        // add any new declarations
+        addNewSOAPPrefixes(aSource, aSoapElement);
+
+        // add attributes
+        if (aSource.hasAttributes()) {
+            NamedNodeMap attributes = aSource.getAttributes();
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attr = attributes.item(i);
+                // skip namespace decls since we got them already
+                if (attr.getNodeName().startsWith("xmlns")) //$NON-NLS-1$
+                {
+                    continue;
+                }
+
+                namespace = attr.getNamespaceURI();
+                name = attr.getLocalName();
+
+                if (AeUtil.isNullOrEmpty(namespace)) {
+                    name = attr.getNodeName();
+                    element.setAttribute(name, attr.getNodeValue());
+                } else {
+                    String prefix = attr.getPrefix();
+                    if (AeUtil.notNullOrEmpty(prefix)) {
+                        name = prefix + ":" + name; //$NON-NLS-1$
+                    }
+                    element.setAttributeNS(namespace, name, attr.getNodeValue());
+                }
+            }
+        }
+
+        // add children
+        if (aSource.hasChildNodes()) {
+            NodeList nodes = aSource.getChildNodes();
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node child = nodes.item(i);
+                element.appendChild(element.getOwnerDocument().importNode(child, true));
+            }
+        }
+
+        return (SOAPElement) element;
+    }
+
+    /**
+     * Finds all the namespaces and prefixes in effect for a SOAPElement
+     * using SAAJ interface methods
+     *
+     * @param aElement   element
+     * @param aPrefixMap map of prefixes to namespaces
+     */
+    public static void getDeclaredNamespaces(SOAPElement aElement, Map<String, String> aPrefixMap) {
+        for (SOAPElement element = aElement; element != null; element = element.getParentElement()) {
+            for (Iterator it = element.getNamespacePrefixes(); it.hasNext(); ) {
+                String prefix = (String) it.next();
+                String ns = element.getNamespaceURI(prefix);
+                if (!aPrefixMap.containsKey(prefix)) {
+                    aPrefixMap.put(prefix, ns);
+                }
+            }
+        }
+    }
+
+    /**
+     * Finds any prefix declarations that are new or different
+     * and adds a local declaration to the DOM element
+     *
+     * @param aSource
+     * @param aTarget
+     */
+    private static void addNewDOMPrefixes(SOAPElement aSource, Element aTarget) {
+        Map<String, String> sourcePrefixes = new HashMap<>();
+        getDeclaredNamespaces(aSource, sourcePrefixes);
+        Map<String, String> targetPrefixes = new HashMap<>();
+        AeXmlUtil.getDeclaredNamespaces(aTarget, targetPrefixes);
+
+        for (Map.Entry<String, String> se : sourcePrefixes.entrySet()) {
+            Map.Entry entry = (Map.Entry) se;
+            if (AeUtil.notNullOrEmpty((String) entry.getValue())) {
+                String prefixToCheck = (String) entry.getKey();
+                String sourceNamespace = (String) entry.getValue();
+
+                // find prefix in the target
+                String targetNamespace = targetPrefixes.get(prefixToCheck);
+                if (!sourceNamespace.equals(targetNamespace)) {
+                    if (AeUtil.notNullOrEmpty(prefixToCheck)) {
+                        aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefixToCheck, sourceNamespace); //$NON-NLS-1$
+                    } else {
+                        aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", sourceNamespace); //$NON-NLS-1$
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Finds any prefix declarations that are new or different
+     * and adds a local declaration to the SOAPElement
+     *
+     * @param aSource
+     * @param aTarget
+     */
+    private static void addNewSOAPPrefixes(Element aSource, SOAPElement aTarget) throws SOAPException {
+        Map<String, String> sourcePrefixes = new HashMap<>();
+        AeXmlUtil.getDeclaredNamespaces(aSource, sourcePrefixes);
+        Map<String, String> targetPrefixes = new HashMap<>();
+        getDeclaredNamespaces(aTarget, targetPrefixes);
+
+        for (Map.Entry<String, String> se : sourcePrefixes.entrySet()) {
+            Map.Entry entry = (Map.Entry) se;
+            if (AeUtil.notNullOrEmpty((String) entry.getValue())) {
+                String prefixToCheck = (String) entry.getKey();
+                String sourceNamespace = (String) entry.getValue();
+
+                // find prefix in the target
+                String targetNamespace = targetPrefixes.get(prefixToCheck);
+                if (!sourceNamespace.equals(targetNamespace)) {
+                    if (AeUtil.notNullOrEmpty(prefixToCheck)) {
+                        aTarget.addNamespaceDeclaration(prefixToCheck, sourceNamespace);
+                    }
+                }
+            }
+        }
+    }
+
 }

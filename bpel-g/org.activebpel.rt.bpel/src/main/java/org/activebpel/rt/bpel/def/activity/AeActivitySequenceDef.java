@@ -21,53 +21,47 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel sequence activity.
  */
-public class AeActivitySequenceDef extends AeActivityDef implements IAeMultipleActivityContainerDef
-{
-   private static final long serialVersionUID = -7811933358756143930L;
-   // standard elements of the activity definition
-   private final List<AeActivityDef> mActivities = new ArrayList<>();
+public class AeActivitySequenceDef extends AeActivityDef implements IAeMultipleActivityContainerDef {
+    private static final long serialVersionUID = -7811933358756143930L;
+    // standard elements of the activity definition
+    private final List<AeActivityDef> mActivities = new ArrayList<>();
 
-   /**
-    * Default constructor
-    */
-   public AeActivitySequenceDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivitySequenceDef() {
+        super();
+    }
 
-   /**
-    * Adds an activity definition to the list of activities to execute.
-    * 
-    * @param aActivity activity to be added
-    */
-   public void addActivityDef(AeActivityDef aActivity)
-   {
-      mActivities.add(aActivity);
-   }
+    /**
+     * Adds an activity definition to the list of activities to execute.
+     *
+     * @param aActivity activity to be added
+     */
+    public void addActivityDef(AeActivityDef aActivity) {
+        mActivities.add(aActivity);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef)
-   {
-      AeDefUtil.replaceActivityDef(mActivities, aOldActivityDef, aNewActivityDef);
-   }
-   
-   /**
-    * Returns an iterator of activity definitions to iterate over.
-    * 
-    * @return iterator over activity list
-    */
-   public Iterator<AeActivityDef> getActivityDefs()
-   {
-      return mActivities.iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef) {
+        AeDefUtil.replaceActivityDef(mActivities, aOldActivityDef, aNewActivityDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Returns an iterator of activity definitions to iterate over.
+     *
+     * @return iterator over activity list
+     */
+    public Iterator<AeActivityDef> getActivityDefs() {
+        return mActivities.iterator();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

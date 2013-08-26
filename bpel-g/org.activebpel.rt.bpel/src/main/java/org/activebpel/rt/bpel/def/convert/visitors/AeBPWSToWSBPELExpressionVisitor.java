@@ -28,75 +28,62 @@ import org.activebpel.rt.xml.def.AeBaseDefNamespaceContext;
 /**
  * This visitor converts BPEL 1.1 expressions into BPEL 2.0 expressions.
  */
-public class AeBPWSToWSBPELExpressionVisitor extends AeAbstractExpressionDefVisitor
-{
-   /**
-    * Constructor.
-    */
-   public AeBPWSToWSBPELExpressionVisitor()
-   {
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.convert.visitors.AeAbstractBPWSToWSBPELVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void visit(AeProcessDef def)
-   {
-      if (IAeBPELConstants.BPWS_XPATH_EXPR_LANGUAGE_URI.equals(def.getExpressionLanguage()))
-      {
-         def.setExpressionLanguage(IAeBPELConstants.WSBPEL_EXPR_LANGUAGE_URI);
-      }
-      super.visit(def);
-   }
+public class AeBPWSToWSBPELExpressionVisitor extends AeAbstractExpressionDefVisitor {
+    /**
+     * Constructor.
+     */
+    public AeBPWSToWSBPELExpressionVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
-    */
-   public void visit(AeQueryDef def)
-   {
-      String query = def.getQuery();
-      if (AeUtil.notNullOrEmpty(query))
-      {
-         IAeMutableNamespaceContext nsContext = new AeBaseDefNamespaceContext(def);
-         String newQuery = AeBPWSToWSBPELXPathConverter.convertQuery(query, nsContext);
-         if (AeUtil.isNullOrEmpty(newQuery))
-         {
-            IAeQueryParentDef parentDef = (IAeQueryParentDef) def.getParent();
-            parentDef.removeQueryDef();
-         }
-         else
-         {
-            def.setQuery(newQuery);
-         }
-      }
+    /**
+     * @see org.activebpel.rt.bpel.def.convert.visitors.AeAbstractBPWSToWSBPELVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void visit(AeProcessDef def) {
+        if (IAeBPELConstants.BPWS_XPATH_EXPR_LANGUAGE_URI.equals(def.getExpressionLanguage())) {
+            def.setExpressionLanguage(IAeBPELConstants.WSBPEL_EXPR_LANGUAGE_URI);
+        }
+        super.visit(def);
+    }
 
-      super.visit(def);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractExpressionDefVisitor#visitExpressionDef(org.activebpel.rt.bpel.def.IAeExpressionDef)
-    */
-   protected void visitExpressionDef(IAeExpressionDef aDef)
-   {
-      String language = AeDefUtil.getExpressionLanguage(aDef, getProcessDef());
-      // If the expression language was explicitely set to xpath 1.0, then
-      // change the namespace (BPEL 1.1 and BPEL 2.0 have different namespaces
-      // to indicate xpath).
-      if (IAeBPELConstants.BPWS_XPATH_EXPR_LANGUAGE_URI.equals(language))
-      {
-         language = IAeBPELConstants.WSBPEL_EXPR_LANGUAGE_URI;
-         aDef.setExpressionLanguage(language);
-      }
-      if (AeUtil.isNullOrEmpty(language) || IAeBPELConstants.WSBPEL_EXPR_LANGUAGE_URI.equals(language))
-      {
-         IAeMutableNamespaceContext nsContext = new AeBaseDefNamespaceContext((AeBaseDef) aDef);
-         String expression = aDef.getExpression();
-         if (AeUtil.notNullOrEmpty(expression))
-         {
-            String newExpression = AeBPWSToWSBPELXPathConverter.convertExpression(expression, nsContext);
-            aDef.setExpression(newExpression);
-         }
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
+     */
+    public void visit(AeQueryDef def) {
+        String query = def.getQuery();
+        if (AeUtil.notNullOrEmpty(query)) {
+            IAeMutableNamespaceContext nsContext = new AeBaseDefNamespaceContext(def);
+            String newQuery = AeBPWSToWSBPELXPathConverter.convertQuery(query, nsContext);
+            if (AeUtil.isNullOrEmpty(newQuery)) {
+                IAeQueryParentDef parentDef = (IAeQueryParentDef) def.getParent();
+                parentDef.removeQueryDef();
+            } else {
+                def.setQuery(newQuery);
+            }
+        }
+
+        super.visit(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractExpressionDefVisitor#visitExpressionDef(org.activebpel.rt.bpel.def.IAeExpressionDef)
+     */
+    protected void visitExpressionDef(IAeExpressionDef aDef) {
+        String language = AeDefUtil.getExpressionLanguage(aDef, getProcessDef());
+        // If the expression language was explicitely set to xpath 1.0, then
+        // change the namespace (BPEL 1.1 and BPEL 2.0 have different namespaces
+        // to indicate xpath).
+        if (IAeBPELConstants.BPWS_XPATH_EXPR_LANGUAGE_URI.equals(language)) {
+            language = IAeBPELConstants.WSBPEL_EXPR_LANGUAGE_URI;
+            aDef.setExpressionLanguage(language);
+        }
+        if (AeUtil.isNullOrEmpty(language) || IAeBPELConstants.WSBPEL_EXPR_LANGUAGE_URI.equals(language)) {
+            IAeMutableNamespaceContext nsContext = new AeBaseDefNamespaceContext((AeBaseDef) aDef);
+            String expression = aDef.getExpression();
+            if (AeUtil.notNullOrEmpty(expression)) {
+                String newExpression = AeBPWSToWSBPELXPathConverter.convertExpression(expression, nsContext);
+                aDef.setExpression(newExpression);
+            }
+        }
+    }
 }

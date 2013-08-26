@@ -13,10 +13,9 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
  * Constants for the URN storage SQL keys (keys into the {@link
  * org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig} object).
  */
-public interface IAeURNSQLKeys
-{
-   public static final String SQL_INSERT_MAPPING = "InsertMapping"; //$NON-NLS-1$
-   public static final String SQL_UPDATE_MAPPING = "UpdateMapping"; //$NON-NLS-1$
-   public static final String SQL_DELETE_MAPPING = "DeleteMapping"; //$NON-NLS-1$
-   public static final String SQL_GET_MAPPINGS = "GetMappings"; //$NON-NLS-1$
+public interface IAeURNSQLKeys {
+    public static final String SQL_INSERT_MAPPING = "InsertMapping"; //$NON-NLS-1$
+    public static final String SQL_UPDATE_MAPPING = "UpdateMapping"; //$NON-NLS-1$
+    public static final String SQL_DELETE_MAPPING = "DeleteMapping"; //$NON-NLS-1$
+    public static final String SQL_GET_MAPPINGS = "GetMappings"; //$NON-NLS-1$
 }

@@ -25,8 +25,8 @@ import bpelg.services.queue.AeQueueManager;
 import bpelg.services.urnresolver.AeURNResolver;
 
 public class AeEngineManagementFactory {
-    
-    private static IAeEngineManagementMXBean sBean; 
+
+    private static IAeEngineManagementMXBean sBean;
     private static JMXConnector sConnector;
     private static String sServiceURL;
     private static String sObjectName;
@@ -37,8 +37,8 @@ public class AeEngineManagementFactory {
     private static AeProcessManager sProcessManager;
     private static AeURNResolver sResolverService;
     private static AeQueueManager sQueueManager;
-    
-    
+
+
     public synchronized static IAeEngineManagementMXBean getBean() {
         /*
          * Attempting to recover from a communications error here. The typical scenario is that I'm running the console 
@@ -68,19 +68,19 @@ public class AeEngineManagementFactory {
         close();
         connect();
     }
-    
+
     public static void initBean(String aServiceURL, String aObjectName, String aUser, String aPassword) {
-    	sRemote = aServiceURL != null;
+        sRemote = aServiceURL != null;
         sServiceURL = aServiceURL;
         sObjectName = aObjectName;
         sUser = aUser;
         sPassword = aPassword;
         connect();
     }
-    
+
     private static void connect() {
-        if ( isLocal()) {
-            if (sBean == null ) {
+        if (isLocal()) {
+            if (sBean == null) {
                 IAeEngineAdministration admin = AeEngineFactory.getEngineAdministration();
                 sBean = new AeEngineManagementAdapter(admin);
             }
@@ -92,16 +92,16 @@ public class AeEngineManagementFactory {
                 JMXConnector connector = JMXConnectorFactory.connect(url, map);
                 MBeanServerConnection mbs = connector.getMBeanServerConnection();
                 ObjectName objectName = ObjectName.getInstance(sObjectName);
-    
+
                 sBean = JMX.newMXBeanProxy(mbs, objectName, IAeEngineManagementMXBean.class);
                 sConnector = connector;
                 sConnector.addConnectionNotificationListener(sNotificationlistener, new DisconnectedFilter(), objectName);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     }
-    
+
     public static void close() {
         if (isRemote() && sConnector != null) {
             JMXConnector connector = sConnector;
@@ -120,47 +120,48 @@ public class AeEngineManagementFactory {
             }
         }
     }
-    
+
     private static class DisconnectedListener implements NotificationListener {
 
         @Override
         public void handleNotification(Notification aNotification, Object aObj) {
             close();
         }
-        
+
     }
-    
+
     private static class DisconnectedFilter implements NotificationFilter {
 
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = -3923850504072222105L;
 
         @Override
         public boolean isNotificationEnabled(Notification aNotification) {
             return "jmx.remote.connection.closed".equals(aNotification.getType()) ||
-                   "jmx.remote.connection.failed".equals(aNotification.getType());
+                    "jmx.remote.connection.failed".equals(aNotification.getType());
         }
     }
-    
+
     private static boolean isRemote() {
-    	return sRemote;
+        return sRemote;
     }
+
     private static boolean isLocal() {
-    	return !isRemote();
+        return !isRemote();
     }
 
-	public static AeProcessManager getProcessManager() {
-		if (sProcessManager == null) {
-			sProcessManager = AeEngineFactory.getBean(AeProcessManager.class);
-		}
-		return sProcessManager;
-	}
+    public static AeProcessManager getProcessManager() {
+        if (sProcessManager == null) {
+            sProcessManager = AeEngineFactory.getBean(AeProcessManager.class);
+        }
+        return sProcessManager;
+    }
 
-	public static void setProcessManager(AeProcessManager aProcessManager) {
-		sProcessManager = aProcessManager;
-	}
+    public static void setProcessManager(AeProcessManager aProcessManager) {
+        sProcessManager = aProcessManager;
+    }
 
     public static AeURNResolver getResolverService() {
         if (sResolverService == null) {
@@ -173,14 +174,14 @@ public class AeEngineManagementFactory {
         sResolverService = aSResolverService;
     }
 
-	public static AeQueueManager getQueueManager() {
-		if (sQueueManager == null) {
-			sQueueManager = AeEngineFactory.getBean(AeQueueManager.class);
-		}
-		return sQueueManager;
-	}
+    public static AeQueueManager getQueueManager() {
+        if (sQueueManager == null) {
+            sQueueManager = AeEngineFactory.getBean(AeQueueManager.class);
+        }
+        return sQueueManager;
+    }
 
-	public static void setQueueManager(AeQueueManager aQueueManager) {
-		sQueueManager = aQueueManager;
-	}
+    public static void setQueueManager(AeQueueManager aQueueManager) {
+        sQueueManager = aQueueManager;
+    }
 }

@@ -30,150 +30,139 @@ import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver;
  * A WS-BPEL Xquery variable resolver.  This class resolves XQuery variables (of the form $bpelVarName)
  * to XQuery expressions that, when executed, return the value of the named BPEL variable.
  */
-public class AeWSBPELXQueryVariableResolver implements VariableResolver
-{
-   /** The function exec context. */
-   private IAeFunctionExecutionContext mFunctionExecutionContext;
-   /** Variable resolver. */
-   private IAeExpressionRunnerVariableResolver mVariableResolver;
+public class AeWSBPELXQueryVariableResolver implements VariableResolver {
+    /**
+     * The function exec context.
+     */
+    private IAeFunctionExecutionContext mFunctionExecutionContext;
+    /**
+     * Variable resolver.
+     */
+    private IAeExpressionRunnerVariableResolver mVariableResolver;
 
-   /**
-    * Constructor.
-    *
-    * @param aContext
-    */
-   public AeWSBPELXQueryVariableResolver(IAeFunctionExecutionContext aContext, IAeExpressionRunnerVariableResolver aVariableResolver)
-   {
-      setFunctionExecutionContext(aContext);
-      setVariableResolver(aVariableResolver);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aContext
+     */
+    public AeWSBPELXQueryVariableResolver(IAeFunctionExecutionContext aContext, IAeExpressionRunnerVariableResolver aVariableResolver) {
+        setFunctionExecutionContext(aContext);
+        setVariableResolver(aVariableResolver);
+    }
 
-   /**
-    * @see net.sf.saxon.variables.VariableResolver#hasVariable(int, java.lang.String, java.lang.String)
-    */
-   public boolean hasVariable(int aNameCode, String aUri, String aLocal)
-   {
-      return getVariableResolver().variableExists(aLocal);
-   }
+    /**
+     * @see net.sf.saxon.variables.VariableResolver#hasVariable(int, java.lang.String, java.lang.String)
+     */
+    public boolean hasVariable(int aNameCode, String aUri, String aLocal) {
+        return getVariableResolver().variableExists(aLocal);
+    }
 
-   /**
-    * @see net.sf.saxon.variables.VariableResolver#resolve(int, java.lang.String, java.lang.String)
-    */
-   public VariableDeclaration resolve(int aNameCode, String aUri, String aLocal)
-   {
-      // Note: don't need to pass the URI here, because we already know it is empty
-      return createGlobalVariableDef(aNameCode, aLocal);
-   }
+    /**
+     * @see net.sf.saxon.variables.VariableResolver#resolve(int, java.lang.String, java.lang.String)
+     */
+    public VariableDeclaration resolve(int aNameCode, String aUri, String aLocal) {
+        // Note: don't need to pass the URI here, because we already know it is empty
+        return createGlobalVariableDef(aNameCode, aLocal);
+    }
 
-   /**
-    * Creates a global variable definition for the given namecode + local name.
-    *
-    * @param aNameCode
-    * @param aVariableName
-    */
-   private GlobalVariableDefinition createGlobalVariableDef(int aNameCode, String aVariableName)
-   {
-      GlobalVariableDefinition globalVarDef = new GlobalVariableDefinition();
-      globalVarDef.setNameCode(aNameCode);
-      globalVarDef.setIsParameter(true);
-      globalVarDef.setVariableName(aVariableName);
-      globalVarDef.setRequiredType(SequenceType.SINGLE_ITEM);
+    /**
+     * Creates a global variable definition for the given namecode + local name.
+     *
+     * @param aNameCode
+     * @param aVariableName
+     */
+    private GlobalVariableDefinition createGlobalVariableDef(int aNameCode, String aVariableName) {
+        GlobalVariableDefinition globalVarDef = new GlobalVariableDefinition();
+        globalVarDef.setNameCode(aNameCode);
+        globalVarDef.setIsParameter(true);
+        globalVarDef.setVariableName(aVariableName);
+        globalVarDef.setRequiredType(SequenceType.SINGLE_ITEM);
 
-      Expression expression = createVariableExpression(aVariableName);
-      globalVarDef.setValueExpression(expression);
+        Expression expression = createVariableExpression(aVariableName);
+        globalVarDef.setValueExpression(expression);
 
-      return globalVarDef;
-   }
+        return globalVarDef;
+    }
 
-   /**
-    * Create the expression that will be executed for the variable reference.
-    *
-    * @param aVariableName
-    */
-   protected Expression createVariableExpression(String aVariableName)
-   {
+    /**
+     * Create the expression that will be executed for the variable reference.
+     *
+     * @param aVariableName
+     */
+    protected Expression createVariableExpression(String aVariableName) {
         IAeFunction getVarFun = new AeWSBPELXQueryVariableResolverFunctionAdapter(aVariableName);
         AeXQueryFunction xfunc = new AeXQueryFunction(getVarFun, getFunctionExecutionContext());
         xfunc.setArguments(new Expression[]{});
         return xfunc;
-   }
+    }
 
-   /**
-    * @return Returns the functionExecutionContext.
-    */
-   protected IAeFunctionExecutionContext getFunctionExecutionContext()
-   {
-      return mFunctionExecutionContext;
-   }
+    /**
+     * @return Returns the functionExecutionContext.
+     */
+    protected IAeFunctionExecutionContext getFunctionExecutionContext() {
+        return mFunctionExecutionContext;
+    }
 
-   /**
-    * @param aFunctionExecutionContext The functionExecutionContext to set.
-    */
-   protected void setFunctionExecutionContext(IAeFunctionExecutionContext aFunctionExecutionContext)
-   {
-      mFunctionExecutionContext = aFunctionExecutionContext;
-   }
+    /**
+     * @param aFunctionExecutionContext The functionExecutionContext to set.
+     */
+    protected void setFunctionExecutionContext(IAeFunctionExecutionContext aFunctionExecutionContext) {
+        mFunctionExecutionContext = aFunctionExecutionContext;
+    }
 
-  /**
-   * @return variable resolver.
-   */
-   protected IAeExpressionRunnerVariableResolver getVariableResolver()
-   {
-      return mVariableResolver;
-   }
+    /**
+     * @return variable resolver.
+     */
+    protected IAeExpressionRunnerVariableResolver getVariableResolver() {
+        return mVariableResolver;
+    }
 
-   /**
-    * Sets the variable resolver.
-    * @param aVariableResolver
-    */
-   protected void setVariableResolver(IAeExpressionRunnerVariableResolver aVariableResolver)
-   {
-      mVariableResolver = aVariableResolver;
-   }
+    /**
+     * Sets the variable resolver.
+     *
+     * @param aVariableResolver
+     */
+    protected void setVariableResolver(IAeExpressionRunnerVariableResolver aVariableResolver) {
+        mVariableResolver = aVariableResolver;
+    }
 
 
-   /**
-    * Adopts a IAeExpressionRunnerVariableResolver into a IAeFunction.
-    */
-   class AeWSBPELXQueryVariableResolverFunctionAdapter implements IAeFunction
-   {
-      /** Variable to resolve. */
-      private final String mVariableName;
+    /**
+     * Adopts a IAeExpressionRunnerVariableResolver into a IAeFunction.
+     */
+    class AeWSBPELXQueryVariableResolverFunctionAdapter implements IAeFunction {
+        /**
+         * Variable to resolve.
+         */
+        private final String mVariableName;
 
-      /**
-       * ctor.
-       * @param aVariableName
-       */
-      protected AeWSBPELXQueryVariableResolverFunctionAdapter(String aVariableName)
-      {
-         mVariableName = aVariableName;
-      }
+        /**
+         * ctor.
+         *
+         * @param aVariableName
+         */
+        protected AeWSBPELXQueryVariableResolverFunctionAdapter(String aVariableName) {
+            mVariableName = aVariableName;
+        }
 
-      /**
-       *
-       * Overrides method to return variable data via IAeExpressionRunnerVariableResolver.
-       * @see org.activebpel.rt.bpel.function.IAeFunction#call(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, java.util.List)
-       */
-      public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-      {
-         Object result = null;
-         try
-         {
-            result = getVariableResolver().getVariableData(mVariableName);
-         }
-         catch(Exception e)
-         {
-            throw new AeFunctionCallException(e);
-         }
-         if (result != null)
-         {
-            return result;
-         }
-         else
-         {
-           throw new AeExpressionException( new AeBpelException(
-                  AeMessages.format("AeWSBPELXQueryVariableResolver.VARIABLE_NOT_INITIALIZED_ERROR", mVariableName), getFunctionExecutionContext().getFaultFactory().getUninitializedVariable() ) ); //$NON-NLS-1$
-         }
-      }
-   }
+        /**
+         * Overrides method to return variable data via IAeExpressionRunnerVariableResolver.
+         *
+         * @see org.activebpel.rt.bpel.function.IAeFunction#call(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, java.util.List)
+         */
+        public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+            Object result = null;
+            try {
+                result = getVariableResolver().getVariableData(mVariableName);
+            } catch (Exception e) {
+                throw new AeFunctionCallException(e);
+            }
+            if (result != null) {
+                return result;
+            } else {
+                throw new AeExpressionException(new AeBpelException(
+                        AeMessages.format("AeWSBPELXQueryVariableResolver.VARIABLE_NOT_INITIALIZED_ERROR", mVariableName), getFunctionExecutionContext().getFaultFactory().getUninitializedVariable())); //$NON-NLS-1$
+            }
+        }
+    }
 }

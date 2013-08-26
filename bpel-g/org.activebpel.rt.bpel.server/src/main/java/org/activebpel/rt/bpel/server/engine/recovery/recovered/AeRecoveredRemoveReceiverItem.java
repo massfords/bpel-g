@@ -15,29 +15,25 @@ import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 /**
  * Implements a recovered item to remove a message receiver.
  */
-public class AeRecoveredRemoveReceiverItem extends AeRecoveredLocationIdItem
-{
-   /**
-    * Constructs a recovered item to remove a message receiver.
-    */
-   public AeRecoveredRemoveReceiverItem(long aProcessId, int aLocationId)
-   {
-      super(aProcessId, aLocationId);
-   }
+public class AeRecoveredRemoveReceiverItem extends AeRecoveredLocationIdItem {
+    /**
+     * Constructs a recovered item to remove a message receiver.
+     */
+    public AeRecoveredRemoveReceiverItem(long aProcessId, int aLocationId) {
+        super(aProcessId, aLocationId);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException
-   {
-      aTargetEngine.getQueueManager().removeMessageReceiver(getProcessId(), getLocationId());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException {
+        aTargetEngine.getQueueManager().removeMessageReceiver(getProcessId(), getLocationId());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
-    */
-   public boolean isRemoval()
-   {
-      return true;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
+     */
+    public boolean isRemoval() {
+        return true;
+    }
 }

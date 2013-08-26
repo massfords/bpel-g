@@ -13,50 +13,47 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * Used to traverse the XPath AST.
  */
-public class AeXPathTreeTraverser
-{
-   /** The xpath node visitor. */
-   private IAeXPathNodeVisitor mVisitor;
+public class AeXPathTreeTraverser {
+    /**
+     * The xpath node visitor.
+     */
+    private IAeXPathNodeVisitor mVisitor;
 
-   /**
-    * Simple constructor.
-    * 
-    * @param aVisitor
-    */
-   public AeXPathTreeTraverser(IAeXPathNodeVisitor aVisitor)
-   {
-      setVisitor(aVisitor);
-   }
+    /**
+     * Simple constructor.
+     *
+     * @param aVisitor
+     */
+    public AeXPathTreeTraverser(IAeXPathNodeVisitor aVisitor) {
+        setVisitor(aVisitor);
+    }
 
-   /**
-    * Traverse the entire tree using the given visitor.
-    * 
-    * @param aXPathNode
-    */
-   public void traverse(AeAbstractXPathNode aXPathNode)
-   {
-      // Traverse the given node.
-      aXPathNode.accept(getVisitor());
+    /**
+     * Traverse the entire tree using the given visitor.
+     *
+     * @param aXPathNode
+     */
+    public void traverse(AeAbstractXPathNode aXPathNode) {
+        // Traverse the given node.
+        aXPathNode.accept(getVisitor());
 
-      // Traverse all of that node's children.
-       for (AeAbstractXPathNode child : aXPathNode.getChildren()) {
-           traverse(child);
-       }
-   }
+        // Traverse all of that node's children.
+        for (AeAbstractXPathNode child : aXPathNode.getChildren()) {
+            traverse(child);
+        }
+    }
 
-   /**
-    * @return Returns the visitor.
-    */
-   protected IAeXPathNodeVisitor getVisitor()
-   {
-      return mVisitor;
-   }
+    /**
+     * @return Returns the visitor.
+     */
+    protected IAeXPathNodeVisitor getVisitor() {
+        return mVisitor;
+    }
 
-   /**
-    * @param aVisitor The visitor to set.
-    */
-   protected void setVisitor(IAeXPathNodeVisitor aVisitor)
-   {
-      mVisitor = aVisitor;
-   }
+    /**
+     * @param aVisitor The visitor to set.
+     */
+    protected void setVisitor(IAeXPathNodeVisitor aVisitor) {
+        mVisitor = aVisitor;
+    }
 }

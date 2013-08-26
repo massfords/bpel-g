@@ -14,34 +14,32 @@ import org.w3c.dom.Node;
 /**
  * Implements a reference to an external XML <code>Node</code>.
  */
-public class AeForeignNode extends AeFastNode
-{
-   /** The external XML <code>Node</code>. */
-   private final Node mNode;
+public class AeForeignNode extends AeFastNode {
+    /**
+     * The external XML <code>Node</code>.
+     */
+    private final Node mNode;
 
-   /**
-    * Constructs a reference to the specified external XML <code>Node</code>.
-    *
-    * @param aNode
-    */
-   public AeForeignNode(Node aNode)
-   {
-      mNode = aNode;
-   }
+    /**
+     * Constructs a reference to the specified external XML <code>Node</code>.
+     *
+     * @param aNode
+     */
+    public AeForeignNode(Node aNode) {
+        mNode = aNode;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.fastdom.IAeVisitable#accept(org.activebpel.rt.bpel.impl.fastdom.IAeVisitor)
-    */
-   public void accept(IAeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.fastdom.IAeVisitable#accept(org.activebpel.rt.bpel.impl.fastdom.IAeVisitor)
+     */
+    public void accept(IAeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Returns the external XML <code>Node</code>.
-    */
-   public Node getNode()
-   {
-      return mNode;
-   }
+    /**
+     * Returns the external XML <code>Node</code>.
+     */
+    public Node getNode() {
+        return mNode;
+    }
 }

@@ -49,259 +49,240 @@ import java.util.List;
 /**
  * Receive handler for RPC (Encoded and Literal) SOAP bindings
  */
-public class AeRPCReceiveHandler extends AeAxisReceiveHandler
-{
-   /**
-    * No-arg constructor
-    */
-   public AeRPCReceiveHandler()
-   {
+public class AeRPCReceiveHandler extends AeAxisReceiveHandler {
+    /**
+     * No-arg constructor
+     */
+    public AeRPCReceiveHandler() {
 
-   }
-   
-   /**
-    * Extracts the parts from the message and populates the IAeMessageData. For rpc-encoding
-    * each part should be accessible by its part name in the WSDL.
-    *  
-    * Input data type: soapenv:Envelope
-    * Output data type: soapenv:Envelope
-    * 
-    * @see org.activebpel.rt.bpel.server.engine.receive.AeDefaultReceiveHandler#mapInputData(org.activebpel.rt.bpel.impl.IAeProcessPlan, org.activebpel.rt.bpel.server.engine.receive.AeExtendedMessageContext, org.w3c.dom.Document[])
-    */
-   protected IAeMessageData mapInputFromSOAP(IAeProcessPlan aPlan, AeExtendedMessageContext aContext, SOAPEnvelope aEnv) throws AeBusinessProcessException
-   {
-      String opName = null;
-      try
-      {
-         // Get the WSDL definition for the service 
-         QName portTypeQName = getMyRolePortTypeQName(aPlan, aContext);
-         AeBPELExtendedWSDLDef defFromService = AeWSDLDefHelper.getWSDLDefinitionForPortType(aPlan, portTypeQName);
-         
-         // For an RPC SOAP request there should only be a single body element   
-         if (aEnv.getBodyElements().size() < 1)
-            throw new AeBusinessProcessException(AeMessages.getString("AeBpelRPCHandler.ERROR_0")); //$NON-NLS-1$
+    }
 
-         MessageContext axisContext = (MessageContext) aContext.getProperty(MessageContext.class.getName());
-         
-         // Get the request body from the SOAP envelope
-         RPCElement reqBody = findFirstRPCElement(aEnv);
-   
-         // Find the proper operation based on the SOAP request operation
-         Operation operation = null;
-         PortType portType = defFromService.getPortType(portTypeQName);
-         for (@SuppressWarnings("unchecked")
-		    Iterator<Operation> iter=portType.getOperations().iterator(); iter.hasNext() && operation == null;)
-         {
-            Operation op = iter.next();
-            if (op.getName().equals(reqBody.getMethodName()))
-               operation = op;
-         }         
-         
-         // This is an error if we could not find the operation
-         if (operation == null)
-            throw new AeBusinessProcessException(AeMessages.format("AeBpelRPCHandler.ERROR_1", reqBody.getMethodName())); //$NON-NLS-1$
-   
-         opName = operation.getName();
-         
-         if (AeUtil.isNullOrEmpty(aContext.getOperation()))
-         {
-            aContext.setOperation(operation.getName());            
-         }
-         
-         // Create the input message and fill in the parameter data for the request
-         QName inMsg = operation.getInput().getMessage().getQName();
-         IAeMessageData inputMsg = AeMessageDataFactory.instance().createMessageData(inMsg);
-         
-         // get the def that has the messages
-         AeBPELExtendedWSDLDef inputMessageDef = AeWSDLDefHelper.getWSDLDefinitionForMsg(aPlan, operation.getInput().getMessage().getQName());
-         if( inputMessageDef == null )
-         {
-            // this could happen if user replaces existing wsdl with new incompatible
-            // wsdl version but DOES NOT expire the existing service
-            throw new AeBusinessProcessException( AeMessages.format("AeBpelRPCHandler.ERROR_7", inMsg)); //$NON-NLS-1$
-         }
-         AeBPELExtendedWSDLDef outputMessageDef = null;
-         
-         if (operation.getOutput() != null)
-         {
-            outputMessageDef = AeWSDLDefHelper.getWSDLDefinitionForMsg(aPlan, operation.getOutput().getMessage().getQName());
-            if (outputMessageDef == null)
-            {
-               // this could happen if user replaces existing wsdl with new incompatible
-               // wsdl version but DOES NOT expire the existing service
-               throw new AeBusinessProcessException( AeMessages.format("AeBpelRPCHandler.ERROR_7", operation.getOutput().getMessage().getQName())); //$NON-NLS-1$
+    /**
+     * Extracts the parts from the message and populates the IAeMessageData. For rpc-encoding
+     * each part should be accessible by its part name in the WSDL.
+     * <p/>
+     * Input data type: soapenv:Envelope
+     * Output data type: soapenv:Envelope
+     *
+     * @see org.activebpel.rt.bpel.server.engine.receive.AeDefaultReceiveHandler#mapInputData(org.activebpel.rt.bpel.impl.IAeProcessPlan, org.activebpel.rt.bpel.server.engine.receive.AeExtendedMessageContext, org.w3c.dom.Document[])
+     */
+    protected IAeMessageData mapInputFromSOAP(IAeProcessPlan aPlan, AeExtendedMessageContext aContext, SOAPEnvelope aEnv) throws AeBusinessProcessException {
+        String opName = null;
+        try {
+            // Get the WSDL definition for the service
+            QName portTypeQName = getMyRolePortTypeQName(aPlan, aContext);
+            AeBPELExtendedWSDLDef defFromService = AeWSDLDefHelper.getWSDLDefinitionForPortType(aPlan, portTypeQName);
+
+            // For an RPC SOAP request there should only be a single body element
+            if (aEnv.getBodyElements().size() < 1)
+                throw new AeBusinessProcessException(AeMessages.getString("AeBpelRPCHandler.ERROR_0")); //$NON-NLS-1$
+
+            MessageContext axisContext = (MessageContext) aContext.getProperty(MessageContext.class.getName());
+
+            // Get the request body from the SOAP envelope
+            RPCElement reqBody = findFirstRPCElement(aEnv);
+
+            // Find the proper operation based on the SOAP request operation
+            Operation operation = null;
+            PortType portType = defFromService.getPortType(portTypeQName);
+            for (@SuppressWarnings("unchecked")
+                 Iterator<Operation> iter = portType.getOperations().iterator(); iter.hasNext() && operation == null; ) {
+                Operation op = iter.next();
+                if (op.getName().equals(reqBody.getMethodName()))
+                    operation = op;
             }
-            aContext.setProperty(AE_CONTEXT_KEY_WSDL_OUTPUT, outputMessageDef);
-         }
-   
-         AeMessageContextTypeMapper msgContextTypeMapper = new AeMessageContextTypeMapper(axisContext);
-         AeTypeMappingHelper typeMappingHelper = new AeTypeMappingHelper(inputMessageDef, outputMessageDef, operation);
-         typeMappingHelper.setEncoded(aContext.getProperty(Use.class.getName()) == Use.ENCODED);
-         typeMappingHelper.registerTypes(msgContextTypeMapper); 
-         
-         extractMessageParts(reqBody, operation, inputMsg);
-         
-         return inputMsg;
-      }
-      catch (Exception e)
-      {
-         AeException.logError(e, AeMessages.format("AeBpelRPCHandler.ERROR_3", opName)); //$NON-NLS-1$
-         throw new AeBusinessProcessException(e.getLocalizedMessage());
-      }
-   }
 
-   /**
-    * Finds the first RPC element.  If ws-security is used, there
-    * may be reference elements in addition to the body
-    * @param aEnv
-    * @throws AxisFault
-    * @return RPCElement or null if none found
-    */
-   private RPCElement findFirstRPCElement(SOAPEnvelope aEnv) throws AxisFault
-   {
-      @SuppressWarnings("unchecked")
-      List<SOAPBodyElement> bodyElements = aEnv.getBodyElements();
-      RPCElement reqBody = null;
-       for (SOAPBodyElement element : bodyElements) {
-           if (element instanceof RPCElement) {
-               reqBody = (RPCElement) element;
-               break;
-           }
-       }
-      return reqBody;
-   }
+            // This is an error if we could not find the operation
+            if (operation == null)
+                throw new AeBusinessProcessException(AeMessages.format("AeBpelRPCHandler.ERROR_1", reqBody.getMethodName())); //$NON-NLS-1$
 
-   /**
-    * The message data within the response will have a type of soapenv:Envelope and a single 
-    * element containing the SOAPEnvelope document. 
-    *
-    * @see org.activebpel.rt.bpel.server.engine.receive.AeDefaultReceiveHandler#mapOutputData(org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext, org.activebpel.wsio.IAeWebServiceResponse)
-    */
-   public IAeWebServiceResponse mapOutputData(IAeExtendedMessageContext aContext, IAeWebServiceResponse aResponse) throws AeBusinessProcessException
-   {
-      try
-      {
-         MessageContext axisContext = (MessageContext) aContext.getProperty(MessageContext.class.getName());
-         SOAPEnvelope reqEnv = axisContext.getRequestMessage().getSOAPEnvelope();
-         RPCElement reqBody = findFirstRPCElement(reqEnv);
-   
-         // If we don't have a response message, make sure we set one up
-         // with the appropriate versions of SOAP and Schema
-         SOAPEnvelope resEnv = (SOAPEnvelope) createEnvelope();
-   
-         // Setup the response message body based on information in the request body
-         RPCElement resBody = new RPCElement(reqBody.getMethodName() + "Response"); //$NON-NLS-1$
-         resBody.setPrefix(reqBody.getPrefix());
-         resBody.setNamespaceURI(reqBody.getNamespaceURI());
-         resBody.setEncodingStyle(aContext.getEncodingStyle());
-         
-         // Get the definition for the output message type
-         IAeWebServiceMessageData outputMsg = aResponse.getMessageData();
-         AeBPELExtendedWSDLDef def = (AeBPELExtendedWSDLDef) aContext.getProperty(AE_CONTEXT_KEY_WSDL_OUTPUT);
-         if (def == null)
-         {
-            IAeProcessPlan plan = getProcessPlan(AeMessageContext.convert(aContext));
-            def = AeWSDLDefHelper.getWSDLDefinitionForMsg(plan, outputMsg.getMessageType());
-         }
-         
-         Message outputMessage = def.getMessage(outputMsg.getMessageType());
+            opName = operation.getName();
 
-         // Loop through all parts for the ouput message and add an output param to the response body
-          for (Part part : (Iterable<Part>) outputMessage.getOrderedParts(null)) {
-              Object partData = outputMsg.getMessageData().get(part.getName());
+            if (AeUtil.isNullOrEmpty(aContext.getOperation())) {
+                aContext.setOperation(operation.getName());
+            }
 
-              // if it's a derived simple type, then add a wrapper so it'll hit our serializer
-              if (!(partData instanceof Document) && def.isDerivedSimpleType(part)) {
-                  partData = new AeSimpleValueWrapper(partData);
-              }
+            // Create the input message and fill in the parameter data for the request
+            QName inMsg = operation.getInput().getMessage().getQName();
+            IAeMessageData inputMsg = AeMessageDataFactory.instance().createMessageData(inMsg);
 
-              // if it's a Document and a type, make sure it has an xsi:type value
-              if (partData instanceof Document && AeBPELExtendedWSDLDef.isXsiTypeRequired(part, (Document) partData)) {
-                  AeXmlUtil.declarePartType((Document) partData, part.getTypeName());
-              }
+            // get the def that has the messages
+            AeBPELExtendedWSDLDef inputMessageDef = AeWSDLDefHelper.getWSDLDefinitionForMsg(aPlan, operation.getInput().getMessage().getQName());
+            if (inputMessageDef == null) {
+                // this could happen if user replaces existing wsdl with new incompatible
+                // wsdl version but DOES NOT expire the existing service
+                throw new AeBusinessProcessException(AeMessages.format("AeBpelRPCHandler.ERROR_7", inMsg)); //$NON-NLS-1$
+            }
+            AeBPELExtendedWSDLDef outputMessageDef = null;
 
-              // the part name will be namespace qualified only if it's an element
-              QName partQName = null;
-              if (part.getElementName() == null) {
-                  partQName = new QName("", part.getName());  //$NON-NLS-1$
-              } else {
-                  Document doc = (Document) partData;
-                  partQName = AeXmlUtil.getElementType(doc.getDocumentElement());
-              }
+            if (operation.getOutput() != null) {
+                outputMessageDef = AeWSDLDefHelper.getWSDLDefinitionForMsg(aPlan, operation.getOutput().getMessage().getQName());
+                if (outputMessageDef == null) {
+                    // this could happen if user replaces existing wsdl with new incompatible
+                    // wsdl version but DOES NOT expire the existing service
+                    throw new AeBusinessProcessException(AeMessages.format("AeBpelRPCHandler.ERROR_7", operation.getOutput().getMessage().getQName())); //$NON-NLS-1$
+                }
+                aContext.setProperty(AE_CONTEXT_KEY_WSDL_OUTPUT, outputMessageDef);
+            }
 
-              RPCParam rpcParam = new RPCParam(partQName, partData);
-              resBody.addParam(rpcParam);
+            AeMessageContextTypeMapper msgContextTypeMapper = new AeMessageContextTypeMapper(axisContext);
+            AeTypeMappingHelper typeMappingHelper = new AeTypeMappingHelper(inputMessageDef, outputMessageDef, operation);
+            typeMappingHelper.setEncoded(aContext.getProperty(Use.class.getName()) == Use.ENCODED);
+            typeMappingHelper.registerTypes(msgContextTypeMapper);
 
-              // The MessageContext will determine the current operation being invoked when
-              // it deserializes the message. However, if there are no parts then
-              // no deserialization took place. As a result, I trigger the deserialization
-              // here to ensure that the operation is set since I need it to set the param descriptor
-              if (aContext.getOperation() == null) {
-                  reqBody.deserialize();
-              }
+            extractMessageParts(reqBody, operation, inputMsg);
 
-              if (aContext.getOperation() != null) {
-                  rpcParam.setParamDesc(axisContext.getOperation().getParamByQName(new QName("", part.getName()))); //$NON-NLS-1$
-              }
-          }
-         // Add the response body to the response envelope
-         resEnv.addBodyElement(resBody);
-         
-         mapResponseAddressing(resEnv, aContext.getWsAddressingHeaders());
-         
-         return createWsResponse(aResponse, resEnv);         
-      }
-      catch (Exception ex)
-      {
-         throw new AeBusinessProcessException(AeMessages.getString("AeBpelRPCHandler.ERROR_6"), ex); //$NON-NLS-1$
-      }
-   }
+            return inputMsg;
+        } catch (Exception e) {
+            AeException.logError(e, AeMessages.format("AeBpelRPCHandler.ERROR_3", opName)); //$NON-NLS-1$
+            throw new AeBusinessProcessException(e.getLocalizedMessage());
+        }
+    }
 
-   /**
-    * Extracts the parts from the message and populates the IAeMessageData. For rpc-encoding
-    * each part should be accessible by its part name in the WSDL.
-    * 
-    * @param aReqBody
-    * @param aOperation
-    * @param aInputMsg
-    * @throws SAXException
-    * @throws AxisFault
-    */
-   protected void extractMessageParts(RPCElement aReqBody, Operation aOperation, IAeMessageData aInputMsg) throws SAXException, AxisFault
-   {
-      List<String> paramOrder = AeBPELExtendedWSDLDef.getParameterOrder(aOperation);
-      
-      // The parts in the order that we're expecting them
-      @SuppressWarnings("unchecked")
-	  List<Part> parts = aOperation.getInput().getMessage().getOrderedParts(paramOrder);
-      
-      // The rpc params from the request. This call will trigger deserialization 
-      // of the message
-      @SuppressWarnings("unchecked")
-	  List<RPCParam> rpcParams = aReqBody.getParams();
-      
-      // The assumption is that the two lists are in synch. If not, then we should
-      // catch in validation.
-      
-      int i=0;
-      for (Iterator<Part> iter=parts.iterator(); iter.hasNext(); i++)
-      {
-         Part part = iter.next();
-         String partName = part.getName();
-         RPCParam param = aReqBody.getParam(partName);
-         
-         if (param == null && i < rpcParams.size())
-         {
-            // try getting it by offset if we couldn't find it by name
-            param = rpcParams.get(i);
-         }
-         
-         // if the part is missing, we'll add it as a null to the messageData object. If the user has validation
-         // turned on then this will fault in the engine. If validation is turned off, then the message will
-         // go through. Doesn't seem right to fault here for a missing part if we allow validation to be turned off.
-         Object value = param != null? param.getObjectValue() : null;
-         aInputMsg.setData(partName, AeTypeMappingHelper.fixPart(part, value));
-      }
-   }
-   
+    /**
+     * Finds the first RPC element.  If ws-security is used, there
+     * may be reference elements in addition to the body
+     *
+     * @param aEnv
+     * @return RPCElement or null if none found
+     * @throws AxisFault
+     */
+    private RPCElement findFirstRPCElement(SOAPEnvelope aEnv) throws AxisFault {
+        @SuppressWarnings("unchecked")
+        List<SOAPBodyElement> bodyElements = aEnv.getBodyElements();
+        RPCElement reqBody = null;
+        for (SOAPBodyElement element : bodyElements) {
+            if (element instanceof RPCElement) {
+                reqBody = (RPCElement) element;
+                break;
+            }
+        }
+        return reqBody;
+    }
+
+    /**
+     * The message data within the response will have a type of soapenv:Envelope and a single
+     * element containing the SOAPEnvelope document.
+     *
+     * @see org.activebpel.rt.bpel.server.engine.receive.AeDefaultReceiveHandler#mapOutputData(org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext, org.activebpel.wsio.IAeWebServiceResponse)
+     */
+    public IAeWebServiceResponse mapOutputData(IAeExtendedMessageContext aContext, IAeWebServiceResponse aResponse) throws AeBusinessProcessException {
+        try {
+            MessageContext axisContext = (MessageContext) aContext.getProperty(MessageContext.class.getName());
+            SOAPEnvelope reqEnv = axisContext.getRequestMessage().getSOAPEnvelope();
+            RPCElement reqBody = findFirstRPCElement(reqEnv);
+
+            // If we don't have a response message, make sure we set one up
+            // with the appropriate versions of SOAP and Schema
+            SOAPEnvelope resEnv = (SOAPEnvelope) createEnvelope();
+
+            // Setup the response message body based on information in the request body
+            RPCElement resBody = new RPCElement(reqBody.getMethodName() + "Response"); //$NON-NLS-1$
+            resBody.setPrefix(reqBody.getPrefix());
+            resBody.setNamespaceURI(reqBody.getNamespaceURI());
+            resBody.setEncodingStyle(aContext.getEncodingStyle());
+
+            // Get the definition for the output message type
+            IAeWebServiceMessageData outputMsg = aResponse.getMessageData();
+            AeBPELExtendedWSDLDef def = (AeBPELExtendedWSDLDef) aContext.getProperty(AE_CONTEXT_KEY_WSDL_OUTPUT);
+            if (def == null) {
+                IAeProcessPlan plan = getProcessPlan(AeMessageContext.convert(aContext));
+                def = AeWSDLDefHelper.getWSDLDefinitionForMsg(plan, outputMsg.getMessageType());
+            }
+
+            Message outputMessage = def.getMessage(outputMsg.getMessageType());
+
+            // Loop through all parts for the ouput message and add an output param to the response body
+            for (Part part : (Iterable<Part>) outputMessage.getOrderedParts(null)) {
+                Object partData = outputMsg.getMessageData().get(part.getName());
+
+                // if it's a derived simple type, then add a wrapper so it'll hit our serializer
+                if (!(partData instanceof Document) && def.isDerivedSimpleType(part)) {
+                    partData = new AeSimpleValueWrapper(partData);
+                }
+
+                // if it's a Document and a type, make sure it has an xsi:type value
+                if (partData instanceof Document && AeBPELExtendedWSDLDef.isXsiTypeRequired(part, (Document) partData)) {
+                    AeXmlUtil.declarePartType((Document) partData, part.getTypeName());
+                }
+
+                // the part name will be namespace qualified only if it's an element
+                QName partQName = null;
+                if (part.getElementName() == null) {
+                    partQName = new QName("", part.getName());  //$NON-NLS-1$
+                } else {
+                    Document doc = (Document) partData;
+                    partQName = AeXmlUtil.getElementType(doc.getDocumentElement());
+                }
+
+                RPCParam rpcParam = new RPCParam(partQName, partData);
+                resBody.addParam(rpcParam);
+
+                // The MessageContext will determine the current operation being invoked when
+                // it deserializes the message. However, if there are no parts then
+                // no deserialization took place. As a result, I trigger the deserialization
+                // here to ensure that the operation is set since I need it to set the param descriptor
+                if (aContext.getOperation() == null) {
+                    reqBody.deserialize();
+                }
+
+                if (aContext.getOperation() != null) {
+                    rpcParam.setParamDesc(axisContext.getOperation().getParamByQName(new QName("", part.getName()))); //$NON-NLS-1$
+                }
+            }
+            // Add the response body to the response envelope
+            resEnv.addBodyElement(resBody);
+
+            mapResponseAddressing(resEnv, aContext.getWsAddressingHeaders());
+
+            return createWsResponse(aResponse, resEnv);
+        } catch (Exception ex) {
+            throw new AeBusinessProcessException(AeMessages.getString("AeBpelRPCHandler.ERROR_6"), ex); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Extracts the parts from the message and populates the IAeMessageData. For rpc-encoding
+     * each part should be accessible by its part name in the WSDL.
+     *
+     * @param aReqBody
+     * @param aOperation
+     * @param aInputMsg
+     * @throws SAXException
+     * @throws AxisFault
+     */
+    protected void extractMessageParts(RPCElement aReqBody, Operation aOperation, IAeMessageData aInputMsg) throws SAXException, AxisFault {
+        List<String> paramOrder = AeBPELExtendedWSDLDef.getParameterOrder(aOperation);
+
+        // The parts in the order that we're expecting them
+        @SuppressWarnings("unchecked")
+        List<Part> parts = aOperation.getInput().getMessage().getOrderedParts(paramOrder);
+
+        // The rpc params from the request. This call will trigger deserialization
+        // of the message
+        @SuppressWarnings("unchecked")
+        List<RPCParam> rpcParams = aReqBody.getParams();
+
+        // The assumption is that the two lists are in synch. If not, then we should
+        // catch in validation.
+
+        int i = 0;
+        for (Iterator<Part> iter = parts.iterator(); iter.hasNext(); i++) {
+            Part part = iter.next();
+            String partName = part.getName();
+            RPCParam param = aReqBody.getParam(partName);
+
+            if (param == null && i < rpcParams.size()) {
+                // try getting it by offset if we couldn't find it by name
+                param = rpcParams.get(i);
+            }
+
+            // if the part is missing, we'll add it as a null to the messageData object. If the user has validation
+            // turned on then this will fault in the engine. If validation is turned off, then the message will
+            // go through. Doesn't seem right to fault here for a missing part if we allow validation to be turned off.
+            Object value = param != null ? param.getObjectValue() : null;
+            aInputMsg.setData(partName, AeTypeMappingHelper.fixPart(part, value));
+        }
+    }
+
 }

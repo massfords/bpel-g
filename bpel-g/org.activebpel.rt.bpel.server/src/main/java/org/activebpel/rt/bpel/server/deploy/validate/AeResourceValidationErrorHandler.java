@@ -17,103 +17,96 @@ import org.w3c.dom.Node;
  * This class implements an <code>IAeResourceValidationErrorHandler</code> that will delegate the
  * reporting of the erorrs and warnings to a base error reporter.
  */
-public class AeResourceValidationErrorHandler implements IAeResourceValidationErrorHandler
-{
-   /** The resource name. */
-   private final String mName;
-   /** The error reporter to use when an error is handled. */
-   private final IAeBaseErrorReporter mReporter;
+public class AeResourceValidationErrorHandler implements IAeResourceValidationErrorHandler {
+    /**
+     * The resource name.
+     */
+    private final String mName;
+    /**
+     * The error reporter to use when an error is handled.
+     */
+    private final IAeBaseErrorReporter mReporter;
 
-   /**
-    * Constructor.
-    * 
-    * @param aReporter
-    */
-   public AeResourceValidationErrorHandler(String aName, IAeBaseErrorReporter aReporter)
-   {
-      mName = aName;
-      mReporter = aReporter;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aReporter
+     */
+    public AeResourceValidationErrorHandler(String aName, IAeBaseErrorReporter aReporter) {
+        mName = aName;
+        mReporter = aReporter;
+    }
 
-   /**
-    * Reports an error to the error reporter.
-    * 
-    * @param aMessage
-    */
-   protected void reportError(String aMessage)
-   {
-      Object [] params = { getName(), aMessage };
-      mReporter.addError(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_SANS_LINENUMBER"), params, null); //$NON-NLS-1$
-   }
+    /**
+     * Reports an error to the error reporter.
+     *
+     * @param aMessage
+     */
+    protected void reportError(String aMessage) {
+        Object[] params = {getName(), aMessage};
+        mReporter.addError(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_SANS_LINENUMBER"), params, null); //$NON-NLS-1$
+    }
 
-   /**
-    * Reports an error to the error reporter (includes the error's line number).
-    * 
-    * @param aMessage
-    * @param aLineNumber
-    */
-   protected void reportError(String aMessage, int aLineNumber)
-   {
-      Object [] params = { getName(), aMessage, aLineNumber};
-      mReporter.addError(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_WITH_LINENUMBER"), params, null); //$NON-NLS-1$
-   }
+    /**
+     * Reports an error to the error reporter (includes the error's line number).
+     *
+     * @param aMessage
+     * @param aLineNumber
+     */
+    protected void reportError(String aMessage, int aLineNumber) {
+        Object[] params = {getName(), aMessage, aLineNumber};
+        mReporter.addError(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_WITH_LINENUMBER"), params, null); //$NON-NLS-1$
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#fatalError(java.lang.String)
-    */
-   public void fatalError(String aMessage)
-   {
-      reportError(aMessage);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#parseError(java.lang.String, int)
-    */
-   public void parseError(String aMessage, int aLineNumber)
-   {
-      reportError(aMessage);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#parseFatalError(java.lang.String, int)
-    */
-   public void parseFatalError(String aMessage, int aLineNumber)
-   {
-      reportError(aMessage);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#parseWarning(java.lang.String, int)
-    */
-   public void parseWarning(String aMessage, int aLineNumber)
-   {
-      Object [] params = { getName(), aMessage, aLineNumber};
-      mReporter.addWarning(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_WITH_LINENUMBER"), params, null); //$NON-NLS-1$
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#fatalError(java.lang.String)
+     */
+    public void fatalError(String aMessage) {
+        reportError(aMessage);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#contentError(java.lang.String, org.w3c.dom.Node)
-    */
-   public void contentError(String aMessage, Node aNode)
-   {
-      reportError(aMessage);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#parseError(java.lang.String, int)
+     */
+    public void parseError(String aMessage, int aLineNumber) {
+        reportError(aMessage);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#contentWarning(java.lang.String, org.w3c.dom.Node)
-    */
-   public void contentWarning(String aMessage, Node aNode)
-   {
-      Object [] params = { getName(), aMessage };
-      mReporter.addWarning(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_SANS_LINENUMBER"), params, null); //$NON-NLS-1$
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#parseFatalError(java.lang.String, int)
+     */
+    public void parseFatalError(String aMessage, int aLineNumber) {
+        reportError(aMessage);
+    }
 
-   /**
-    * @return Returns the name.
-    */
-   protected String getName()
-   {
-      return mName;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#parseWarning(java.lang.String, int)
+     */
+    public void parseWarning(String aMessage, int aLineNumber) {
+        Object[] params = {getName(), aMessage, aLineNumber};
+        mReporter.addWarning(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_WITH_LINENUMBER"), params, null); //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#contentError(java.lang.String, org.w3c.dom.Node)
+     */
+    public void contentError(String aMessage, Node aNode) {
+        reportError(aMessage);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#contentWarning(java.lang.String, org.w3c.dom.Node)
+     */
+    public void contentWarning(String aMessage, Node aNode) {
+        Object[] params = {getName(), aMessage};
+        mReporter.addWarning(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_SANS_LINENUMBER"), params, null); //$NON-NLS-1$
+    }
+
+    /**
+     * @return Returns the name.
+     */
+    protected String getName() {
+        return mName;
+    }
 }
 

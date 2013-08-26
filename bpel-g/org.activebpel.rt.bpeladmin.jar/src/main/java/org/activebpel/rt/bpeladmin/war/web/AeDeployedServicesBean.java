@@ -20,59 +20,60 @@ import bpelg.services.processes.types.ServiceDeployment;
 /**
  * Wraps the AeServiceDeploymentInfo array for the deployed services listing.
  */
-public class AeDeployedServicesBean
-{
-   /** Deployed service details. */   
-   protected final List<ServiceDeployment> mDetails;
-   /** Pointer to current index. */
-   protected int mCurrentIndex;
-   
-   /**
-    * Constructor.  Initializes the service deployment details array.
-    */
-   public AeDeployedServicesBean()
-   {
-      List<ServiceDeployment> deployedServices = AeEngineManagementFactory.getProcessManager()
-      		.getServiceDeployments(new GetServiceDeployments()).getServiceDeployment();
-      mDetails = new ArrayList<>(deployedServices);
-   }
-   
-   /**
-    * Size accessor.
-    * @return The number of detail rows.
-    */
-   public int getDetailSize()
-   {
-      if (mDetails == null)
-         return 0;
-      
-      return mDetails.size();
-   }
-   
-   /**
-    * Indexed accessor.
-    * @param aIndex
-    */
-   public ServiceDeployment getDetail(int aIndex)
-   {
-      setCurrentIndex(aIndex);
-      return mDetails.get(aIndex);
-   }
-   
-   /**
-    * Setter for the current index.
-    * @param aIndex
-    */
-   protected void setCurrentIndex(int aIndex)
-   {
-      mCurrentIndex = aIndex;
-   }
+public class AeDeployedServicesBean {
+    /**
+     * Deployed service details.
+     */
+    protected final List<ServiceDeployment> mDetails;
+    /**
+     * Pointer to current index.
+     */
+    protected int mCurrentIndex;
 
-   /**
-    * Accessor for the current index.
-    */
-   public int getCurrentIndex()
-   {
-      return mCurrentIndex;
-   }
+    /**
+     * Constructor.  Initializes the service deployment details array.
+     */
+    public AeDeployedServicesBean() {
+        List<ServiceDeployment> deployedServices = AeEngineManagementFactory.getProcessManager()
+                .getServiceDeployments(new GetServiceDeployments()).getServiceDeployment();
+        mDetails = new ArrayList<>(deployedServices);
+    }
+
+    /**
+     * Size accessor.
+     *
+     * @return The number of detail rows.
+     */
+    public int getDetailSize() {
+        if (mDetails == null)
+            return 0;
+
+        return mDetails.size();
+    }
+
+    /**
+     * Indexed accessor.
+     *
+     * @param aIndex
+     */
+    public ServiceDeployment getDetail(int aIndex) {
+        setCurrentIndex(aIndex);
+        return mDetails.get(aIndex);
+    }
+
+    /**
+     * Setter for the current index.
+     *
+     * @param aIndex
+     */
+    protected void setCurrentIndex(int aIndex) {
+        mCurrentIndex = aIndex;
+    }
+
+    /**
+     * Accessor for the current index.
+     */
+    public int getCurrentIndex() {
+        return mCurrentIndex;
+    }
 }

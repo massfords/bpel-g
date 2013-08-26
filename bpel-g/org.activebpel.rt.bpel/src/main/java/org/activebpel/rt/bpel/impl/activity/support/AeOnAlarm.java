@@ -20,139 +20,126 @@ import org.activebpel.rt.bpel.impl.activity.IAeEventParent;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 
 /**
- * Models the <code>onAlarm</code> in a <code>pick</code> or in the 
+ * Models the <code>onAlarm</code> in a <code>pick</code> or in the
  * <code>eventHandlers</code>.
  */
-public class AeOnAlarm extends AeBaseEvent implements IAeAlarmReceiver
-{
+public class AeOnAlarm extends AeBaseEvent implements IAeAlarmReceiver {
 
-   /** Alarm execution instance reference id. */
-   private int mAlarmId;
-   
-   /**
-    * Requires the alarm def and parent to create.
-    * @param aDef
-    * @param aParent
-    */
-   public AeOnAlarm(AeOnAlarmDef aDef, IAeEventParent aParent)
-   {
-      super(aDef, aParent);
-      setAlarmId(-1);
-   }
+    /**
+     * Alarm execution instance reference id.
+     */
+    private int mAlarmId;
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeAlarmReceiver#getGroupId()
-    */
-   public int getGroupId()
-   {
-      if (getParent() instanceof AeActivityPickImpl)
-      {
-         return getParent().getLocationId();
-      }
-      else
-      {
-         return getLocationId();
-      }
-   }
+    /**
+     * Requires the alarm def and parent to create.
+     *
+     * @param aDef
+     * @param aParent
+     */
+    public AeOnAlarm(AeOnAlarmDef aDef, IAeEventParent aParent) {
+        super(aDef, aParent);
+        setAlarmId(-1);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept( IAeImplVisitor aVisitor ) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeAlarmReceiver#getGroupId()
+     */
+    public int getGroupId() {
+        if (getParent() instanceof AeActivityPickImpl) {
+            return getParent().getLocationId();
+        } else {
+            return getLocationId();
+        }
+    }
 
-   /**
-    * Implements the alarm execution logic.  The alarm queues a deadline
-    * alarm with the engine.  The engine will then call back the alarm
-    * when the deadline is reached.
-    *
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      Date deadline = AeAlarmCalculator.calculateDeadline(this, getDef(), AeProcessInfoEventType.InfoOnAlarm);
-      queueAlarm(deadline);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @throws AeBusinessProcessException
-    */
-   public void reschedule() throws AeBusinessProcessException
-   {
-      // no-op here
-   }
-   
-   /**
-    * Getter for the def
-    */
-   public AeOnAlarmDef getDef()
-   {
-      return (AeOnAlarmDef) getDefinition();
-   }
+    /**
+     * Implements the alarm execution logic.  The alarm queues a deadline
+     * alarm with the engine.  The engine will then call back the alarm
+     * when the deadline is reached.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        Date deadline = AeAlarmCalculator.calculateDeadline(this, getDef(), AeProcessInfoEventType.InfoOnAlarm);
+        queueAlarm(deadline);
+    }
 
-   /**
-    * Marks the alarm as queued and then queues it with the process
-    * @param deadline
-    * @throws AeBusinessProcessException
-    */
-   protected void queueAlarm(Date deadline) throws AeBusinessProcessException
-   {
-      setQueued(true);
-      getProcess().queueAlarm(this, deadline);
-   }
+    /**
+     * @throws AeBusinessProcessException
+     */
+    public void reschedule() throws AeBusinessProcessException {
+        // no-op here
+    }
 
-   /**
-    * Handle the recipt of our alarm going off.
-    */
-   public void onAlarm() throws AeBusinessProcessException
-   {
-      // TODO (MF) should be able to remove the check for isQueued since we check prior to dispatch of alarm
-      if (isQueued())
-      {
-         // set that we are no longer queued since we have been called
-         setQueued(false);
-   
-         // queue our child activity
-         executeChild();
-      }
-   }
+    /**
+     * Getter for the def
+     */
+    public AeOnAlarmDef getDef() {
+        return (AeOnAlarmDef) getDefinition();
+    }
 
-   /**
-    * Dequeue our alarm.
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeBaseEvent#dequeue()
-    */
-   protected void dequeue() throws AeBusinessProcessException
-   {
-      if (isQueued())
-      {
-         getProcess().dequeueAlarm(this);
-         setQueued(false);
-      }
-   }
-   
-   /**
-    * @return Returns the alarmId.
-    */
-   public int getAlarmId()
-   {
-      return mAlarmId;
-   }
+    /**
+     * Marks the alarm as queued and then queues it with the process
+     *
+     * @param deadline
+     * @throws AeBusinessProcessException
+     */
+    protected void queueAlarm(Date deadline) throws AeBusinessProcessException {
+        setQueued(true);
+        getProcess().queueAlarm(this, deadline);
+    }
 
-   /**
-    * @param aAlarmId The alarmId to set.
-    */
-   public void setAlarmId(int aAlarmId)
-   {
-      mAlarmId = aAlarmId;
-   }
-   
-   /**
-    * Always returns false. 
-    */
-   public boolean isConcurrent()
-   {
-      return false;
-   }
+    /**
+     * Handle the recipt of our alarm going off.
+     */
+    public void onAlarm() throws AeBusinessProcessException {
+        // TODO (MF) should be able to remove the check for isQueued since we check prior to dispatch of alarm
+        if (isQueued()) {
+            // set that we are no longer queued since we have been called
+            setQueued(false);
+
+            // queue our child activity
+            executeChild();
+        }
+    }
+
+    /**
+     * Dequeue our alarm.
+     *
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeBaseEvent#dequeue()
+     */
+    protected void dequeue() throws AeBusinessProcessException {
+        if (isQueued()) {
+            getProcess().dequeueAlarm(this);
+            setQueued(false);
+        }
+    }
+
+    /**
+     * @return Returns the alarmId.
+     */
+    public int getAlarmId() {
+        return mAlarmId;
+    }
+
+    /**
+     * @param aAlarmId The alarmId to set.
+     */
+    public void setAlarmId(int aAlarmId) {
+        mAlarmId = aAlarmId;
+    }
+
+    /**
+     * Always returns false.
+     */
+    public boolean isConcurrent() {
+        return false;
+    }
 }

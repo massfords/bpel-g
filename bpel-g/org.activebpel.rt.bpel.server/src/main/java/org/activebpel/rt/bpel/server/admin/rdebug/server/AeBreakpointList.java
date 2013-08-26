@@ -15,57 +15,57 @@ import java.io.Serializable;
 /**
  * Wrapper for the list of breakpoints sent by the designer during remote debugging.
  */
-public class AeBreakpointList implements Serializable
-{
-   /**
-     * 
+public class AeBreakpointList implements Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = 6077184411925830387L;
 
-/** The total number of rows in the list of breakpoints. */
-   private int mTotalRowCount;
-   
-   /** The detail rows for the list of breakpoints. */
-   private AeBreakpointInstanceDetail[] mRowDetails;
+    /**
+     * The total number of rows in the list of breakpoints.
+     */
+    private int mTotalRowCount;
 
-   /**
-    * No-arg constructor
-    */
-   public AeBreakpointList()
-   {
-   }
+    /**
+     * The detail rows for the list of breakpoints.
+     */
+    private AeBreakpointInstanceDetail[] mRowDetails;
 
-   /**
-    * Returns the row details of the breakpoint definitions.
-    */
-   public AeBreakpointInstanceDetail[] getRowDetails()
-   {
-      return mRowDetails;
-   }
+    /**
+     * No-arg constructor
+     */
+    public AeBreakpointList() {
+    }
 
-   /**
-    * Returns the total number of rows containing breakpoint definitions.
-    */
-   public int getTotalRowCount()
-   {
-      return mTotalRowCount;
-   }
-   
-   /**
-    * Sets the detail list in the breakpoint set.
-    * @param aDetails breakpoint list details to be set
-    */
-   public void setRowDetails(AeBreakpointInstanceDetail[] aDetails)
-   {
-      mRowDetails = aDetails;
-   }
+    /**
+     * Returns the row details of the breakpoint definitions.
+     */
+    public AeBreakpointInstanceDetail[] getRowDetails() {
+        return mRowDetails;
+    }
 
-   /**
-    * Sets the total row count for the breakpoint list.
-    * @param aTotalRows total rows to be set
-    */
-   public void setTotalRowCount(int aTotalRows)
-   {
-      mTotalRowCount = aTotalRows;
-   }
+    /**
+     * Returns the total number of rows containing breakpoint definitions.
+     */
+    public int getTotalRowCount() {
+        return mTotalRowCount;
+    }
+
+    /**
+     * Sets the detail list in the breakpoint set.
+     *
+     * @param aDetails breakpoint list details to be set
+     */
+    public void setRowDetails(AeBreakpointInstanceDetail[] aDetails) {
+        mRowDetails = aDetails;
+    }
+
+    /**
+     * Sets the total row count for the breakpoint list.
+     *
+     * @param aTotalRows total rows to be set
+     */
+    public void setTotalRowCount(int aTotalRows) {
+        mTotalRowCount = aTotalRows;
+    }
 }

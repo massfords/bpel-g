@@ -14,15 +14,14 @@ import org.activebpel.rt.bpel.def.AeEventHandlersDef;
 /**
  * BPEL model for the root level event handlers.
  */
-public class AeBpelEventHandlersObject extends AeBpelObjectContainer
-{
+public class AeBpelEventHandlersObject extends AeBpelObjectContainer {
 
-   /**
-    * Ctor
-    * @param aDef activity definition.
-    */
-   public AeBpelEventHandlersObject(AeEventHandlersDef aDef)
-   {
-      super(AeEventHandlersDef.TAG_EVENT_HANDLERS, aDef);
-   }    
+    /**
+     * Ctor
+     *
+     * @param aDef activity definition.
+     */
+    public AeBpelEventHandlersObject(AeEventHandlersDef aDef) {
+        super(AeEventHandlersDef.TAG_EVENT_HANDLERS, aDef);
+    }
 }

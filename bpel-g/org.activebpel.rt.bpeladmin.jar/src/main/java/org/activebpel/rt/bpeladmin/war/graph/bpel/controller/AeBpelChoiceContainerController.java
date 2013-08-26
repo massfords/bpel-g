@@ -19,33 +19,31 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
  * Controller which creates and returns ChoiceContainerFigure as the content.
  * Swith and Pick acitivities are based on this controller.
  */
-public class AeBpelChoiceContainerController extends AeBpelContainerController
-{
+public class AeBpelChoiceContainerController extends AeBpelContainerController {
 
-   /**
-    * Default constructor
-    */
-   public AeBpelChoiceContainerController()
-   {
-      super();      
-   }
+    /**
+     * Default constructor
+     */
+    public AeBpelChoiceContainerController() {
+        super();
+    }
 
-   /**
-    * Overrides method to return a flow layout manager.
-    * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#getContentLayoutManager(org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure)
-    */
-   protected LayoutManager getContentLayoutManager(AeGraphFigure aForFigure)
-   {
-      return new AeFlowLayoutManager(true);
-   }
-   
-   /** 
-    * Overrides method to return a AeBpelChoiceContainerFigure. 
-    * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#createContentFigure()
-    */
-   protected AeGraphFigure createContentFigure()
-   {
-      AeBpelChoiceContainerFigure figure = new AeBpelChoiceContainerFigure(getLabelText());
-      return figure;
-   }   
+    /**
+     * Overrides method to return a flow layout manager.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#getContentLayoutManager(org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure)
+     */
+    protected LayoutManager getContentLayoutManager(AeGraphFigure aForFigure) {
+        return new AeFlowLayoutManager(true);
+    }
+
+    /**
+     * Overrides method to return a AeBpelChoiceContainerFigure.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#createContentFigure()
+     */
+    protected AeGraphFigure createContentFigure() {
+        AeBpelChoiceContainerFigure figure = new AeBpelChoiceContainerFigure(getLabelText());
+        return figure;
+    }
 }

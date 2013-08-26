@@ -24,64 +24,64 @@ import java.util.HashMap;
  */
 @Singleton
 public class AeStorageBackedURNResolver extends AeURNResolver implements
-		IAeStorageBackedURNResolver {
+        IAeStorageBackedURNResolver {
     @Inject
-	IAeStorageFactory mStorageFactory;
+    IAeStorageFactory mStorageFactory;
 
-	public void init() throws AeStorageException {
+    public void init() throws AeStorageException {
         getMap().putAll(getStorage().getMappings());
-	}
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.urn.AeURNResolver#addMapping(java.lang.String,
-	 *      java.lang.String)
-	 */
-	public synchronized void addMapping(String aURN, String aURL) {
-		try {
-			getStorage().addMapping(AeUtil.normalizeURN(aURN), aURL);
-			super.addMapping(aURN, aURL);
-		} catch (AeStorageException e) {
-			e.logError();
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.urn.AeURNResolver#addMapping(java.lang.String,
+     *      java.lang.String)
+     */
+    public synchronized void addMapping(String aURN, String aURL) {
+        try {
+            getStorage().addMapping(AeUtil.normalizeURN(aURN), aURL);
+            super.addMapping(aURN, aURL);
+        } catch (AeStorageException e) {
+            e.logError();
+        }
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.urn.AeURNResolver#removeMappings(java.lang.String[])
-	 */
-	public synchronized void removeMappings(String[] aURNArray) {
-		try {
-			for (int i = 0; i < aURNArray.length; i++) {
-				aURNArray[0] = AeUtil.normalizeURN(aURNArray[0]);
-			}
-			getStorage().removeMappings(aURNArray);
-			super.removeMappings(aURNArray);
-		} catch (AeStorageException e) {
-			e.logError();
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.urn.AeURNResolver#removeMappings(java.lang.String[])
+     */
+    public synchronized void removeMappings(String[] aURNArray) {
+        try {
+            for (int i = 0; i < aURNArray.length; i++) {
+                aURNArray[0] = AeUtil.normalizeURN(aURNArray[0]);
+            }
+            getStorage().removeMappings(aURNArray);
+            super.removeMappings(aURNArray);
+        } catch (AeStorageException e) {
+            e.logError();
+        }
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.addressing.IAeStorageBackedURNResolver#reload()
-	 */
-	public synchronized void reload() {
-		try {
-			setMap(new HashMap<>(getStorage().getMappings()));
-		} catch (AeStorageException e) {
-			e.logError();
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.addressing.IAeStorageBackedURNResolver#reload()
+     */
+    public synchronized void reload() {
+        try {
+            setMap(new HashMap<>(getStorage().getMappings()));
+        } catch (AeStorageException e) {
+            e.logError();
+        }
+    }
 
-	/**
-	 * Getter for the storage.
-	 */
-	public IAeURNStorage getStorage() {
-		return mStorageFactory.getURNStorage();
-	}
+    /**
+     * Getter for the storage.
+     */
+    public IAeURNStorage getStorage() {
+        return mStorageFactory.getURNStorage();
+    }
 
-	/**
-	 * Setter for the storage factory.
-	 */
-	public void setStorageFactory(IAeStorageFactory aFactory) {
-		mStorageFactory = aFactory;
-	}
+    /**
+     * Setter for the storage factory.
+     */
+    public void setStorageFactory(IAeStorageFactory aFactory) {
+        mStorageFactory = aFactory;
+    }
 }

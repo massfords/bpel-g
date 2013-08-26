@@ -8,81 +8,79 @@ import org.activebpel.rt.bpel.AeMessages;
 /**
  * A class that represents a parsed variable reference (from a xpath 1.0 variable reference).
  */
-public class AeXPathVariableReference
-{
-   /** Regexp to match the variable reference. */
-   private static final Pattern VARIABLE_REFERENCE_PATTERN = Pattern.compile("(.+?)(\\.(.*))?"); //$NON-NLS-1$
+public class AeXPathVariableReference {
+    /**
+     * Regexp to match the variable reference.
+     */
+    private static final Pattern VARIABLE_REFERENCE_PATTERN = Pattern.compile("(.+?)(\\.(.*))?"); //$NON-NLS-1$
 
-   /** The variable reference's variable name. */
-   private String mVariableName;
-   /** The variable reference's part name. */
-   private String mPartName;
+    /**
+     * The variable reference's variable name.
+     */
+    private String mVariableName;
+    /**
+     * The variable reference's part name.
+     */
+    private String mPartName;
 
-   /**
-    * Construct the variable reference given the unparsed xpath variable name.
-    * 
-    * @param aXPathVariableName
-    */
-   public AeXPathVariableReference(String aXPathVariableName)
-   {
-      parseVariableReference(aXPathVariableName);
-   }
-   
-   /**
-    * Parses the variable 'name' and returns a xpath variable reference which will contain the
-    * component parts of the variable name.  This would include the BPEL variable name and optional
-    * message/WSDL part name.
-    * 
-    * @param aVariableName
-    */
-   protected void parseVariableReference(String aVariableName)
-   {
-      Matcher matcher = VARIABLE_REFERENCE_PATTERN.matcher(aVariableName);
-      // The variable ref pattern should really always match.
-      if (!matcher.matches())
-         throw new RuntimeException(AeMessages.format("AeXPathVariableReference.ERROR_PARSING_VAR_REFERENCE", aVariableName)); //$NON-NLS-1$
-      
-      setVariableName(matcher.group(1));
-      setPartName(matcher.group(3));
-   }
+    /**
+     * Construct the variable reference given the unparsed xpath variable name.
+     *
+     * @param aXPathVariableName
+     */
+    public AeXPathVariableReference(String aXPathVariableName) {
+        parseVariableReference(aXPathVariableName);
+    }
 
-   /**
-    * @return Returns the variableName.
-    */
-   public String getVariableName()
-   {
-      return mVariableName;
-   }
+    /**
+     * Parses the variable 'name' and returns a xpath variable reference which will contain the
+     * component parts of the variable name.  This would include the BPEL variable name and optional
+     * message/WSDL part name.
+     *
+     * @param aVariableName
+     */
+    protected void parseVariableReference(String aVariableName) {
+        Matcher matcher = VARIABLE_REFERENCE_PATTERN.matcher(aVariableName);
+        // The variable ref pattern should really always match.
+        if (!matcher.matches())
+            throw new RuntimeException(AeMessages.format("AeXPathVariableReference.ERROR_PARSING_VAR_REFERENCE", aVariableName)); //$NON-NLS-1$
 
-   /**
-    * @param aVariableName The variableName to set.
-    */
-   protected void setVariableName(String aVariableName)
-   {
-      mVariableName = aVariableName;
-   }
+        setVariableName(matcher.group(1));
+        setPartName(matcher.group(3));
+    }
 
-   /**
-    * @return Returns the partName.
-    */
-   public String getPartName()
-   {
-      return mPartName;
-   }
+    /**
+     * @return Returns the variableName.
+     */
+    public String getVariableName() {
+        return mVariableName;
+    }
 
-   /**
-    * @param aPartName The partName to set.
-    */
-   protected void setPartName(String aPartName)
-   {
-      mPartName = aPartName;
-   }
+    /**
+     * @param aVariableName The variableName to set.
+     */
+    protected void setVariableName(String aVariableName) {
+        mVariableName = aVariableName;
+    }
 
-   /**
-    * Returns true if this reference includes a part name.
-    */
-   public boolean hasPartName()
-   {
-      return getPartName() != null;
-   }
+    /**
+     * @return Returns the partName.
+     */
+    public String getPartName() {
+        return mPartName;
+    }
+
+    /**
+     * @param aPartName The partName to set.
+     */
+    protected void setPartName(String aPartName) {
+        mPartName = aPartName;
+    }
+
+    /**
+     * Returns true if this reference includes a part name.
+     */
+    public boolean hasPartName() {
+        return getPartName() != null;
+    }
 }

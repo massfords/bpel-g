@@ -16,29 +16,27 @@ import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelLinkObject;
 /**
  * Controller which creates a link figure.
  */
-public class AeBpelLinkController extends AeBpelControllerBase
-{
+public class AeBpelLinkController extends AeBpelControllerBase {
 
-   /**
-    * Default constructor.
-    */
-   public AeBpelLinkController()
-   {
-      super();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeBpelLinkController() {
+        super();
+    }
 
-   /** 
-    * Overrides method to return AeBpelLinkFigure.
-    * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
-    */
-   protected AeGraphFigure createFigure()
-   {
-      AeBpelLinkFigure fig = new AeBpelLinkFigure(getLabelText());
-      // set draw visual clues.
-      AeBpelLinkObject linkModel = (AeBpelLinkObject)getBpelModel();      
-      fig.setDrawTransistionCondition( linkModel.hasTransistionCondition());
-      fig.setEvaluated(linkModel.isEvaluated());
-      fig.setInactive(getAnimationState() == INACTIVE_STATE);
-      return fig;
-   }   
+    /**
+     * Overrides method to return AeBpelLinkFigure.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
+     */
+    protected AeGraphFigure createFigure() {
+        AeBpelLinkFigure fig = new AeBpelLinkFigure(getLabelText());
+        // set draw visual clues.
+        AeBpelLinkObject linkModel = (AeBpelLinkObject) getBpelModel();
+        fig.setDrawTransistionCondition(linkModel.hasTransistionCondition());
+        fig.setEvaluated(linkModel.isEvaluated());
+        fig.setInactive(getAnimationState() == INACTIVE_STATE);
+        return fig;
+    }
 }

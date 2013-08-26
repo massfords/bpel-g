@@ -19,64 +19,59 @@ import org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl;
  * Implements access to an <code>invoke</code> activity for a message data
  * producer.
  */
-public class AeActivityInvokeProducerContext implements IAeMessageDataProducerContext
-{
-   /** The <code>invoke</code> activity implementation object. */
-   private final AeActivityInvokeImpl mInvokeImpl;
+public class AeActivityInvokeProducerContext implements IAeMessageDataProducerContext {
+    /**
+     * The <code>invoke</code> activity implementation object.
+     */
+    private final AeActivityInvokeImpl mInvokeImpl;
 
-   /**
-    * Constructs the context for the given <code>invoke</code> activity
-    * implementation object.
-    *
-    * @param aInvokeImpl
-    */
-   public AeActivityInvokeProducerContext(AeActivityInvokeImpl aInvokeImpl)
-   {
-      mInvokeImpl = aInvokeImpl;
-   }
+    /**
+     * Constructs the context for the given <code>invoke</code> activity
+     * implementation object.
+     *
+     * @param aInvokeImpl
+     */
+    public AeActivityInvokeProducerContext(AeActivityInvokeImpl aInvokeImpl) {
+        mInvokeImpl = aInvokeImpl;
+    }
 
-   /**
-    * Returns the <code>invoke</code> activity definition object.
-    */
-   protected AeActivityInvokeDef getDef()
-   {
-      return (AeActivityInvokeDef) getInvokeImpl().getDefinition();
-   }
+    /**
+     * Returns the <code>invoke</code> activity definition object.
+     */
+    protected AeActivityInvokeDef getDef() {
+        return (AeActivityInvokeDef) getInvokeImpl().getDefinition();
+    }
 
-   /**
-    * Returns the <code>invoke</code> activity implementation object.
-    */
-   protected AeActivityInvokeImpl getInvokeImpl()
-   {
-      return mInvokeImpl;
-   }
+    /**
+     * Returns the <code>invoke</code> activity implementation object.
+     */
+    protected AeActivityInvokeImpl getInvokeImpl() {
+        return mInvokeImpl;
+    }
 
    /*===========================================================================
     * IAeMessageDataProducerContext methods
     *===========================================================================
     */
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getBpelObject()
-    */
-   public AeAbstractBpelObject getBpelObject()
-   {
-      return getInvokeImpl();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getBpelObject()
+     */
+    public AeAbstractBpelObject getBpelObject() {
+        return getInvokeImpl();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getVariable()
-    */
-   public IAeVariable getVariable()
-   {
-      return getInvokeImpl().findVariable(getDef().getInputVariable());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getVariable()
+     */
+    public IAeVariable getVariable() {
+        return getInvokeImpl().findVariable(getDef().getInputVariable());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getMessageDataProducerDef()
-    */
-   public IAeMessageDataProducerDef getMessageDataProducerDef()
-   {
-      return getDef();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getMessageDataProducerDef()
+     */
+    public IAeMessageDataProducerDef getMessageDataProducerDef() {
+        return getDef();
+    }
 }

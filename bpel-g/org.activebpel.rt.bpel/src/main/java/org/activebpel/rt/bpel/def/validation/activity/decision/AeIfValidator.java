@@ -7,30 +7,28 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.decision; 
+package org.activebpel.rt.bpel.def.validation.activity.decision;
 
 import org.activebpel.rt.bpel.def.activity.support.AeIfDef;
 
 /**
- * model provides validation for the if def of the &lt;if&gt; activity 
+ * model provides validation for the if def of the &lt;if&gt; activity
  */
-public class AeIfValidator extends AeElseIfValidator
-{
-   /**
-    * Ctor accepts the def
-    * @param aDef
-    */
-   public AeIfValidator(AeIfDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * Getter for the if def
-    */
-   public AeIfDef getIfDef()
-   {
-      return (AeIfDef) getDefinition();
-   }
+public class AeIfValidator extends AeElseIfValidator {
+    /**
+     * Ctor accepts the def
+     *
+     * @param aDef
+     */
+    public AeIfValidator(AeIfDef aDef) {
+        super(aDef);
+    }
+
+    /**
+     * Getter for the if def
+     */
+    public AeIfDef getIfDef() {
+        return (AeIfDef) getDefinition();
+    }
 }
  

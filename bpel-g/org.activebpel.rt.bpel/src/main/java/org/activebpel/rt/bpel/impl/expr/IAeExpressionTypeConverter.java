@@ -11,25 +11,24 @@ package org.activebpel.rt.bpel.impl.expr;
 
 
 /**
- * This interface provides type conversion functionality.  Each expression language implementation 
+ * This interface provides type conversion functionality.  Each expression language implementation
  * may need to convert data of certain Java types into other Java types.  For example, the Jaxen XPath
  * implementation needs to convert BigInteger and Float objects to Doubles.
  */
-public interface IAeExpressionTypeConverter
-{
-   /**
-    * Converts the given engine type (an object coming from the BPEL engine) to a type that
-    * can be properly handled by the expression language library.
-    * 
-    * @param aEngineType
-    */
-   public Object convertToExpressionType(Object aEngineType);
-   
-   /**
-    * Converts the given expression type (an object created by the expression language library
-    * while executing the expression) to a new type that can be used by the BPEL engine.
-    * 
-    * @param aExpressionType
-    */
-   public Object convertToEngineType(Object aExpressionType);
+public interface IAeExpressionTypeConverter {
+    /**
+     * Converts the given engine type (an object coming from the BPEL engine) to a type that
+     * can be properly handled by the expression language library.
+     *
+     * @param aEngineType
+     */
+    public Object convertToExpressionType(Object aEngineType);
+
+    /**
+     * Converts the given expression type (an object created by the expression language library
+     * while executing the expression) to a new type that can be used by the BPEL engine.
+     *
+     * @param aExpressionType
+     */
+    public Object convertToEngineType(Object aExpressionType);
 }

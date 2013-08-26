@@ -15,26 +15,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel exit activity.
  */
-public class AeActivityExitDef extends AeActivityDef
-{
-   /**
-     * 
+public class AeActivityExitDef extends AeActivityDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 5978562097295660637L;
 
-/**
-    * Default constructor
-    */
-   public AeActivityExitDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityExitDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

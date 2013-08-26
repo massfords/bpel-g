@@ -18,54 +18,51 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
  * This class extends the Saxon static query context in order to override certain
  * functionality, such as namespace/prefix lookups.
  */
-public class AeStaticQueryContext extends StaticQueryContext
-{
-   /** The ActiveBPEL expression namespace context to use to resolve namespaces from prefixes. */
-   private IAeNamespaceContext mNamespaceContext;
+public class AeStaticQueryContext extends StaticQueryContext {
+    /**
+     * The ActiveBPEL expression namespace context to use to resolve namespaces from prefixes.
+     */
+    private IAeNamespaceContext mNamespaceContext;
 
-   /**
-    * Constructs a static query context from the saxon configuration and the generic ActiveBPEL
-    * namespace context.
-    * 
-    * @param aConfig
-    * @param aNamespaceContext
-    */
-   public AeStaticQueryContext(Configuration aConfig, IAeNamespaceContext aNamespaceContext)
-   {
-      super(aConfig);
-      setNamespaceContext(aNamespaceContext);
-   }
+    /**
+     * Constructs a static query context from the saxon configuration and the generic ActiveBPEL
+     * namespace context.
+     *
+     * @param aConfig
+     * @param aNamespaceContext
+     */
+    public AeStaticQueryContext(Configuration aConfig, IAeNamespaceContext aNamespaceContext) {
+        super(aConfig);
+        setNamespaceContext(aNamespaceContext);
+    }
 
-   /**
-    * Overrides method to lookup the namespace from within our own namespace context before
-    * delegating to Saxon.
-    * 
-    * @see net.sf.saxon.query.StaticQueryContext#checkURIForPrefix(java.lang.String)
-    */
-   public String checkURIForPrefix(String aPrefix) 
-   {
-      // Check the query itself for the mapping first - only check our namespace context
-      // if we can't find a mapping in the query.
-      String rval = super.checkURIForPrefix(aPrefix);
-      if (rval == null)
-      {
-         rval = getNamespaceContext().resolvePrefixToNamespace(aPrefix);
-      }
-      return rval;
-   }
+    /**
+     * Overrides method to lookup the namespace from within our own namespace context before
+     * delegating to Saxon.
+     *
+     * @see net.sf.saxon.query.StaticQueryContext#checkURIForPrefix(java.lang.String)
+     */
+    public String checkURIForPrefix(String aPrefix) {
+        // Check the query itself for the mapping first - only check our namespace context
+        // if we can't find a mapping in the query.
+        String rval = super.checkURIForPrefix(aPrefix);
+        if (rval == null) {
+            rval = getNamespaceContext().resolvePrefixToNamespace(aPrefix);
+        }
+        return rval;
+    }
 
-   /**
-    * @return Returns the namespaceContext.
-    */
-   protected IAeNamespaceContext getNamespaceContext()
-   {
-      return mNamespaceContext;
-   }
-   /**
-    * @param aNamespaceContext The namespaceContext to set.
-    */
-   protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext)
-   {
-      mNamespaceContext = aNamespaceContext;
-   }
+    /**
+     * @return Returns the namespaceContext.
+     */
+    protected IAeNamespaceContext getNamespaceContext() {
+        return mNamespaceContext;
+    }
+
+    /**
+     * @param aNamespaceContext The namespaceContext to set.
+     */
+    protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext) {
+        mNamespaceContext = aNamespaceContext;
+    }
 }

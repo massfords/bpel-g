@@ -19,71 +19,73 @@ import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 /**
  * Wraps a listing of queued message receivers.
  */
-public class AeMessageReceiverListResult implements Serializable
-{
-   /**
-     * 
+public class AeMessageReceiverListResult implements Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = -956966022024432317L;
-/** Total rows that matched selection criteria.  This number may be greater than the number of results in this listing. */
-   protected final int mTotalRows;
-   /** The matching message receivers. */
-   protected final AeMessageReceiver[] mResults;
-   /** Mapping of process ids to location paths. */
-   protected final Map<Integer,String> mLocationIdtoLocationPathMap = new HashMap<>();
-   
-   /**
-    * Constructor.
-    * @param aTotalRows Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
-    * @param aReceivers The matching message receivers.
-    */
-   @ConstructorProperties({"totalRows", "results"})
-   public AeMessageReceiverListResult( int aTotalRows, AeMessageReceiver[] aReceivers )
-   {
-      mTotalRows = aTotalRows;
-      mResults = aReceivers;
-   }
-   
-   /**
-    * Accessor for total rows.
-    */
-   public int getTotalRows()
-   {
-      return mTotalRows;
-   }
-   
-   /**
-    * Accessor for message receivers.
-    */
-   public AeMessageReceiver[] getResults()
-   {
-      return mResults;
-   }
-   
-   /**
-    * Add a location id to location path mapping.
-    * @param aLocationId The location path id.
-    * @param aLocation The location xpath.
-    */
-   public void addPathMapping( int aLocationId, String aLocation )
-   {
-      mLocationIdtoLocationPathMap.put( aLocationId, aLocation );
-   }
-   
-   /**
-    * Returns the matching location path for this process id.
-    * @param aLocationId
-    */
-   public String getLocationPath( int aLocationId )
-   {
-      return mLocationIdtoLocationPathMap.get( aLocationId );
-   }
-   
-   /**
-    * Returns true if there are no queued message receivers.
-    */
-   public boolean isEmpty()
-   {
-      return mResults == null || mResults.length == 0;
-   }
+    /**
+     * Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
+     */
+    protected final int mTotalRows;
+    /**
+     * The matching message receivers.
+     */
+    protected final AeMessageReceiver[] mResults;
+    /**
+     * Mapping of process ids to location paths.
+     */
+    protected final Map<Integer, String> mLocationIdtoLocationPathMap = new HashMap<>();
+
+    /**
+     * Constructor.
+     *
+     * @param aTotalRows Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
+     * @param aReceivers The matching message receivers.
+     */
+    @ConstructorProperties({"totalRows", "results"})
+    public AeMessageReceiverListResult(int aTotalRows, AeMessageReceiver[] aReceivers) {
+        mTotalRows = aTotalRows;
+        mResults = aReceivers;
+    }
+
+    /**
+     * Accessor for total rows.
+     */
+    public int getTotalRows() {
+        return mTotalRows;
+    }
+
+    /**
+     * Accessor for message receivers.
+     */
+    public AeMessageReceiver[] getResults() {
+        return mResults;
+    }
+
+    /**
+     * Add a location id to location path mapping.
+     *
+     * @param aLocationId The location path id.
+     * @param aLocation   The location xpath.
+     */
+    public void addPathMapping(int aLocationId, String aLocation) {
+        mLocationIdtoLocationPathMap.put(aLocationId, aLocation);
+    }
+
+    /**
+     * Returns the matching location path for this process id.
+     *
+     * @param aLocationId
+     */
+    public String getLocationPath(int aLocationId) {
+        return mLocationIdtoLocationPathMap.get(aLocationId);
+    }
+
+    /**
+     * Returns true if there are no queued message receivers.
+     */
+    public boolean isEmpty() {
+        return mResults == null || mResults.length == 0;
+    }
 }

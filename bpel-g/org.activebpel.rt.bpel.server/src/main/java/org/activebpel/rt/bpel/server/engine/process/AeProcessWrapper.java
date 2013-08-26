@@ -25,309 +25,294 @@ import bpelg.services.deploy.types.pdd.TransactionType;
 /**
  * Wraps a process with its reference count and state.
  */
-public class AeProcessWrapper
-{
-   /** The process id. */
-   private long mProcessId;
+public class AeProcessWrapper {
+    /**
+     * The process id.
+     */
+    private long mProcessId;
 
-   /** Process mutex. */
-   private final AeMutex mMutex = new AeMutex();
+    /**
+     * Process mutex.
+     */
+    private final AeMutex mMutex = new AeMutex();
 
-   /** Journal entry ids to delete when process state is next saved. */
-   private final Set<Long> mCompletedJournalIds = new HashSet<>();
+    /**
+     * Journal entry ids to delete when process state is next saved.
+     */
+    private final Set<Long> mCompletedJournalIds = new HashSet<>();
 
-   /** The process. */
-   private IAeBusinessProcess mProcess;
+    /**
+     * The process.
+     */
+    private IAeBusinessProcess mProcess;
 
-   /** Reference count. */
-   private int mCount = 0;
+    /**
+     * Reference count.
+     */
+    private int mCount = 0;
 
-   /** <code>true</code> if and only if the process may have been modified. */
-   private boolean mModified = true;
+    /**
+     * <code>true</code> if and only if the process may have been modified.
+     */
+    private boolean mModified = true;
 
-   /** <code>true</code> if and only if the process should release quickly. */
-   private boolean mQuickRelease = false;
+    /**
+     * <code>true</code> if and only if the process should release quickly.
+     */
+    private boolean mQuickRelease = false;
 
-   /** Process persistence type. */
-   private PersistenceType mPersistenceType;
+    /**
+     * Process persistence type.
+     */
+    private PersistenceType mPersistenceType;
 
-   /** Process transaction type. */
-   private TransactionType mTransactionType;
-   
-   /** Invoke transmission ids to delete when process state is next saved. */
-   private final Set<Long> mCompletedTransmissionIds = new HashSet<>();
+    /**
+     * Process transaction type.
+     */
+    private TransactionType mTransactionType;
 
-   /** Journal entry id to set aside for restart when process state is next saved. */
-   private long mJournalIdForRestart = IAeProcessManager.NULL_JOURNAL_ID;
+    /**
+     * Invoke transmission ids to delete when process state is next saved.
+     */
+    private final Set<Long> mCompletedTransmissionIds = new HashSet<>();
 
-   /**
-    * Constructs process wrapper.
-    *
-    * @param aProcessId
-    */
-   public AeProcessWrapper(long aProcessId)
-   {
-      mProcessId = aProcessId;
-   }
+    /**
+     * Journal entry id to set aside for restart when process state is next saved.
+     */
+    private long mJournalIdForRestart = IAeProcessManager.NULL_JOURNAL_ID;
 
-   /**
-    * Acquires process mutex, blocking if necessary until the current owner
-    * relinquishes ownership.
-    */
-   public void acquireMutex()
-   {
-      getMutex().acquireMutex();
-   }
+    /**
+     * Constructs process wrapper.
+     *
+     * @param aProcessId
+     */
+    public AeProcessWrapper(long aProcessId) {
+        mProcessId = aProcessId;
+    }
 
-   /**
-    * A debugging routine that modifies the reference count by the given amount
-    * with an interposing call to {@link Thread#yield()}. This makes it easier
-    * to shake out problems with the way the reference count is used in a
-    * multi-threaded environment.
-    */
-   protected void adjustCountWithYield(int aDelta)
-   {
-      int n = mCount;
+    /**
+     * Acquires process mutex, blocking if necessary until the current owner
+     * relinquishes ownership.
+     */
+    public void acquireMutex() {
+        getMutex().acquireMutex();
+    }
 
-      Thread.yield();
+    /**
+     * A debugging routine that modifies the reference count by the given amount
+     * with an interposing call to {@link Thread#yield()}. This makes it easier
+     * to shake out problems with the way the reference count is used in a
+     * multi-threaded environment.
+     */
+    protected void adjustCountWithYield(int aDelta) {
+        int n = mCount;
 
-      mCount = n + aDelta;
-   }
+        Thread.yield();
 
-   /**
-    * Decrements the reference count and returns the new effective reference
-    * count.
-    *
-    * @return int
-    */
-   public synchronized int decrementCount()
-   {
-      if (isDebug())
-      {
-         adjustCountWithYield(-1);
-      }
-      else
-      {
-         --mCount;
-      }
+        mCount = n + aDelta;
+    }
 
-      if (mCount < 0)
-      {
-         // Reset it to a sane value.
-         mCount = 0;
+    /**
+     * Decrements the reference count and returns the new effective reference
+     * count.
+     *
+     * @return int
+     */
+    public synchronized int decrementCount() {
+        if (isDebug()) {
+            adjustCountWithYield(-1);
+        } else {
+            --mCount;
+        }
 
-         throw new IllegalStateException(AeMessages.format("AeProcessWrapper.ERROR_0", getProcessId())); //$NON-NLS-1$
-      }
+        if (mCount < 0) {
+            // Reset it to a sane value.
+            mCount = 0;
 
-      return getCount();
-   }
+            throw new IllegalStateException(AeMessages.format("AeProcessWrapper.ERROR_0", getProcessId())); //$NON-NLS-1$
+        }
 
-   /**
-    * Returns journal entry ids to delete when process state is next saved.
-    */
-   public Set<Long> getCompletedJournalIds()
-   {
-      return mCompletedJournalIds;
-   }
-   
-   /** 
-    * @return set of durable/persistent invoke transmission ids to be deleted when the process state is next saved.
-    */
-   public Set<Long> getCompletedTransmissionIds()
-   {
-      return mCompletedTransmissionIds;
-   }
+        return getCount();
+    }
 
-   /**
-    * Returns the current effective reference count, which is the actual
-    * reference count plus possibly one more artificial reference to keep
-    * non-persistent processes in memory.
-    *
-    * @return int
-    */
-   public int getCount()
-   {
-      int count = mCount;
+    /**
+     * Returns journal entry ids to delete when process state is next saved.
+     */
+    public Set<Long> getCompletedJournalIds() {
+        return mCompletedJournalIds;
+    }
 
-      // Keep the process in memory if we're not doing full persistence and
-      // it is still running.
-      if (getPersistenceType() != PersistenceType.FULL)
-      {
-         IAeBusinessProcess process = getProcess();
+    /**
+     * @return set of durable/persistent invoke transmission ids to be deleted when the process state is next saved.
+     */
+    public Set<Long> getCompletedTransmissionIds() {
+        return mCompletedTransmissionIds;
+    }
 
-         if ((process != null) && !process.isFinalState())
-         {
-            // Keep the process in memory.
-            ++count;
-         }
-      }
+    /**
+     * Returns the current effective reference count, which is the actual
+     * reference count plus possibly one more artificial reference to keep
+     * non-persistent processes in memory.
+     *
+     * @return int
+     */
+    public int getCount() {
+        int count = mCount;
 
-      return count;
-   }
+        // Keep the process in memory if we're not doing full persistence and
+        // it is still running.
+        if (getPersistenceType() != PersistenceType.FULL) {
+            IAeBusinessProcess process = getProcess();
 
-   /**
-    * Returns process mutex.
-    */
-   protected AeMutex getMutex()
-   {
-      return mMutex;
-   }
+            if ((process != null) && !process.isFinalState()) {
+                // Keep the process in memory.
+                ++count;
+            }
+        }
 
-   /**
-    * Returns the process persistence type.
-    */
-   protected PersistenceType getPersistenceType()
-   {
-      return mPersistenceType;
-   }
+        return count;
+    }
 
-   /**
-    * Returns the process.
-    */
-   public IAeBusinessProcess getProcess()
-   {
-      return mProcess;
-   }
+    /**
+     * Returns process mutex.
+     */
+    protected AeMutex getMutex() {
+        return mMutex;
+    }
 
-   /**
-    * Returns the process id.
-    */
-   public long getProcessId()
-   {
-      return mProcessId;
-   }
+    /**
+     * Returns the process persistence type.
+     */
+    protected PersistenceType getPersistenceType() {
+        return mPersistenceType;
+    }
 
-   /**
-    * Returns the process transaction type.
-    */
-   protected TransactionType getTransactionType()
-   {
-      return mTransactionType;
-   }
+    /**
+     * Returns the process.
+     */
+    public IAeBusinessProcess getProcess() {
+        return mProcess;
+    }
 
-   /**
-    * Increments the reference count.
-    */
-   public synchronized void incrementCount()
-   {
-      if (isDebug())
-      {
-         adjustCountWithYield(+1);
-      }
-      else
-      {
-         ++mCount;
-      }
-   }
+    /**
+     * Returns the process id.
+     */
+    public long getProcessId() {
+        return mProcessId;
+    }
 
-   /**
-    * Returns <code>true</code> if and only if process is container-managed.
-    */
-   public boolean isContainerManaged()
-   {
-      return getTransactionType() == TransactionType.CONTAINER;
-   }
+    /**
+     * Returns the process transaction type.
+     */
+    protected TransactionType getTransactionType() {
+        return mTransactionType;
+    }
 
-   /**
-    * Returns <code>true</code> if and only if the process manager is in debug
-    * mode.
-    */
-   protected static boolean isDebug()
-   {
-      return AePersistentProcessManager.isDebug();
-   }
+    /**
+     * Increments the reference count.
+     */
+    public synchronized void incrementCount() {
+        if (isDebug()) {
+            adjustCountWithYield(+1);
+        } else {
+            ++mCount;
+        }
+    }
 
-   /**
-    * Returns <code>true</code> if and only if the process may have been
-    * modified.
-    */
-   public boolean isModified()
-   {
-      return mModified;
-   }
+    /**
+     * Returns <code>true</code> if and only if process is container-managed.
+     */
+    public boolean isContainerManaged() {
+        return getTransactionType() == TransactionType.CONTAINER;
+    }
 
-   /**
-    * Returns <code>true</code> if and only if process is persistent.
-    */
-   public boolean isPersistent()
-   {
-      return getPersistenceType() != PersistenceType.NONE;
-   }
+    /**
+     * Returns <code>true</code> if and only if the process manager is in debug
+     * mode.
+     */
+    protected static boolean isDebug() {
+        return AePersistentProcessManager.isDebug();
+    }
 
-   /**
-    * Returns <code>true</code> if and only if process should release quickly.
-    */
-   public boolean isQuickRelease()
-   {
-      return mQuickRelease;
-   }
+    /**
+     * Returns <code>true</code> if and only if the process may have been
+     * modified.
+     */
+    public boolean isModified() {
+        return mModified;
+    }
 
-   /**
-    * Releases process mutex.
-    */
-   public void releaseMutex()
-   {
-      getMutex().releaseMutex();
-   }
+    /**
+     * Returns <code>true</code> if and only if process is persistent.
+     */
+    public boolean isPersistent() {
+        return getPersistenceType() != PersistenceType.NONE;
+    }
 
-   /**
-    * Marks the process as potentially modified or not.
-    */
-   public void setModified(boolean aModified)
-   {
-      mModified = aModified;
-   }
+    /**
+     * Returns <code>true</code> if and only if process should release quickly.
+     */
+    public boolean isQuickRelease() {
+        return mQuickRelease;
+    }
 
-   /**
-    * Sets the process.
-    *
-    * @param aProcess
-    */
-   public void setProcess(IAeBusinessProcess aProcess)
-   {
-      // set the process
-      mProcess = aProcess;
-      // if non-null process update our id as it may have changed during a create
-      if(mProcess != null)
-         mProcessId = mProcess.getProcessId();
+    /**
+     * Releases process mutex.
+     */
+    public void releaseMutex() {
+        getMutex().releaseMutex();
+    }
 
-      IAeProcessDeployment aDeployment = (aProcess == null) ? null : (IAeProcessDeployment) aProcess.getProcessPlan();
+    /**
+     * Marks the process as potentially modified or not.
+     */
+    public void setModified(boolean aModified) {
+        mModified = aModified;
+    }
 
-      if (aDeployment != null)
-      {
-         mPersistenceType = aDeployment.getPdd().getPersistenceType();
-         mTransactionType = aDeployment.getPdd().getTransactionType();
-      }
-      else
-      {
-         // If we don't have the process deployment at this point, then the
-         // process is being restored and can't be a service flow process.
-         mPersistenceType = PersistenceType.FULL;
-         mTransactionType = TransactionType.BEAN;
-      }
-   }
+    /**
+     * Sets the process.
+     *
+     * @param aProcess
+     */
+    public void setProcess(IAeBusinessProcess aProcess) {
+        // set the process
+        mProcess = aProcess;
+        // if non-null process update our id as it may have changed during a create
+        if (mProcess != null)
+            mProcessId = mProcess.getProcessId();
 
-   /**
-    * Marks process to release quickly.
-    */
-   public void setQuickRelease()
-   {
-      mQuickRelease = true;
-   }
+        IAeProcessDeployment aDeployment = (aProcess == null) ? null : (IAeProcessDeployment) aProcess.getProcessPlan();
 
-   /**
-    * @param aJournalId the journal entry id to set aside for restart when process state is next saved
-    */
-   public void setJournalIdForRestart(long aJournalId)
-   {
-      mJournalIdForRestart = aJournalId;
-   }
+        if (aDeployment != null) {
+            mPersistenceType = aDeployment.getPdd().getPersistenceType();
+            mTransactionType = aDeployment.getPdd().getTransactionType();
+        } else {
+            // If we don't have the process deployment at this point, then the
+            // process is being restored and can't be a service flow process.
+            mPersistenceType = PersistenceType.FULL;
+            mTransactionType = TransactionType.BEAN;
+        }
+    }
 
-   /**
-    * @return the journal entry id to set aside for restart when process state is next saved
-    */
-   public long getJournalIdForRestart()
-   {
-      return mJournalIdForRestart;
-   }
+    /**
+     * Marks process to release quickly.
+     */
+    public void setQuickRelease() {
+        mQuickRelease = true;
+    }
+
+    /**
+     * @param aJournalId the journal entry id to set aside for restart when process state is next saved
+     */
+    public void setJournalIdForRestart(long aJournalId) {
+        mJournalIdForRestart = aJournalId;
+    }
+
+    /**
+     * @return the journal entry id to set aside for restart when process state is next saved
+     */
+    public long getJournalIdForRestart() {
+        return mJournalIdForRestart;
+    }
 }

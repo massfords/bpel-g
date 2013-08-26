@@ -13,17 +13,16 @@ package org.activebpel.rt.bpel.def;
 /**
  * Bpel constructs that can have a 'variables' child must implement this interface.
  */
-public interface IAeVariablesParentDef extends IAeVariableParentDef
-{
-   /**
-    * Gets the variables def.
-    */
-   public AeVariablesDef getVariablesDef();
-   
-   /**
-    * Sets the variables def.
-    * 
-    * @param aDef
-    */
-   public void setVariablesDef(AeVariablesDef aDef);
+public interface IAeVariablesParentDef extends IAeVariableParentDef {
+    /**
+     * Gets the variables def.
+     */
+    public AeVariablesDef getVariablesDef();
+
+    /**
+     * Sets the variables def.
+     *
+     * @param aDef
+     */
+    public void setVariablesDef(AeVariablesDef aDef);
 }

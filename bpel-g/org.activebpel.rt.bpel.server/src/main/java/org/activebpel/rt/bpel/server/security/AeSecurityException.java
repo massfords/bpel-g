@@ -14,52 +14,46 @@ import org.activebpel.rt.AeException;
 /**
  * Extension of AeException for Security exceptions
  */
-public class AeSecurityException extends AeException
-{
+public class AeSecurityException extends AeException {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -2495450924471164061L;
 
-/**
-    * No arg constructor
-    *
-    */
-   public AeSecurityException()
-   {
+    /**
+     * No arg constructor
+     */
+    public AeSecurityException() {
 
-   }
+    }
 
-   /**
-    * Constructor with message
-    * 
-    * @param aInfo
-    */
-   public AeSecurityException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Constructor with message
+     *
+     * @param aInfo
+     */
+    public AeSecurityException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Constructor with root cause
-    * 
-    * @param aRootCause
-    */
-   public AeSecurityException(Throwable aRootCause)
-   {
-      super(aRootCause);
-   }
+    /**
+     * Constructor with root cause
+     *
+     * @param aRootCause
+     */
+    public AeSecurityException(Throwable aRootCause) {
+        super(aRootCause);
+    }
 
-   /**
-    * Constructor with message and root cause
-    * 
-    * @param aInfo
-    * @param aRootCause
-    */
-   public AeSecurityException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Constructor with message and root cause
+     *
+     * @param aInfo
+     * @param aRootCause
+     */
+    public AeSecurityException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
 }

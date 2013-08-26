@@ -15,50 +15,51 @@ import org.activebpel.rt.bpel.def.AeProcessDef;
 /**
  * Specification for error reporting classes.
  */
-public interface IAeErrorReporter extends IAeBaseErrorReporter
-{
-   /** Set the root definition node for error reporting. */
-   public void setRootDefNode( AeProcessDef aRootDefNode );
-   
-   /**
-    * Remove the issues for a given node.  This is for cases when a node is found to be 'not used', etc.
-    * 
-    * @param aNode The node whose issues should be removed.
-    */
-   public abstract void removeIssues( Object aNode );
+public interface IAeErrorReporter extends IAeBaseErrorReporter {
+    /**
+     * Set the root definition node for error reporting.
+     */
+    public void setRootDefNode(AeProcessDef aRootDefNode);
 
-   /**
-    * Report the errors collected by this object.
-    */
-   public abstract void reportErrors();
+    /**
+     * Remove the issues for a given node.  This is for cases when a node is found to be 'not used', etc.
+     *
+     * @param aNode The node whose issues should be removed.
+     */
+    public abstract void removeIssues(Object aNode);
 
-   /**
-    * Report the warnings collected by this object.
-    */
-   public abstract void reportWarnings();
+    /**
+     * Report the errors collected by this object.
+     */
+    public abstract void reportErrors();
 
-   /**
-    * Report the information collected by this object.
-    */
-   public abstract void reportInfo();
+    /**
+     * Report the warnings collected by this object.
+     */
+    public abstract void reportWarnings();
 
-   /**
-    * Report all errors, warnings and information collected by this object.
-    */
-   public abstract void reportAll();
+    /**
+     * Report the information collected by this object.
+     */
+    public abstract void reportInfo();
 
-   /**
-    * Returns true if we are processing validations errors for the BPEL.
-    */
-   public abstract boolean isProcessErrors();
+    /**
+     * Report all errors, warnings and information collected by this object.
+     */
+    public abstract void reportAll();
 
-   /**
-    * Returns true if we are processing validations warnings for the BPEL.
-    */
-   public abstract boolean isProcessWarnings();
+    /**
+     * Returns true if we are processing validations errors for the BPEL.
+     */
+    public abstract boolean isProcessErrors();
 
-   /**
-    * Returns true if we are processing validations info for the BPEL.
-    */
-   public abstract boolean isProcessInfos();
+    /**
+     * Returns true if we are processing validations warnings for the BPEL.
+     */
+    public abstract boolean isProcessWarnings();
+
+    /**
+     * Returns true if we are processing validations info for the BPEL.
+     */
+    public abstract boolean isProcessInfos();
 }

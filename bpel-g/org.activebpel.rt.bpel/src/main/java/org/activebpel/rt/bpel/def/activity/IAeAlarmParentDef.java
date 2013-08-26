@@ -17,17 +17,16 @@ import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
 /**
  * Defs that can parent an onAlarm construct should implement this interface.
  */
-public interface IAeAlarmParentDef
-{
-   /**
-    * Gets an iterator over the alarm defs.
-    */
-   public Iterator<AeOnAlarmDef> getAlarmDefs();
+public interface IAeAlarmParentDef {
+    /**
+     * Gets an iterator over the alarm defs.
+     */
+    public Iterator<AeOnAlarmDef> getAlarmDefs();
 
-   /**
-    * Adds the alarm.
-    * 
-    * @param aAlarm
-    */
-   public void addAlarmDef(AeOnAlarmDef aAlarm);
+    /**
+     * Adds the alarm.
+     *
+     * @param aAlarm
+     */
+    public void addAlarmDef(AeOnAlarmDef aAlarm);
 }

@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity; 
+package org.activebpel.rt.bpel.impl.activity;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeVariable;
@@ -22,70 +22,62 @@ import org.activebpel.rt.util.AeUtil;
  * Implementation of the suspend activity. Immediately suspends the process and
  * issues an alert with the optional variable to the alerting system.
  */
-public class AeActivitySuspendImpl extends AeActivityImpl
-{
-   /**
-    * Ctor takes the def
-    * 
-    * @param aDef
-    * @param aParent
-    */
-   public AeActivitySuspendImpl(AeActivitySuspendDef aDef, IAeActivityParent aParent)
-   {
-      super(aDef, aParent);
-   }
+public class AeActivitySuspendImpl extends AeActivityImpl {
+    /**
+     * Ctor takes the def
+     *
+     * @param aDef
+     * @param aParent
+     */
+    public AeActivitySuspendImpl(AeActivitySuspendDef aDef, IAeActivityParent aParent) {
+        super(aDef, aParent);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept(IAeImplVisitor aVisitor)
-         throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * Extends base to suspend the process when we are ready to execute.
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableQueueItem#setState(org.activebpel.rt.bpel.impl.AeBpelState)
-    */
-   public void setState(AeBpelState aNewState)
-         throws AeBusinessProcessException
-   {
-      super.setState(aNewState);
-      
-      // suspend the process if we are ready to execute
-      if(aNewState.equals(AeBpelState.READY_TO_EXECUTE))
-      {
-         IAeVariable variable = null;
-         String varName = getDef().getVariable();
-         if (AeUtil.notNullOrEmpty(varName))
-         {
-            variable = findVariable(varName);
-            if (!variable.hasData())
-            {
-               variable = null;
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor)
+            throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * Extends base to suspend the process when we are ready to execute.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableQueueItem#setState(org.activebpel.rt.bpel.impl.AeBpelState)
+     */
+    public void setState(AeBpelState aNewState)
+            throws AeBusinessProcessException {
+        super.setState(aNewState);
+
+        // suspend the process if we are ready to execute
+        if (aNewState.equals(AeBpelState.READY_TO_EXECUTE)) {
+            IAeVariable variable = null;
+            String varName = getDef().getVariable();
+            if (AeUtil.notNullOrEmpty(varName)) {
+                variable = findVariable(varName);
+                if (!variable.hasData()) {
+                    variable = null;
+                }
             }
-         }
-         
-         getProcess().suspend(new AeSuspendReason(AeSuspendReason.SUSPEND_CODE_LOGICAL, getLocationPath(), variable));
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableQueueItem#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      super.execute();
-      objectCompleted();
-   }
-   
-   /**
-    * Getter for the def
-    */
-   protected AeActivitySuspendDef getDef()
-   {
-      return (AeActivitySuspendDef) getDefinition();
-   }
+
+            getProcess().suspend(new AeSuspendReason(AeSuspendReason.SUSPEND_CODE_LOGICAL, getLocationPath(), variable));
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableQueueItem#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        super.execute();
+        objectCompleted();
+    }
+
+    /**
+     * Getter for the def
+     */
+    protected AeActivitySuspendDef getDef() {
+        return (AeActivitySuspendDef) getDefinition();
+    }
 }
  

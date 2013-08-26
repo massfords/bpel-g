@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpeladmin.war.web.urn; 
+package org.activebpel.rt.bpeladmin.war.web.urn;
 
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
@@ -17,75 +17,70 @@ import org.activebpel.rt.util.AeUtil;
 import bpelg.services.urnresolver.types.AddMappingRequest;
 
 /**
- * Adds a URN to URL mapping 
+ * Adds a URN to URL mapping
  */
-public class AeAddMappingBean extends AeAbstractAdminBean
-{
-   /** urn used as the key */
-   private String mURN;
-   /** url that it maps to */
-   private String mURL;
-   
-   /**
-    * Trigger for the bean to add the mapping info to the resolver
-    * @param aBool
-    */
-   public void setFinished(boolean aBool)
-   {
-      if (aBool)
-      {
-         if (isValid())
-         {
-            AeEngineManagementFactory.getResolverService().addMapping(new AddMappingRequest().withName(getURN()).withValue(getURL()));
-            setStatusDetail(AeMessages.getString("AeAddMappingBean.MAPPING_ADDED")); //$NON-NLS-1$
-         }
-      }
-   }
-   
-   /**
-    * Mapping is valid if both values are non null.
-    */
-   protected boolean isValid()
-   {
-      boolean valid = AeUtil.notNullOrEmpty(mURN) && AeUtil.notNullOrEmpty(mURL);
-      if (!valid)
-      {
-         setStatusDetail(AeMessages.getString("AeAddMappingBean.MAPPING_INVALID")); //$NON-NLS-1$
-         setErrorDetail(true);
-      }
-      return valid;
-   }
-   
-   /**
-    * @return Returns the uRL.
-    */
-   public String getURL()
-   {
-      return mURL;
-   }
-   
-   /**
-    * @param aUrl The uRL to set.
-    */
-   public void setURL(String aUrl)
-   {
-      mURL = aUrl;
-   }
-   
-   /**
-    * @return Returns the uRN.
-    */
-   public String getURN()
-   {
-      return mURN;
-   }
-   
-   /**
-    * @param aUrn The uRN to set.
-    */
-   public void setURN(String aUrn)
-   {
-      mURN = aUrn;
-   }
+public class AeAddMappingBean extends AeAbstractAdminBean {
+    /**
+     * urn used as the key
+     */
+    private String mURN;
+    /**
+     * url that it maps to
+     */
+    private String mURL;
+
+    /**
+     * Trigger for the bean to add the mapping info to the resolver
+     *
+     * @param aBool
+     */
+    public void setFinished(boolean aBool) {
+        if (aBool) {
+            if (isValid()) {
+                AeEngineManagementFactory.getResolverService().addMapping(new AddMappingRequest().withName(getURN()).withValue(getURL()));
+                setStatusDetail(AeMessages.getString("AeAddMappingBean.MAPPING_ADDED")); //$NON-NLS-1$
+            }
+        }
+    }
+
+    /**
+     * Mapping is valid if both values are non null.
+     */
+    protected boolean isValid() {
+        boolean valid = AeUtil.notNullOrEmpty(mURN) && AeUtil.notNullOrEmpty(mURL);
+        if (!valid) {
+            setStatusDetail(AeMessages.getString("AeAddMappingBean.MAPPING_INVALID")); //$NON-NLS-1$
+            setErrorDetail(true);
+        }
+        return valid;
+    }
+
+    /**
+     * @return Returns the uRL.
+     */
+    public String getURL() {
+        return mURL;
+    }
+
+    /**
+     * @param aUrl The uRL to set.
+     */
+    public void setURL(String aUrl) {
+        mURL = aUrl;
+    }
+
+    /**
+     * @return Returns the uRN.
+     */
+    public String getURN() {
+        return mURN;
+    }
+
+    /**
+     * @param aUrn The uRN to set.
+     */
+    public void setURN(String aUrn) {
+        mURN = aUrn;
+    }
 }
  

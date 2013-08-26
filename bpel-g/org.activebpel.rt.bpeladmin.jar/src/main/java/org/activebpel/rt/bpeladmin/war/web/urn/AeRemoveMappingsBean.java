@@ -22,12 +22,14 @@ import java.util.Map;
  * Removes all of the checked mappings from the resolver.
  */
 public class AeRemoveMappingsBean extends AeAbstractAdminBean {
-    /** key to look for in request param mappings */
+    /**
+     * key to look for in request param mappings
+     */
     private String mDeleteKey;
 
     /**
      * Setter for the delete key
-     * 
+     *
      * @param aKey
      */
     public void setDeleteKey(String aKey) {
@@ -44,7 +46,7 @@ public class AeRemoveMappingsBean extends AeAbstractAdminBean {
     /**
      * Sets the form post data on the bean and triggers the removal of the urn
      * mappings.
-     * 
+     *
      * @param aFormData
      */
     public void setFormData(Map aFormData) {

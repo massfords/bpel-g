@@ -18,20 +18,19 @@ import javax.xml.namespace.QName;
 /**
  * Wraps any message data returned from the invoke call.
  */
-public interface IAeWebServiceMessageData extends Serializable
-{
-   /**
-    * Returns the type of message this data is representing. 
-    */
-   public QName getMessageType();
-   
-   /**
-    * Get the message part data.
-    */
-   public Map<String,Object> getMessageData();
-   
-   /**
-    * Get the message attachments.
-    */
-   public List<IAeWebServiceAttachment> getAttachments();
+public interface IAeWebServiceMessageData extends Serializable {
+    /**
+     * Returns the type of message this data is representing.
+     */
+    public QName getMessageType();
+
+    /**
+     * Get the message part data.
+     */
+    public Map<String, Object> getMessageData();
+
+    /**
+     * Get the message attachments.
+     */
+    public List<IAeWebServiceAttachment> getAttachments();
 }

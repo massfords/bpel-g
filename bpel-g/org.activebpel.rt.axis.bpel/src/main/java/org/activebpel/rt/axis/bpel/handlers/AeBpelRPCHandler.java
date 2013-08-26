@@ -13,36 +13,32 @@ import org.apache.axis.constants.Style;
 import org.apache.axis.constants.Use;
 
 /**
- * The BPEL handler for web services under an Axis framework for RPC style binding. 
+ * The BPEL handler for web services under an Axis framework for RPC style binding.
  */
-public class AeBpelRPCHandler extends AeBpelHandler
-{
-   /**
-     * 
+public class AeBpelRPCHandler extends AeBpelHandler {
+    /**
+     *
      */
     private static final long serialVersionUID = 2850462461756806301L;
 
-/**
-    * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getStyle()
-    */
-   protected Style getStyle()
-   {
-      return Style.RPC;
-   }
-   
-   /**
-    * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getUse()
-    */
-   protected Use getUse()
-   {
-      return Use.ENCODED;
-   }
+    /**
+     * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getStyle()
+     */
+    protected Style getStyle() {
+        return Style.RPC;
+    }
 
-   /**
-    * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getReceiveHandler()
-    */
-   public String getReceiveHandler()
-   {
-      return "soap:RPC"; //$NON-NLS-1$
-   }
+    /**
+     * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getUse()
+     */
+    protected Use getUse() {
+        return Use.ENCODED;
+    }
+
+    /**
+     * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getReceiveHandler()
+     */
+    public String getReceiveHandler() {
+        return "soap:RPC"; //$NON-NLS-1$
+    }
 }

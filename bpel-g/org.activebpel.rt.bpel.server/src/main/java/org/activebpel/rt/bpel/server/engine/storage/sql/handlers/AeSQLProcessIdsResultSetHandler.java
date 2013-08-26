@@ -21,41 +21,36 @@ import bpelg.services.processes.types.ProcessFilterType;
 /**
  * Helper class to convert a <code>ResultSet</code> to a long[].
  */
-public class AeSQLProcessIdsResultSetHandler extends AeListingResultSetHandler<long[],Number>
-{
-   /**
-    * Constructor.
-    *
-    * @param aFilter
-    */
-   public AeSQLProcessIdsResultSetHandler(ProcessFilterType aFilter)
-   {
-      super(aFilter.getMaxReturn(), aFilter.getListStart());
-   }
+public class AeSQLProcessIdsResultSetHandler extends AeListingResultSetHandler<long[], Number> {
+    /**
+     * Constructor.
+     *
+     * @param aFilter
+     */
+    public AeSQLProcessIdsResultSetHandler(ProcessFilterType aFilter) {
+        super(aFilter.getMaxReturn(), aFilter.getListStart());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
-    */
-   protected Number readRow(ResultSet aResultSet) throws SQLException
-   {
-      return aResultSet.getLong(1);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
-    */
-   protected long[] convertToType(List<Number> aResults)
-   {
-      // aResults is already sorted, because the SELECT includes ORDER BY ProcessId.
-      int count = aResults.size();
-      long[] result = new long[count];
-      Iterator iter = aResults.iterator();
-      
-      for (int i = 0; (i < count) && iter.hasNext(); ++i)
-      {
-         result[i] = ((Number) iter.next()).longValue();
-      }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
+     */
+    protected Number readRow(ResultSet aResultSet) throws SQLException {
+        return aResultSet.getLong(1);
+    }
 
-      return result;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
+     */
+    protected long[] convertToType(List<Number> aResults) {
+        // aResults is already sorted, because the SELECT includes ORDER BY ProcessId.
+        int count = aResults.size();
+        long[] result = new long[count];
+        Iterator iter = aResults.iterator();
+
+        for (int i = 0; (i < count) && iter.hasNext(); ++i) {
+            result[i] = ((Number) iter.next()).longValue();
+        }
+
+        return result;
+    }
 }

@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign.from; 
+package org.activebpel.rt.bpel.impl.activity.assign.from;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,75 +20,68 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Handles getting the literal value. 
+ * Handles getting the literal value.
  */
-public class AeFromLiteral extends AeFromBase
-{
-   /** literal node */
-   private Node mLiteral;
-   
-   /**
-    * Ctor accepts def
-    * 
-    * @param aFromDef
-    */
-   public AeFromLiteral(AeFromDef aFromDef)
-   {
-      this(aFromDef.getLiteral());
-   }
-   
-   /**
-    * Ctor accepts node
-    * @param aNode
-    */
-   public AeFromLiteral(Node aNode)
-   {
-      setLiteral(aNode);
-   }
+public class AeFromLiteral extends AeFromBase {
+    /**
+     * literal node
+     */
+    private Node mLiteral;
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeFrom#getFromData()
-    */
-   public Object getFromData() throws AeBpelException
-   {
-      Object data = null;
-      // Need to synchronize on the document fragment we are copying, or bad things can happen under load
-      synchronized(getLiteral())
-      {
-         Document doc = AeXmlUtil.newDocument();
-         Node node = doc.importNode(getLiteral(), true);
-         if (node instanceof Element)
-         {
-            Map<String,String> namespaceMap = new HashMap<>();
-            AeXmlUtil.getDeclaredNamespaces((Element)getLiteral(), namespaceMap);
-            AeXmlUtil.declareNamespacePrefixes((Element)node, namespaceMap);
+    /**
+     * Ctor accepts def
+     *
+     * @param aFromDef
+     */
+    public AeFromLiteral(AeFromDef aFromDef) {
+        this(aFromDef.getLiteral());
+    }
 
-            doc.appendChild(node);
-            data = doc.getDocumentElement();
-         }
-         else
-         {
-            data = node;
-         }
-      }
-      return data;
-   }
+    /**
+     * Ctor accepts node
+     *
+     * @param aNode
+     */
+    public AeFromLiteral(Node aNode) {
+        setLiteral(aNode);
+    }
 
-   /**
-    * @return Returns the literal.
-    */
-   public Node getLiteral()
-   {
-      return mLiteral;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeFrom#getFromData()
+     */
+    public Object getFromData() throws AeBpelException {
+        Object data = null;
+        // Need to synchronize on the document fragment we are copying, or bad things can happen under load
+        synchronized (getLiteral()) {
+            Document doc = AeXmlUtil.newDocument();
+            Node node = doc.importNode(getLiteral(), true);
+            if (node instanceof Element) {
+                Map<String, String> namespaceMap = new HashMap<>();
+                AeXmlUtil.getDeclaredNamespaces((Element) getLiteral(), namespaceMap);
+                AeXmlUtil.declareNamespacePrefixes((Element) node, namespaceMap);
 
-   /**
-    * @param aLiteral The literal to set.
-    */
-   public void setLiteral(Node aLiteral)
-   {
-      mLiteral = aLiteral;
-   }
+                doc.appendChild(node);
+                data = doc.getDocumentElement();
+            } else {
+                data = node;
+            }
+        }
+        return data;
+    }
+
+    /**
+     * @return Returns the literal.
+     */
+    public Node getLiteral() {
+        return mLiteral;
+    }
+
+    /**
+     * @param aLiteral The literal to set.
+     */
+    public void setLiteral(Node aLiteral) {
+        mLiteral = aLiteral;
+    }
 
 }
  

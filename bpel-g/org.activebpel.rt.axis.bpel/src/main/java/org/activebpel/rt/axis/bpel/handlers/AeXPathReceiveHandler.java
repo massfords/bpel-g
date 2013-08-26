@@ -28,60 +28,52 @@ import org.w3c.dom.Element;
 /**
  * Maps SOAP Headers into process variable properties
  */
-public class AeXPathReceiveHandler extends AeXPathHandler
-{
-   /**
-     * 
+public class AeXPathReceiveHandler extends AeXPathHandler {
+    /**
+     *
      */
     private static final long serialVersionUID = 3202944164468980074L;
 
-/**
-    * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
-    */
-   public void invoke(MessageContext aMsgContext) throws AxisFault
-   {
-      try
-      {
-         // Get xpaths
-    	 Map<String, XPath> xpaths = getXpaths(aMsgContext);
-         // Get the message
-         Message msg = aMsgContext.getCurrentMessage();
-         if (msg == null)
-            return;
-         if (AeUtil.isNullOrEmpty(msg.getSOAPPartAsString()))
-            return;
-         
-         // get the SOAPEnvelope
-         SOAPEnvelope reqEnv = msg.getSOAPEnvelope();
-         Document domReq = reqEnv.getAsDocument();
+    /**
+     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
+     */
+    public void invoke(MessageContext aMsgContext) throws AxisFault {
+        try {
+            // Get xpaths
+            Map<String, XPath> xpaths = getXpaths(aMsgContext);
+            // Get the message
+            Message msg = aMsgContext.getCurrentMessage();
+            if (msg == null)
+                return;
+            if (AeUtil.isNullOrEmpty(msg.getSOAPPartAsString()))
+                return;
 
-         // See if we need to create an element for mapped headers
-         Element headers = (Element) aMsgContext.getProperty(AE_CONTEXT_MAPPED_PROPERTIES);
-         if (headers == null)
-         {
-            Document headerDoc = AeXmlUtil.newDocument();
-            headers = headerDoc.createElementNS(IAeConstants.ABX_NAMESPACE_URI, "abx:Headers"); //$NON-NLS-1$
-            headers.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:abx", IAeConstants.ABX_NAMESPACE_URI ); //$NON-NLS-1$
-            // get passthrough option
-            headers.setAttribute("passthrough", (String) getOption("passthrough")); //$NON-NLS-1$ //$NON-NLS-2$
-            headerDoc.appendChild(headers);
-         }
-         // Add selected nodes to operation element
-         for (XPath xpath : xpaths.values())
-         {
-            Element selected = (Element) xpath.selectSingleNode(domReq);
-            if (selected != null)
-            {
-               Element target = headers.getOwnerDocument().createElementNS(selected.getNamespaceURI(), selected.getNodeName());
-               AeXmlUtil.copyNodeContents(selected, target);
-               headers.appendChild(headers.getOwnerDocument().importNode(target, true));
+            // get the SOAPEnvelope
+            SOAPEnvelope reqEnv = msg.getSOAPEnvelope();
+            Document domReq = reqEnv.getAsDocument();
+
+            // See if we need to create an element for mapped headers
+            Element headers = (Element) aMsgContext.getProperty(AE_CONTEXT_MAPPED_PROPERTIES);
+            if (headers == null) {
+                Document headerDoc = AeXmlUtil.newDocument();
+                headers = headerDoc.createElementNS(IAeConstants.ABX_NAMESPACE_URI, "abx:Headers"); //$NON-NLS-1$
+                headers.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:abx", IAeConstants.ABX_NAMESPACE_URI); //$NON-NLS-1$
+                // get passthrough option
+                headers.setAttribute("passthrough", (String) getOption("passthrough")); //$NON-NLS-1$ //$NON-NLS-2$
+                headerDoc.appendChild(headers);
             }
-         }
-         aMsgContext.setProperty(AE_CONTEXT_MAPPED_PROPERTIES, headers);
-      }
-      catch (Exception e)
-      {
-         throw new AxisFault(AeMessages.getString("AeXPathReceiveHandler.Error_0"), e); //$NON-NLS-1$
-      }
-   }
+            // Add selected nodes to operation element
+            for (XPath xpath : xpaths.values()) {
+                Element selected = (Element) xpath.selectSingleNode(domReq);
+                if (selected != null) {
+                    Element target = headers.getOwnerDocument().createElementNS(selected.getNamespaceURI(), selected.getNodeName());
+                    AeXmlUtil.copyNodeContents(selected, target);
+                    headers.appendChild(headers.getOwnerDocument().importNode(target, true));
+                }
+            }
+            aMsgContext.setProperty(AE_CONTEXT_MAPPED_PROPERTIES, headers);
+        } catch (Exception e) {
+            throw new AxisFault(AeMessages.getString("AeXPathReceiveHandler.Error_0"), e); //$NON-NLS-1$
+        }
+    }
 }

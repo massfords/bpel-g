@@ -29,20 +29,34 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class AeStorageFactory implements IAeStorageFactory {
-    /** The storage provider factory. */
+    /**
+     * The storage provider factory.
+     */
     private IAeStorageProviderFactory mStorageProviderFactory;
 
-    /** The queue storage object. */
+    /**
+     * The queue storage object.
+     */
     private IAeQueueStorage mQueueStorage;
-    /** The process state storage object. */
+    /**
+     * The process state storage object.
+     */
     private IAeProcessStateStorage mProcessStateStorage;
-    /** The coordination storage object. */
+    /**
+     * The coordination storage object.
+     */
     private IAeCoordinationStorage mCoordinationStorage;
-    /** The URN storage object. */
+    /**
+     * The URN storage object.
+     */
     private IAeURNStorage mURNStorage;
-    /** The transmission-receive id manager storage. */
+    /**
+     * The transmission-receive id manager storage.
+     */
     private IAeTransmissionTrackerStorage mTransmissionTrackerStorage;
-    /** The attachment storage. */
+    /**
+     * The attachment storage.
+     */
     private IAeAttachmentStorage mAttachmentStorage;
 
     /**
@@ -147,7 +161,7 @@ public class AeStorageFactory implements IAeStorageFactory {
     /**
      * Initializes the store. Checks for required upgrades to the schema and
      * performs each upgrade in sequence.
-     * 
+     *
      * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory#init()
      */
     public void init() throws AeException {
@@ -160,40 +174,35 @@ public class AeStorageFactory implements IAeStorageFactory {
     }
 
     /**
-     * @param aCoordinationStorage
-     *            The coordinationStorage to set.
+     * @param aCoordinationStorage The coordinationStorage to set.
      */
     public void setCoordinationStorage(IAeCoordinationStorage aCoordinationStorage) {
         mCoordinationStorage = aCoordinationStorage;
     }
 
     /**
-     * @param aProcessStateStorage
-     *            The processStateStorage to set.
+     * @param aProcessStateStorage The processStateStorage to set.
      */
     public void setProcessStateStorage(IAeProcessStateStorage aProcessStateStorage) {
         mProcessStateStorage = aProcessStateStorage;
     }
 
     /**
-     * @param aQueueStorage
-     *            The queueStorage to set.
+     * @param aQueueStorage The queueStorage to set.
      */
     public void setQueueStorage(IAeQueueStorage aQueueStorage) {
         mQueueStorage = aQueueStorage;
     }
 
     /**
-     * @param aStorage
-     *            The uRNStorage to set.
+     * @param aStorage The uRNStorage to set.
      */
     public void setURNStorage(IAeURNStorage aStorage) {
         mURNStorage = aStorage;
     }
 
     /**
-     * @param aTransmissionTrackerStorage
-     *            transmission-receive tracker storage.
+     * @param aTransmissionTrackerStorage transmission-receive tracker storage.
      */
     public void setTransmissionTrackerStorage(
             IAeTransmissionTrackerStorage aTransmissionTrackerStorage) {
@@ -201,8 +210,7 @@ public class AeStorageFactory implements IAeStorageFactory {
     }
 
     /**
-     * @param aAttachmentStorage
-     *            attachment storage.
+     * @param aAttachmentStorage attachment storage.
      */
     public void setAttachmentStorage(IAeAttachmentStorage aAttachmentStorage) {
         mAttachmentStorage = aAttachmentStorage;
@@ -216,8 +224,7 @@ public class AeStorageFactory implements IAeStorageFactory {
     }
 
     /**
-     * @param aStorageProviderFactory
-     *            The storageProviderFactory to set.
+     * @param aStorageProviderFactory The storageProviderFactory to set.
      */
     public void setStorageProviderFactory(IAeStorageProviderFactory aStorageProviderFactory) {
         mStorageProviderFactory = aStorageProviderFactory;

@@ -14,37 +14,35 @@ import org.activebpel.rt.AeException;
 /**
  * Describes the standard exception thrown by business process layer
  */
-public class AeBusinessProcessException extends AeException
-{
-   /**
-     * 
+public class AeBusinessProcessException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = -7086163749689629832L;
 
-/**
-    * Default constructor. 
-    */
-   public AeBusinessProcessException()
-   {
-      super();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeBusinessProcessException() {
+        super();
+    }
 
-   /**
-    * Construct a new business process exception with the passed info string.
-    * @see java.lang.Throwable#Throwable(String)
-    */
-   public AeBusinessProcessException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Construct a new business process exception with the passed info string.
+     *
+     * @see java.lang.Throwable#Throwable(String)
+     */
+    public AeBusinessProcessException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Construct with a root exception (used primarily for rethrowing an underlying exception).
-    * @param aInfo
-    * @param aRootCause
-    */
-   public AeBusinessProcessException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Construct with a root exception (used primarily for rethrowing an underlying exception).
+     *
+     * @param aInfo
+     * @param aRootCause
+     */
+    public AeBusinessProcessException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 }

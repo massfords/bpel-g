@@ -16,25 +16,23 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
 
 /**
  * The AeBpelContainerActivityController creates and returns figure that will be
- * used for container type activies such as Flow, While. 
+ * used for container type activies such as Flow, While.
  */
-public class AeBpelContainerActivityController extends AeBpelContainerController
-{
+public class AeBpelContainerActivityController extends AeBpelContainerController {
 
-   /**
-    * Default constructor.
-    */
-   public AeBpelContainerActivityController()
-   {
-      super();   
-   }
+    /**
+     * Default constructor.
+     */
+    public AeBpelContainerActivityController() {
+        super();
+    }
 
-   /**
-    * Overrides method to return a XY layout manager. 
-    * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#getContentLayoutManager(org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure)
-    */
-   protected LayoutManager getContentLayoutManager(AeGraphFigure aForFigure)
-   {
-      return new AeXyLayoutManager();
-   }   
+    /**
+     * Overrides method to return a XY layout manager.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#getContentLayoutManager(org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure)
+     */
+    protected LayoutManager getContentLayoutManager(AeGraphFigure aForFigure) {
+        return new AeXyLayoutManager();
+    }
 }

@@ -11,10 +11,9 @@ package org.activebpel.rt.bpel;
 
 /**
  * Interface for process information events.
- *
+ * <p/>
  * Events are reported to listeners via handleProcessInfoEvent().
  */
-public interface IAeProcessInfoEvent extends IAeBaseProcessEvent
-{
-	AeProcessInfoEventType getProcessInfoEventType();
+public interface IAeProcessInfoEvent extends IAeBaseProcessEvent {
+    AeProcessInfoEventType getProcessInfoEventType();
 }

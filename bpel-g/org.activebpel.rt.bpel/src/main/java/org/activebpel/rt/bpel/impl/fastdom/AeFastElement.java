@@ -22,113 +22,106 @@ import org.activebpel.rt.bpel.AeMessages;
 /**
  * Implements an element node in the fast, lightweight DOM.
  */
-public class AeFastElement extends AeFastNode implements IAeFastParent
-{
-   /** The element's name. */
-   private final String mName;
+public class AeFastElement extends AeFastNode implements IAeFastParent {
+    /**
+     * The element's name.
+     */
+    private final String mName;
 
-   /** Maps attribute names to attribute instances. */
-   private final Map<String,AeFastAttribute> mAttributesMap = new HashMap<>();
+    /**
+     * Maps attribute names to attribute instances.
+     */
+    private final Map<String, AeFastAttribute> mAttributesMap = new HashMap<>();
 
-   /** The element's child nodes. */
-   private final Collection<AeFastNode> mChildNodes = new LinkedHashSet<>();
+    /**
+     * The element's child nodes.
+     */
+    private final Collection<AeFastNode> mChildNodes = new LinkedHashSet<>();
 
-   /**
-    * Constructs an element with the specified name.
-    *
-    * @param aName
-    */
-   public AeFastElement(String aName)
-   {
-      mName = aName;
-   }
+    /**
+     * Constructs an element with the specified name.
+     *
+     * @param aName
+     */
+    public AeFastElement(String aName) {
+        mName = aName;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.fastdom.IAeVisitable#accept(org.activebpel.rt.bpel.impl.fastdom.IAeVisitor)
-    */
-   public void accept(IAeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.fastdom.IAeVisitable#accept(org.activebpel.rt.bpel.impl.fastdom.IAeVisitor)
+     */
+    public void accept(IAeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.fastdom.IAeFastParent#appendChild(org.activebpel.rt.bpel.impl.fastdom.AeFastNode)
-    */
-   public void appendChild(AeFastNode aChild)
-   {
-      if (aChild.getParent() != null)
-      {
-         throw new AeIllegalAddException(AeMessages.getString("AeFastElement.ERROR_0")); //$NON-NLS-1$
-      }
+    /**
+     * @see org.activebpel.rt.bpel.impl.fastdom.IAeFastParent#appendChild(org.activebpel.rt.bpel.impl.fastdom.AeFastNode)
+     */
+    public void appendChild(AeFastNode aChild) {
+        if (aChild.getParent() != null) {
+            throw new AeIllegalAddException(AeMessages.getString("AeFastElement.ERROR_0")); //$NON-NLS-1$
+        }
 
-      internalGetChildNodes().add(aChild);
-      aChild.setParent(this);
-   }
+        internalGetChildNodes().add(aChild);
+        aChild.setParent(this);
+    }
 
-   /**
-    * Returns an ordered collection of this element's attributes.
-    */
-   public Collection getAttributes()
-   {
-      return new TreeMap<>(getAttributesMap()).values();
-   }
+    /**
+     * Returns an ordered collection of this element's attributes.
+     */
+    public Collection getAttributes() {
+        return new TreeMap<>(getAttributesMap()).values();
+    }
 
-   /**
-    * Returns the <code>Map</code> of attribute names to attribute instances.
-    */
-   protected Map<String,AeFastAttribute> getAttributesMap()
-   {
-      return mAttributesMap;
-   }
+    /**
+     * Returns the <code>Map</code> of attribute names to attribute instances.
+     */
+    protected Map<String, AeFastAttribute> getAttributesMap() {
+        return mAttributesMap;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.fastdom.IAeFastParent#getChildNodes()
-    */
-   public List<AeFastNode> getChildNodes()
-   {
-      return new ArrayList<>(internalGetChildNodes());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.fastdom.IAeFastParent#getChildNodes()
+     */
+    public List<AeFastNode> getChildNodes() {
+        return new ArrayList<>(internalGetChildNodes());
+    }
 
-   /**
-    * Returns this element's name.
-    */
-   public String getName()
-   {
-      return mName;
-   }
+    /**
+     * Returns this element's name.
+     */
+    public String getName() {
+        return mName;
+    }
 
-   /**
-    * Returns the internal representation of this node's child nodes.
-    */
-   protected Collection<AeFastNode> internalGetChildNodes()
-   {
-      return mChildNodes;
-   }
+    /**
+     * Returns the internal representation of this node's child nodes.
+     */
+    protected Collection<AeFastNode> internalGetChildNodes() {
+        return mChildNodes;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.fastdom.IAeFastParent#removeChild(org.activebpel.rt.bpel.impl.fastdom.AeFastNode)
-    */
-   public boolean removeChild(AeFastNode aChild)
-   {
-      if (internalGetChildNodes().remove(aChild))
-      {
-         aChild.setParent(null);
-         return true;
-      }
+    /**
+     * @see org.activebpel.rt.bpel.impl.fastdom.IAeFastParent#removeChild(org.activebpel.rt.bpel.impl.fastdom.AeFastNode)
+     */
+    public boolean removeChild(AeFastNode aChild) {
+        if (internalGetChildNodes().remove(aChild)) {
+            aChild.setParent(null);
+            return true;
+        }
 
-      return false;
-   }
+        return false;
+    }
 
-   /**
-    * Sets an attribute with the specified name and value on this element.
-    *
-    * @param aName
-    * @param aValue
-    */
-   public void setAttribute(String aName, String aValue)
-   {
-      AeFastAttribute attribute = new AeFastAttribute(aName, aValue);
-      attribute.setParent(this);
-      getAttributesMap().put(aName, attribute);
-   }
+    /**
+     * Sets an attribute with the specified name and value on this element.
+     *
+     * @param aName
+     * @param aValue
+     */
+    public void setAttribute(String aName, String aValue) {
+        AeFastAttribute attribute = new AeFastAttribute(aName, aValue);
+        attribute.setParent(this);
+        getAttributesMap().put(aName, attribute);
+    }
 }

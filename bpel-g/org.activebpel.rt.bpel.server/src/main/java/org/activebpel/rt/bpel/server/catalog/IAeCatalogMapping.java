@@ -18,44 +18,45 @@ import org.xml.sax.InputSource;
 /**
  * Interface for deploying resources to the catalog.
  */
-public interface IAeCatalogMapping
-{
-   /** 
-    * Location hint.  
-    * Should be fully qualified url.
-    */
-   public String getLocationHint();
-  
-   /**
-    * @return Returns the typeURI.
-    */
-   public String getTypeURI();
-   
-   /** 
-    * Target namespace for this mapping entry, if it is WSDL or Schema it comes
-    * from the targetNamespace attribute.  
-    */
-   public String getTargetNamespace();
-   
-   /**
-    * Access resource as InputSource.
-    * @throws IOException
-    */
-   public InputSource getInputSource() throws IOException;
+public interface IAeCatalogMapping {
+    /**
+     * Location hint.
+     * Should be fully qualified url.
+     */
+    public String getLocationHint();
 
-   /**
-    * Access resource as a Document.
-    * @throws AeException
-    */
-   public Document getDocument() throws AeException;
-   
-   /**
-    * Return true if this is a wsdl entry.
-    */
-   public boolean isWsdlEntry();
-   
-   /**
-    * Return true if this is a schema entry.
-    */
-   public boolean isSchemaEntry();
+    /**
+     * @return Returns the typeURI.
+     */
+    public String getTypeURI();
+
+    /**
+     * Target namespace for this mapping entry, if it is WSDL or Schema it comes
+     * from the targetNamespace attribute.
+     */
+    public String getTargetNamespace();
+
+    /**
+     * Access resource as InputSource.
+     *
+     * @throws IOException
+     */
+    public InputSource getInputSource() throws IOException;
+
+    /**
+     * Access resource as a Document.
+     *
+     * @throws AeException
+     */
+    public Document getDocument() throws AeException;
+
+    /**
+     * Return true if this is a wsdl entry.
+     */
+    public boolean isWsdlEntry();
+
+    /**
+     * Return true if this is a schema entry.
+     */
+    public boolean isSchemaEntry();
 }

@@ -19,46 +19,45 @@ import java.util.Set;
 
 
 /**
- * Class used to resolve namespace prefixes for property aliases. 
+ * Class used to resolve namespace prefixes for property aliases.
  */
-public class AeNamespaceResolver implements IAeNamespaceContext
-{
-   /** Property alias which contains the prefix to namespace mappings */
-   final IAePropertyAlias mPropAlias;
+public class AeNamespaceResolver implements IAeNamespaceContext {
+    /**
+     * Property alias which contains the prefix to namespace mappings
+     */
+    final IAePropertyAlias mPropAlias;
 
-   /**
-    * Constructs a namespace resolver for use with the given property alias
-    * @param aPropAlias the alias to use in getting prefix mappings
-    */
-   public AeNamespaceResolver(IAePropertyAlias aPropAlias)
-   {
-      mPropAlias = aPropAlias;
-   }
-   
-   /**
-    * Returns the namespace associated with the prefix from the associated model.
-    * 
-    * @see org.activebpel.rt.xml.IAeNamespaceContext#resolvePrefixToNamespace(java.lang.String)
-    */
-   public String resolvePrefixToNamespace(String aPrefix)
-   {
-      return mPropAlias.getNamespaces().get(aPrefix);
-   }
+    /**
+     * Constructs a namespace resolver for use with the given property alias
+     *
+     * @param aPropAlias the alias to use in getting prefix mappings
+     */
+    public AeNamespaceResolver(IAePropertyAlias aPropAlias) {
+        mPropAlias = aPropAlias;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
-    */
-   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
-   {
-      HashSet<String> set = new HashSet<>();
-      Map<String,String> map = mPropAlias.getNamespaces();
+    /**
+     * Returns the namespace associated with the prefix from the associated model.
+     *
+     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolvePrefixToNamespace(java.lang.String)
+     */
+    public String resolvePrefixToNamespace(String aPrefix) {
+        return mPropAlias.getNamespaces().get(aPrefix);
+    }
 
-       for (Entry<String, String> entry : map.entrySet()) {
-           if (entry.getValue().equals(aNamespace)) {
-               set.add(entry.getKey());
-           }
-       }
-      return set;
-   }
+    /**
+     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
+     */
+    public Set<String> resolveNamespaceToPrefixes(String aNamespace) {
+        HashSet<String> set = new HashSet<>();
+        Map<String, String> map = mPropAlias.getNamespaces();
+
+        for (Entry<String, String> entry : map.entrySet()) {
+            if (entry.getValue().equals(aNamespace)) {
+                set.add(entry.getKey());
+            }
+        }
+        return set;
+    }
 
 }

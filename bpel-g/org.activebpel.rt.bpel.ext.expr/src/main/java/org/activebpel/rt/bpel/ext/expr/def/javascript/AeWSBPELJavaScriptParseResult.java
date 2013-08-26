@@ -21,41 +21,41 @@ import org.mozilla.javascript.ScriptOrFnNode;
 /**
  * A concrete BPEL 2.0 implementation of a parse result for the javascript language.
  */
-public class AeWSBPELJavaScriptParseResult extends AeAbstractJavaScriptParseResult
-{
-   /** The getVariableData QName (for BPEL 2.0 JavaScript expressions). */
-   public static final QName GET_VARIABLE_DATA_FUNC_NAME = new QName(
-         IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, AeExpressionLanguageUtil.VAR_DATA_FUNC_NAME);
-   /** The getLinkStatus QName (for BPEL 2.0 JavaScript expressions). */
-   private static final QName GET_LINK_STATUS_FUNC_NAME = new QName(
-         IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, AeExpressionLanguageUtil.LINK_STATUS_FUNC_NAME);
+public class AeWSBPELJavaScriptParseResult extends AeAbstractJavaScriptParseResult {
+    /**
+     * The getVariableData QName (for BPEL 2.0 JavaScript expressions).
+     */
+    public static final QName GET_VARIABLE_DATA_FUNC_NAME = new QName(
+            IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, AeExpressionLanguageUtil.VAR_DATA_FUNC_NAME);
+    /**
+     * The getLinkStatus QName (for BPEL 2.0 JavaScript expressions).
+     */
+    private static final QName GET_LINK_STATUS_FUNC_NAME = new QName(
+            IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, AeExpressionLanguageUtil.LINK_STATUS_FUNC_NAME);
 
-   /**
-    * Constructor.
-    * 
-    * @param aExpression
-    * @param aRootNode
-    * @param aParserContext
-    */
-   public AeWSBPELJavaScriptParseResult(String aExpression, ScriptOrFnNode aRootNode,
-         IAeExpressionParserContext aParserContext)
-   {
-      super(aExpression, aRootNode, aParserContext);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult#isGetLinkStatusFunction(org.activebpel.rt.expr.def.AeScriptFuncDef)
-    */
-   protected boolean isGetLinkStatusFunction(AeScriptFuncDef aFunction)
-   {
-      return GET_LINK_STATUS_FUNC_NAME.equals(aFunction.getQName()) || super.isGetLinkStatusFunction(aFunction);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult#isGetVariableDataFunction(org.activebpel.rt.expr.def.AeScriptFuncDef)
-    */
-   protected boolean isGetVariableDataFunction(AeScriptFuncDef aFunction)
-   {
-      return GET_VARIABLE_DATA_FUNC_NAME.equals(aFunction.getQName()) || super.isGetVariableDataFunction(aFunction);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aExpression
+     * @param aRootNode
+     * @param aParserContext
+     */
+    public AeWSBPELJavaScriptParseResult(String aExpression, ScriptOrFnNode aRootNode,
+                                         IAeExpressionParserContext aParserContext) {
+        super(aExpression, aRootNode, aParserContext);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult#isGetLinkStatusFunction(org.activebpel.rt.expr.def.AeScriptFuncDef)
+     */
+    protected boolean isGetLinkStatusFunction(AeScriptFuncDef aFunction) {
+        return GET_LINK_STATUS_FUNC_NAME.equals(aFunction.getQName()) || super.isGetLinkStatusFunction(aFunction);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult#isGetVariableDataFunction(org.activebpel.rt.expr.def.AeScriptFuncDef)
+     */
+    protected boolean isGetVariableDataFunction(AeScriptFuncDef aFunction) {
+        return GET_VARIABLE_DATA_FUNC_NAME.equals(aFunction.getQName()) || super.isGetVariableDataFunction(aFunction);
+    }
 }

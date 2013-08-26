@@ -16,11 +16,11 @@ import org.activebpel.rt.xml.def.IAeAdapter;
 /**
  * All extension implementations that participate in core preprocessing need to implement this interface
  */
-public interface IAeCorePreprocessingAdapter extends IAeAdapter
-{
-   /**
-    * Execute the adapter logic. The context passed is the Def object
-    * @param aDef
-    */
-   public void preprocessForCore(AeBaseXmlDef aDef) throws AeException;
+public interface IAeCorePreprocessingAdapter extends IAeAdapter {
+    /**
+     * Execute the adapter logic. The context passed is the Def object
+     *
+     * @param aDef
+     */
+    public void preprocessForCore(AeBaseXmlDef aDef) throws AeException;
 }

@@ -19,37 +19,31 @@ import org.activebpel.rt.xml.def.AeExtensionElementDef;
 /**
  * Class that validates an extension attribute def.
  */
-public class AeBPWSExtensionElementValidator extends AeAbstractExtensionElementValidator
-{
-   /**
-    * Constructor.
-    * 
-    * @param aDef
-    */
-   public AeBPWSExtensionElementValidator(AeExtensionElementDef aDef)
-   {
-      super(aDef);
-   }
+public class AeBPWSExtensionElementValidator extends AeAbstractExtensionElementValidator {
+    /**
+     * Constructor.
+     *
+     * @param aDef
+     */
+    public AeBPWSExtensionElementValidator(AeExtensionElementDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-      QName extQName = getDef().getElementQName();
-      Object[] args = { extQName.getNamespaceURI(), extQName.getLocalPart(),
-            getDefinition().getParentXmlDef().getLocationPath() };
-      String warningMessage = null;
-      if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(extQName.getNamespaceURI()))
-      {
-         warningMessage = AeMessages.getString("AeBPWSExtensionElementValidator.AddedBPELConstructAsExtensibilityElement"); //$NON-NLS-1$
-      }
-      else
-      {
-         warningMessage = AeMessages.getString("AeBPWSExtensionElementValidator.ExtensibilityElementWarning"); //$NON-NLS-1$
-      }
-      getReporter().reportProblem(BPWS_EXTENSIBILITY_ELEMENT_CODE, warningMessage, args, getDefinition());
-   }
+        QName extQName = getDef().getElementQName();
+        Object[] args = {extQName.getNamespaceURI(), extQName.getLocalPart(),
+                getDefinition().getParentXmlDef().getLocationPath()};
+        String warningMessage = null;
+        if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(extQName.getNamespaceURI())) {
+            warningMessage = AeMessages.getString("AeBPWSExtensionElementValidator.AddedBPELConstructAsExtensibilityElement"); //$NON-NLS-1$
+        } else {
+            warningMessage = AeMessages.getString("AeBPWSExtensionElementValidator.ExtensibilityElementWarning"); //$NON-NLS-1$
+        }
+        getReporter().reportProblem(BPWS_EXTENSIBILITY_ELEMENT_CODE, warningMessage, args, getDefinition());
+    }
 }

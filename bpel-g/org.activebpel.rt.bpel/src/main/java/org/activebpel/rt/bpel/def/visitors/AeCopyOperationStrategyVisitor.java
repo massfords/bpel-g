@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.visitors; 
+package org.activebpel.rt.bpel.def.visitors;
 
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.AeVariableDef;
@@ -25,83 +25,79 @@ import org.activebpel.rt.util.AeUtil;
  * Visits the process def and adds the strategy hint to the copy operation defs:
  * &lt;from&gt; and &lt;to&gt;.
  */
-public class AeCopyOperationStrategyVisitor extends AeAbstractDefVisitor implements IAeFromStrategyNames, IAeToStrategyNames
-{
-   /** used to match the def to a prescribed strategy */
-   private final IAeCopyOperationStrategyMatcher mStrategyMatcher;
-   /** The expression language factory to use. */
-   private IAeExpressionLanguageFactory mExpressionLanguageFactory;
-   
-   /**
-    * Constructor.
-    * 
-    * @param aMatcher
-    * @param aExpressionLanguageFactory
-    */
-   public AeCopyOperationStrategyVisitor(IAeCopyOperationStrategyMatcher aMatcher,
-         IAeExpressionLanguageFactory aExpressionLanguageFactory)
-   {
-      mStrategyMatcher = aMatcher;
-      setExpressionLanguageFactory(aExpressionLanguageFactory);
-      setTraversalVisitor( new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
+public class AeCopyOperationStrategyVisitor extends AeAbstractDefVisitor implements IAeFromStrategyNames, IAeToStrategyNames {
+    /**
+     * used to match the def to a prescribed strategy
+     */
+    private final IAeCopyOperationStrategyMatcher mStrategyMatcher;
+    /**
+     * The expression language factory to use.
+     */
+    private IAeExpressionLanguageFactory mExpressionLanguageFactory;
 
-   /**
-    * Creates the appropriate impl object to model the &lt;from&gt;
-    * 
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
-    */
-   public void visit(AeFromDef def)
-   {
-      AeVariableDef variableDef = findVariable(def);
-      AeSpecStrategyKey strategy = mStrategyMatcher.getStrategy(def, variableDef);
-      def.setStrategyKey(strategy);
-   }
-   
-   /**
-    * Finds the variable in scope.
-    * 
-    * @param aVarDef
-    */
-   protected AeVariableDef findVariable(AeVarDef aVarDef)
-   {
-      AeVariableDef def = null;
-      
-      // walk the parents and inspect each scope def to see if it declares this variable
-      
-      if (AeUtil.notNullOrEmpty(aVarDef.getVariable()))
-      {
-         def = AeDefUtil.getVariableByName(aVarDef.getVariable(), aVarDef);
-      }
-      
-      return def;
-   }
-   
-   /**
-    * Creates the appropriate impl object to model the &lt;to&gt;
-    * 
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
-    */
-   public void visit(AeToDef def)
-   {
-      AeVariableDef variableDef = findVariable(def);
-      AeSpecStrategyKey strategy = mStrategyMatcher.getStrategy(def, variableDef, getExpressionLanguageFactory());
-      def.setStrategyKey(strategy);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aMatcher
+     * @param aExpressionLanguageFactory
+     */
+    public AeCopyOperationStrategyVisitor(IAeCopyOperationStrategyMatcher aMatcher,
+                                          IAeExpressionLanguageFactory aExpressionLanguageFactory) {
+        mStrategyMatcher = aMatcher;
+        setExpressionLanguageFactory(aExpressionLanguageFactory);
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * @return Returns the expressionLanguageFactory.
-    */
-   protected IAeExpressionLanguageFactory getExpressionLanguageFactory()
-   {
-      return mExpressionLanguageFactory;
-   }
+    /**
+     * Creates the appropriate impl object to model the &lt;from&gt;
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
+     */
+    public void visit(AeFromDef def) {
+        AeVariableDef variableDef = findVariable(def);
+        AeSpecStrategyKey strategy = mStrategyMatcher.getStrategy(def, variableDef);
+        def.setStrategyKey(strategy);
+    }
 
-   /**
-    * @param aExpressionLanguageFactory The expressionLanguageFactory to set.
-    */
-   protected void setExpressionLanguageFactory(IAeExpressionLanguageFactory aExpressionLanguageFactory)
-   {
-      mExpressionLanguageFactory = aExpressionLanguageFactory;
-   }
+    /**
+     * Finds the variable in scope.
+     *
+     * @param aVarDef
+     */
+    protected AeVariableDef findVariable(AeVarDef aVarDef) {
+        AeVariableDef def = null;
+
+        // walk the parents and inspect each scope def to see if it declares this variable
+
+        if (AeUtil.notNullOrEmpty(aVarDef.getVariable())) {
+            def = AeDefUtil.getVariableByName(aVarDef.getVariable(), aVarDef);
+        }
+
+        return def;
+    }
+
+    /**
+     * Creates the appropriate impl object to model the &lt;to&gt;
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
+     */
+    public void visit(AeToDef def) {
+        AeVariableDef variableDef = findVariable(def);
+        AeSpecStrategyKey strategy = mStrategyMatcher.getStrategy(def, variableDef, getExpressionLanguageFactory());
+        def.setStrategyKey(strategy);
+    }
+
+    /**
+     * @return Returns the expressionLanguageFactory.
+     */
+    protected IAeExpressionLanguageFactory getExpressionLanguageFactory() {
+        return mExpressionLanguageFactory;
+    }
+
+    /**
+     * @param aExpressionLanguageFactory The expressionLanguageFactory to set.
+     */
+    protected void setExpressionLanguageFactory(IAeExpressionLanguageFactory aExpressionLanguageFactory) {
+        mExpressionLanguageFactory = aExpressionLanguageFactory;
+    }
 }

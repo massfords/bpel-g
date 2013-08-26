@@ -15,26 +15,25 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 /**
  * This visitor will look for extension elements/attributes.  If any are found
  */
-public class AeDefExtensionFinderVisitor extends AeAbstractSearchVisitor
-{
-   /** Flag indicating whether an extension was found while visiting. */
-   private boolean mExtensionFound;
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractSearchVisitor#isFound()
-    */
-   public boolean isFound()
-   {
-      return mExtensionFound;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#traverse(org.activebpel.rt.xml.def.AeBaseXmlDef)
-    */
-   protected void traverse(AeBaseXmlDef aDef)
-   {
-      mExtensionFound = aDef.getExtensionAttributeDefs().iterator().hasNext() || aDef.getExtensionElementDefs().iterator().hasNext();
+public class AeDefExtensionFinderVisitor extends AeAbstractSearchVisitor {
+    /**
+     * Flag indicating whether an extension was found while visiting.
+     */
+    private boolean mExtensionFound;
 
-      super.traverse(aDef);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractSearchVisitor#isFound()
+     */
+    public boolean isFound() {
+        return mExtensionFound;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#traverse(org.activebpel.rt.xml.def.AeBaseXmlDef)
+     */
+    protected void traverse(AeBaseXmlDef aDef) {
+        mExtensionFound = aDef.getExtensionAttributeDefs().iterator().hasNext() || aDef.getExtensionElementDefs().iterator().hasNext();
+
+        super.traverse(aDef);
+    }
 }

@@ -17,41 +17,45 @@ import org.w3c.dom.Element;
 
 /**
  * Defines the interface for a class capable of parsing WS-Addressing headers from
- * into endpoint references from a SOAP Header element. 
+ * into endpoint references from a SOAP Header element.
  */
-public interface IAeAddressingDeserializer extends IAeWsAddressingConstants
-{
-   /**
-    * Parses a set of WS-Addressing Headers from a dom element.
-    * @param aElement the element to parse
-    */
-   public IAeAddressingHeaders deserializeHeaders(Element aElement) throws AeBusinessProcessException;
-   
-   /**
-    * Parses a set of WS-Addressing Headers from a SOAP Header.
-    * @param aHeader the SOAPHeader to parse
-    */
-   public IAeAddressingHeaders deserializeHeaders(SOAPHeader aHeader) throws AeBusinessProcessException;
+public interface IAeAddressingDeserializer extends IAeWsAddressingConstants {
+    /**
+     * Parses a set of WS-Addressing Headers from a dom element.
+     *
+     * @param aElement the element to parse
+     */
+    public IAeAddressingHeaders deserializeHeaders(Element aElement) throws AeBusinessProcessException;
 
-   /**
-    * Populates an existing WS-Addressing Header object with information contained within
-    * the element
-    * @param aElement the Element to parse
-    * @param aRef - gets populated and returned if not null, otherwise a new ref is created, populated, and returned
-    */
-   public IAeAddressingHeaders deserializeHeaders(Element aElement, IAeAddressingHeaders aRef) throws AeBusinessProcessException;
-   
-   /**
-    * Populates an existing WS-Addressing Header object with information contained within
-    * the SOAP header
-    * @param aHeader the SOAPHeader to parse
-    * @param aRef - gets populated and returned if not null, otherwise a new ref is created, populated, and returned
-    */
-   public IAeAddressingHeaders deserializeHeaders(SOAPHeader aHeader, IAeAddressingHeaders aRef) throws AeBusinessProcessException;
-   
-   /**
-    * Returns true if the element is one that contains a wsa header
-    * @param aElement
-    */
-   public boolean isEndpointHeader(Element aElement);
+    /**
+     * Parses a set of WS-Addressing Headers from a SOAP Header.
+     *
+     * @param aHeader the SOAPHeader to parse
+     */
+    public IAeAddressingHeaders deserializeHeaders(SOAPHeader aHeader) throws AeBusinessProcessException;
+
+    /**
+     * Populates an existing WS-Addressing Header object with information contained within
+     * the element
+     *
+     * @param aElement the Element to parse
+     * @param aRef     - gets populated and returned if not null, otherwise a new ref is created, populated, and returned
+     */
+    public IAeAddressingHeaders deserializeHeaders(Element aElement, IAeAddressingHeaders aRef) throws AeBusinessProcessException;
+
+    /**
+     * Populates an existing WS-Addressing Header object with information contained within
+     * the SOAP header
+     *
+     * @param aHeader the SOAPHeader to parse
+     * @param aRef    - gets populated and returned if not null, otherwise a new ref is created, populated, and returned
+     */
+    public IAeAddressingHeaders deserializeHeaders(SOAPHeader aHeader, IAeAddressingHeaders aRef) throws AeBusinessProcessException;
+
+    /**
+     * Returns true if the element is one that contains a wsa header
+     *
+     * @param aElement
+     */
+    public boolean isEndpointHeader(Element aElement);
 }

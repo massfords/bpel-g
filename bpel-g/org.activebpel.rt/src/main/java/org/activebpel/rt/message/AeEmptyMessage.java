@@ -19,111 +19,101 @@ import org.activebpel.rt.attachment.AeAttachmentContainer;
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
 
 /**
- * Container for a message that doesn't contain any parts. 
+ * Container for a message that doesn't contain any parts.
  */
-public class AeEmptyMessage implements IAeMessageData
-{
-   /** The type of message */
-   private final QName mType;
-   
-   /** place holder for optional attachments */
-   private IAeAttachmentContainer mAttachmentContainer;
-   
-   /**
-    * Constructor
-    * @param aType
-    */
-   public AeEmptyMessage(QName aType)
-   {
-      mType = aType;
-   }
+public class AeEmptyMessage implements IAeMessageData {
+    /**
+     * The type of message
+     */
+    private final QName mType;
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#getMessageType()
-    */
-   public QName getMessageType()
-   {
-      return mType;
-   }
+    /**
+     * place holder for optional attachments
+     */
+    private IAeAttachmentContainer mAttachmentContainer;
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#getPartNames()
-    */
-   public Iterator<String> getPartNames()
-   {
-      return Collections.<String>emptyList().iterator();
-   }
+    /**
+     * Constructor
+     *
+     * @param aType
+     */
+    public AeEmptyMessage(QName aType) {
+        mType = aType;
+    }
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#getData(java.lang.String)
-    */
-   public Object getData(String aPartName)
-   {
-      throw new UnsupportedOperationException(AeMessages.getString("AeEmptyMessage.ERROR_0")); //$NON-NLS-1$
-   }
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#getMessageType()
+     */
+    public QName getMessageType() {
+        return mType;
+    }
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#setData(java.lang.String, java.lang.Object)
-    */
-   public void setData(String aPartName, Object aData)
-   {
-      throw new UnsupportedOperationException(AeMessages.getString("AeEmptyMessage.ERROR_0")); //$NON-NLS-1$
-   }
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#getPartNames()
+     */
+    public Iterator<String> getPartNames() {
+        return Collections.<String>emptyList().iterator();
+    }
 
-   /**
-    * @see java.lang.Object#clone()
-    */
-   public Object clone()
-   {
-      try
-      {
-         AeEmptyMessage copy = (AeEmptyMessage) super.clone();
-         
-         if (mAttachmentContainer != null)
-         {
-            copy.mAttachmentContainer = new AeAttachmentContainer(mAttachmentContainer);
-         }
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#getData(java.lang.String)
+     */
+    public Object getData(String aPartName) {
+        throw new UnsupportedOperationException(AeMessages.getString("AeEmptyMessage.ERROR_0")); //$NON-NLS-1$
+    }
 
-         return copy;
-      }
-      catch (CloneNotSupportedException e)
-      {
-         throw new InternalError("Unexpected error during clone: " + e.getLocalizedMessage()); //$NON-NLS-1$
-      }
-   }
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#setData(java.lang.String, java.lang.Object)
+     */
+    public void setData(String aPartName, Object aData) {
+        throw new UnsupportedOperationException(AeMessages.getString("AeEmptyMessage.ERROR_0")); //$NON-NLS-1$
+    }
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#getPartCount()
-    */
-   public int getPartCount()
-   {
-      return 0;
-   }
+    /**
+     * @see java.lang.Object#clone()
+     */
+    public Object clone() {
+        try {
+            AeEmptyMessage copy = (AeEmptyMessage) super.clone();
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#hasAttachments()
-    */
-   public boolean hasAttachments()
-   {
-      return mAttachmentContainer != null && ! mAttachmentContainer.isEmpty();
-   }
+            if (mAttachmentContainer != null) {
+                copy.mAttachmentContainer = new AeAttachmentContainer(mAttachmentContainer);
+            }
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#getAttachmentContainer()
-    */
-   public IAeAttachmentContainer getAttachmentContainer()
-   {
-      if (mAttachmentContainer == null)
-         mAttachmentContainer = new AeAttachmentContainer();
-      
-      return mAttachmentContainer;
-   }
+            return copy;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError("Unexpected error during clone: " + e.getLocalizedMessage()); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#setAttachmentContainer(org.activebpel.rt.attachment.IAeAttachmentContainer)
-    */
-   public void setAttachmentContainer(IAeAttachmentContainer aAttachmentContainer)
-   {
-      mAttachmentContainer = aAttachmentContainer;
-   }
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#getPartCount()
+     */
+    public int getPartCount() {
+        return 0;
+    }
+
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#hasAttachments()
+     */
+    public boolean hasAttachments() {
+        return mAttachmentContainer != null && !mAttachmentContainer.isEmpty();
+    }
+
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#getAttachmentContainer()
+     */
+    public IAeAttachmentContainer getAttachmentContainer() {
+        if (mAttachmentContainer == null)
+            mAttachmentContainer = new AeAttachmentContainer();
+
+        return mAttachmentContainer;
+    }
+
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#setAttachmentContainer(org.activebpel.rt.attachment.IAeAttachmentContainer)
+     */
+    public void setAttachmentContainer(IAeAttachmentContainer aAttachmentContainer) {
+        mAttachmentContainer = aAttachmentContainer;
+    }
 }

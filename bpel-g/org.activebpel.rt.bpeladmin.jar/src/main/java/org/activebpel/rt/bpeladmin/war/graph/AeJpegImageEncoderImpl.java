@@ -20,49 +20,40 @@ import org.activebpel.rt.AeException;
 /**
  * Implements IAeImageEncoder based on Sun's JPEG Image Encoder class.
  */
-public class AeJpegImageEncoderImpl implements IAeImageEncoder
-{
+public class AeJpegImageEncoderImpl implements IAeImageEncoder {
 
-   /**
-    * Default constructer.
-    *
-    */
-   public AeJpegImageEncoderImpl()
-   {
-   }
+    /**
+     * Default constructer.
+     */
+    public AeJpegImageEncoderImpl() {
+    }
 
-   /**
-    * @return the MIME content-type for JPEG images.
-    * @see org.activebpel.rt.bpeladmin.war.graph.IAeImageEncoder#getContentType()
-    */
-   public String getContentType()
-   {
-      return "image/jpeg";//$NON-NLS-1$
-   }
+    /**
+     * @return the MIME content-type for JPEG images.
+     * @see org.activebpel.rt.bpeladmin.war.graph.IAeImageEncoder#getContentType()
+     */
+    public String getContentType() {
+        return "image/jpeg";//$NON-NLS-1$
+    }
 
-   /**
-    * Encodes the image as JPEG stream.
-    * @param aImage buffered image
-    * @param aOutputStream codec output stream 
-    * @see org.activebpel.rt.bpeladmin.war.graph.IAeImageEncoder#encode(java.awt.image.BufferedImage, java.io.OutputStream)
-    */
-   public void encode(BufferedImage aImage, OutputStream aOutputStream) throws IOException, AeException
-   {
-      try
-      {
-          ImageIO.write(aImage, "jpg", aOutputStream);
-          aOutputStream.flush();
-          aOutputStream.close();
-      }
-      catch(IOException io)
-      {
-         throw io;
-      }
-      catch(Throwable t)
-      {
-         throw new AeException(t);
-      }
-      
-   }
+    /**
+     * Encodes the image as JPEG stream.
+     *
+     * @param aImage        buffered image
+     * @param aOutputStream codec output stream
+     * @see org.activebpel.rt.bpeladmin.war.graph.IAeImageEncoder#encode(java.awt.image.BufferedImage, java.io.OutputStream)
+     */
+    public void encode(BufferedImage aImage, OutputStream aOutputStream) throws IOException, AeException {
+        try {
+            ImageIO.write(aImage, "jpg", aOutputStream);
+            aOutputStream.flush();
+            aOutputStream.close();
+        } catch (IOException io) {
+            throw io;
+        } catch (Throwable t) {
+            throw new AeException(t);
+        }
+
+    }
 
 }

@@ -24,40 +24,35 @@ import org.apache.commons.dbutils.ResultSetHandler;
  * <br/>
  */
 
-public class AeCoordinationDetailListResultSetHandler implements ResultSetHandler<List<AeCoordinationDetail>>
-{
+public class AeCoordinationDetailListResultSetHandler implements ResultSetHandler<List<AeCoordinationDetail>> {
 
-   /**
-    * Default ctor
-    */
-   public AeCoordinationDetailListResultSetHandler()
-   {
-   }
+    /**
+     * Default ctor
+     */
+    public AeCoordinationDetailListResultSetHandler() {
+    }
 
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public List<AeCoordinationDetail> handle(ResultSet aResultSet) throws SQLException
-   {
-       List<AeCoordinationDetail> results = new ArrayList<>();
-      // Iterate through rows
-      while (aResultSet.next())
-      {
-         results.add(readRow(aResultSet));
-      }      
-      return results;
-   }
-   
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
-    */
-   protected AeCoordinationDetail readRow(ResultSet aResultSet) throws SQLException
-   {
-      String coordId = aResultSet.getString(IAeCoordinationColumns.COORDINATION_ID);
-      String state = aResultSet.getString(IAeCoordinationColumns.STATE);
-      long processId = aResultSet.getLong(IAeCoordinationColumns.PROCESS_ID);
-      String locationPath = aResultSet.getString(IAeCoordinationColumns.LOCATION_PATH);
-      return new AeCoordinationDetail(processId, coordId, state, locationPath);  
-   }   
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public List<AeCoordinationDetail> handle(ResultSet aResultSet) throws SQLException {
+        List<AeCoordinationDetail> results = new ArrayList<>();
+        // Iterate through rows
+        while (aResultSet.next()) {
+            results.add(readRow(aResultSet));
+        }
+        return results;
+    }
+
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
+     */
+    protected AeCoordinationDetail readRow(ResultSet aResultSet) throws SQLException {
+        String coordId = aResultSet.getString(IAeCoordinationColumns.COORDINATION_ID);
+        String state = aResultSet.getString(IAeCoordinationColumns.STATE);
+        long processId = aResultSet.getLong(IAeCoordinationColumns.PROCESS_ID);
+        String locationPath = aResultSet.getString(IAeCoordinationColumns.LOCATION_PATH);
+        return new AeCoordinationDetail(processId, coordId, state, locationPath);
+    }
 }

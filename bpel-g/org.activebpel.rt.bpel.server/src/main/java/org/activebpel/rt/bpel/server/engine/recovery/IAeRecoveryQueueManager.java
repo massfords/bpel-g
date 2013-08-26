@@ -21,33 +21,32 @@ import org.activebpel.rt.bpel.impl.queue.AeReply;
  * org.activebpel.rt.bpel.server.engine.recovery.AeRecoveryEngine} for
  * recovery.
  */
-public interface IAeRecoveryQueueManager extends IAeQueueManager
-{
-   /**
-    * Sets the list of invoke transmitted journal entries to be used to restore
-    * invoke transmission ids.
-    */
-   public void setInvokeTransmittedEntries(List aInvokeTransmittedEntries);
+public interface IAeRecoveryQueueManager extends IAeQueueManager {
+    /**
+     * Sets the list of invoke transmitted journal entries to be used to restore
+     * invoke transmission ids.
+     */
+    public void setInvokeTransmittedEntries(List aInvokeTransmittedEntries);
 
-   /**
-    * Sets container for alarm and queue manager items generated during
-    * recovery.
-    */
-   public void setRecoveredItemsSet(IAeRecoveredItemsSet aRecoveredItemsSet);
-   
-   /**
-    * Gets container for alarm and queue manager items generated during 
-    * recovery.
-    */
-   public IAeRecoveredItemsSet getRecoveredItemsSet();
+    /**
+     * Sets container for alarm and queue manager items generated during
+     * recovery.
+     */
+    public void setRecoveredItemsSet(IAeRecoveredItemsSet aRecoveredItemsSet);
 
-   /**
-    * Sets the process that is being recovered.
-    */
-   public void setRecoveryProcess(IAeBusinessProcess aRecoveryProcess);
+    /**
+     * Gets container for alarm and queue manager items generated during
+     * recovery.
+     */
+    public IAeRecoveredItemsSet getRecoveredItemsSet();
 
-   /**
-    * Sets the sent replies.
-    */
-   public void setSentReplies(List<AeReply> aSentReplies);
+    /**
+     * Sets the process that is being recovered.
+     */
+    public void setRecoveryProcess(IAeBusinessProcess aRecoveryProcess);
+
+    /**
+     * Sets the sent replies.
+     */
+    public void setSentReplies(List<AeReply> aSentReplies);
 }

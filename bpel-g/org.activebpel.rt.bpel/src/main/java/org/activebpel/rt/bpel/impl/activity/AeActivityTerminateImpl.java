@@ -17,30 +17,28 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 /**
  * Implementation of the bpel terminate activity.
  */
-public class AeActivityTerminateImpl extends AeActivityImpl
-{
-   /** default constructor for activity */
-   public AeActivityTerminateImpl(
-      AeActivityExitDef aActivityDef,
-      IAeActivityParent aParent)
-   {
-      super(aActivityDef, aParent);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept( IAeImplVisitor aVisitor ) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      super.execute();
-      getProcess().terminate();
-   }
+public class AeActivityTerminateImpl extends AeActivityImpl {
+    /**
+     * default constructor for activity
+     */
+    public AeActivityTerminateImpl(
+            AeActivityExitDef aActivityDef,
+            IAeActivityParent aParent) {
+        super(aActivityDef, aParent);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        super.execute();
+        getProcess().terminate();
+    }
 }

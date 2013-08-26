@@ -7,25 +7,23 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.axis.bpel.handlers; 
+package org.activebpel.rt.axis.bpel.handlers;
 
 import org.apache.axis.constants.Use;
 
 /**
- * RPC Literal version of the RPC handler. 
+ * RPC Literal version of the RPC handler.
  */
-public class AeBpelRPCLiteralHandler extends AeBpelRPCHandler
-{
-   /**
-     * 
+public class AeBpelRPCLiteralHandler extends AeBpelRPCHandler {
+    /**
+     *
      */
     private static final long serialVersionUID = 3400194973942032138L;
 
-/**
-    * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getUse()
-    */
-   protected Use getUse()
-   {
-      return Use.LITERAL;
-   }
+    /**
+     * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getUse()
+     */
+    protected Use getUse() {
+        return Use.LITERAL;
+    }
 }

@@ -18,57 +18,58 @@ import org.activebpel.wsio.IAeWsAddressingHeaders;
 import org.w3c.dom.Element;
 
 /**
- * Extension of IAeWsAddressingHeaders that deals with overlapping 
+ * Extension of IAeWsAddressingHeaders that deals with overlapping
  * endpoint definitions in reference properties
  */
-public interface IAeAddressingHeaders extends IAeWsAddressingHeaders
-{
-   public static final String AE_WSA_HEADERS_PROPERTY = IAeAddressingHeaders.class.getName();
-   
-   /** 
-    * Adds a WS-Addressing header to this instance.  
-    * If the element is a known WS-Addressing header, the value of the appropriate member variable is updated. 
-    * Otherwise, it is added as a ReferenceProperty.
-    *   
-    * @param aElement
-    * @throws AeWsAddressingException
-    */
-   public void addHeaderElement(Element aElement) throws AeWsAddressingException;   
+public interface IAeAddressingHeaders extends IAeWsAddressingHeaders {
+    public static final String AE_WSA_HEADERS_PROPERTY = IAeAddressingHeaders.class.getName();
 
-   /**
-    * Sets the reference properties for this instance.  Any WSA headers embedded
-    * in the list of reference properties will override the appropriate member variable
-    * as opposed to blindly adding it to the list.
-    * 
-    * @param aElementList the list of reference properties to serialize as headers.
-    */
-   public void setReferenceProperties(List<Element> aElementList) throws AeWsAddressingException;
+    /**
+     * Adds a WS-Addressing header to this instance.
+     * If the element is a known WS-Addressing header, the value of the appropriate member variable is updated.
+     * Otherwise, it is added as a ReferenceProperty.
+     *
+     * @param aElement
+     * @throws AeWsAddressingException
+     */
+    public void addHeaderElement(Element aElement) throws AeWsAddressingException;
 
-   /**
-    * Adds elements to the reference properties for this instance.  Any WSA headers embedded
-    * in the list of reference properties will override the appropriate member variable
-    * as opposed to blindly adding it to the list.
-    * 
-    * @param aElementList the list of reference properties to serialize as headers.
-    */
-   public void addReferenceProperties(List aElementList) throws AeWsAddressingException;
- 
-   /**
-    * Gets the Reply relationship type QName for the namespace
-    * 
-    * @return relationship type attribute
-    */
-   public QName getReplyRelationshipName();
-   
-   /**
-    * Returns the fully qualified fault action uri
-    * @return fault action uri
-    */
-   public String getFaultAction();
-   
-   /**
-    * Returns the WSA anonymous role URI
-    * @return anonymous role uri
-    */
-   public String getAnonymousRole();
+    /**
+     * Sets the reference properties for this instance.  Any WSA headers embedded
+     * in the list of reference properties will override the appropriate member variable
+     * as opposed to blindly adding it to the list.
+     *
+     * @param aElementList the list of reference properties to serialize as headers.
+     */
+    public void setReferenceProperties(List<Element> aElementList) throws AeWsAddressingException;
+
+    /**
+     * Adds elements to the reference properties for this instance.  Any WSA headers embedded
+     * in the list of reference properties will override the appropriate member variable
+     * as opposed to blindly adding it to the list.
+     *
+     * @param aElementList the list of reference properties to serialize as headers.
+     */
+    public void addReferenceProperties(List aElementList) throws AeWsAddressingException;
+
+    /**
+     * Gets the Reply relationship type QName for the namespace
+     *
+     * @return relationship type attribute
+     */
+    public QName getReplyRelationshipName();
+
+    /**
+     * Returns the fully qualified fault action uri
+     *
+     * @return fault action uri
+     */
+    public String getFaultAction();
+
+    /**
+     * Returns the WSA anonymous role URI
+     *
+     * @return anonymous role uri
+     */
+    public String getAnonymousRole();
 }

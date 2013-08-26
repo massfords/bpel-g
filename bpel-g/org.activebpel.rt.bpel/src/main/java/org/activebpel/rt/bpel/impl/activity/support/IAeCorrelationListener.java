@@ -13,13 +13,12 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 
 /**
  * Callback interface for reporting that the correlation set has been initialized.
- * This interface is used by receives and pick's onMessage in order to avoid 
- * those activities queuing themselves prior to their data being available. 
+ * This interface is used by receives and pick's onMessage in order to avoid
+ * those activities queuing themselves prior to their data being available.
  */
-public interface IAeCorrelationListener
-{
-   /**
-    * callback method invoked by the correlation set once it's initialized. 
-    */
-   public void correlationSetInitialized(AeCorrelationSet aSet) throws AeBusinessProcessException;
+public interface IAeCorrelationListener {
+    /**
+     * callback method invoked by the correlation set once it's initialized.
+     */
+    public void correlationSetInitialized(AeCorrelationSet aSet) throws AeBusinessProcessException;
 }

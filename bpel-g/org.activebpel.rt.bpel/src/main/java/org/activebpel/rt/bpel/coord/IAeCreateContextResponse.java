@@ -10,27 +10,27 @@
 package org.activebpel.rt.bpel.coord;
 
 /**
- * Interface for a WS-Coordination CreateCoordinationContextResponse 
- * 
+ * Interface for a WS-Coordination CreateCoordinationContextResponse
+ * <p/>
  * Note: This is an internal implementation tailored to be used with requirement 111
- * ie - the interface provides a simple property getter and setter. 
- * 
+ * ie - the interface provides a simple property getter and setter.
+ * <p/>
  * The final implementation should follow something close to CreateCoordinationContextResponse
  * as per http://schemas.xmlsoap.org/ws/2004/10/wsoor.
- * Maybe refactor this interface to wsio.IWebServiceCoordCreateContextResponse. 
+ * Maybe refactor this interface to wsio.IWebServiceCoordCreateContextResponse.
  */
-public interface IAeCreateContextResponse
-{   
-   /**
-    * Returns the property value given the name.
-    * @param aName property name.
-    * @return property value if found or null otherwise.
-    */
-   public String getProperty(String aName);
-   
-   /** 
-    * @return The coordination context created by the activation service.
-    */
-   public IAeCoordinationContext getContext();
+public interface IAeCreateContextResponse {
+    /**
+     * Returns the property value given the name.
+     *
+     * @param aName property name.
+     * @return property value if found or null otherwise.
+     */
+    public String getProperty(String aName);
+
+    /**
+     * @return The coordination context created by the activation service.
+     */
+    public IAeCoordinationContext getContext();
 
 }

@@ -7,25 +7,25 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity.support; 
+package org.activebpel.rt.bpel.def.activity.support;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation;
 
 /**
  * Defines the interface that an extension attribute will need to implement in
- * order to produce the R-value for a copy operation. The R-value must be an 
+ * order to produce the R-value for a copy operation. The R-value must be an
  * an EII, TII, or AII.
  */
-public interface IAeFromSpecExtension extends IAeSpecExtension
-{
-   /**
-    * Executes whatever behavior is defined by the extension in order to create
-    * an object for the copy operation.
-    * @param aCopyOperation
-    * @param aDef
-    * @throws AeBusinessProcessException
-    */
-   public Object executeFromSpec(IAeCopyOperation aCopyOperation, AeFromDef aDef) throws AeBusinessProcessException;
+public interface IAeFromSpecExtension extends IAeSpecExtension {
+    /**
+     * Executes whatever behavior is defined by the extension in order to create
+     * an object for the copy operation.
+     *
+     * @param aCopyOperation
+     * @param aDef
+     * @throws AeBusinessProcessException
+     */
+    public Object executeFromSpec(IAeCopyOperation aCopyOperation, AeFromDef aDef) throws AeBusinessProcessException;
 }
  

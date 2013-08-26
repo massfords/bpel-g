@@ -20,31 +20,30 @@ import org.w3c.dom.Element;
  * A reader def visitor is used by the dispatch reader to actually read the attributes of a
  * def from the XML Element.
  */
-public interface IAeReportingDefReader
-{
-   /**
-    * Returns a set of Attr objects that have been consumed during the reading of the
-    * def.
-    */
-   public Set getConsumedAttributes();
+public interface IAeReportingDefReader {
+    /**
+     * Returns a set of Attr objects that have been consumed during the reading of the
+     * def.
+     */
+    public Set getConsumedAttributes();
 
-   /**
-    * Returns true if there are errors encountered during the parse. These errors are
-    * significant enough to not add definition object to the process def.
-    * 
-    * One example of an error like this would be encountering multiple child
-    * activities when only one is allowed.
-    */
-   public boolean hasErrors();
-   
-   /**
-    * Getter for the errors list.
-    */
-   public List getErrors();
-   
-   /**
-    * Reads attributes from the element and sets them on the 
-    * def. 
-    */
-   public void read(AeBaseXmlDef aDef, Element aElement);
+    /**
+     * Returns true if there are errors encountered during the parse. These errors are
+     * significant enough to not add definition object to the process def.
+     * <p/>
+     * One example of an error like this would be encountering multiple child
+     * activities when only one is allowed.
+     */
+    public boolean hasErrors();
+
+    /**
+     * Getter for the errors list.
+     */
+    public List getErrors();
+
+    /**
+     * Reads attributes from the element and sets them on the
+     * def.
+     */
+    public void read(AeBaseXmlDef aDef, Element aElement);
 }

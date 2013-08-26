@@ -14,8 +14,7 @@ import org.activebpel.rt.bpeladmin.war.AeMessages;
 /**
  * Provides support for configuring task manager properties
  */
-public class AeTaskManagerBean extends AeAbstractAdminBean
-{
+public class AeTaskManagerBean extends AeAbstractAdminBean {
 //   private static final String CUSTOM_MANAGERS_TASK_MANAGER_FINALIZATION_DURATION =
 //            "CustomManagers/BPEL4PeopleManager/FinalizationDuration"; //$NON-NLS-1$
 //
@@ -25,20 +24,25 @@ public class AeTaskManagerBean extends AeAbstractAdminBean
 //   private static final String CACHE_DURATION =
 //      "CustomManagers/BPEL4PeopleManager/TaskClientProperties/cache-duration-mins"; //$NON-NLS-1$
 
-   /** duration to keep the in the inbox once it's reached a final state */
-   private int mFinalizationDuration = 1;
-   /** Duration (ttl) of inbox cache, in minutes. */
-   private int mCacheDuration;
-   /** Cache size . */
-   private int mCacheSize;
+    /**
+     * duration to keep the in the inbox once it's reached a final state
+     */
+    private int mFinalizationDuration = 1;
+    /**
+     * Duration (ttl) of inbox cache, in minutes.
+     */
+    private int mCacheDuration;
+    /**
+     * Cache size .
+     */
+    private int mCacheSize;
 
-   /**
-    * Ctor inits the properties
-    */
-   public AeTaskManagerBean()
-   {
+    /**
+     * Ctor inits the properties
+     */
+    public AeTaskManagerBean() {
 //      IAeUpdatableEngineConfig config = (IAeUpdatableEngineConfig) getAdmin().getEngineConfig().getUpdatableEngineConfig();
-       
+
         // FIXME need to impl
         setCacheSize(500);
         setCacheDuration(10);
@@ -56,52 +60,46 @@ public class AeTaskManagerBean extends AeAbstractAdminBean
 //         {
 //         }
 //      }
-   }
+    }
 
-   /**
-    * Indicates the update button has been pressed and all changes will be persisted
-    * to the config.
-    * @param aValue
-    */
-   public void setUpdate( String aValue )
-   {
-      validate();
+    /**
+     * Indicates the update button has been pressed and all changes will be persisted
+     * to the config.
+     *
+     * @param aValue
+     */
+    public void setUpdate(String aValue) {
+        validate();
 
-      if (!isErrorDetail())
-      {
-         saveChanges();
-      }
-   }
+        if (!isErrorDetail()) {
+            saveChanges();
+        }
+    }
 
-   /**
-    * validates that the client url is set and that the finalization duration
-    * is non-negative
-    */
-   protected void validate()
-   {
-      if (getFinalizationDuration() < 1)
-      {
-         addError("finalizationDuration", String.valueOf(getFinalizationDuration()), AeMessages.getString("AeTaskManagerBean.FinalizationDuration")); //$NON-NLS-1$ //$NON-NLS-2$
-      }
+    /**
+     * validates that the client url is set and that the finalization duration
+     * is non-negative
+     */
+    protected void validate() {
+        if (getFinalizationDuration() < 1) {
+            addError("finalizationDuration", String.valueOf(getFinalizationDuration()), AeMessages.getString("AeTaskManagerBean.FinalizationDuration")); //$NON-NLS-1$ //$NON-NLS-2$
+        }
 
-      if (getCacheSize() < 0)
-      {
-         addError("cacheSize", String.valueOf(getCacheSize()), AeMessages.getString("AeTaskManagerBean.CacheSize")); //$NON-NLS-1$ //$NON-NLS-2$
-      }
+        if (getCacheSize() < 0) {
+            addError("cacheSize", String.valueOf(getCacheSize()), AeMessages.getString("AeTaskManagerBean.CacheSize")); //$NON-NLS-1$ //$NON-NLS-2$
+        }
 
-      if (getCacheDuration() < 1)
-      {
-         addError("cacheDuration", String.valueOf(getCacheDuration()), AeMessages.getString("AeTaskManagerBean.CacheDuration")); //$NON-NLS-1$ //$NON-NLS-2$
-      }
+        if (getCacheDuration() < 1) {
+            addError("cacheDuration", String.valueOf(getCacheDuration()), AeMessages.getString("AeTaskManagerBean.CacheDuration")); //$NON-NLS-1$ //$NON-NLS-2$
+        }
 
-   }
+    }
 
-   /**
-    * Saves the current config settings to the database.
-    */
-   protected void saveChanges()
-   {
-       // FIXME need to impl
+    /**
+     * Saves the current config settings to the database.
+     */
+    protected void saveChanges() {
+        // FIXME need to impl
 //      String duration = "P" + getFinalizationDuration() + "D"; //$NON-NLS-1$ //$NON-NLS-2$
 //
 //      IAeUpdatableEngineConfig config = getUpdatableConfig();
@@ -109,56 +107,52 @@ public class AeTaskManagerBean extends AeAbstractAdminBean
 //      config.addEntryByPath( CACHE_SIZE, String.valueOf( getCacheSize()) );
 //      config.addEntryByPath( CACHE_DURATION, String.valueOf( getCacheDuration()) );
 //      config.update();
-   }
+    }
 
-   /**
-    * @return the finalizationDuration
-    */
-   public int getFinalizationDuration()
-   {
-      return mFinalizationDuration;
-   }
+    /**
+     * @return the finalizationDuration
+     */
+    public int getFinalizationDuration() {
+        return mFinalizationDuration;
+    }
 
-   /**
-    * @param aFinalizationDuration the finalizationDuration to set
-    */
-   public void setFinalizationDuration(int aFinalizationDuration)
-   {
-      mFinalizationDuration = aFinalizationDuration;
-   }
+    /**
+     * @param aFinalizationDuration the finalizationDuration to set
+     */
+    public void setFinalizationDuration(int aFinalizationDuration) {
+        mFinalizationDuration = aFinalizationDuration;
+    }
 
-   /**
-    * @return cache duration in minutes.
-    */
-   public int getCacheDuration()
-   {
-      return mCacheDuration;
-   }
+    /**
+     * @return cache duration in minutes.
+     */
+    public int getCacheDuration() {
+        return mCacheDuration;
+    }
 
-   /**
-    * Sets the cache duration.
-    * @param aCacheDuration duration, in minutes.
-    */
-   public void setCacheDuration(int aCacheDuration)
-   {
-      mCacheDuration = aCacheDuration;
-   }
+    /**
+     * Sets the cache duration.
+     *
+     * @param aCacheDuration duration, in minutes.
+     */
+    public void setCacheDuration(int aCacheDuration) {
+        mCacheDuration = aCacheDuration;
+    }
 
-   /**
-    * @return Cache size.
-    */
-   public int getCacheSize()
-   {
-      return mCacheSize;
-   }
+    /**
+     * @return Cache size.
+     */
+    public int getCacheSize() {
+        return mCacheSize;
+    }
 
-   /**
-    * Sets the cache size.
-    * @param aCacheSize
-    */
-   public void setCacheSize(int aCacheSize)
-   {
-      mCacheSize = aCacheSize;
-   }
+    /**
+     * Sets the cache size.
+     *
+     * @param aCacheSize
+     */
+    public void setCacheSize(int aCacheSize) {
+        mCacheSize = aCacheSize;
+    }
 
 }

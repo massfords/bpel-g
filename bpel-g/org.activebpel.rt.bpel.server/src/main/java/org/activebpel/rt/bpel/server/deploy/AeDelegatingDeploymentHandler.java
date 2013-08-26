@@ -8,19 +8,19 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 
 public class AeDelegatingDeploymentHandler implements IAeDeploymentHandler {
-    
+
     private List<IAeDeploymentHandler> mHandlers;
 
     @Override
     public void deploy(IAeDeploymentContainer aContainer, IAeDeploymentLogger aLogger)
             throws AeException {
-        for(IAeDeploymentHandler handler : getHandlers())
+        for (IAeDeploymentHandler handler : getHandlers())
             handler.deploy(aContainer, aLogger);
     }
 
     @Override
     public void undeploy(IAeDeploymentContainer aContainer) throws AeException {
-        for(IAeDeploymentHandler handler : getUndeploymentHandlers())
+        for (IAeDeploymentHandler handler : getUndeploymentHandlers())
             handler.undeploy(aContainer);
     }
 
@@ -31,7 +31,7 @@ public class AeDelegatingDeploymentHandler implements IAeDeploymentHandler {
     public void setHandlers(List<IAeDeploymentHandler> aHandlers) {
         mHandlers = aHandlers;
     }
-    
+
     public List<IAeDeploymentHandler> getUndeploymentHandlers() {
         List<IAeDeploymentHandler> l = new ArrayList<>(getHandlers());
         Collections.reverse(l);

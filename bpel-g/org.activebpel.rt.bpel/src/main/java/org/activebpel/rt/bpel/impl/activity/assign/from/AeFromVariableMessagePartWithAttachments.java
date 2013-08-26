@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign.from; 
+package org.activebpel.rt.bpel.impl.activity.assign.from;
 
 import java.util.Iterator;
 
@@ -21,62 +21,55 @@ import org.activebpel.rt.bpel.impl.AeUninitializedVariableException;
  * Handles selecting data from a variable part with attachments. The data will either be a xsd simple type,
  * element, or complex type.
  */
-public class AeFromVariableMessagePartWithAttachments extends AeFromVariableMessagePart
-{
+public class AeFromVariableMessagePartWithAttachments extends AeFromVariableMessagePart {
 
-   /**
-    * Ctor accepts the def object
-    * 
-    * @param aFromDef
-    */
-   public AeFromVariableMessagePartWithAttachments(AeFromDef aFromDef)
-   {
-      super(aFromDef);
-   }
-   
-   /**
-    * Ctor accepts variable name and part name
-    * @param aVariableName
-    * @param aPartName
-    */
-   public AeFromVariableMessagePartWithAttachments(String aVariableName, String aPartName)
-   {
-     super(aVariableName,aPartName);
-   }
+    /**
+     * Ctor accepts the def object
+     *
+     * @param aFromDef
+     */
+    public AeFromVariableMessagePartWithAttachments(AeFromDef aFromDef) {
+        super(aFromDef);
+    }
 
-   /**
-    * Ctor accepts variable and part name
-    * @param aVariable
-    * @param aPartName
-    */
-   public AeFromVariableMessagePartWithAttachments(IAeVariable aVariable, String aPartName)
-   {
-     super( aVariable, aPartName);
-   }
+    /**
+     * Ctor accepts variable name and part name
+     *
+     * @param aVariableName
+     * @param aPartName
+     */
+    public AeFromVariableMessagePartWithAttachments(String aVariableName, String aPartName) {
+        super(aVariableName, aPartName);
+    }
 
-   /**
-    * Return an attachment source only for the first part of the variable. This is consistent with Requirement 160
-    * @see org.activebpel.rt.bpel.impl.activity.assign.from.AeFromBase#getAttachmentsSource()
-    */
-   public IAeAttachmentContainer getAttachmentsSource()
-   {
-      try
-      {
-         for (Iterator itr = getVariable().getMessageData().getPartNames(); itr.hasNext();)
-         {
-            if(getPart().equals(itr.next()))
-            {
-               return getVariable().getAttachmentData();
+    /**
+     * Ctor accepts variable and part name
+     *
+     * @param aVariable
+     * @param aPartName
+     */
+    public AeFromVariableMessagePartWithAttachments(IAeVariable aVariable, String aPartName) {
+        super(aVariable, aPartName);
+    }
+
+    /**
+     * Return an attachment source only for the first part of the variable. This is consistent with Requirement 160
+     *
+     * @see org.activebpel.rt.bpel.impl.activity.assign.from.AeFromBase#getAttachmentsSource()
+     */
+    public IAeAttachmentContainer getAttachmentsSource() {
+        try {
+            for (Iterator itr = getVariable().getMessageData().getPartNames(); itr.hasNext(); ) {
+                if (getPart().equals(itr.next())) {
+                    return getVariable().getAttachmentData();
+                }
+                break;
             }
-            break;
-         }
-      }
-      catch (AeUninitializedVariableException ex)
-      {
-         // Should never happen
-         AeException.logError(ex);
-      }
-      return null;
-   }
+        } catch (AeUninitializedVariableException ex) {
+            // Should never happen
+            AeException.logError(ex);
+        }
+        return null;
+    }
 
 }

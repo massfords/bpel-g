@@ -17,41 +17,45 @@ import org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry;
 /**
  * Defines the storage provider interface for managing transmission ids.
  */
-public interface IAeTransmissionTrackerStorageProvider extends IAeStorageProvider
-{
-   /**
-    * Returns the next (unique) id. 
-    * @return next transmission id.
-    * @throws AeStorageException
-    */
-   public long getNextTransmissionId() throws AeStorageException;
-   
-   /**
-    * Adds the given entry to the storage.
-    * @param aEntry
-    * @throws AeStorageException
-    */
-   public void add(AeTransmissionTrackerEntry aEntry) throws AeStorageException;
-   
-   /**
-    * Retrieves the entry given the entry id.
-    * @param aTransmissionId
-    * @return entry or <code>null</code> if not found.
-    * @throws AeStorageException
-    */
-   public AeTransmissionTrackerEntry get(long aTransmissionId) throws AeStorageException;
-   
-   /**
-    * Updates the state and or message id.
-    * @param aEntry
-    * @throws AeStorageException
-    */
-   public void update(AeTransmissionTrackerEntry aEntry) throws AeStorageException;
-   
-   /**
-    * Deletes a collection of entries.
-    * @param aTransmissionIds
-    * @throws AeStorageException
-    */
-   public void remove(Set<Long> aTransmissionIds) throws AeStorageException;
+public interface IAeTransmissionTrackerStorageProvider extends IAeStorageProvider {
+    /**
+     * Returns the next (unique) id.
+     *
+     * @return next transmission id.
+     * @throws AeStorageException
+     */
+    public long getNextTransmissionId() throws AeStorageException;
+
+    /**
+     * Adds the given entry to the storage.
+     *
+     * @param aEntry
+     * @throws AeStorageException
+     */
+    public void add(AeTransmissionTrackerEntry aEntry) throws AeStorageException;
+
+    /**
+     * Retrieves the entry given the entry id.
+     *
+     * @param aTransmissionId
+     * @return entry or <code>null</code> if not found.
+     * @throws AeStorageException
+     */
+    public AeTransmissionTrackerEntry get(long aTransmissionId) throws AeStorageException;
+
+    /**
+     * Updates the state and or message id.
+     *
+     * @param aEntry
+     * @throws AeStorageException
+     */
+    public void update(AeTransmissionTrackerEntry aEntry) throws AeStorageException;
+
+    /**
+     * Deletes a collection of entries.
+     *
+     * @param aTransmissionIds
+     * @throws AeStorageException
+     */
+    public void remove(Set<Long> aTransmissionIds) throws AeStorageException;
 }

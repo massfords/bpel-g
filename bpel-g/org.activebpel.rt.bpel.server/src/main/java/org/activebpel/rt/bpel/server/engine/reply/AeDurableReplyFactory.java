@@ -23,76 +23,65 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Default implementation of the durable reply factory.
  */
-public class AeDurableReplyFactory implements IAeDurableReplyFactory
-{   
-   /**
-    * Map containing <code>IAeReplyReceiver</code> factories, keyed by the factory prototype.
-    */
-   private Map<String,IAeReplyReceiverFactory> replyFactoryMap;
-   
-   /**
-    * @return Returns the replyFactoryMap.
-    */
-   public Map<String,IAeReplyReceiverFactory> getReplyFactoryMap()
-   {
-      return replyFactoryMap;
-   }
-   
-   public void setReplyFactoryMap(Map<String,IAeReplyReceiverFactory> aMap) {
-       replyFactoryMap = aMap;
-   }
-   
-   /**
-    * Returns a <code>IAeReplyReceiverFactory</code> given the type.
-    * @param aProtoType
-    *
-    */
-   protected IAeReplyReceiverFactory getFactory(String aProtoType)
-   {
-      IAeReplyReceiverFactory rVal = null;
-      if ( AeUtil.notNullOrEmpty( aProtoType ) )
-      {
-         rVal = getReplyFactoryMap().get( aProtoType.toLowerCase().trim() );
-      }
-      return rVal;
-   }
+public class AeDurableReplyFactory implements IAeDurableReplyFactory {
+    /**
+     * Map containing <code>IAeReplyReceiver</code> factories, keyed by the factory prototype.
+     */
+    private Map<String, IAeReplyReceiverFactory> replyFactoryMap;
 
-   /**  
-    * Overrides method to method to create appropriate reply receiver.
-    * Returns an AeMissingReplyReceiver if the reply type is not supported. 
-    * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyFactory#createReplyReceiver(long, org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo)
-    */
-   public IAeReplyReceiver createReplyReceiver(long aReplyId, IAeDurableReplyInfo aInfo)
-         throws AeBusinessProcessException
-   {      
-      IAeReplyReceiverFactory factory = null;
-      if (aInfo != null && AeUtil.notNullOrEmpty(aInfo.getType()) )
-      {
-         factory = getFactory( aInfo.getType() );
-      }      
-      if (factory != null)
-      {
-         try
-         {
-            return factory.createReplyReceiver(aInfo.getProperties());
-         }
-         catch(AeException e)
-         {
-            throw new AeBusinessProcessException(e.getLocalizedMessage(), e);
-         }
-      }
-      else
-      {
-         return createMissingReplyReceiver(aReplyId);
-      }
-   }
+    /**
+     * @return Returns the replyFactoryMap.
+     */
+    public Map<String, IAeReplyReceiverFactory> getReplyFactoryMap() {
+        return replyFactoryMap;
+    }
 
-   /** 
-    * Overrides method to AeMissingReplyReceiverInstance.
-    * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyFactory#createMissingReplyReceiver(long)
-    */
-   public IAeReplyReceiver createMissingReplyReceiver(long aReplyId)
-   {
-      return new AeMissingReplyReceiver(aReplyId);
-   }
+    public void setReplyFactoryMap(Map<String, IAeReplyReceiverFactory> aMap) {
+        replyFactoryMap = aMap;
+    }
+
+    /**
+     * Returns a <code>IAeReplyReceiverFactory</code> given the type.
+     *
+     * @param aProtoType
+     */
+    protected IAeReplyReceiverFactory getFactory(String aProtoType) {
+        IAeReplyReceiverFactory rVal = null;
+        if (AeUtil.notNullOrEmpty(aProtoType)) {
+            rVal = getReplyFactoryMap().get(aProtoType.toLowerCase().trim());
+        }
+        return rVal;
+    }
+
+    /**
+     * Overrides method to method to create appropriate reply receiver.
+     * Returns an AeMissingReplyReceiver if the reply type is not supported.
+     *
+     * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyFactory#createReplyReceiver(long, org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo)
+     */
+    public IAeReplyReceiver createReplyReceiver(long aReplyId, IAeDurableReplyInfo aInfo)
+            throws AeBusinessProcessException {
+        IAeReplyReceiverFactory factory = null;
+        if (aInfo != null && AeUtil.notNullOrEmpty(aInfo.getType())) {
+            factory = getFactory(aInfo.getType());
+        }
+        if (factory != null) {
+            try {
+                return factory.createReplyReceiver(aInfo.getProperties());
+            } catch (AeException e) {
+                throw new AeBusinessProcessException(e.getLocalizedMessage(), e);
+            }
+        } else {
+            return createMissingReplyReceiver(aReplyId);
+        }
+    }
+
+    /**
+     * Overrides method to AeMissingReplyReceiverInstance.
+     *
+     * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyFactory#createMissingReplyReceiver(long)
+     */
+    public IAeReplyReceiver createMissingReplyReceiver(long aReplyId) {
+        return new AeMissingReplyReceiver(aReplyId);
+    }
 }

@@ -12,41 +12,37 @@ package org.activebpel.rt.bpel.def;
 /**
  * Base definition class for activities which is the createInstance attribute.
  */
-public abstract class AeActivityCreateInstanceBaseDef extends AeActivityPartnerLinkBaseDef implements IAeActivityCreateInstanceDef
-{
-   /**
-     * 
+public abstract class AeActivityCreateInstanceBaseDef extends AeActivityPartnerLinkBaseDef implements IAeActivityCreateInstanceDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -2738783630696156435L;
-/**
-    * createInstance attribute.
-    */
-   private boolean mCreateInstance;
+    /**
+     * createInstance attribute.
+     */
+    private boolean mCreateInstance;
 
-   /**
-    * Default c'tor.
-    */
-   public AeActivityCreateInstanceBaseDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeActivityCreateInstanceBaseDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain the create instance flag.
-    */
-   public final boolean isCreateInstance()
-   {
-      return mCreateInstance;
-   }
+    /**
+     * Accessor method to obtain the create instance flag.
+     */
+    public final boolean isCreateInstance() {
+        return mCreateInstance;
+    }
 
-   /**
-    * Mutator method to set the create instance flag for the activity.
-    * 
-    * @param aCreateInstance boolean flag indicating if instance should be 
-    *        created for activity
-    */
-   public final void setCreateInstance(boolean aCreateInstance)
-   {
-      mCreateInstance = aCreateInstance;
-   }   
+    /**
+     * Mutator method to set the create instance flag for the activity.
+     *
+     * @param aCreateInstance boolean flag indicating if instance should be
+     *                        created for activity
+     */
+    public final void setCreateInstance(boolean aCreateInstance) {
+        mCreateInstance = aCreateInstance;
+    }
 }

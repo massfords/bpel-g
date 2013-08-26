@@ -18,134 +18,125 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
 /**
  * Represents an attachment item that has been stored by the attachment manager.
  */
-public class AeStoredAttachmentItem implements IAeAttachmentItem
-{
-   /** <code>Map</code> of attachment's MIME headers. */
-   private Map<String, String> mHeaders = null;
+public class AeStoredAttachmentItem implements IAeAttachmentItem {
+    /**
+     * <code>Map</code> of attachment's MIME headers.
+     */
+    private Map<String, String> mHeaders = null;
 
-   /** Attachment's id. */
-   private long mAttachmentId;
+    /**
+     * Attachment's id.
+     */
+    private long mAttachmentId;
 
-   /** The id of the attachment group that contains this attachment item. */
-   private long mGroupId;
-   
-   /**
-    * The id of the associated process.
-    * {@link IAeBusinessProcess#NULL_PROCESS_ID} means not yet associated with a
-    * process.
-    */
-   private long mProcessId = IAeBusinessProcess.NULL_PROCESS_ID;
+    /**
+     * The id of the attachment group that contains this attachment item.
+     */
+    private long mGroupId;
 
-   /**
-    * Default constructor.
-    */
-   public AeStoredAttachmentItem()
-   {
-   }
+    /**
+     * The id of the associated process.
+     * {@link IAeBusinessProcess#NULL_PROCESS_ID} means not yet associated with a
+     * process.
+     */
+    private long mProcessId = IAeBusinessProcess.NULL_PROCESS_ID;
 
-   /**
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object aObject)
-   {
-      if ( aObject != null && aObject instanceof AeStoredAttachmentItem )
-      {
-         AeStoredAttachmentItem other = (AeStoredAttachmentItem) aObject;
-         return (getAttachmentId() == other.getAttachmentId());
-      }
-      return false;
-   }
-   
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return (int) getAttachmentId();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeStoredAttachmentItem() {
+    }
 
-   /**
-    * @see org.activebpel.rt.attachment.IAeAttachmentItem#getAttachmentId()
-    */
-   public long getAttachmentId()
-   {
-      return mAttachmentId;
-   }
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object aObject) {
+        if (aObject != null && aObject instanceof AeStoredAttachmentItem) {
+            AeStoredAttachmentItem other = (AeStoredAttachmentItem) aObject;
+            return (getAttachmentId() == other.getAttachmentId());
+        }
+        return false;
+    }
 
-   /**
-    * @return attachment group id
-    */
-   public long getGroupId()
-   {
-      return mGroupId;
-   }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return (int) getAttachmentId();
+    }
 
-   /**
-    * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeader(java.lang.String)
-    */
-   public String getHeader(String aHeaderName)
-   {
-      return getHeaders().get(aHeaderName);
-   }
+    /**
+     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getAttachmentId()
+     */
+    public long getAttachmentId() {
+        return mAttachmentId;
+    }
 
-   /**
-    * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeaders()
-    */
-   public Map<String, String> getHeaders()
-   {
-      if (mHeaders == null)
-      {
-         mHeaders = new HashMap<>();
-      }
+    /**
+     * @return attachment group id
+     */
+    public long getGroupId() {
+        return mGroupId;
+    }
 
-      return mHeaders;
-   }
+    /**
+     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeader(java.lang.String)
+     */
+    public String getHeader(String aHeaderName) {
+        return getHeaders().get(aHeaderName);
+    }
 
-   /**
-    * @see org.activebpel.rt.attachment.IAeAttachmentItem#getProcessId()
-    */
-   public long getProcessId()
-   {
-      return mProcessId;
-   }
-   
-   /**
-    * Sets the attachment's id.
-    *
-    * @param aAttachmentId
-    */
-   public void setAttachmentId(long aAttachmentId)
-   {
-      mAttachmentId = aAttachmentId;
-   }
+    /**
+     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeaders()
+     */
+    public Map<String, String> getHeaders() {
+        if (mHeaders == null) {
+            mHeaders = new HashMap<>();
+        }
 
-   /**
-    * Sets attachment's group id.
-    *
-    * @param aGroupId
-    */
-   public void setGroupId(long aGroupId)
-   {
-      mGroupId = aGroupId;
-   }
+        return mHeaders;
+    }
 
-   /**
-    * Sets the attachment's headers.
-    *
-    * @param aHeaders
-    */
-   public void setHeaders(Map<String, String> aHeaders)
-   {
-      mHeaders = aHeaders;
-   }
+    /**
+     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getProcessId()
+     */
+    public long getProcessId() {
+        return mProcessId;
+    }
 
-   /**
-    * Sets associated process id.
-    *
-    * @param aProcessId
-    */
-   public void setProcessId(long aProcessId)
-   {
-      mProcessId = aProcessId;
-   }
+    /**
+     * Sets the attachment's id.
+     *
+     * @param aAttachmentId
+     */
+    public void setAttachmentId(long aAttachmentId) {
+        mAttachmentId = aAttachmentId;
+    }
+
+    /**
+     * Sets attachment's group id.
+     *
+     * @param aGroupId
+     */
+    public void setGroupId(long aGroupId) {
+        mGroupId = aGroupId;
+    }
+
+    /**
+     * Sets the attachment's headers.
+     *
+     * @param aHeaders
+     */
+    public void setHeaders(Map<String, String> aHeaders) {
+        mHeaders = aHeaders;
+    }
+
+    /**
+     * Sets associated process id.
+     *
+     * @param aProcessId
+     */
+    public void setProcessId(long aProcessId) {
+        mProcessId = aProcessId;
+    }
 }

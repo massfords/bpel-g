@@ -17,25 +17,24 @@ import org.activebpel.wsio.receive.IAeMessageContext;
  * Defines an interface for how a business process engine should manage
  * partner links.
  */
-public interface IAeEnginePartnerLinkStrategy
-{
-   /**
-    * Initialize a single partner link.  This is called when a scope executes and needs to init its
-    * local partner links.
-    * 
-    * @param aPartnerLink
-    * @param aPlan
-    * @throws AeBusinessProcessException
-    */
-   public void initPartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan)  throws AeBusinessProcessException;
+public interface IAeEnginePartnerLinkStrategy {
+    /**
+     * Initialize a single partner link.  This is called when a scope executes and needs to init its
+     * local partner links.
+     *
+     * @param aPartnerLink
+     * @param aPlan
+     * @throws AeBusinessProcessException
+     */
+    public void initPartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan) throws AeBusinessProcessException;
 
-   /**
-    * Updates the partner link object with the data from the inbound receive.
-    *
-    * @param aPartnerLink
-    * @param aPlan
-    * @param aMessageContext
-    * @throws AeBusinessProcessException
-    */
-   public void updatePartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan, IAeMessageContext aMessageContext) throws AeBusinessProcessException;
+    /**
+     * Updates the partner link object with the data from the inbound receive.
+     *
+     * @param aPartnerLink
+     * @param aPlan
+     * @param aMessageContext
+     * @throws AeBusinessProcessException
+     */
+    public void updatePartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan, IAeMessageContext aMessageContext) throws AeBusinessProcessException;
 }

@@ -14,14 +14,13 @@ import java.rmi.RemoteException;
 /**
  * Defines interface for counter store.
  */
-public interface IAeCounterStore extends IAeStorage
-{
-   /**
-    * Returns next block of values for a counter.
-    *
-    * @return long first new value in block
-    * @throws AeStorageException
-    * @throws RemoteException
-    */
-   public long getNextValues(String aCounterName, int aBlockSize) throws AeStorageException, RemoteException;
+public interface IAeCounterStore extends IAeStorage {
+    /**
+     * Returns next block of values for a counter.
+     *
+     * @return long first new value in block
+     * @throws AeStorageException
+     * @throws RemoteException
+     */
+    public long getNextValues(String aCounterName, int aBlockSize) throws AeStorageException, RemoteException;
 }

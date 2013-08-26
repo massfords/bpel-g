@@ -23,163 +23,143 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Extracts WS-Addressing Header values from XML based on the WS-Addressing spec. 
+ * Extracts WS-Addressing Header values from XML based on the WS-Addressing spec.
  */
-public class AeWSAddressingDeserializer implements IAeAddressingDeserializer
-{
-   /** default singleton instances */
-   private static final AeWSAddressingDeserializer sSingleton = new AeWSAddressingDeserializer();
-   private static final AeWSAddressingDeserializer sSingleton_2004_08 = new AeWSAddressingDeserializer(IAeConstants.WSA_NAMESPACE_URI_2004_08);   
-   private static final AeWSAddressingDeserializer sSingleton_2004_03 = new AeWSAddressingDeserializer(IAeConstants.WSA_NAMESPACE_URI_2004_03);
-   private static final AeWSAddressingDeserializer sSingleton_2005_08 = new AeWSAddressingDeserializer(IAeConstants.WSA_NAMESPACE_URI_2005_08);   
-   
-   /** WSA Namespace to use */ 
-   private String mNamespace = IAeConstants.WSA_NAMESPACE_URI;
+public class AeWSAddressingDeserializer implements IAeAddressingDeserializer {
+    /**
+     * default singleton instances
+     */
+    private static final AeWSAddressingDeserializer sSingleton = new AeWSAddressingDeserializer();
+    private static final AeWSAddressingDeserializer sSingleton_2004_08 = new AeWSAddressingDeserializer(IAeConstants.WSA_NAMESPACE_URI_2004_08);
+    private static final AeWSAddressingDeserializer sSingleton_2004_03 = new AeWSAddressingDeserializer(IAeConstants.WSA_NAMESPACE_URI_2004_03);
+    private static final AeWSAddressingDeserializer sSingleton_2005_08 = new AeWSAddressingDeserializer(IAeConstants.WSA_NAMESPACE_URI_2005_08);
 
-   /** set of element names that may contain WS-Addressing information */
-   private static final Set<String> mWSASoapHeaderElementNames = new HashSet<>();
-   
-   static
-   {
-     mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_TO);       
-     mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_FROM); 
-     mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_REPLY_TO);
-     mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_FAULT_TO);
-     mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_ACTION); 
-     mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_MESSAGE_ID);
-     mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_RELATES_TO);     
-     mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_RECIPIENT);
-     mWSASoapHeaderElementNames.add(IAeAddressingHeaders.ABX_CONVERSATION_ID);     
-   }
-   
-   
-   /**
-    * Private ctor for singleton pattern that uses the default namespace
-    */
-   private AeWSAddressingDeserializer()
-   {
-   }
+    /**
+     * WSA Namespace to use
+     */
+    private String mNamespace = IAeConstants.WSA_NAMESPACE_URI;
 
-   /**
-    * Private ctor for singleton pattern with specific namespace
-    */
-   private AeWSAddressingDeserializer(String aNamespace)
-   {
-      mNamespace = aNamespace;
-      
-   }
-   
-   /**
-    * Getter for the default namespace singleton instance
-    */
-   public static AeWSAddressingDeserializer getInstance()
-   {
-      return sSingleton;
-   }
-   
-   /**
-    * Getter for the singleton instance in a specific namespace
-    */
-   public static AeWSAddressingDeserializer getInstance(String aNamespace)
-   {
-      if (IAeConstants.WSA_NAMESPACE_URI_2004_08.equals(aNamespace))
-      {
-         return sSingleton_2004_08;
-      }
-      else if (IAeConstants.WSA_NAMESPACE_URI_2004_03.equals(aNamespace))
-      {
-         return sSingleton_2004_03;
-      }
-      else if (IAeConstants.WSA_NAMESPACE_URI_2005_08.equals(aNamespace))
-      {
-         return sSingleton_2005_08;
-      }
-      else if (IAeConstants.WSA_NAMESPACE_URI.equals(aNamespace))
-      {
-         return sSingleton;
-      }
-      else
-      {
-         throw new IllegalArgumentException(AeMessages.getString("AeWSAddressingDeserializer.1") + aNamespace); //$NON-NLS-1$
-      }
-   }   
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer#deserializeHeaders(javax.xml.soap.SOAPHeader)
-    */
-   public IAeAddressingHeaders deserializeHeaders(SOAPHeader aData)
-      throws AeBusinessProcessException
-   {
-      return deserializeHeaders(aData, null);
-   }
+    /**
+     * set of element names that may contain WS-Addressing information
+     */
+    private static final Set<String> mWSASoapHeaderElementNames = new HashSet<>();
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer#deserializeHeaders(javax.xml.soap.SOAPHeader, org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders)
-    */
-   public IAeAddressingHeaders deserializeHeaders(Element aData, IAeAddressingHeaders aRef)
-      throws AeBusinessProcessException
-   {
-      IAeAddressingHeaders ref = aRef == null ? new AeAddressingHeaders(mNamespace) : aRef;
-      
-      ref.setSourceNamespace(mNamespace);
+    static {
+        mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_TO);
+        mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_FROM);
+        mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_REPLY_TO);
+        mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_FAULT_TO);
+        mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_ACTION);
+        mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_MESSAGE_ID);
+        mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_RELATES_TO);
+        mWSASoapHeaderElementNames.add(IAeAddressingHeaders.WSA_RECIPIENT);
+        mWSASoapHeaderElementNames.add(IAeAddressingHeaders.ABX_CONVERSATION_ID);
+    }
 
-      // just use defaults if null header
-      if (aData == null)
-      {
-         return ref;
-      }
-      
-      try
-      {
-         NodeList nodes = aData.getChildNodes();
-         for (int i = 0; i < nodes.getLength(); i++)
-         {
-            if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE)
-            {
-               Element e = (Element) nodes.item(i);
-               if (isEndpointHeader(e))
-               {
-                  ref.addHeaderElement(e);
-               }
+
+    /**
+     * Private ctor for singleton pattern that uses the default namespace
+     */
+    private AeWSAddressingDeserializer() {
+    }
+
+    /**
+     * Private ctor for singleton pattern with specific namespace
+     */
+    private AeWSAddressingDeserializer(String aNamespace) {
+        mNamespace = aNamespace;
+
+    }
+
+    /**
+     * Getter for the default namespace singleton instance
+     */
+    public static AeWSAddressingDeserializer getInstance() {
+        return sSingleton;
+    }
+
+    /**
+     * Getter for the singleton instance in a specific namespace
+     */
+    public static AeWSAddressingDeserializer getInstance(String aNamespace) {
+        if (IAeConstants.WSA_NAMESPACE_URI_2004_08.equals(aNamespace)) {
+            return sSingleton_2004_08;
+        } else if (IAeConstants.WSA_NAMESPACE_URI_2004_03.equals(aNamespace)) {
+            return sSingleton_2004_03;
+        } else if (IAeConstants.WSA_NAMESPACE_URI_2005_08.equals(aNamespace)) {
+            return sSingleton_2005_08;
+        } else if (IAeConstants.WSA_NAMESPACE_URI.equals(aNamespace)) {
+            return sSingleton;
+        } else {
+            throw new IllegalArgumentException(AeMessages.getString("AeWSAddressingDeserializer.1") + aNamespace); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer#deserializeHeaders(javax.xml.soap.SOAPHeader)
+     */
+    public IAeAddressingHeaders deserializeHeaders(SOAPHeader aData)
+            throws AeBusinessProcessException {
+        return deserializeHeaders(aData, null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer#deserializeHeaders(javax.xml.soap.SOAPHeader, org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders)
+     */
+    public IAeAddressingHeaders deserializeHeaders(Element aData, IAeAddressingHeaders aRef)
+            throws AeBusinessProcessException {
+        IAeAddressingHeaders ref = aRef == null ? new AeAddressingHeaders(mNamespace) : aRef;
+
+        ref.setSourceNamespace(mNamespace);
+
+        // just use defaults if null header
+        if (aData == null) {
+            return ref;
+        }
+
+        try {
+            NodeList nodes = aData.getChildNodes();
+            for (int i = 0; i < nodes.getLength(); i++) {
+                if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                    Element e = (Element) nodes.item(i);
+                    if (isEndpointHeader(e)) {
+                        ref.addHeaderElement(e);
+                    }
+                }
             }
-         }
-      }
-      catch (AeWsAddressingException ae)
-      {
-         throw new AeBusinessProcessException(AeMessages.getString("AeWSAddressingDeserializer.0"), ae); //$NON-NLS-1$
-      }
-      
-      return ref;
-   }
+        } catch (AeWsAddressingException ae) {
+            throw new AeBusinessProcessException(AeMessages.getString("AeWSAddressingDeserializer.0"), ae); //$NON-NLS-1$
+        }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer#deserializeHeaders(org.w3c.dom.Element)
-    */
-   public IAeAddressingHeaders deserializeHeaders(Element aElement) throws AeBusinessProcessException
-   {
-      return deserializeHeaders(aElement, null);
-   }
+        return ref;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer#deserializeHeaders(javax.xml.soap.SOAPHeader, org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders)
-    */
-   public IAeAddressingHeaders deserializeHeaders(SOAPHeader aHeader, IAeAddressingHeaders aRef) throws AeBusinessProcessException
-   {
-      return deserializeHeaders((Element) aHeader, aRef);
-   }
-   
-   /**
-    * Returns true if the element is one that contains a wsa header
-    * @param aElement
-    */
-   public boolean isEndpointHeader(Element aElement)
-   {
-      return (IAeConstants.WSA_NAMESPACE_URI.equals(aElement.getNamespaceURI()) || 
-            IAeConstants.WSA_NAMESPACE_URI_2004_03.equals(aElement.getNamespaceURI()) ||
-            IAeConstants.WSA_NAMESPACE_URI_2005_08.equals(aElement.getNamespaceURI()) ||
-            IAeConstants.ABX_NAMESPACE_URI.equals(aElement.getNamespaceURI()) ||
-            IAeConstants.WSA_NAMESPACE_URI_2004_08.equals(aElement.getNamespaceURI())) &&
-            mWSASoapHeaderElementNames.contains(aElement.getLocalName());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer#deserializeHeaders(org.w3c.dom.Element)
+     */
+    public IAeAddressingHeaders deserializeHeaders(Element aElement) throws AeBusinessProcessException {
+        return deserializeHeaders(aElement, null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer#deserializeHeaders(javax.xml.soap.SOAPHeader, org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders)
+     */
+    public IAeAddressingHeaders deserializeHeaders(SOAPHeader aHeader, IAeAddressingHeaders aRef) throws AeBusinessProcessException {
+        return deserializeHeaders((Element) aHeader, aRef);
+    }
+
+    /**
+     * Returns true if the element is one that contains a wsa header
+     *
+     * @param aElement
+     */
+    public boolean isEndpointHeader(Element aElement) {
+        return (IAeConstants.WSA_NAMESPACE_URI.equals(aElement.getNamespaceURI()) ||
+                IAeConstants.WSA_NAMESPACE_URI_2004_03.equals(aElement.getNamespaceURI()) ||
+                IAeConstants.WSA_NAMESPACE_URI_2005_08.equals(aElement.getNamespaceURI()) ||
+                IAeConstants.ABX_NAMESPACE_URI.equals(aElement.getNamespaceURI()) ||
+                IAeConstants.WSA_NAMESPACE_URI_2004_08.equals(aElement.getNamespaceURI())) &&
+                mWSASoapHeaderElementNames.contains(aElement.getLocalName());
+    }
 
 }

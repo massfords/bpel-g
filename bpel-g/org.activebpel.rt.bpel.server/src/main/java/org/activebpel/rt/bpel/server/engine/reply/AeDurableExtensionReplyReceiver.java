@@ -14,30 +14,30 @@ import org.activebpel.rt.bpel.impl.reply.AeExtensionActivityReplyReceiver;
 import org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo;
 
 /**
- * Persistent (durable) implementation of the reply receiver for people activity to  
+ * Persistent (durable) implementation of the reply receiver for people activity to
  * invoke call backs with messages and faults on the extension activity impl directly.
  */
-public class AeDurableExtensionReplyReceiver extends AeExtensionActivityReplyReceiver
-{
-   /** Durable reply info. */
-   private AeExtensionActivityDurableInfo mDurableReplyInfo = null;
+public class AeDurableExtensionReplyReceiver extends AeExtensionActivityReplyReceiver {
+    /**
+     * Durable reply info.
+     */
+    private AeExtensionActivityDurableInfo mDurableReplyInfo = null;
 
-   /**
-    * C'tor
-    * @param aDurableReplyInfo
-    */
-   public AeDurableExtensionReplyReceiver(AeExtensionActivityDurableInfo aDurableReplyInfo)
-   {
-      super(aDurableReplyInfo.getProcessId(),aDurableReplyInfo.getLocationPath(), aDurableReplyInfo.getTransmissionId());
-      mDurableReplyInfo = aDurableReplyInfo;
-   }
+    /**
+     * C'tor
+     *
+     * @param aDurableReplyInfo
+     */
+    public AeDurableExtensionReplyReceiver(AeExtensionActivityDurableInfo aDurableReplyInfo) {
+        super(aDurableReplyInfo.getProcessId(), aDurableReplyInfo.getLocationPath(), aDurableReplyInfo.getTransmissionId());
+        mDurableReplyInfo = aDurableReplyInfo;
+    }
 
-   /** 
-    * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#getDurableReplyInfo()
-    */
-   public IAeDurableReplyInfo getDurableReplyInfo()
-   {
-      return mDurableReplyInfo;
-   }   
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#getDurableReplyInfo()
+     */
+    public IAeDurableReplyInfo getDurableReplyInfo() {
+        return mDurableReplyInfo;
+    }
 
 }

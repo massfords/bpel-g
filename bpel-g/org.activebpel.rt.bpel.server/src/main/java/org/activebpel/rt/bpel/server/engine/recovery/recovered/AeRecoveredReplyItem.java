@@ -14,33 +14,31 @@ import org.activebpel.rt.bpel.impl.queue.AeReply;
 /**
  * Base class for recovered reply items.
  */
-public abstract class AeRecoveredReplyItem implements IAeRecoveredItem
-{
-   /** The reply object. */
-   private final AeReply mReply;
+public abstract class AeRecoveredReplyItem implements IAeRecoveredItem {
+    /**
+     * The reply object.
+     */
+    private final AeReply mReply;
 
-   /**
-    * Constructs a recovered reply item.
-    */
-   protected AeRecoveredReplyItem(AeReply aReply)
-   {
-      mReply = aReply;
-   }
+    /**
+     * Constructs a recovered reply item.
+     */
+    protected AeRecoveredReplyItem(AeReply aReply) {
+        mReply = aReply;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#getLocationId()
-    */
-   public int getLocationId()
-   {
-      // Return 0, because location id not used for matching recovered replies.
-      return 0;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#getLocationId()
+     */
+    public int getLocationId() {
+        // Return 0, because location id not used for matching recovered replies.
+        return 0;
+    }
 
-   /**
-    * Returns the reply object.
-    */
-   public AeReply getReply()
-   {
-      return mReply;
-   }
+    /**
+     * Returns the reply object.
+     */
+    public AeReply getReply() {
+        return mReply;
+    }
 }

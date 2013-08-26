@@ -12,19 +12,18 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 /**
  * SQL table column names for scheduler table.
  */
-public interface IAeSchedulerColumns
-{
-   public static final String SCHEDULER_ID   = "ScheduleId"; //$NON-NLS-1$
-   public static final String STATE          = "State"; //$NON-NLS-1$
-   public static final String TRIGGER        = "ScheduleTrigger"; //$NON-NLS-1$
-   public static final String DEADLINE_MS    = "DeadlineMillis"; //$NON-NLS-1$
-   public static final String STARTDATE_MS   = "StartDateMillis"; //$NON-NLS-1$
-   public static final String ENDDATE_MS     = "EndDateMillis"; //$NON-NLS-1$
-   public static final String LOCKED         = "Locked"; //$NON-NLS-1$
-   public static final String CLASSNAME      = "Classname"; //$NON-NLS-1$
+public interface IAeSchedulerColumns {
+    public static final String SCHEDULER_ID = "ScheduleId"; //$NON-NLS-1$
+    public static final String STATE = "State"; //$NON-NLS-1$
+    public static final String TRIGGER = "ScheduleTrigger"; //$NON-NLS-1$
+    public static final String DEADLINE_MS = "DeadlineMillis"; //$NON-NLS-1$
+    public static final String STARTDATE_MS = "StartDateMillis"; //$NON-NLS-1$
+    public static final String ENDDATE_MS = "EndDateMillis"; //$NON-NLS-1$
+    public static final String LOCKED = "Locked"; //$NON-NLS-1$
+    public static final String CLASSNAME = "Classname"; //$NON-NLS-1$
 
-   // todo (PJ) create indices for state,locked and trigger cols - when if neccessary
-   // todo (PJ) add new column to store clob to store dom instead of className
-   // todo (PJ) scheduleId column should be autogen from storage layer.
+    // todo (PJ) create indices for state,locked and trigger cols - when if neccessary
+    // todo (PJ) add new column to store clob to store dom instead of className
+    // todo (PJ) scheduleId column should be autogen from storage layer.
 
 }

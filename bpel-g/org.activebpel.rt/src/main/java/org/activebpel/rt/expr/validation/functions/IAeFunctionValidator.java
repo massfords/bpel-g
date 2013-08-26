@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.expr.validation.functions; 
+package org.activebpel.rt.expr.validation.functions;
 
 import org.activebpel.rt.expr.def.AeScriptFuncDef;
 import org.activebpel.rt.expr.validation.AeExpressionValidationResult;
@@ -15,19 +15,19 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
 
 /**
  * Interface for code that validates the syntax of a function, adding any errors
- * to the {@link AeExpressionValidationResult} passed in. 
+ * to the {@link AeExpressionValidationResult} passed in.
  */
-public interface IAeFunctionValidator
-{
-   /**
-    * Validates the syntax of the function, adding any errors to the result
-    * passed in.
-    * @param aScriptFunction - function to validate
-    * @param aResult - report errors on the result
-    * @param aValidationContext - context for the enclosing expression
-    */
-   public void validate(AeScriptFuncDef aScriptFunction, 
-                        AeExpressionValidationResult aResult, 
-                        IAeExpressionValidationContext aValidationContext);
+public interface IAeFunctionValidator {
+    /**
+     * Validates the syntax of the function, adding any errors to the result
+     * passed in.
+     *
+     * @param aScriptFunction    - function to validate
+     * @param aResult            - report errors on the result
+     * @param aValidationContext - context for the enclosing expression
+     */
+    public void validate(AeScriptFuncDef aScriptFunction,
+                         AeExpressionValidationResult aResult,
+                         IAeExpressionValidationContext aValidationContext);
 }
  

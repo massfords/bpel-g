@@ -12,10 +12,9 @@ package org.activebpel.rt.bpel.server.coord;
 /**
  * Interface to access coordination context identifier.
  */
-public interface IAeCoordinationId
-{
-   /**
-    * Returns the coordination context identifier.
-    */
-   public String getIdentifier();
+public interface IAeCoordinationId {
+    /**
+     * Returns the coordination context identifier.
+     */
+    public String getIdentifier();
 }

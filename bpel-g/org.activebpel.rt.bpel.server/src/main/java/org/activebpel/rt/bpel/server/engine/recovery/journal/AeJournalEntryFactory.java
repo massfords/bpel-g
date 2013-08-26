@@ -27,130 +27,125 @@ import org.w3c.dom.Document;
  * the entry's persisted data: entry type, location id, journal entry id, and
  * storage document.
  */
-public class AeJournalEntryFactory implements IAeJournalEntryFactory
-{
-   /** Singleton instance. */
-   private static final IAeJournalEntryFactory sInstance = new AeJournalEntryFactory();
-
-   /**
-    * Private constructor for singleton instance.
-    */
-   private AeJournalEntryFactory()
-   {
-   }
-
-   /**
-    * Returns singleton instance.
-    */
-   public static IAeJournalEntryFactory getInstance()
-   {
-      return sInstance;
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntryFactory#newJournalEntry(int, int, long, org.w3c.dom.Document)
-    */
-   public IAeJournalEntry newJournalEntry(int aEntryType, int aLocationId, long aJournalId, Document aStorageDocument) throws AeException
-   {
-      IAeJournalEntry entry = null;
-
-      switch (aEntryType)
-      {
-         case IAeJournalEntry.JOURNAL_ALARM:
-            entry = new AeAlarmJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-
-         case IAeJournalEntry.JOURNAL_INVOKE_DATA:
-            entry = new AeInvokeDataJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-
-         case IAeJournalEntry.JOURNAL_INVOKE_FAULT:
-            entry = new AeInvokeFaultJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-
-         case IAeJournalEntry.JOURNAL_INBOUND_RECEIVE:
-            entry = new AeInboundReceiveJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-
-         case IAeJournalEntry.JOURNAL_SENT_REPLY:
-            entry = new AeSentReplyJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-            
-         case IAeJournalEntry.JOURNAL_INVOKE_TRANSMITTED:
-            entry = new AeInvokeTransmittedJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-            
-         case IAeJournalEntry.JOURNAL_COMPENSATE_SUBPROCESS:
-            entry = new AeCompensateSubprocessJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-
-         case IAeJournalEntry.JOURNAL_ENGINE_FAILURE:
-            entry = new AeEngineFailureJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-
-         case IAeJournalEntry.JOURNAL_INVOKE_PENDING:
-            entry = new AeInvokePendingJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-
-         case IAeJournalEntry.JOURNAL_RESTART_PROCESS:
-            entry = new AeRestartProcessJournalEntry(aLocationId, aJournalId, aStorageDocument);
-            break;
-            
-         case IAeJournalEntry.JOURNAL_COORDINATION_QUEUE_MESSAGE:
-            entry = new AeCoordinationQueueMessageEntry(aJournalId, aStorageDocument);
-            break;
-         
-         case IAeJournalEntry.JOURNAL_CANCEL_PROCESS:
-            entry = new AeCancelProcessEntry(aJournalId, aStorageDocument);
-            break;
-            
-         case IAeJournalEntry.JOURNAL_CANCEL_SUBPROCESS_COMPENSATION:
-            entry = new AeCancelSubProcessCompensationEntry(aJournalId, aStorageDocument);
-            break;
-            
-         case IAeJournalEntry.JOURNAL_RELEASE_COMPENSATION_RESOURCES:
-            entry = new AeReleaseCompensationResourcesEntry(aJournalId, aStorageDocument);
-            break;
-            
-         case IAeJournalEntry.JOURNAL_NOTIFY_COORDINATORS:
-            entry = new AeNotifyCoordinatorsParticipantClosedEntry(aJournalId, aStorageDocument);
-            break;
-            
-         case IAeJournalEntry.JOURNAL_COMPENSATE_CALLBACK:
-            entry = new AeCompensateCallbackEntry(aJournalId, aStorageDocument);
-            break;
-            
-         case IAeJournalEntry.JOURNAL_COORDINATED_ACTIVITY_COMPLETED:
-            entry = new AeCoordinatedActivityCompletedEntry(aJournalId, aStorageDocument);
-            break;
-            
-         case IAeJournalEntry.JOURNAL_DEREGISTER_COORDINATION:
-            entry = new AeDeregisterCoordinationEntry(aJournalId, aStorageDocument);
-            break;
-
-         default:
-            throw new AeUnknownEntryTypeException(aEntryType, aLocationId);
-      }
-
-      return entry;
-   }
-
-   /**
-    * Implements an exception that reports an unknown entry type.
-    */
-   protected static class AeUnknownEntryTypeException extends AeException
-   {
-      /**
-     * 
+public class AeJournalEntryFactory implements IAeJournalEntryFactory {
+    /**
+     * Singleton instance.
      */
-    private static final long serialVersionUID = -5148536477587964493L;
+    private static final IAeJournalEntryFactory sInstance = new AeJournalEntryFactory();
 
     /**
-       * Constructs an exception that reports an unknown entry type.
-       */
-      public AeUnknownEntryTypeException(int aEntryType, int aLocationId)
-      {
-         super(AeMessages.format("AeUnknownEntryTypeException.ERROR_UNKNOWN_TYPE", new Object[] {aEntryType, aLocationId})); //$NON-NLS-1$
-      }
-   }
+     * Private constructor for singleton instance.
+     */
+    private AeJournalEntryFactory() {
+    }
+
+    /**
+     * Returns singleton instance.
+     */
+    public static IAeJournalEntryFactory getInstance() {
+        return sInstance;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntryFactory#newJournalEntry(int, int, long, org.w3c.dom.Document)
+     */
+    public IAeJournalEntry newJournalEntry(int aEntryType, int aLocationId, long aJournalId, Document aStorageDocument) throws AeException {
+        IAeJournalEntry entry = null;
+
+        switch (aEntryType) {
+            case IAeJournalEntry.JOURNAL_ALARM:
+                entry = new AeAlarmJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_INVOKE_DATA:
+                entry = new AeInvokeDataJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_INVOKE_FAULT:
+                entry = new AeInvokeFaultJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_INBOUND_RECEIVE:
+                entry = new AeInboundReceiveJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_SENT_REPLY:
+                entry = new AeSentReplyJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_INVOKE_TRANSMITTED:
+                entry = new AeInvokeTransmittedJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_COMPENSATE_SUBPROCESS:
+                entry = new AeCompensateSubprocessJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_ENGINE_FAILURE:
+                entry = new AeEngineFailureJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_INVOKE_PENDING:
+                entry = new AeInvokePendingJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_RESTART_PROCESS:
+                entry = new AeRestartProcessJournalEntry(aLocationId, aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_COORDINATION_QUEUE_MESSAGE:
+                entry = new AeCoordinationQueueMessageEntry(aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_CANCEL_PROCESS:
+                entry = new AeCancelProcessEntry(aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_CANCEL_SUBPROCESS_COMPENSATION:
+                entry = new AeCancelSubProcessCompensationEntry(aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_RELEASE_COMPENSATION_RESOURCES:
+                entry = new AeReleaseCompensationResourcesEntry(aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_NOTIFY_COORDINATORS:
+                entry = new AeNotifyCoordinatorsParticipantClosedEntry(aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_COMPENSATE_CALLBACK:
+                entry = new AeCompensateCallbackEntry(aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_COORDINATED_ACTIVITY_COMPLETED:
+                entry = new AeCoordinatedActivityCompletedEntry(aJournalId, aStorageDocument);
+                break;
+
+            case IAeJournalEntry.JOURNAL_DEREGISTER_COORDINATION:
+                entry = new AeDeregisterCoordinationEntry(aJournalId, aStorageDocument);
+                break;
+
+            default:
+                throw new AeUnknownEntryTypeException(aEntryType, aLocationId);
+        }
+
+        return entry;
+    }
+
+    /**
+     * Implements an exception that reports an unknown entry type.
+     */
+    protected static class AeUnknownEntryTypeException extends AeException {
+        /**
+         *
+         */
+        private static final long serialVersionUID = -5148536477587964493L;
+
+        /**
+         * Constructs an exception that reports an unknown entry type.
+         */
+        public AeUnknownEntryTypeException(int aEntryType, int aLocationId) {
+            super(AeMessages.format("AeUnknownEntryTypeException.ERROR_UNKNOWN_TYPE", new Object[]{aEntryType, aLocationId})); //$NON-NLS-1$
+        }
+    }
 }

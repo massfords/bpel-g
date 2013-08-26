@@ -18,30 +18,26 @@ import org.activebpel.rt.xml.def.io.readers.IAeReportingDefReader;
 import org.w3c.dom.Element;
 
 /**
- * An implementation of the Def Reader Registry for WS-BPEL 2.0 Abstract processes. This implementation extends the 
+ * An implementation of the Def Reader Registry for WS-BPEL 2.0 Abstract processes. This implementation extends the
  * WS BPEL 2.0 (executable) implementation.
  */
-public class AeWSBPELAbstractProcessDefReaderRegistry extends AeWSBPELDefReaderRegistry
-{
-   /**
-    * Creates the reader def visitor factory that the dispatch reader will use.
-    */
-   private static final IAeReaderFactory sFactory = new IAeReaderFactory()
-      {
-         /**
-          * @see org.activebpel.rt.xml.def.io.readers.IAeReaderFactory#createReportingDefReader(org.activebpel.rt.xml.def.AeBaseXmlDef, org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
-          */
-         public IAeReportingDefReader createReportingDefReader(AeBaseXmlDef aParentDef, AeBaseXmlDef aNewDef, Element aElement)
-         {
+public class AeWSBPELAbstractProcessDefReaderRegistry extends AeWSBPELDefReaderRegistry {
+    /**
+     * Creates the reader def visitor factory that the dispatch reader will use.
+     */
+    private static final IAeReaderFactory sFactory = new IAeReaderFactory() {
+        /**
+         * @see org.activebpel.rt.xml.def.io.readers.IAeReaderFactory#createReportingDefReader(org.activebpel.rt.xml.def.AeBaseXmlDef, org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
+         */
+        public IAeReportingDefReader createReportingDefReader(AeBaseXmlDef aParentDef, AeBaseXmlDef aNewDef, Element aElement) {
             return new AeWSBPELAbstractProcessReaderVisitor((AeBaseDef) aParentDef, aElement);
-         }
-      };
+        }
+    };
 
-   /**
-    * Default ctor.
-    */
-   public AeWSBPELAbstractProcessDefReaderRegistry()
-   {
-      super(IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, sFactory);
-   }
+    /**
+     * Default ctor.
+     */
+    public AeWSBPELAbstractProcessDefReaderRegistry() {
+        super(IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, sFactory);
+    }
 }

@@ -23,473 +23,461 @@ import java.util.List;
  * based tree views to represent the Process's current state.
  * <p/>
  */
-public class AeBpelObjectBase
-{
-   /** BPEL tag name */
-   private String mTagName = null;
+public class AeBpelObjectBase {
+    /**
+     * BPEL tag name
+     */
+    private String mTagName = null;
 
-   /** Name attribute for the given element in the BPEL definition. */
-   private String mName = ""; //$NON-NLS-1$
+    /**
+     * Name attribute for the given element in the BPEL definition.
+     */
+    private String mName = ""; //$NON-NLS-1$
 
-   /** The current state of the activity based on the State xml document. */
-   private String mState = ""; //$NON-NLS-1$ //AeBpelState.INACTIVE.toString();
+    /**
+     * The current state of the activity based on the State xml document.
+     */
+    private String mState = ""; //$NON-NLS-1$ //AeBpelState.INACTIVE.toString();
 
-   /** Indicates if this activity is queued by the engine */
-   private boolean mQueued = false;
+    /**
+     * Indicates if this activity is queued by the engine
+     */
+    private boolean mQueued = false;
 
-   /** Parent, if one exists, in the composite structer. */
-   private AeBpelObjectContainer mParent = null;
+    /**
+     * Parent, if one exists, in the composite structer.
+     */
+    private AeBpelObjectContainer mParent = null;
 
-   /** Location path of this object with respect to the Process. */
-   private String mLocationPath = null;
+    /**
+     * Location path of this object with respect to the Process.
+     */
+    private String mLocationPath = null;
 
-   /** BPEL object definition */
-   private AeBaseXmlDef mDef = null;
+    /**
+     * BPEL object definition
+     */
+    private AeBaseXmlDef mDef = null;
 
-   /** Image icon name, normally same as the tag name. */
-   private String mIconName = null;
+    /**
+     * Image icon name, normally same as the tag name.
+     */
+    private String mIconName = null;
 
-   /** Controller type key used to map the model to view controller.
-    * Typically, the controllers are created based on the BPEL object tag name.
-    */
-   private String controllerType = null;
+    /**
+     * Controller type key used to map the model to view controller.
+     * Typically, the controllers are created based on the BPEL object tag name.
+     */
+    private String controllerType = null;
 
-   /** Adapter for getting visual properties */
-   private IAeXmlDefGraphNodeAdapter mAdapter;
-   
-   /** Display on outline only */
-   private boolean mDisplayOutlineOnly;
-   
-   /**
-    * Constructs the BPEL web model given the definition tagname and the definition.
-    * @param aTagName tag name
-    * @param aDef bpel definition.
-    */
-   public AeBpelObjectBase(String aTagName, AeBaseXmlDef aDef)
-   {
-      this(aTagName, aTagName, aDef, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+    /**
+     * Adapter for getting visual properties
+     */
+    private IAeXmlDefGraphNodeAdapter mAdapter;
 
-   /**
-    * Constructs the BPEL web model given the definition tagname and the definition.
-    * @param aTagName tag name
-    * @param aIconName image icon name.
-    * @param aDef bpel definition.
-    */
-   public AeBpelObjectBase(String aTagName, String aIconName, AeBaseXmlDef aDef)
-   {
-      this(aTagName, aIconName, aDef, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+    /**
+     * Display on outline only
+     */
+    private boolean mDisplayOutlineOnly;
 
-   /**
-    * Ctor.
-    * @param aTagName tag name
-    * @param aDef bpel definition.
-    * @param aName activity name attribute
-    * @param aLocationPath location path of the definition.
-    */
-   public AeBpelObjectBase(String aTagName, AeBaseXmlDef aDef, String aName, String aLocationPath)
-   {
-      this(aTagName, aTagName, aDef, aName, aLocationPath);
-   }
+    /**
+     * Constructs the BPEL web model given the definition tagname and the definition.
+     *
+     * @param aTagName tag name
+     * @param aDef     bpel definition.
+     */
+    public AeBpelObjectBase(String aTagName, AeBaseXmlDef aDef) {
+        this(aTagName, aTagName, aDef, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-   /**
-    * Ctor.
-    * @param aTagName tag name
-    * @param aIconName tag icon image name.
-    * @param aDef bpel definition.
-    * @param aName activity name attribute
-    * @param aLocationPath location path of the definition.
-    */
-   public AeBpelObjectBase(String aTagName, String aIconName, AeBaseXmlDef aDef, String aName, String aLocationPath)
-   {
-      setTagName(aTagName);
-      setIconName(aIconName);
-      setDef(aDef);
-      setName(aName);
-      setLocationPath(aLocationPath);
-      setControllerType(aTagName);
-   }
-   
-   /**
-    * Ctor.
-    * @param aTagName tag name
-    * @param aIconName tag icon image name.
-    * @param aDef bpel definition.
-    * @param aName activity name attribute
-    * @param aLocationPath location path of the definition.
-    * @param aDisplayOutlineOnly
-    */
-   public AeBpelObjectBase(String aTagName, String aIconName, AeBaseXmlDef aDef, String aName, String aLocationPath, boolean aDisplayOutlineOnly)
-   {
-      setTagName(aTagName);
-      setIconName(aIconName);
-      setDef(aDef);
-      setName(aName);
-      setLocationPath(aLocationPath);
-      setControllerType(aTagName);
-      setDisplayOutlineOnly(aDisplayOutlineOnly);
-   }
+    /**
+     * Constructs the BPEL web model given the definition tagname and the definition.
+     *
+     * @param aTagName  tag name
+     * @param aIconName image icon name.
+     * @param aDef      bpel definition.
+     */
+    public AeBpelObjectBase(String aTagName, String aIconName, AeBaseXmlDef aDef) {
+        this(aTagName, aIconName, aDef, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-   /**
-    * @return Returns the def.
-    */
-   public AeBaseXmlDef getDef()
-   {
-      return mDef;
-   }
+    /**
+     * Ctor.
+     *
+     * @param aTagName      tag name
+     * @param aDef          bpel definition.
+     * @param aName         activity name attribute
+     * @param aLocationPath location path of the definition.
+     */
+    public AeBpelObjectBase(String aTagName, AeBaseXmlDef aDef, String aName, String aLocationPath) {
+        this(aTagName, aTagName, aDef, aName, aLocationPath);
+    }
 
-   /**
-    * @param aDef The def to set.
-    */
-   protected void setDef(AeBaseXmlDef aDef)
-   {
-      mDef = aDef;
-   }
+    /**
+     * Ctor.
+     *
+     * @param aTagName      tag name
+     * @param aIconName     tag icon image name.
+     * @param aDef          bpel definition.
+     * @param aName         activity name attribute
+     * @param aLocationPath location path of the definition.
+     */
+    public AeBpelObjectBase(String aTagName, String aIconName, AeBaseXmlDef aDef, String aName, String aLocationPath) {
+        setTagName(aTagName);
+        setIconName(aIconName);
+        setDef(aDef);
+        setName(aName);
+        setLocationPath(aLocationPath);
+        setControllerType(aTagName);
+    }
 
-   /**
-    * @return Returns the iconName.
-    */
-   public String getIconName()
-   {
-      return mIconName;
-   }
+    /**
+     * Ctor.
+     *
+     * @param aTagName            tag name
+     * @param aIconName           tag icon image name.
+     * @param aDef                bpel definition.
+     * @param aName               activity name attribute
+     * @param aLocationPath       location path of the definition.
+     * @param aDisplayOutlineOnly
+     */
+    public AeBpelObjectBase(String aTagName, String aIconName, AeBaseXmlDef aDef, String aName, String aLocationPath, boolean aDisplayOutlineOnly) {
+        setTagName(aTagName);
+        setIconName(aIconName);
+        setDef(aDef);
+        setName(aName);
+        setLocationPath(aLocationPath);
+        setControllerType(aTagName);
+        setDisplayOutlineOnly(aDisplayOutlineOnly);
+    }
 
-   /**
-    * @param aIconName The iconName to set.
-    */
-   public void setIconName(String aIconName)
-   {
-      mIconName = aIconName;
-   }
+    /**
+     * @return Returns the def.
+     */
+    public AeBaseXmlDef getDef() {
+        return mDef;
+    }
 
-   /**
-    * @return Returns the controllerType.
-    */
-   public String getControllerType()
-   {
-      return controllerType;
-   }
+    /**
+     * @param aDef The def to set.
+     */
+    protected void setDef(AeBaseXmlDef aDef) {
+        mDef = aDef;
+    }
 
-   /**
-    * @param aControllerType The controllerType to set.
-    */
-   public void setControllerType(String aControllerType)
-   {
-      controllerType = aControllerType;
-   }
+    /**
+     * @return Returns the iconName.
+     */
+    public String getIconName() {
+        return mIconName;
+    }
 
-   /**
-    * Sets the XPath to this object in a Process tree.
-    * @param aPath path to this object.
-    */
-   public void setLocationPath(String aPath)
-   {
-      mLocationPath = aPath;
-   }
+    /**
+     * @param aIconName The iconName to set.
+     */
+    public void setIconName(String aIconName) {
+        mIconName = aIconName;
+    }
 
-   /**
-    * @return The XPath location of this object.
-    */
-   public String getLocationPath()
-   {
-      return mLocationPath;
-   }
+    /**
+     * @return Returns the controllerType.
+     */
+    public String getControllerType() {
+        return controllerType;
+    }
 
-   /**
-    * @return The parent, if this is a container in the composite pattern.
-    */
-   public AeBpelObjectContainer getParent()
-   {
-      return mParent;
-   }
+    /**
+     * @param aControllerType The controllerType to set.
+     */
+    public void setControllerType(String aControllerType) {
+        controllerType = aControllerType;
+    }
 
-   /**
-    * Sets the parent of this object.
-    * @param aParent
-    */
-   public void setParent(AeBpelObjectContainer aParent)
-   {
-      mParent = aParent;
-   }
+    /**
+     * Sets the XPath to this object in a Process tree.
+     *
+     * @param aPath path to this object.
+     */
+    public void setLocationPath(String aPath) {
+        mLocationPath = aPath;
+    }
 
-   /**
-    * @return The element tag name, which may be used to display in the presentation layer.
-    */
-   public String getTagName()
-   {
-      return mTagName;
-   }
+    /**
+     * @return The XPath location of this object.
+     */
+    public String getLocationPath() {
+        return mLocationPath;
+    }
 
-   /**
-    * Mutator to set the tag name.
-    * @param aTagName
-    */
-   public void setTagName(String aTagName)
-   {
-      mTagName = aTagName;
-   }
+    /**
+     * @return The parent, if this is a container in the composite pattern.
+     */
+    public AeBpelObjectContainer getParent() {
+        return mParent;
+    }
 
-   /**
-    * @return Returns the element's name attribute. Note that this maybe an empty
-    * string since not all elements in a deployed process have names.
-    */
-   public String getName()
-   {
-      return mName;
-   }
+    /**
+     * Sets the parent of this object.
+     *
+     * @param aParent
+     */
+    public void setParent(AeBpelObjectContainer aParent) {
+        mParent = aParent;
+    }
 
-   /**
-    * Sets the element's name attribute.
-    * @param aName
-    */
-   public void setName(String aName)
-   {
-      mName = aName;
-   }
+    /**
+     * @return The element tag name, which may be used to display in the presentation layer.
+     */
+    public String getTagName() {
+        return mTagName;
+    }
 
-   /**
-    * @return Returns the current execution state of this object.
-    * @see org.activebpel.rt.bpel.impl.IAeImplStateNames for enumeration of states.
-    */
-   public String getState()
-   {
-      return mState;
-   }
+    /**
+     * Mutator to set the tag name.
+     *
+     * @param aTagName
+     */
+    public void setTagName(String aTagName) {
+        mTagName = aTagName;
+    }
 
-   /**
-    * Sets the objects execution state based on the state XML document.
-    * @param aState current execution state.
-    * @see org.activebpel.rt.bpel.impl.IAeImplStateNames for enumeration of states.
-    */
-   public void setState(String aState)
-   {
-      mState = aState;
-   }
+    /**
+     * @return Returns the element's name attribute. Note that this maybe an empty
+     *         string since not all elements in a deployed process have names.
+     */
+    public String getName() {
+        return mName;
+    }
 
-   /**
-    * Returns the key used to obtain a the state string for the property listing.
-    */
-   public String getDisplayStateKey()
-   {
-      // the display state is the same for all activities, except at the process level (which uses the process state, instead of the activity state)
-      return getState();
-   }
+    /**
+     * Sets the element's name attribute.
+     *
+     * @param aName
+     */
+    public void setName(String aName) {
+        mName = aName;
+    }
 
-   /**
-    * Returns the state string that is used for the visual.
-    */
-   public String getDisplayState()
-   {
-      // the display state is the same for all activities, except at the process level (which uses the process state, instead of the activity state)
-      //
-      return getState();
-   }
+    /**
+     * @return Returns the current execution state of this object.
+     * @see org.activebpel.rt.bpel.impl.IAeImplStateNames for enumeration of states.
+     */
+    public String getState() {
+        return mState;
+    }
 
-   /**
-    * @return True if this object is queued for execution by the engine.
-    */
-   public boolean isQueued()
-   {
-      return mQueued;
-   }
+    /**
+     * Sets the objects execution state based on the state XML document.
+     *
+     * @param aState current execution state.
+     * @see org.activebpel.rt.bpel.impl.IAeImplStateNames for enumeration of states.
+     */
+    public void setState(String aState) {
+        mState = aState;
+    }
 
-   /**
-    * Sets the whether or not the object is queued for execution.
-    * @param aQueued
-    */
-   public void setQueued(boolean aQueued)
-   {
-      mQueued = aQueued;
-   }
+    /**
+     * Returns the key used to obtain a the state string for the property listing.
+     */
+    public String getDisplayStateKey() {
+        // the display state is the same for all activities, except at the process level (which uses the process state, instead of the activity state)
+        return getState();
+    }
 
-   /**
-    * Walks up the hierarchy to find the variable given its ncname.
-    * @param aVariableName name of variable
-    * @return variable model.
-    */
-   public AeBpelObjectBase findVariable(String aVariableName)
-   {
-      if (getTagName().equalsIgnoreCase("variable") && getName().equals(aVariableName))//$NON-NLS-1$
-      {
-         return this;
-      }
-      AeBpelObjectBase  rVal = null;
-      AeBpelObjectBase parentObj = getParent();
-      while (rVal == null && parentObj != null && (parentObj instanceof AeBpelObjectContainer))
-      {
-         AeBpelObjectContainer container = (AeBpelObjectContainer)parentObj;
-         List variables = container.getChildren("variables");//$NON-NLS-1$
-         if (variables.size() > 0)
-         {
-            variables = ( (AeBpelObjectContainer)variables.get(0)).getChildren();
-         }
-         else
-         {
-            variables = container.getChildren("variable");//$NON-NLS-1$
-         }
-         if (variables != null && variables.size() > 0)
-         {
-             for (Object variable : variables) {
-                 AeBpelObjectBase var = (AeBpelObjectBase) variable;
-                 if (var.getName().equals(aVariableName)) {
-                     rVal = var;
-                     break;
-                 }
-             }
-         }// if
-         parentObj = parentObj.getParent();
-      }
-      return rVal;
-   }
+    /**
+     * Returns the state string that is used for the visual.
+     */
+    public String getDisplayState() {
+        // the display state is the same for all activities, except at the process level (which uses the process state, instead of the activity state)
+        //
+        return getState();
+    }
 
-   /**
-    * Walks up the hierarchy to find the CorrealtionSet given its ncname.
-    * @param aSetName name of correlationset
-    * @return CorrelationSet model.
-    */
-   public AeBpelObjectBase findCorrelationSet(String aSetName)
-   {
-      if (getTagName().equalsIgnoreCase("correlationSet") && getName().equals(aSetName))//$NON-NLS-1$
-      {
-         return this;
-      }
-      AeBpelObjectBase  rVal = null;
-      AeBpelObjectBase parentObj = getParent();
-      while (rVal == null && parentObj != null && (parentObj instanceof AeBpelObjectContainer))
-      {
-         AeBpelObjectContainer container = (AeBpelObjectContainer)parentObj;
-         List corrSetsList = container.getChildren("correlationSets");//$NON-NLS-1$
-         if (corrSetsList.size() > 0)
-         {
-            List corrSets = ( (AeBpelObjectContainer) corrSetsList.get(0)).getChildren();
-             for (Object corrSet : corrSets) {
-                 AeBpelObjectBase cs = (AeBpelObjectBase) corrSet;
-                 if (cs.getName().equals(aSetName)) {
-                     rVal = cs;
-                     break;
-                 }
-             }
+    /**
+     * @return True if this object is queued for execution by the engine.
+     */
+    public boolean isQueued() {
+        return mQueued;
+    }
 
-         }
-         parentObj = parentObj.getParent();
-      }
-      return rVal;
-   }
+    /**
+     * Sets the whether or not the object is queued for execution.
+     *
+     * @param aQueued
+     */
+    public void setQueued(boolean aQueued) {
+        mQueued = aQueued;
+    }
 
-   /**
-    * Finds the parnerLink defined in the process given its ncname.
-    * @param aPartnerLinkName name of partner link
-    * @return PartnerLinke model or null if not found.
-    */
-   public AeBpelObjectBase findPartnerLink(String aPartnerLinkName)
-   {
-      if (getTagName().equalsIgnoreCase("partnerLink") && getName().equals(aPartnerLinkName))//$NON-NLS-1$
-      {
-         return this;
-      }
-      AeBpelObjectBase  rVal = null;
-      AeBpelObjectContainer parent = getParent();
-      while (parent != null && rVal == null)
-      {
-         if (parent instanceof AeBpelScopeObject)
-         {
-            rVal = ((AeBpelScopeObject) parent).getPartnerLink(aPartnerLinkName);
-         }
-         parent = parent.getParent();
-      }
-      return rVal;
-   }
+    /**
+     * Walks up the hierarchy to find the variable given its ncname.
+     *
+     * @param aVariableName name of variable
+     * @return variable model.
+     */
+    public AeBpelObjectBase findVariable(String aVariableName) {
+        if (getTagName().equalsIgnoreCase("variable") && getName().equals(aVariableName))//$NON-NLS-1$
+        {
+            return this;
+        }
+        AeBpelObjectBase rVal = null;
+        AeBpelObjectBase parentObj = getParent();
+        while (rVal == null && parentObj != null && (parentObj instanceof AeBpelObjectContainer)) {
+            AeBpelObjectContainer container = (AeBpelObjectContainer) parentObj;
+            List variables = container.getChildren("variables");//$NON-NLS-1$
+            if (variables.size() > 0) {
+                variables = ((AeBpelObjectContainer) variables.get(0)).getChildren();
+            } else {
+                variables = container.getChildren("variable");//$NON-NLS-1$
+            }
+            if (variables != null && variables.size() > 0) {
+                for (Object variable : variables) {
+                    AeBpelObjectBase var = (AeBpelObjectBase) variable;
+                    if (var.getName().equals(aVariableName)) {
+                        rVal = var;
+                        break;
+                    }
+                }
+            }// if
+            parentObj = parentObj.getParent();
+        }
+        return rVal;
+    }
 
-   /**
-    * Returns the BPEL object found in the process given its location path expression.
-    * @param aLocationPath activity  path
-    * @return Activity object if found or null otherwise.
-    */
-   public AeBpelObjectBase findByLocationPath(String aLocationPath)
-   {
-      AeBpelObjectBase  rVal = null;
-      try
-      {
-         AeBpelProcessObject process = getRootProcess();
-         rVal = process.getWebModel(aLocationPath);
-      } catch(Exception e) {
-         e.printStackTrace();
-      }
-      return rVal;
-   }
+    /**
+     * Walks up the hierarchy to find the CorrealtionSet given its ncname.
+     *
+     * @param aSetName name of correlationset
+     * @return CorrelationSet model.
+     */
+    public AeBpelObjectBase findCorrelationSet(String aSetName) {
+        if (getTagName().equalsIgnoreCase("correlationSet") && getName().equals(aSetName))//$NON-NLS-1$
+        {
+            return this;
+        }
+        AeBpelObjectBase rVal = null;
+        AeBpelObjectBase parentObj = getParent();
+        while (rVal == null && parentObj != null && (parentObj instanceof AeBpelObjectContainer)) {
+            AeBpelObjectContainer container = (AeBpelObjectContainer) parentObj;
+            List corrSetsList = container.getChildren("correlationSets");//$NON-NLS-1$
+            if (corrSetsList.size() > 0) {
+                List corrSets = ((AeBpelObjectContainer) corrSetsList.get(0)).getChildren();
+                for (Object corrSet : corrSets) {
+                    AeBpelObjectBase cs = (AeBpelObjectBase) corrSet;
+                    if (cs.getName().equals(aSetName)) {
+                        rVal = cs;
+                        break;
+                    }
+                }
 
-   /**
-    * Returns the root process object model.
-    * @return root model if this activity is a child of a process or null if not.
-    */
-   public AeBpelProcessObject getRootProcess()
-   {
-      if (this instanceof AeBpelProcessObject)
-      {
-         return (AeBpelProcessObject)this;
-      }
+            }
+            parentObj = parentObj.getParent();
+        }
+        return rVal;
+    }
 
-      AeBpelProcessObject  rVal = null;
-      AeBpelObjectBase parentObj = getParent();
-      while (parentObj != null && !(parentObj instanceof AeBpelProcessObject))
-      {
-         parentObj = parentObj.getParent();
-      }
-      if ((parentObj instanceof AeBpelProcessObject))
-      {
-         rVal = (AeBpelProcessObject)parentObj;
-      }
-      return rVal;
-   }
+    /**
+     * Finds the parnerLink defined in the process given its ncname.
+     *
+     * @param aPartnerLinkName name of partner link
+     * @return PartnerLinke model or null if not found.
+     */
+    public AeBpelObjectBase findPartnerLink(String aPartnerLinkName) {
+        if (getTagName().equalsIgnoreCase("partnerLink") && getName().equals(aPartnerLinkName))//$NON-NLS-1$
+        {
+            return this;
+        }
+        AeBpelObjectBase rVal = null;
+        AeBpelObjectContainer parent = getParent();
+        while (parent != null && rVal == null) {
+            if (parent instanceof AeBpelScopeObject) {
+                rVal = ((AeBpelScopeObject) parent).getPartnerLink(aPartnerLinkName);
+            }
+            parent = parent.getParent();
+        }
+        return rVal;
+    }
 
-   /**
-    * Overrides method to return the BPEL tag name.
-    * @see java.lang.Object#toString()
-    */
-   public String toString()
-   {
-      return getTagName();
-   }
+    /**
+     * Returns the BPEL object found in the process given its location path expression.
+     *
+     * @param aLocationPath activity  path
+     * @return Activity object if found or null otherwise.
+     */
+    public AeBpelObjectBase findByLocationPath(String aLocationPath) {
+        AeBpelObjectBase rVal = null;
+        try {
+            AeBpelProcessObject process = getRootProcess();
+            rVal = process.getWebModel(aLocationPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rVal;
+    }
 
-   /**
-    * @return the adapter
-    */
-   protected IAeXmlDefGraphNodeAdapter getAdapter()
-   {
-      return mAdapter;
-   }
+    /**
+     * Returns the root process object model.
+     *
+     * @return root model if this activity is a child of a process or null if not.
+     */
+    public AeBpelProcessObject getRootProcess() {
+        if (this instanceof AeBpelProcessObject) {
+            return (AeBpelProcessObject) this;
+        }
 
-   /**
-    * @param aAdapter the adapter to set
-    */
-   protected void setAdapter(IAeXmlDefGraphNodeAdapter aAdapter)
-   {
-      mAdapter = aAdapter;
-   }
-   
-   /**
-    * Returns true when the adapter is set
-    */
-   protected boolean hasAdapter()
-   {
-      return getAdapter() == null ? false : true;
-   }
-   
-   /**
-    * Returns true when this is an outline only node
-    */
-   public boolean isDisplayOutlineOnly()
-   {
-      return mDisplayOutlineOnly;
-   }
+        AeBpelProcessObject rVal = null;
+        AeBpelObjectBase parentObj = getParent();
+        while (parentObj != null && !(parentObj instanceof AeBpelProcessObject)) {
+            parentObj = parentObj.getParent();
+        }
+        if ((parentObj instanceof AeBpelProcessObject)) {
+            rVal = (AeBpelProcessObject) parentObj;
+        }
+        return rVal;
+    }
 
-   /**
-    * @param aDisplayOutlineOnly the displayOutlineOnly to set
-    */
-   protected void setDisplayOutlineOnly(boolean aDisplayOutlineOnly)
-   {
-      mDisplayOutlineOnly = aDisplayOutlineOnly;
-   }
+    /**
+     * Overrides method to return the BPEL tag name.
+     *
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return getTagName();
+    }
+
+    /**
+     * @return the adapter
+     */
+    protected IAeXmlDefGraphNodeAdapter getAdapter() {
+        return mAdapter;
+    }
+
+    /**
+     * @param aAdapter the adapter to set
+     */
+    protected void setAdapter(IAeXmlDefGraphNodeAdapter aAdapter) {
+        mAdapter = aAdapter;
+    }
+
+    /**
+     * Returns true when the adapter is set
+     */
+    protected boolean hasAdapter() {
+        return getAdapter() == null ? false : true;
+    }
+
+    /**
+     * Returns true when this is an outline only node
+     */
+    public boolean isDisplayOutlineOnly() {
+        return mDisplayOutlineOnly;
+    }
+
+    /**
+     * @param aDisplayOutlineOnly the displayOutlineOnly to set
+     */
+    protected void setDisplayOutlineOnly(boolean aDisplayOutlineOnly) {
+        mDisplayOutlineOnly = aDisplayOutlineOnly;
+    }
 
 }

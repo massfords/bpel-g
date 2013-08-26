@@ -12,17 +12,16 @@ package org.activebpel.rt.bpeladmin.war.web.graph;
 /**
  * Struct to hold graph image parameters.
  */
-public class AeGraphImageParameters
-{
-   // These have to be declared public for .NET.
-   public long mProcessId;
-   public int mDeploymentProcessId;
-   public int mPlanId;
-   public int mPart;
-   public String mPivotPath;
-   public int mTileWidth;
-   public int mTileHeight;
-   public int mGridRow;
-   public int mGridColumn;
-   public String mSessionId;
+public class AeGraphImageParameters {
+    // These have to be declared public for .NET.
+    public long mProcessId;
+    public int mDeploymentProcessId;
+    public int mPlanId;
+    public int mPart;
+    public String mPivotPath;
+    public int mTileWidth;
+    public int mTileHeight;
+    public int mGridRow;
+    public int mGridColumn;
+    public String mSessionId;
 }

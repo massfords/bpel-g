@@ -12,15 +12,14 @@ package org.activebpel.rt.bpel.server.engine;
 /**
  * Defines interface for recovering processes.
  */
-public interface IAeProcessRecovery
-{
-   /**
-    * Prepares to recover pending work.
-    */
-   public void prepareToRecover();
+public interface IAeProcessRecovery {
+    /**
+     * Prepares to recover pending work.
+     */
+    public void prepareToRecover();
 
-   /**
-    * Recovers pending work.
-    */
-   public void recover();
+    /**
+     * Recovers pending work.
+     */
+    public void recover();
 }

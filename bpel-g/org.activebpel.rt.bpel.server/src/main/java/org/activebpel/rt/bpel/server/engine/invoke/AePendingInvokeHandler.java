@@ -21,35 +21,31 @@ import org.activebpel.wsio.invoke.IAeTwoPhaseInvokeHandler;
  * by specifying an invoke handler URI containing the <code>java:</code>
  * protocol scheme.
  */
-public class AePendingInvokeHandler implements IAeTwoPhaseInvokeHandler
-{
-   /**
-    * Default constructor.
-    */
-   public AePendingInvokeHandler()
-   {
-   }
+public class AePendingInvokeHandler implements IAeTwoPhaseInvokeHandler {
+    /**
+     * Default constructor.
+     */
+    public AePendingInvokeHandler() {
+    }
 
-   /**
-    * Overrides method to throw <code>IllegalStateException</code>, because this
-    * method should never be called if {@link #prepare(IAeInvoke, String)}
-    * always returns <code>false</code> (which it does).
-    *
-    * @see org.activebpel.wsio.invoke.IAeInvokeHandler#handleInvoke(org.activebpel.wsio.invoke.IAeInvoke, java.lang.String)
-    */
-   public IAeWebServiceResponse handleInvoke(IAeInvoke aInvoke, String aQueryData)
-   {
-      throw new IllegalStateException();
-   }
+    /**
+     * Overrides method to throw <code>IllegalStateException</code>, because this
+     * method should never be called if {@link #prepare(IAeInvoke, String)}
+     * always returns <code>false</code> (which it does).
+     *
+     * @see org.activebpel.wsio.invoke.IAeInvokeHandler#handleInvoke(org.activebpel.wsio.invoke.IAeInvoke, java.lang.String)
+     */
+    public IAeWebServiceResponse handleInvoke(IAeInvoke aInvoke, String aQueryData) {
+        throw new IllegalStateException();
+    }
 
-   /**
-    * Overrides method to always return <code>false</code>, so that
-    * {@link #handleInvoke(IAeInvoke, String)} will never be called.
-    * 
-    * @see org.activebpel.wsio.invoke.IAeTwoPhaseInvokeHandler#prepare(org.activebpel.wsio.invoke.IAeInvoke, java.lang.String)
-    */
-   public boolean prepare(IAeInvoke aInvoke, String aQueryData) throws AeInvokePrepareException
-   {
-      return false;
-   }
+    /**
+     * Overrides method to always return <code>false</code>, so that
+     * {@link #handleInvoke(IAeInvoke, String)} will never be called.
+     *
+     * @see org.activebpel.wsio.invoke.IAeTwoPhaseInvokeHandler#prepare(org.activebpel.wsio.invoke.IAeInvoke, java.lang.String)
+     */
+    public boolean prepare(IAeInvoke aInvoke, String aQueryData) throws AeInvokePrepareException {
+        return false;
+    }
 }

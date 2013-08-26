@@ -14,28 +14,30 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 /**
  * Standard exception for the storage package.
  */
-public class AeStorageException extends AeBusinessProcessException
-{
-   /**
-     * 
+public class AeStorageException extends AeBusinessProcessException {
+    /**
+     *
      */
     private static final long serialVersionUID = -5462912139228579723L;
 
-/** Constructor. */
-   public AeStorageException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Constructor.
+     */
+    public AeStorageException(String aInfo) {
+        super(aInfo);
+    }
 
-   /** Constructor. */
-   public AeStorageException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Constructor.
+     */
+    public AeStorageException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
-   /** Constructor. */
-   public AeStorageException(Throwable aRootCause)
-   {
-      super(aRootCause.getLocalizedMessage(), aRootCause);
-   }
+    /**
+     * Constructor.
+     */
+    public AeStorageException(Throwable aRootCause) {
+        super(aRootCause.getLocalizedMessage(), aRootCause);
+    }
 }

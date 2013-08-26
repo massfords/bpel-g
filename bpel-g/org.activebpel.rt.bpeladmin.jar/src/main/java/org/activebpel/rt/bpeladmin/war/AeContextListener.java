@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class AeContextListener implements ServletContextListener{
+public class AeContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent aContextEvent) {
@@ -18,7 +18,7 @@ public class AeContextListener implements ServletContextListener{
         String objectName = servletContext.getInitParameter("jmx.objectName");
         String user = servletContext.getInitParameter("jmx.user");
         String password = servletContext.getInitParameter("jmx.password");
-        
+
         try {
             AeEngineManagementFactory.initBean(serviceURL, objectName, user, password);
         } catch (Exception e) {

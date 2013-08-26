@@ -21,50 +21,55 @@ import org.w3c.dom.Node;
  * used within the scope (and its fault handlers) do not change by forces outside
  * of the scope while the scope is executing.
  */
-public interface IAeVariableLocker
-{
-   // TODO (MF) rename this interface to IAeResourceLocker since it's not just variables anymore with WS-BPEL
-   /**
-    * Returns true if all of the variables in the set were able to be
-    * locked. If one or more were already locked by a previous call then the
-    * method will return false and the callback instance we be notified when
-    * the variables have been locked.
-    * @param aSetOfVariablePaths The location paths of the variables you want to lock
-    * @param aOwnerXPath The location path of the caller
-    * @param aCallback The callback object that gets notified when the lock is
-    *                  acquired if it's not immediately available
-    */
-   public boolean addExclusiveLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback);
+public interface IAeVariableLocker {
+    // TODO (MF) rename this interface to IAeResourceLocker since it's not just variables anymore with WS-BPEL
 
-   /**
-    * Returns true if all of the variables in the set were able to be
-    * locked. Shared locks will be denied only if an exclusive lock is present
-    * on the variable being requested.
-    * @param aSetOfVariablePaths The location paths of the variables you want to lock
-    * @param aOwnerXPath The location path of the caller
-    * @param aCallback The callback object that gets notified when the lock is
-    *                  acquired if it's not immediately available
-    */
-   public boolean addSharedLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback);
+    /**
+     * Returns true if all of the variables in the set were able to be
+     * locked. If one or more were already locked by a previous call then the
+     * method will return false and the callback instance we be notified when
+     * the variables have been locked.
+     *
+     * @param aSetOfVariablePaths The location paths of the variables you want to lock
+     * @param aOwnerXPath         The location path of the caller
+     * @param aCallback           The callback object that gets notified when the lock is
+     *                            acquired if it's not immediately available
+     */
+    public boolean addExclusiveLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback);
 
-   /**
-    * This unlocks all of the variables locked by the owner and will possibly
-    * result in notifying one or more of the waiting callbacks.
-    * @param aOwner - the owner of the lock
-    */
-   public void releaseLocks(String aOwner) throws AeBusinessProcessException;
-   
-   /**
-    * Persists the lock data into a document fragment.
-    * @param aProcess The process we are getting locker data for,
-    * @return Document Fragment representing lock data.
-    */
-   public DocumentFragment getLockerData(IAeVariableLockCallback aProcess) throws AeBusinessProcessException;
+    /**
+     * Returns true if all of the variables in the set were able to be
+     * locked. Shared locks will be denied only if an exclusive lock is present
+     * on the variable being requested.
+     *
+     * @param aSetOfVariablePaths The location paths of the variables you want to lock
+     * @param aOwnerXPath         The location path of the caller
+     * @param aCallback           The callback object that gets notified when the lock is
+     *                            acquired if it's not immediately available
+     */
+    public boolean addSharedLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback);
 
-   /**
-    * Restores the lock data from a node.
-    * @param aNode Node containing lock data
-    * @param aProcess the process the lock data is associated with
-    */
-   public void setLockerData(Node aNode, IAeVariableLockCallback aProcess) throws AeBusinessProcessException;
+    /**
+     * This unlocks all of the variables locked by the owner and will possibly
+     * result in notifying one or more of the waiting callbacks.
+     *
+     * @param aOwner - the owner of the lock
+     */
+    public void releaseLocks(String aOwner) throws AeBusinessProcessException;
+
+    /**
+     * Persists the lock data into a document fragment.
+     *
+     * @param aProcess The process we are getting locker data for,
+     * @return Document Fragment representing lock data.
+     */
+    public DocumentFragment getLockerData(IAeVariableLockCallback aProcess) throws AeBusinessProcessException;
+
+    /**
+     * Restores the lock data from a node.
+     *
+     * @param aNode    Node containing lock data
+     * @param aProcess the process the lock data is associated with
+     */
+    public void setLockerData(Node aNode, IAeVariableLockCallback aProcess) throws AeBusinessProcessException;
 }

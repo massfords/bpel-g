@@ -32,277 +32,261 @@ import java.util.Set;
 /**
  * Base class that expression validators may use to perform common functionality.
  */
-public abstract class AeAbstractExpressionValidator implements IAeExpressionValidator, IAeValidationDefs
-{
-   /** ActiveBPEL function  namespace. */
-   public final static String ACTIVE_BPEL_FUNCTION_NAMESPACE = "http://www.activebpel.org/bpel/extension"; //$NON-NLS-1$
+public abstract class AeAbstractExpressionValidator implements IAeExpressionValidator, IAeValidationDefs {
+    /**
+     * ActiveBPEL function  namespace.
+     */
+    public final static String ACTIVE_BPEL_FUNCTION_NAMESPACE = "http://www.activebpel.org/bpel/extension"; //$NON-NLS-1$
 
-   /** The set of functions allowed in join conditions. */
-   public static final Set<QName> sJoinConditionAllowedFunctions = new HashSet<>();
-   /** The namespace that all built in functions are a part of. */
-   public final static String BUILTIN_FUNCTION_NAMESPACE = null;
+    /**
+     * The set of functions allowed in join conditions.
+     */
+    public static final Set<QName> sJoinConditionAllowedFunctions = new HashSet<>();
+    /**
+     * The namespace that all built in functions are a part of.
+     */
+    public final static String BUILTIN_FUNCTION_NAMESPACE = null;
 
-   /**
-    * Populate the sJoinConditionAllowedFunctions map.
-    */
-   static
-   {
-      sJoinConditionAllowedFunctions.add(AeExpressionLanguageUtil.LINK_STATUS_FUNC);
-      sJoinConditionAllowedFunctions.add(new QName(BUILTIN_FUNCTION_NAMESPACE, "boolean")); //$NON-NLS-1$
-      sJoinConditionAllowedFunctions.add(new QName(BUILTIN_FUNCTION_NAMESPACE, "not")); //$NON-NLS-1$
-      sJoinConditionAllowedFunctions.add(new QName(BUILTIN_FUNCTION_NAMESPACE, "true")); //$NON-NLS-1$
-      sJoinConditionAllowedFunctions.add(new QName(BUILTIN_FUNCTION_NAMESPACE, "false")); //$NON-NLS-1$
-   }
+    /**
+     * Populate the sJoinConditionAllowedFunctions map.
+     */
+    static {
+        sJoinConditionAllowedFunctions.add(AeExpressionLanguageUtil.LINK_STATUS_FUNC);
+        sJoinConditionAllowedFunctions.add(new QName(BUILTIN_FUNCTION_NAMESPACE, "boolean")); //$NON-NLS-1$
+        sJoinConditionAllowedFunctions.add(new QName(BUILTIN_FUNCTION_NAMESPACE, "not")); //$NON-NLS-1$
+        sJoinConditionAllowedFunctions.add(new QName(BUILTIN_FUNCTION_NAMESPACE, "true")); //$NON-NLS-1$
+        sJoinConditionAllowedFunctions.add(new QName(BUILTIN_FUNCTION_NAMESPACE, "false")); //$NON-NLS-1$
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
-    */
-   public IAeExpressionValidationResult validateExpression(IAeExpressionValidationContext aContext, String aExpression) throws AeException
-   {
-      AeExpressionValidationResult result = new AeExpressionValidationResult();
-      if (AeUtil.isNullOrEmpty(aExpression))
-         return result;
+    /**
+     * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
+     */
+    public IAeExpressionValidationResult validateExpression(IAeExpressionValidationContext aContext, String aExpression) throws AeException {
+        AeExpressionValidationResult result = new AeExpressionValidationResult();
+        if (AeUtil.isNullOrEmpty(aExpression))
+            return result;
 
-      IAeExpressionParser parser = createExpressionParser(createParserContext(aContext));
-      IAeExpressionParseResult parseResult = parser.parse(aExpression);
-      
-      result.setParseResult(parseResult);
-      
-      if (parseResult.hasErrors())
-      {
-         result.addErrors(parseResult.getParseErrors());
-      }
+        IAeExpressionParser parser = createExpressionParser(createParserContext(aContext));
+        IAeExpressionParseResult parseResult = parser.parse(aExpression);
 
-      doCommonExpressionValidation(parseResult, result, aContext);
-      doFunctionValidation(parseResult, result, aContext);
-      doNonJoinConditionValidation(parseResult, result, aContext);
+        result.setParseResult(parseResult);
 
-      return result;
-   }
+        if (parseResult.hasErrors()) {
+            result.addErrors(parseResult.getParseErrors());
+        }
 
-   /**
-    * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateBooleanExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
-    */
-   public IAeExpressionValidationResult validateBooleanExpression(IAeExpressionValidationContext aContext, String aExpression)
-         throws AeException
-   {
-      return validateExpression(aContext, aExpression);
-   }
+        doCommonExpressionValidation(parseResult, result, aContext);
+        doFunctionValidation(parseResult, result, aContext);
+        doNonJoinConditionValidation(parseResult, result, aContext);
 
-   /**
-    * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateUnsignedIntExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
-    */
-   public IAeExpressionValidationResult validateUnsignedIntExpression(IAeExpressionValidationContext aContext, String aExpression) throws AeException
-   {
-      return validateExpression(aContext, aExpression);
-   }
+        return result;
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateDeadlineExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
-    */
-   public IAeExpressionValidationResult validateDeadlineExpression(IAeExpressionValidationContext aContext, String aExpression)
-         throws AeException
-   {
-      return validateExpression(aContext, aExpression);
-   }
+    /**
+     * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateBooleanExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
+     */
+    public IAeExpressionValidationResult validateBooleanExpression(IAeExpressionValidationContext aContext, String aExpression)
+            throws AeException {
+        return validateExpression(aContext, aExpression);
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateDurationExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
-    */
-   public IAeExpressionValidationResult validateDurationExpression(IAeExpressionValidationContext aContext, String aExpression)
-         throws AeException
-   {
-      return validateExpression(aContext, aExpression);
-   }
+    /**
+     * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateUnsignedIntExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
+     */
+    public IAeExpressionValidationResult validateUnsignedIntExpression(IAeExpressionValidationContext aContext, String aExpression) throws AeException {
+        return validateExpression(aContext, aExpression);
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateJoinConditionExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
-    */
-   public IAeExpressionValidationResult validateJoinConditionExpression(IAeExpressionValidationContext aContext, String aExpression)
-         throws AeException
-   {
-      AeExpressionValidationResult result = new AeExpressionValidationResult();
-      if (AeUtil.isNullOrEmpty(aExpression))
-         return result;
+    /**
+     * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateDeadlineExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
+     */
+    public IAeExpressionValidationResult validateDeadlineExpression(IAeExpressionValidationContext aContext, String aExpression)
+            throws AeException {
+        return validateExpression(aContext, aExpression);
+    }
 
-      IAeExpressionParser parser = createExpressionParser(createParserContext(aContext));
-      IAeExpressionParseResult parseResult = parser.parse(aExpression);
-      
-      result.setParseResult(parseResult);
+    /**
+     * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateDurationExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
+     */
+    public IAeExpressionValidationResult validateDurationExpression(IAeExpressionValidationContext aContext, String aExpression)
+            throws AeException {
+        return validateExpression(aContext, aExpression);
+    }
 
-      if (parseResult.hasErrors())
-      {
-         result.addErrors(parseResult.getParseErrors());
-      }
+    /**
+     * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateJoinConditionExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
+     */
+    public IAeExpressionValidationResult validateJoinConditionExpression(IAeExpressionValidationContext aContext, String aExpression)
+            throws AeException {
+        AeExpressionValidationResult result = new AeExpressionValidationResult();
+        if (AeUtil.isNullOrEmpty(aExpression))
+            return result;
 
-      doCommonExpressionValidation(parseResult, result, aContext);
-      doFunctionValidation(parseResult, result, aContext);
-      doJoinConditionValidation(parseResult, result, aContext);
+        IAeExpressionParser parser = createExpressionParser(createParserContext(aContext));
+        IAeExpressionParseResult parseResult = parser.parse(aExpression);
 
-      return result;
-   }
-   
-   /**
-    * Validates all of the function calls within the expression.
-    * 
-    * @param aParseResult
-    * @param aValidationResult
-    * @param aContext
-    */
-   protected void doFunctionValidation(IAeExpressionParseResult aParseResult,
-         AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
-   {
-       for (AeScriptFuncDef function : aParseResult.getFunctions()) {
-           validateFunction(function, aValidationResult, aContext);
-       }
-   }
+        result.setParseResult(parseResult);
 
-   /**
-    * Validates the function using the available function 
-    * @param aFunction
-    * @param aValidationResult
-    * @param aContext
-    */
-   protected void validateFunction(AeScriptFuncDef aFunction, AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
-   {
-      IAeFunctionValidator validator = aContext.getFunctionFactory().getValidator(aFunction.getQName());
-      if (validator != null)
-      {
-         validator.validate(aFunction, aValidationResult, aContext);
-      }
-   }
+        if (parseResult.hasErrors()) {
+            result.addErrors(parseResult.getParseErrors());
+        }
 
-   /**
-    * Does some common validation steps.  
-    *
-    * @param aParseResult
-    * @param aValidationResult
-    * @param aContext
-    */
-   protected void doCommonExpressionValidation(IAeExpressionParseResult aParseResult,
-         AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
-   {
-      // no-op here
-   }
+        doCommonExpressionValidation(parseResult, result, aContext);
+        doFunctionValidation(parseResult, result, aContext);
+        doJoinConditionValidation(parseResult, result, aContext);
 
-   /**
-    * Do validation for 'normal' expressions.  This basically means all expressions that aren't
-    * joinConditions.
-    *
-    * @param aParseResult
-    * @param aValidationResult
-    * @param aContext
-    */
-   protected void doNonJoinConditionValidation(IAeExpressionParseResult aParseResult,
-         AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
-   {
-      // getLinkStatus can only be used in joinCondition expressions.
-      if (aParseResult.getLinkStatusFunctionList().size() > 0)
-      {
-         addError(aValidationResult,
-               AeMessages.getString("AeAbstractExpressionValidator.INVALID_USE_OF_LINKSTATUS"), //$NON-NLS-1$
-               new Object[] { aParseResult, aParseResult.getExpression() });
-      }
-   }
+        return result;
+    }
 
-   /**
-    * There are additional restrictions imposed on join condition expressions.  This method will check
-    * for those restrictions.
-    *
-    * @param aParseResult
-    * @param aValidationResult
-    * @param aContext
-    */
-   protected void doJoinConditionValidation(IAeExpressionParseResult aParseResult,
-         AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
-   {
-      Collection functionList = aParseResult.getFunctions();
-      if (functionList.size() == 0)
-      {
-         // If there are no functions found, then we MIGHT have an error.  It depends on the
-         // language and the version of BPEL.
-         handleNoFunctionsInJoinCondition(aParseResult, aValidationResult);
-         return;
-      }
-       for (Object aFunctionList : functionList) {
-           AeScriptFuncDef function = (AeScriptFuncDef) aFunctionList;
-           if (!getJoinConditionAllowedFunctions().contains(function.getQName())) {
-               addError(aValidationResult,
-                       AeMessages.getString("AeAbstractExpressionValidator.ILLEGAL_CALL_IN_JOIN_CONDITION_ERROR"), //$NON-NLS-1$
-                       new Object[]{function.getQName(), aParseResult.getExpression()});
-           } else {
-               validateFunction(function, aValidationResult, aContext);
-           }
-       }
-   }
+    /**
+     * Validates all of the function calls within the expression.
+     *
+     * @param aParseResult
+     * @param aValidationResult
+     * @param aContext
+     */
+    protected void doFunctionValidation(IAeExpressionParseResult aParseResult,
+                                        AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext) {
+        for (AeScriptFuncDef function : aParseResult.getFunctions()) {
+            validateFunction(function, aValidationResult, aContext);
+        }
+    }
 
-   /**
-    * Called if there are no functions found in the join condition.
-    * 
-    * @param aParseResult
-    * @param aValidationResult
-    */
-   protected abstract void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult);
+    /**
+     * Validates the function using the available function
+     *
+     * @param aFunction
+     * @param aValidationResult
+     * @param aContext
+     */
+    protected void validateFunction(AeScriptFuncDef aFunction, AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext) {
+        IAeFunctionValidator validator = aContext.getFunctionFactory().getValidator(aFunction.getQName());
+        if (validator != null) {
+            validator.validate(aFunction, aValidationResult, aContext);
+        }
+    }
 
-   /**
-    * Gets the set of functions allowed in join condition expressions.
-    */
-   protected Set<QName> getJoinConditionAllowedFunctions()
-   {
-      return sJoinConditionAllowedFunctions;
-   }
+    /**
+     * Does some common validation steps.
+     *
+     * @param aParseResult
+     * @param aValidationResult
+     * @param aContext
+     */
+    protected void doCommonExpressionValidation(IAeExpressionParseResult aParseResult,
+                                                AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext) {
+        // no-op here
+    }
 
-   /**
-    * Adds an info to the validation result.
-    *
-    * @param aMessage
-    * @param aArgs
-    */
-   protected void addInfo(AeExpressionValidationResult aResult, String aMessage, Object [] aArgs)
-   {
-      String msg = MessageFormat.format(aMessage, aArgs);
-      aResult.addInfo(msg);
-   }
+    /**
+     * Do validation for 'normal' expressions.  This basically means all expressions that aren't
+     * joinConditions.
+     *
+     * @param aParseResult
+     * @param aValidationResult
+     * @param aContext
+     */
+    protected void doNonJoinConditionValidation(IAeExpressionParseResult aParseResult,
+                                                AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext) {
+        // getLinkStatus can only be used in joinCondition expressions.
+        if (aParseResult.getLinkStatusFunctionList().size() > 0) {
+            addError(aValidationResult,
+                    AeMessages.getString("AeAbstractExpressionValidator.INVALID_USE_OF_LINKSTATUS"), //$NON-NLS-1$
+                    new Object[]{aParseResult, aParseResult.getExpression()});
+        }
+    }
 
-   /**
-    * Adds an error to the validation result.
-    *
-    * @param aMessage
-    * @param aArgs
-    */
-   protected void addError(AeExpressionValidationResult aResult, String aMessage, Object [] aArgs)
-   {
-      String msg = MessageFormat.format(aMessage, aArgs);
-      aResult.addError(msg);
-   }
+    /**
+     * There are additional restrictions imposed on join condition expressions.  This method will check
+     * for those restrictions.
+     *
+     * @param aParseResult
+     * @param aValidationResult
+     * @param aContext
+     */
+    protected void doJoinConditionValidation(IAeExpressionParseResult aParseResult,
+                                             AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext) {
+        Collection functionList = aParseResult.getFunctions();
+        if (functionList.size() == 0) {
+            // If there are no functions found, then we MIGHT have an error.  It depends on the
+            // language and the version of BPEL.
+            handleNoFunctionsInJoinCondition(aParseResult, aValidationResult);
+            return;
+        }
+        for (Object aFunctionList : functionList) {
+            AeScriptFuncDef function = (AeScriptFuncDef) aFunctionList;
+            if (!getJoinConditionAllowedFunctions().contains(function.getQName())) {
+                addError(aValidationResult,
+                        AeMessages.getString("AeAbstractExpressionValidator.ILLEGAL_CALL_IN_JOIN_CONDITION_ERROR"), //$NON-NLS-1$
+                        new Object[]{function.getQName(), aParseResult.getExpression()});
+            } else {
+                validateFunction(function, aValidationResult, aContext);
+            }
+        }
+    }
 
-   /**
-    * Adds a warning to the validation result.
-    *
-    * @param aMessage
-    * @param aArgs
-    */
-   protected void addWarning(AeExpressionValidationResult aResult, String aMessage, Object [] aArgs)
-   {
-      String msg = MessageFormat.format(aMessage, aArgs);
-      aResult.addWarning(msg);
-   }
+    /**
+     * Called if there are no functions found in the join condition.
+     *
+     * @param aParseResult
+     * @param aValidationResult
+     */
+    protected abstract void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult);
 
-   /**
-    * Creates the expression parser context from the validation context.
-    *
-    * @param aValidationContext
-    */
-   protected IAeExpressionParserContext createParserContext(IAeExpressionValidationContext aValidationContext)
-   {
-      IAeNamespaceContext nsCtx = new AeBaseDefNamespaceContext(aValidationContext.getBaseDef());
-      return new AeExpressionParserContext(nsCtx);
-   }
+    /**
+     * Gets the set of functions allowed in join condition expressions.
+     */
+    protected Set<QName> getJoinConditionAllowedFunctions() {
+        return sJoinConditionAllowedFunctions;
+    }
 
-   /**
-    * Creates the parser to use to parse the expression.
-    *
-    * @param aContext
-    */
-   abstract protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext);
+    /**
+     * Adds an info to the validation result.
+     *
+     * @param aMessage
+     * @param aArgs
+     */
+    protected void addInfo(AeExpressionValidationResult aResult, String aMessage, Object[] aArgs) {
+        String msg = MessageFormat.format(aMessage, aArgs);
+        aResult.addInfo(msg);
+    }
+
+    /**
+     * Adds an error to the validation result.
+     *
+     * @param aMessage
+     * @param aArgs
+     */
+    protected void addError(AeExpressionValidationResult aResult, String aMessage, Object[] aArgs) {
+        String msg = MessageFormat.format(aMessage, aArgs);
+        aResult.addError(msg);
+    }
+
+    /**
+     * Adds a warning to the validation result.
+     *
+     * @param aMessage
+     * @param aArgs
+     */
+    protected void addWarning(AeExpressionValidationResult aResult, String aMessage, Object[] aArgs) {
+        String msg = MessageFormat.format(aMessage, aArgs);
+        aResult.addWarning(msg);
+    }
+
+    /**
+     * Creates the expression parser context from the validation context.
+     *
+     * @param aValidationContext
+     */
+    protected IAeExpressionParserContext createParserContext(IAeExpressionValidationContext aValidationContext) {
+        IAeNamespaceContext nsCtx = new AeBaseDefNamespaceContext(aValidationContext.getBaseDef());
+        return new AeExpressionParserContext(nsCtx);
+    }
+
+    /**
+     * Creates the parser to use to parse the expression.
+     *
+     * @param aContext
+     */
+    abstract protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext);
 }

@@ -17,26 +17,26 @@ import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 /**
  * Issue warnings if that any partner links defined in the bpel are not defined
  * in the process deployment descriptor.
- * 
+ * <p/>
  * Fail validation if any partner links (partnerrole or myrole) are present in
  * the pdd BUT NOT in the bpel process.
  */
 public class AePartnerLinkValidator extends AeAbstractPddIterator {
-	protected void validateImpl(AePddResource aPdd, IAeBpr aBprFile,
-			IAeBaseErrorReporter aReporter) throws AeException {
-		// FIXME deploy validation - impl the comments below
+    protected void validateImpl(AePddResource aPdd, IAeBpr aBprFile,
+                                IAeBaseErrorReporter aReporter) throws AeException {
+        // FIXME deploy validation - impl the comments below
 
-		// find all partner links with partner roles that have an
-		// initializePartnerRole = no
-		// these MUST NOT be initialized by the pdd
+        // find all partner links with partner roles that have an
+        // initializePartnerRole = no
+        // these MUST NOT be initialized by the pdd
 
-		// find all partner links with partner roles that have
-		// initializePartnerRole = yes
-		// these MUST be initialized by the pdd either with a static or have
-		// invoker style
+        // find all partner links with partner roles that have
+        // initializePartnerRole = yes
+        // these MUST be initialized by the pdd either with a static or have
+        // invoker style
 
-		// find all partner links with myrole. They must be present in the pdd
+        // find all partner links with myrole. They must be present in the pdd
 
-		// warn on all pdd plinks that are not in bpel
-	}
+        // warn on all pdd plinks that are not in bpel
+    }
 }

@@ -14,12 +14,11 @@ import org.activebpel.rt.bpel.impl.activity.assign.IAeFrom;
 /**
  * Interface used to set from copy operation, needed in handling virtual copy operations.
  */
-public interface IAeCopyFromParent
-{
-   /**
-    * Sets the from child impl.
-    * 
-    * @param aFrom
-    */
-   public void setFrom(IAeFrom aFrom);
+public interface IAeCopyFromParent {
+    /**
+     * Sets the from child impl.
+     *
+     * @param aFrom
+     */
+    public void setFrom(IAeFrom aFrom);
 }

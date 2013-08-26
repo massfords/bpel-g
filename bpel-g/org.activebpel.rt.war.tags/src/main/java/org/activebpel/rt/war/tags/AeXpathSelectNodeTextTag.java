@@ -23,37 +23,32 @@ import org.w3c.dom.Node;
  * &lt;ae:XPathSelectNodeText name="beanName" property="contextNode" query="xpath" /&gt;
  * </pre>
  */
-public class AeXpathSelectNodeTextTag extends AeAbstractXpathSelectionTag
-{
-   /**
-     * 
+public class AeXpathSelectNodeTextTag extends AeAbstractXpathSelectionTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -468183102969744548L;
 
-/**
-    * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      write( getNodeText() );
-      return SKIP_BODY;
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        write(getNodeText());
+        return SKIP_BODY;
+    }
 
-   /**
-    * Returns the node text
-    * @throws JspException
-    */
-   protected String getNodeText() throws JspException
-   {
-      Node contextNode = getContextNode();
-      // if xpath query is given, then apply it on context node, else get text from context node.
-      if (AeUtil.notNullOrEmpty( getQuery() ))
-      {
-         return  AeUtil.getSafeString( AeXPathUtil.selectText(contextNode, getQuery(), getNamespaceMap()) );
-      }
-      else
-      {
-         return  AeUtil.getSafeString( AeXmlUtil.getText( (Element) contextNode) );
-      }
-   }
+    /**
+     * Returns the node text
+     *
+     * @throws JspException
+     */
+    protected String getNodeText() throws JspException {
+        Node contextNode = getContextNode();
+        // if xpath query is given, then apply it on context node, else get text from context node.
+        if (AeUtil.notNullOrEmpty(getQuery())) {
+            return AeUtil.getSafeString(AeXPathUtil.selectText(contextNode, getQuery(), getNamespaceMap()));
+        } else {
+            return AeUtil.getSafeString(AeXmlUtil.getText((Element) contextNode));
+        }
+    }
 }

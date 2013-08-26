@@ -22,239 +22,212 @@ import java.io.*;
  * File based logging. Writes the contents of the process log to a file once the
  * process completes.
  */
-public class AeFileLogger extends AeInMemoryProcessLogger
-{
-   /** max size of a log permitted to be kept in memory before being written to disk. */
-   private static final int MAX_LOG_SIZE = 1024*128;
-   
-   /**
-    * Reads the file into a String
-    * @param raf
-    * @throws IOException
-    */
-   protected String read(RandomAccessFile raf) throws IOException
-   {
-      StringBuilder log = new StringBuilder((int)raf.length());
-      String line = null;
-      while ((line = raf.readLine()) != null)
-      {
-         log.append(line);
-         log.append('\n');
-      }
-      return log.toString();
-   }
-   
-   /**
-    * Writes the contents of the process's log to a file and removes it from the 
-    * buffer map.
-    * @see org.activebpel.rt.bpel.server.logging.AeInMemoryProcessLogger#closeLog(long)
-    */
-   protected void closeLog(long aPid) throws IOException
-   {
-      writeToFile(aPid);
-      getBufferMap().remove(aPid);
-   }
+public class AeFileLogger extends AeInMemoryProcessLogger {
+    /**
+     * max size of a log permitted to be kept in memory before being written to disk.
+     */
+    private static final int MAX_LOG_SIZE = 1024 * 128;
 
-   
-   /**
-    * Gets the file for the process's log. 
-    * @param aPid
-    */
-   protected File getFile(long aPid) throws IOException
-   {
-      File file = new File(AePreferences.getLoggingDirectory(), "process-logs/"+aPid+".log"); //$NON-NLS-1$ //$NON-NLS-2$
-      file.getParentFile().mkdirs();
-      return file;
-   }
+    /**
+     * Reads the file into a String
+     *
+     * @param raf
+     * @throws IOException
+     */
+    protected String read(RandomAccessFile raf) throws IOException {
+        StringBuilder log = new StringBuilder((int) raf.length());
+        String line = null;
+        while ((line = raf.readLine()) != null) {
+            log.append(line);
+            log.append('\n');
+        }
+        return log.toString();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeProcessLogger#getAbbreviatedLog(long)
-    */
-   public String getAbbreviatedLog(long aProcessId) throws Exception
-   {
-      writeToFile(aProcessId);
-      File file = getFile(aProcessId);
-      if (file.length() < (1024 * 512))
-      {
-         // we'll allow them to read 1/2 meg into memory
-         return readLogFileIntoString(file);
-      }
-      else
-      {
-         return readAbbreviatedLog(file);
-      }
-   }
-   
-   /**
-    * Reads the head and tail of the log file. The amount of lines for the head
-    * and tail is determined by the engine config.
-    * @param aFile
-    */
-   private String readAbbreviatedLog(File aFile) throws IOException
-   {
-      AeUnsynchronizedCharArrayWriter writer = new AeUnsynchronizedCharArrayWriter();
-      RandomAccessFile raf = null;
-      try
-      {
-         raf = new RandomAccessFile(aFile, "r"); //$NON-NLS-1$
-         int headLimit = AePreferences.getLoggingLinesHead();
-         int tailLimit = AePreferences.getLoggingLinesTail();
-         
-         // read the head
-         read(raf, writer, headLimit);
-         
-         // move the cursor to the tail
-         boolean moved = seekToTail(raf, tailLimit);
-         
-         if (moved)
-         {
-            // write the delim
-            writer.write(SNIP);
-         }
-         
-         // read the tail
-         read(raf, writer, Integer.MAX_VALUE);
-         
-      }
-      finally
-      {
-         AeCloser.close(raf);
-      }
-      
-      return writer.toString();
-   }
+    /**
+     * Writes the contents of the process's log to a file and removes it from the
+     * buffer map.
+     *
+     * @see org.activebpel.rt.bpel.server.logging.AeInMemoryProcessLogger#closeLog(long)
+     */
+    protected void closeLog(long aPid) throws IOException {
+        writeToFile(aPid);
+        getBufferMap().remove(aPid);
+    }
 
-   /**
-    * Moves the file pointer to where we need to be to read the tail portion
-    * of the log.
-    * @param aRandomAccessFile
-    * @param aTailLimit
-    * @throws IOException
-    */
-   private boolean seekToTail(RandomAccessFile aRandomAccessFile, int aTailLimit) throws IOException
-   {
-      // the sweetspot is the point near the end of the file where we'll be 
-      // able to read the required number of lines for our tail.
-      // i'm estimating 120 chars per log line
-      boolean moved = false; 
-      long sweetspot = aRandomAccessFile.length() - (aTailLimit * 120);
-      if (sweetspot > aRandomAccessFile.getFilePointer())
-      {
-         aRandomAccessFile.seek(sweetspot);
-         aRandomAccessFile.readLine();
-         moved = true;
-      }
-      return moved;
-   }
 
-   /**
-    * Reads at most aLimit number of chars from the file and writes them to the
-    * writer
-    * @param aRandomAccessFile
-    * @param aWriter
-    * @param aLimit
-    * @throws IOException
-    */
-   private void read(RandomAccessFile aRandomAccessFile, AeUnsynchronizedCharArrayWriter aWriter,
-                              int aLimit) throws IOException
-   {
-      String line;
-      int count = 0;
-      while (count++ < aLimit && (line = aRandomAccessFile.readLine()) != null)
-      {
-         aWriter.write(line);
-         aWriter.write('\n');
-      }
-   }
-   
-   
+    /**
+     * Gets the file for the process's log.
+     *
+     * @param aPid
+     */
+    protected File getFile(long aPid) throws IOException {
+        File file = new File(AePreferences.getLoggingDirectory(), "process-logs/" + aPid + ".log"); //$NON-NLS-1$ //$NON-NLS-2$
+        file.getParentFile().mkdirs();
+        return file;
+    }
 
-   /**
-    * Returns the whole log as a string
-    */
-   private String readLogFileIntoString(File aFile)
-   {
-      Reader reader = null;
-      AeUnsynchronizedCharArrayWriter writer = new AeUnsynchronizedCharArrayWriter();
-      try
-      {
-         reader = new FileReader(aFile);
-         char[] buff = new char[1024*128];
-         int read;
-         while ((read = reader.read(buff)) != -1)
-            writer.write(buff, 0, read);
-      }
-      catch (IOException e)
-      {
-         AeCloser.close(reader);
-      }
-      return writer.toString();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeProcessLogger#getAbbreviatedLog(long)
+     */
+    public String getAbbreviatedLog(long aProcessId) throws Exception {
+        writeToFile(aProcessId);
+        File file = getFile(aProcessId);
+        if (file.length() < (1024 * 512)) {
+            // we'll allow them to read 1/2 meg into memory
+            return readLogFileIntoString(file);
+        } else {
+            return readAbbreviatedLog(file);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeProcessLogger#getFullLog(long)
-    */
-   public Reader getFullLog(long aProcessId) throws Exception
-   {
-      writeToFile(aProcessId);
-      return new FileReader(getFile(aProcessId));
-   }
-   
-   /**
-    * Writes the contents of the log's memory buffer to disk. This is done when
-    * the process closes, buffer gets too big, or if someone is requesting the abbreviated or
-    * full log.
-    * @param aProcessId
-    * @throws IOException
-    */
-   protected void writeToFile(long aProcessId) throws IOException
-   {
-      StringBuffer sb = getBuffer(aProcessId, false);
-      if (sb != null)
-      {
-         synchronized(sb)
-         {
-            Writer w = null;
-            try
-            {
-               w = new FileWriter(getFile(aProcessId), true);
-               w.write(sb.toString());
-               sb.setLength(0);
+    /**
+     * Reads the head and tail of the log file. The amount of lines for the head
+     * and tail is determined by the engine config.
+     *
+     * @param aFile
+     */
+    private String readAbbreviatedLog(File aFile) throws IOException {
+        AeUnsynchronizedCharArrayWriter writer = new AeUnsynchronizedCharArrayWriter();
+        RandomAccessFile raf = null;
+        try {
+            raf = new RandomAccessFile(aFile, "r"); //$NON-NLS-1$
+            int headLimit = AePreferences.getLoggingLinesHead();
+            int tailLimit = AePreferences.getLoggingLinesTail();
+
+            // read the head
+            read(raf, writer, headLimit);
+
+            // move the cursor to the tail
+            boolean moved = seekToTail(raf, tailLimit);
+
+            if (moved) {
+                // write the delim
+                writer.write(SNIP);
             }
-            finally
-            {
-               AeCloser.close(w);
-            }
-         }
-      }
-   }
-   /**
-    * @see org.activebpel.rt.bpel.server.logging.AeInMemoryProcessLogger#appendToLog(long, java.lang.String)
-    */
-   protected void appendToLog(long aPid, String line)
-   {
-      if (!AeUtil.isNullOrEmpty(line))
-      {
-         StringBuffer sb = getBuffer(aPid, true);
-         synchronized(sb)
-         {
-            sb.append(line);
-            sb.append('\n');
 
-            if (sb.length() > MAX_LOG_SIZE)
-            {
-               try
-               {
-                  writeToFile(aPid);
-               }
-               catch (IOException e)
-               {
-                  AeException.logError(e, AeMessages.getString("AeFileLogger.ERROR_8")); //$NON-NLS-1$
-                  // eat the exception
-               }
+            // read the tail
+            read(raf, writer, Integer.MAX_VALUE);
+
+        } finally {
+            AeCloser.close(raf);
+        }
+
+        return writer.toString();
+    }
+
+    /**
+     * Moves the file pointer to where we need to be to read the tail portion
+     * of the log.
+     *
+     * @param aRandomAccessFile
+     * @param aTailLimit
+     * @throws IOException
+     */
+    private boolean seekToTail(RandomAccessFile aRandomAccessFile, int aTailLimit) throws IOException {
+        // the sweetspot is the point near the end of the file where we'll be
+        // able to read the required number of lines for our tail.
+        // i'm estimating 120 chars per log line
+        boolean moved = false;
+        long sweetspot = aRandomAccessFile.length() - (aTailLimit * 120);
+        if (sweetspot > aRandomAccessFile.getFilePointer()) {
+            aRandomAccessFile.seek(sweetspot);
+            aRandomAccessFile.readLine();
+            moved = true;
+        }
+        return moved;
+    }
+
+    /**
+     * Reads at most aLimit number of chars from the file and writes them to the
+     * writer
+     *
+     * @param aRandomAccessFile
+     * @param aWriter
+     * @param aLimit
+     * @throws IOException
+     */
+    private void read(RandomAccessFile aRandomAccessFile, AeUnsynchronizedCharArrayWriter aWriter,
+                      int aLimit) throws IOException {
+        String line;
+        int count = 0;
+        while (count++ < aLimit && (line = aRandomAccessFile.readLine()) != null) {
+            aWriter.write(line);
+            aWriter.write('\n');
+        }
+    }
+
+
+    /**
+     * Returns the whole log as a string
+     */
+    private String readLogFileIntoString(File aFile) {
+        Reader reader = null;
+        AeUnsynchronizedCharArrayWriter writer = new AeUnsynchronizedCharArrayWriter();
+        try {
+            reader = new FileReader(aFile);
+            char[] buff = new char[1024 * 128];
+            int read;
+            while ((read = reader.read(buff)) != -1)
+                writer.write(buff, 0, read);
+        } catch (IOException e) {
+            AeCloser.close(reader);
+        }
+        return writer.toString();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeProcessLogger#getFullLog(long)
+     */
+    public Reader getFullLog(long aProcessId) throws Exception {
+        writeToFile(aProcessId);
+        return new FileReader(getFile(aProcessId));
+    }
+
+    /**
+     * Writes the contents of the log's memory buffer to disk. This is done when
+     * the process closes, buffer gets too big, or if someone is requesting the abbreviated or
+     * full log.
+     *
+     * @param aProcessId
+     * @throws IOException
+     */
+    protected void writeToFile(long aProcessId) throws IOException {
+        StringBuffer sb = getBuffer(aProcessId, false);
+        if (sb != null) {
+            synchronized (sb) {
+                Writer w = null;
+                try {
+                    w = new FileWriter(getFile(aProcessId), true);
+                    w.write(sb.toString());
+                    sb.setLength(0);
+                } finally {
+                    AeCloser.close(w);
+                }
             }
-         }
-      }
-   }
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.logging.AeInMemoryProcessLogger#appendToLog(long, java.lang.String)
+     */
+    protected void appendToLog(long aPid, String line) {
+        if (!AeUtil.isNullOrEmpty(line)) {
+            StringBuffer sb = getBuffer(aPid, true);
+            synchronized (sb) {
+                sb.append(line);
+                sb.append('\n');
+
+                if (sb.length() > MAX_LOG_SIZE) {
+                    try {
+                        writeToFile(aPid);
+                    } catch (IOException e) {
+                        AeException.logError(e, AeMessages.getString("AeFileLogger.ERROR_8")); //$NON-NLS-1$
+                        // eat the exception
+                    }
+                }
+            }
+        }
+    }
 
 }

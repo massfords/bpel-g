@@ -24,149 +24,132 @@ import java.util.Map;
  * Implements a Jaxen function context that provides a few simple utility
  * functions.
  */
-public class AeUtilityFunctionContext implements IAeFunctionContext
-{
-   private static final String FUNCTION_PRINTLN = "println"; //$NON-NLS-1$
-   private static final String FUNCTION_READLN  = "readln"; //$NON-NLS-1$
-   private static final String FUNCTION_SLEEP   = "sleep"; //$NON-NLS-1$
+public class AeUtilityFunctionContext implements IAeFunctionContext {
+    private static final String FUNCTION_PRINTLN = "println"; //$NON-NLS-1$
+    private static final String FUNCTION_READLN = "readln"; //$NON-NLS-1$
+    private static final String FUNCTION_SLEEP = "sleep"; //$NON-NLS-1$
 
-   /** Serializes execution of the readln function. */
-   private static final Object mReadlnMutex = new Object(); 
+    /**
+     * Serializes execution of the readln function.
+     */
+    private static final Object mReadlnMutex = new Object();
 
-   /** <code>Map</code> from function names to function implementations. */
-   private final Map<String, IAeFunction> mFunctionMap = new HashMap<>();
+    /**
+     * <code>Map</code> from function names to function implementations.
+     */
+    private final Map<String, IAeFunction> mFunctionMap = new HashMap<>();
 
-   /**
-    * Constructs the function context.
-    */
-   public AeUtilityFunctionContext()
-   {
-      mFunctionMap.put(FUNCTION_PRINTLN, new AePrintlnFunction());
-      mFunctionMap.put(FUNCTION_READLN , new AeReadlnFunction());
-      mFunctionMap.put(FUNCTION_SLEEP  , new AeSleepFunction());
-   }
+    /**
+     * Constructs the function context.
+     */
+    public AeUtilityFunctionContext() {
+        mFunctionMap.put(FUNCTION_PRINTLN, new AePrintlnFunction());
+        mFunctionMap.put(FUNCTION_READLN, new AeReadlnFunction());
+        mFunctionMap.put(FUNCTION_SLEEP, new AeSleepFunction());
+    }
 
-   /**
-    * Convenience routine that concatenates the items in the specified list to
-    * a <code>String</code>.
-    */
-   protected static String concatenate(List aList)
-   {
-      StringBuilder buffer = new StringBuilder();
-      Iterator i = aList.iterator();
+    /**
+     * Convenience routine that concatenates the items in the specified list to
+     * a <code>String</code>.
+     */
+    protected static String concatenate(List aList) {
+        StringBuilder buffer = new StringBuilder();
+        Iterator i = aList.iterator();
 
-      if (i.hasNext())
-      {
-         // Get the first item.
-         buffer.append(i.next());
-
-         // Concatenate succeeding items separated by spaces.
-         while (i.hasNext())
-         {
-            buffer.append(' ');
+        if (i.hasNext()) {
+            // Get the first item.
             buffer.append(i.next());
-         }
-      }
 
-      return buffer.toString();
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionContext#getFunction(java.lang.String)
-    */
-   public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException
-   {
-      IAeFunction function = mFunctionMap.get(aLocalName.toLowerCase());
-      if (function == null)
-      {
-         throw new AeUnresolvableException(
-               AeMessages.getString("AeUtilityFunctionContext.ERROR_0") + aLocalName); //$NON-NLS-1$ 
-      }
-
-      return function;
-   }
-
-   /**
-    * Implements a simple Jaxen function that writes its arguments to the Java console.
-    */
-   protected static class AePrintlnFunction implements IAeFunction
-   {
-      /**
-       * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-       */
-      public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-      {
-         String output = concatenate(aArgs);
-
-         System.out.println("[PRINTLN] " + output); //$NON-NLS-1$
-
-         // Return the concatenated arguments for kicks.
-         return output;
-      }
-   }
-
-
-   /**
-    * Implements a simple Jaxen function that prompts the user for console
-    * input and returns the user's input.
-    */
-   protected static class AeReadlnFunction implements IAeFunction
-   {
-      /**
-       * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-       */
-      public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-      {
-         // Synchronize on a mutex object to prevent concurrent console reads.
-         synchronized (mReadlnMutex)
-         {
-            String prompt = concatenate(aArgs);
-            if (!prompt.endsWith(" ")) //$NON-NLS-1$
-            {
-               prompt = prompt + " "; //$NON-NLS-1$
+            // Concatenate succeeding items separated by spaces.
+            while (i.hasNext()) {
+                buffer.append(' ');
+                buffer.append(i.next());
             }
-   
-            System.out.print("[READLN] " + prompt); //$NON-NLS-1$
-   
-            try
-            {
-               // Return the next line typed by the console user.
-               return new BufferedReader(new InputStreamReader(System.in)).readLine();
-            }
-            catch (IOException e)
-            {
-               throw new AeFunctionCallException(e);
-            }
-         }
-      }
-   }
+        }
 
-   /**
-    * Implements a simple Jaxen function that puts the current thread to sleep.
-    */
-   protected static class AeSleepFunction implements IAeFunction
-   {
-      /**
-       * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-       */
-      public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-      {
-         if (aArgs.size() > 0)
-         {
-            try
-            {
-               long millis = Double.valueOf(aArgs.get(0).toString()).longValue(); 
-               System.out.println("[SLEEP] " + millis + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
-               Thread.sleep(millis);
-            }
-            catch (Exception e)
-            {
-               throw new AeFunctionCallException(e);
-            }
-         }
+        return buffer.toString();
+    }
 
-         // Return the 2nd argument, if it exists.
-         return (aArgs.size() > 1) ? aArgs.get(1) : null;
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionContext#getFunction(java.lang.String)
+     */
+    public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException {
+        IAeFunction function = mFunctionMap.get(aLocalName.toLowerCase());
+        if (function == null) {
+            throw new AeUnresolvableException(
+                    AeMessages.getString("AeUtilityFunctionContext.ERROR_0") + aLocalName); //$NON-NLS-1$
+        }
+
+        return function;
+    }
+
+    /**
+     * Implements a simple Jaxen function that writes its arguments to the Java console.
+     */
+    protected static class AePrintlnFunction implements IAeFunction {
+        /**
+         * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+         */
+        public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+            String output = concatenate(aArgs);
+
+            System.out.println("[PRINTLN] " + output); //$NON-NLS-1$
+
+            // Return the concatenated arguments for kicks.
+            return output;
+        }
+    }
+
+
+    /**
+     * Implements a simple Jaxen function that prompts the user for console
+     * input and returns the user's input.
+     */
+    protected static class AeReadlnFunction implements IAeFunction {
+        /**
+         * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+         */
+        public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+            // Synchronize on a mutex object to prevent concurrent console reads.
+            synchronized (mReadlnMutex) {
+                String prompt = concatenate(aArgs);
+                if (!prompt.endsWith(" ")) //$NON-NLS-1$
+                {
+                    prompt = prompt + " "; //$NON-NLS-1$
+                }
+
+                System.out.print("[READLN] " + prompt); //$NON-NLS-1$
+
+                try {
+                    // Return the next line typed by the console user.
+                    return new BufferedReader(new InputStreamReader(System.in)).readLine();
+                } catch (IOException e) {
+                    throw new AeFunctionCallException(e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Implements a simple Jaxen function that puts the current thread to sleep.
+     */
+    protected static class AeSleepFunction implements IAeFunction {
+        /**
+         * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+         */
+        public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+            if (aArgs.size() > 0) {
+                try {
+                    long millis = Double.valueOf(aArgs.get(0).toString()).longValue();
+                    System.out.println("[SLEEP] " + millis + " milliseconds"); //$NON-NLS-1$ //$NON-NLS-2$
+                    Thread.sleep(millis);
+                } catch (Exception e) {
+                    throw new AeFunctionCallException(e);
+                }
+            }
+
+            // Return the 2nd argument, if it exists.
+            return (aArgs.size() > 1) ? aArgs.get(1) : null;
+        }
+    }
 }

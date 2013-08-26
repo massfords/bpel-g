@@ -14,32 +14,33 @@ import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.message.IAeMessageData;
 
 /**
- * Defines a callback interface for objects that expect to receive messages. 
+ * Defines a callback interface for objects that expect to receive messages.
  */
-public interface IAeMessageReceiver
-{
-   /**
-    * Callback when a message arrives for a message receiver.
-    * @param aMessage The message which has been received.
-    * @throws AeBusinessProcessException Allows the receiver to throw an exception.
-    */
-   public void onMessage(IAeMessageData aMessage) throws AeBusinessProcessException;
+public interface IAeMessageReceiver {
+    /**
+     * Callback when a message arrives for a message receiver.
+     *
+     * @param aMessage The message which has been received.
+     * @throws AeBusinessProcessException Allows the receiver to throw an exception.
+     */
+    public void onMessage(IAeMessageData aMessage) throws AeBusinessProcessException;
 
-   /**
-    * Callback when a fault arrives instead of the expected message.
-    * @param aFault The fault which has been received.
-    * @throws AeBusinessProcessException Allows the receiver to throw an exception.
-    */
-   public void onFault(IAeFault aFault) throws AeBusinessProcessException;
+    /**
+     * Callback when a fault arrives instead of the expected message.
+     *
+     * @param aFault The fault which has been received.
+     * @throws AeBusinessProcessException Allows the receiver to throw an exception.
+     */
+    public void onFault(IAeFault aFault) throws AeBusinessProcessException;
 
-   /**
-    * Returns the unique location path within the process for this receiver.
-    */
-   public String getLocationPath();
-   
-   /**
-    * Returns the unique location id within the process for this receiver.
-    */
-   public int getLocationId();
-   
+    /**
+     * Returns the unique location path within the process for this receiver.
+     */
+    public String getLocationPath();
+
+    /**
+     * Returns the unique location id within the process for this receiver.
+     */
+    public int getLocationId();
+
 }

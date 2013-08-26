@@ -25,73 +25,67 @@ import org.activebpel.rt.xml.def.AeBaseDefNamespaceContext;
 /**
  * Visits the process def and builds a list of doXslTransform() resources.
  */
-public class AeDoXslTransformUriVisitor extends AeAbstractExpressionDefVisitor
-{
-   /** The expression language factory. */
-   private IAeExpressionLanguageFactory mFactory;
-   /** The set of stylesheets found during visiting. */
-   private Set<String> mStylesheets;
-   
-   /**
-    * Default c'tor.
-    */
-   public AeDoXslTransformUriVisitor(IAeExpressionLanguageFactory aFactory)
-   {
-      super();
-      setFactory(aFactory);
-      setStylesheets(new HashSet<String>());
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractExpressionDefVisitor#visitExpressionDef(org.activebpel.rt.bpel.def.IAeExpressionDef)
-    */
-   protected void visitExpressionDef(IAeExpressionDef aExpressionDef)
-   {
-      try
-      {
-         String exprLanguage = AeDefUtil.getExpressionLanguage(aExpressionDef);
-         String bpelNS = getProcessDef().getNamespace();
-         IAeExpressionAnalyzer analyzer = getFactory().createExpressionAnalyzer(bpelNS, exprLanguage);
-         AeExpressionAnalyzerContext context = new AeExpressionAnalyzerContext(new AeBaseDefNamespaceContext(
-               (AeBaseDef) aExpressionDef));
-         Set<String> stylesheets = analyzer.getStylesheetURIs(context, aExpressionDef.getExpression());
-         getStylesheets().addAll(stylesheets);
-      }
-      catch (AeException ex)
-      {
-         AeException.logError(ex);
-      }
-   }
+public class AeDoXslTransformUriVisitor extends AeAbstractExpressionDefVisitor {
+    /**
+     * The expression language factory.
+     */
+    private IAeExpressionLanguageFactory mFactory;
+    /**
+     * The set of stylesheets found during visiting.
+     */
+    private Set<String> mStylesheets;
 
-   /**
-    * @return Returns the factory.
-    */
-   protected IAeExpressionLanguageFactory getFactory()
-   {
-      return mFactory;
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeDoXslTransformUriVisitor(IAeExpressionLanguageFactory aFactory) {
+        super();
+        setFactory(aFactory);
+        setStylesheets(new HashSet<String>());
+    }
 
-   /**
-    * @param aFactory The factory to set.
-    */
-   protected void setFactory(IAeExpressionLanguageFactory aFactory)
-   {
-      mFactory = aFactory;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractExpressionDefVisitor#visitExpressionDef(org.activebpel.rt.bpel.def.IAeExpressionDef)
+     */
+    protected void visitExpressionDef(IAeExpressionDef aExpressionDef) {
+        try {
+            String exprLanguage = AeDefUtil.getExpressionLanguage(aExpressionDef);
+            String bpelNS = getProcessDef().getNamespace();
+            IAeExpressionAnalyzer analyzer = getFactory().createExpressionAnalyzer(bpelNS, exprLanguage);
+            AeExpressionAnalyzerContext context = new AeExpressionAnalyzerContext(new AeBaseDefNamespaceContext(
+                    (AeBaseDef) aExpressionDef));
+            Set<String> stylesheets = analyzer.getStylesheetURIs(context, aExpressionDef.getExpression());
+            getStylesheets().addAll(stylesheets);
+        } catch (AeException ex) {
+            AeException.logError(ex);
+        }
+    }
 
-   /**
-    * @return Returns the stylesheets.
-    */
-   public Set<String> getStylesheets()
-   {
-      return mStylesheets;
-   }
+    /**
+     * @return Returns the factory.
+     */
+    protected IAeExpressionLanguageFactory getFactory() {
+        return mFactory;
+    }
 
-   /**
-    * @param aStylesheets The stylesheets to set.
-    */
-   protected void setStylesheets(Set<String> aStylesheets)
-   {
-      mStylesheets = aStylesheets;
-   }
+    /**
+     * @param aFactory The factory to set.
+     */
+    protected void setFactory(IAeExpressionLanguageFactory aFactory) {
+        mFactory = aFactory;
+    }
+
+    /**
+     * @return Returns the stylesheets.
+     */
+    public Set<String> getStylesheets() {
+        return mStylesheets;
+    }
+
+    /**
+     * @param aStylesheets The stylesheets to set.
+     */
+    protected void setStylesheets(Set<String> aStylesheets) {
+        mStylesheets = aStylesheets;
+    }
 }

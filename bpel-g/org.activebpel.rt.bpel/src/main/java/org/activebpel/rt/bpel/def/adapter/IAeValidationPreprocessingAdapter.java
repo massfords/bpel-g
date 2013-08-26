@@ -16,12 +16,12 @@ import org.activebpel.rt.xml.def.IAeAdapter;
 /**
  * All extension implementations that participate in validation preprocessing need to implement this interface
  */
-public interface IAeValidationPreprocessingAdapter extends IAeAdapter
-{
-   /**
-    * Perform validation preprocessing tasks
-    * @param aContextProvider
-    * @param aExpressionLanguageFactory
-    */
-   public void preprocessForValidation(IAeContextWSDLProvider aContextProvider, IAeExpressionLanguageFactory aExpressionLanguageFactory);
+public interface IAeValidationPreprocessingAdapter extends IAeAdapter {
+    /**
+     * Perform validation preprocessing tasks
+     *
+     * @param aContextProvider
+     * @param aExpressionLanguageFactory
+     */
+    public void preprocessForValidation(IAeContextWSDLProvider aContextProvider, IAeExpressionLanguageFactory aExpressionLanguageFactory);
 }

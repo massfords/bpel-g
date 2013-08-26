@@ -19,75 +19,71 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 
 /**
  * Implements the logic for the implicit compensation handler. This handler
- * executes a single instance of the default compensate activity. 
+ * executes a single instance of the default compensate activity.
  */
-public class AeImplicitCompensationHandler extends AeCompensationHandler
-{
-   /**
-    * Ctor that takes the parent scope and adds the default compensation
-    * activity as its only child activity. 
-    * @param aParent
-    */
-   public AeImplicitCompensationHandler(AeActivityScopeImpl aParent)
-   {
-      super(null, aParent);
-      addActivity(AeActivityCompensateImpl.createImplicitCompensation(this, aParent.getDefinition()));
-   }
+public class AeImplicitCompensationHandler extends AeCompensationHandler {
+    /**
+     * Ctor that takes the parent scope and adds the default compensation
+     * activity as its only child activity.
+     *
+     * @param aParent
+     */
+    public AeImplicitCompensationHandler(AeActivityScopeImpl aParent) {
+        super(null, aParent);
+        addActivity(AeActivityCompensateImpl.createImplicitCompensation(this, aParent.getDefinition()));
+    }
 
-   /**
-    * Implicit compensation handler always executes all of the (enclosed scope's)
-    * comp info objects, including the coordinated comp info objects. In this case,
-    * an implicit compensate activity for the coordinated activities does not need to
-    * be run. This method returns false.
-    *   
-    * @return false for implicit compensation handler.
-    */
-   protected boolean isEnableCoordinatedActivityCompensation()
-   {
-      // Implicit compensation handler always executes all of the (enclosed scope's)
-      // comp info objects, including the coordinated comp info objects.
-      // So, this class does not have to re-run the comp. for the coordinated activities.
-      return false;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Implicit compensation handler always executes all of the (enclosed scope's)
+     * comp info objects, including the coordinated comp info objects. In this case,
+     * an implicit compensate activity for the coordinated activities does not need to
+     * be run. This method returns false.
+     *
+     * @return false for implicit compensation handler.
+     */
+    protected boolean isEnableCoordinatedActivityCompensation() {
+        // Implicit compensation handler always executes all of the (enclosed scope's)
+        // comp info objects, including the coordinated comp info objects.
+        // So, this class does not have to re-run the comp. for the coordinated activities.
+        return false;
+    }
 
-   /**
-    * This is overridden because we don't have a def object. Our location path
-    * is equal to the parent's path plus _ImplicitCompensationHandler
-    * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getLocationPath()
-    */
-   public String getLocationPath()
-   {
-      IAeBpelObject parent = getParent();
-      StringBuilder buffer = new StringBuilder(parent.getLocationPath());
-      return buffer.append(AeSupportActivityLocationPathSuffix.IMPLICIT_COMPENSATION_HANDLER).toString(); 
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * This object gets created because there was no compensation handler defined for the scope.
-    * As such, there is no definition object and calling this method results in an exception.
-    * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#getDefinition()
-    */
-   public AeBaseDef getDefinition()
-   {
-      throw new UnsupportedOperationException(AeMessages.getString("AeImplicitCompensationHandler.ERROR_1")); //$NON-NLS-1$
-   }
+    /**
+     * This is overridden because we don't have a def object. Our location path
+     * is equal to the parent's path plus _ImplicitCompensationHandler
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getLocationPath()
+     */
+    public String getLocationPath() {
+        IAeBpelObject parent = getParent();
+        StringBuilder buffer = new StringBuilder(parent.getLocationPath());
+        return buffer.append(AeSupportActivityLocationPathSuffix.IMPLICIT_COMPENSATION_HANDLER).toString();
+    }
 
-   /**
-    * Overrides method to return <code>false</code>, since {@link
-    * #getDefinition()} will fail. 
-    * 
-    * @see org.activebpel.rt.bpel.impl.IAeBpelObject#hasLocationId()
-    */
-   public boolean hasLocationId()
-   {
-      return false;
-   }
+    /**
+     * This object gets created because there was no compensation handler defined for the scope.
+     * As such, there is no definition object and calling this method results in an exception.
+     *
+     * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#getDefinition()
+     */
+    public AeBaseDef getDefinition() {
+        throw new UnsupportedOperationException(AeMessages.getString("AeImplicitCompensationHandler.ERROR_1")); //$NON-NLS-1$
+    }
+
+    /**
+     * Overrides method to return <code>false</code>, since {@link
+     * #getDefinition()} will fail.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#hasLocationId()
+     */
+    public boolean hasLocationId() {
+        return false;
+    }
 }

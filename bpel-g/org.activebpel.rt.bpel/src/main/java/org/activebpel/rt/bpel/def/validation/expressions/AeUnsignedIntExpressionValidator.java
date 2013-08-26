@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expressions; 
+package org.activebpel.rt.bpel.def.validation.expressions;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
@@ -18,23 +18,21 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidator;
 /**
  * Base model for defs that use expressions to produce unsignedInt
  */
-public class AeUnsignedIntExpressionValidator extends AeBaseExpressionValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeUnsignedIntExpressionValidator(IAeExpressionDef aDef)
-   {
-      super(aDef);
-   }
+public class AeUnsignedIntExpressionValidator extends AeBaseExpressionValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeUnsignedIntExpressionValidator(IAeExpressionDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validateExpression(java.lang.String, org.activebpel.rt.expr.validation.IAeExpressionValidator, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   protected IAeExpressionValidationResult validateExpression(String aExpression, IAeExpressionValidator aValidator, IAeExpressionValidationContext aContext) throws AeException
-   {
-      return aValidator.validateUnsignedIntExpression(aContext, aExpression);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validateExpression(java.lang.String, org.activebpel.rt.expr.validation.IAeExpressionValidator, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    protected IAeExpressionValidationResult validateExpression(String aExpression, IAeExpressionValidator aValidator, IAeExpressionValidationContext aContext) throws AeException {
+        return aValidator.validateUnsignedIntExpression(aContext, aExpression);
+    }
 }
  

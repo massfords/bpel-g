@@ -22,42 +22,36 @@ import org.apache.commons.dbutils.ResultSetHandler;
  * converts a {@link java.sql.ResultSet} to a map from journal entry ids to
  * location ids.
  */
-public class AeJournalEntriesLocationIdsResultSetHandler implements ResultSetHandler<Map<Long, Integer>>
-{
-   /**
-    * Default constructor that is visible to classes derived from
-    * <code>AeSQLProcessStateStorage</code>.
-    */
-   public AeJournalEntriesLocationIdsResultSetHandler()
-   {
-   }
+public class AeJournalEntriesLocationIdsResultSetHandler implements ResultSetHandler<Map<Long, Integer>> {
+    /**
+     * Default constructor that is visible to classes derived from
+     * <code>AeSQLProcessStateStorage</code>.
+     */
+    public AeJournalEntriesLocationIdsResultSetHandler() {
+    }
 
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public Map<Long, Integer> handle(ResultSet rs) throws SQLException
-   {
-      Map<Long,Integer> result = new HashMap<>();
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public Map<Long, Integer> handle(ResultSet rs) throws SQLException {
+        Map<Long, Integer> result = new HashMap<>();
 
-      while (rs.next())
-      {
-         long journalId = rs.getLong(1);
+        while (rs.next()) {
+            long journalId = rs.getLong(1);
 
-         if (rs.wasNull())
-         {
-            continue;
-         }
+            if (rs.wasNull()) {
+                continue;
+            }
 
-         int locationId = rs.getInt(2);
+            int locationId = rs.getInt(2);
 
-         if (rs.wasNull())
-         {
-            continue;
-         }
+            if (rs.wasNull()) {
+                continue;
+            }
 
-         result.put(journalId, locationId);
-      }
+            result.put(journalId, locationId);
+        }
 
-      return result;
-   }
+        return result;
+    }
 }

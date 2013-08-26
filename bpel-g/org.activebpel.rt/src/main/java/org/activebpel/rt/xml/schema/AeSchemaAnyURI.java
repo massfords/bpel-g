@@ -7,36 +7,33 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.schema; 
+package org.activebpel.rt.xml.schema;
 
 /**
- * Wrapper object for xsd:anyURI simple data type. This ensures that Axis serializes the data correctly 
+ * Wrapper object for xsd:anyURI simple data type. This ensures that Axis serializes the data correctly
  */
-public class AeSchemaAnyURI extends AeSchemaWrappedStringType
-{
-   /**
-    * Ctor accepts the uri
-    * @param aURI
-    */
-   public AeSchemaAnyURI(String aURI)
-   {
-      super(aURI);
-   }
-   
-   /**
-    * Gets the AnyURI value.
-    */
-   public String getURI()
-   {
-      return getValue();
-   }
-   
-   /**
-    * @see org.activebpel.rt.xml.schema.IAeSchemaType#accept(org.activebpel.rt.xml.schema.IAeSchemaTypeVisitor)
-    */
-   public void accept(IAeSchemaTypeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+public class AeSchemaAnyURI extends AeSchemaWrappedStringType {
+    /**
+     * Ctor accepts the uri
+     *
+     * @param aURI
+     */
+    public AeSchemaAnyURI(String aURI) {
+        super(aURI);
+    }
+
+    /**
+     * Gets the AnyURI value.
+     */
+    public String getURI() {
+        return getValue();
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.schema.IAeSchemaType#accept(org.activebpel.rt.xml.schema.IAeSchemaTypeVisitor)
+     */
+    public void accept(IAeSchemaTypeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }
  

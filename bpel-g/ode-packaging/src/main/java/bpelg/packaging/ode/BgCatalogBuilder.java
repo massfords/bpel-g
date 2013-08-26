@@ -21,26 +21,27 @@ import java.util.*;
 
 /**
  * Walks the service unit root and constructs the catalog.xml file that is needed to deploy the set of processes.
- * 
+ * <p/>
  * Contains two collections that model the wsdl, xsd, xsl, and other resources found in the service unit.
  * The main collection contains tuples for all of the the catalog entries found.
- * 
+ * <p/>
  * The locations tuple contains a set of all of the locations of top level resources imported into a bpel.
  * This secondary collection is used to filter out wsdl's or xsd's that are not directly or transitively imported
- * into a bpel. This is done in an effort to limit what's deployed to only what's needed. 
- * 
+ * into a bpel. This is done in an effort to limit what's deployed to only what's needed.
+ *
  * @author markford
  */
 public class BgCatalogBuilder {
-    
+
     private static final Log sLog = LogFactory.getLog(BgCatalogBuilder.class);
-    
-    private static final Map<String,String> NS = new HashMap<>();
+
+    private static final Map<String, String> NS = new HashMap<>();
+
     static {
         NS.put("wsdl", IAeConstants.WSDL_NAMESPACE);
         NS.put("xs", XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
-    
+
     private File serviceUnitRoot;
     private final Collection<BgCatalogTuple> collection = new ArrayList<>();
     private String logicalPathPrefix;
@@ -48,32 +49,33 @@ public class BgCatalogBuilder {
     private boolean replaceExisting;
     // location paths relative to the service unit root that are referenced directly or transitively by the bpel. These paths will be included in the deployment.
     private final Set<String> locations = new HashSet<>();
-    
+
     public BgCatalogBuilder(File root) {
         assert root.isDirectory();
         serviceUnitRoot = root;
-        setReplaceExisting( new File(root, "replace.existing").isFile() );
+        setReplaceExisting(new File(root, "replace.existing").isFile());
         logicalPathPrefix = "project:/" + serviceUnitRoot.getName() + "/";
     }
 
     /**
      * Set the collection of catalog entries that have been imported into BPEL's
+     *
      * @param referenced
      * @throws Exception
      */
     public void setReferenced(Collection<BgCatalogTuple> referenced) throws Exception {
-        for(BgCatalogTuple tuple : referenced) {
+        for (BgCatalogTuple tuple : referenced) {
             findLocations(new File(serviceUnitRoot, tuple.physicalLocation));
         }
     }
-    
+
     public void build() throws Exception {
         addFiles(serviceUnitRoot, "");
     }
-    
+
     /**
-     * Builds the catalog xml file for the service unit. 
-     * 
+     * Builds the catalog xml file for the service unit.
+     * <p/>
      * We will only include wsdl's or xsd's that are directly imported into BPEL's
      * or ones that are transitively imported. After building each of the PDD's,
      * we'll know which resources are being imported into BPEL's. From that set,
@@ -81,9 +83,9 @@ public class BgCatalogBuilder {
      * that makes the catalog.
      */
     protected void buildCatalog() throws Exception {
-    	Catalog doc = new Catalog().withReplaceExisting(isReplaceExisting());
-        for(BgCatalogTuple tuple : collection) {
-        	BaseCatalogEntryType entry = null;
+        Catalog doc = new Catalog().withReplaceExisting(isReplaceExisting());
+        for (BgCatalogTuple tuple : collection) {
+            BaseCatalogEntryType entry = null;
             if (tuple.isWsdl()) {
                 if (isReferenced(tuple)) {
                     entry = new BaseCatalogEntryType();
@@ -96,7 +98,7 @@ public class BgCatalogBuilder {
                 }
             } else {
                 entry = new OtherEntryType().withTypeURI(tuple.type);
-                doc.withOtherEntry((OtherEntryType)entry);
+                doc.withOtherEntry((OtherEntryType) entry);
             }
 
             if (entry != null) {
@@ -115,16 +117,16 @@ public class BgCatalogBuilder {
     protected boolean isReferenced(BgCatalogTuple tuple) {
         return locations.isEmpty() || locations.contains(tuple.physicalLocation);
     }
-    
+
     protected Catalog getCatalog() throws Exception {
         if (catalog == null)
             buildCatalog();
         return catalog;
     }
-    
+
     protected void addFiles(File currentDir, String p) throws Exception {
         File[] files = currentDir.listFiles();
-        for(File file : files) {
+        for (File file : files) {
             String path = p + file.getName();
 
             if (file.isDirectory()) {
@@ -141,18 +143,18 @@ public class BgCatalogBuilder {
                 } else if (name.endsWith(".xsl")) {
                     item = new BgCatalogTuple(logicalPathPrefix + path, path, null, IAeConstants.XSL_NAMESPACE);
                 }
-                
-                if (item !=null)
+
+                if (item != null)
                     collection.add(item);
             }
         }
     }
-    
+
     protected String getTargetNamespace(File file) throws Exception {
         Document doc = AeXmlUtil.toDoc(file, null);
         return doc.getDocumentElement().getAttribute("targetNamespace");
     }
-    
+
     public Collection<BgCatalogTuple> getItems() {
         return collection;
     }
@@ -168,6 +170,7 @@ public class BgCatalogBuilder {
     /**
      * Loads the WSDL or XSD referenced by this file and adds it and any of its
      * imported/included resources to the set of resources we're tracking for the catalog.
+     *
      * @param file
      * @throws Exception
      */
@@ -187,9 +190,9 @@ public class BgCatalogBuilder {
     }
 
     @SuppressWarnings("unchecked")
-	private void findLocations(File file, Document doc, String xpath) throws Exception {
+    private void findLocations(File file, Document doc, String xpath) throws Exception {
         List<Node> nodes = AeXPathUtil.selectNodes(doc, xpath, NS);
-        for(Node node : nodes) {
+        for (Node node : nodes) {
             String location = node.getNodeValue();
             if (!AeUtil.isUrlLocation(location)) {
                 // it's a relative import
@@ -200,17 +203,17 @@ public class BgCatalogBuilder {
     }
 
     private String toPhysicalLocation(File file) {
-    	String uriStr = file.getPath().substring(serviceUnitRoot.getPath().length()+1);
-    	uriStr = uriStr.replaceAll("\\\\", "/");
-    	URI uri = URI.create(uriStr);
-    	String physicalLocation = uri.normalize().toString();
+        String uriStr = file.getPath().substring(serviceUnitRoot.getPath().length() + 1);
+        uriStr = uriStr.replaceAll("\\\\", "/");
+        URI uri = URI.create(uriStr);
+        String physicalLocation = uri.normalize().toString();
         return physicalLocation;
     }
-    
+
     private boolean isWsdl(Document doc) {
         return doc.getDocumentElement().getNamespaceURI().equals(IAeConstants.WSDL_NAMESPACE);
     }
-    
+
     private boolean isSchema(Document doc) {
         return doc.getDocumentElement().getNamespaceURI().equals(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }

@@ -7,19 +7,18 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel; 
+package org.activebpel.rt.bpel;
 
 import org.activebpel.rt.bpel.impl.activity.IAeImplAdapter;
 
 /**
  * Adapter class provided by extensions that want to use the engine's reliable
- * transport framework. 
+ * transport framework.
  */
-public interface IAeInvokeActivityAdapter extends IAeImplAdapter
-{
-   /**
-    * Returns true if this invoker is targeting a one-way operation
-    */
-   public boolean isOneWay();
+public interface IAeInvokeActivityAdapter extends IAeImplAdapter {
+    /**
+     * Returns true if this invoker is targeting a one-way operation
+     */
+    public boolean isOneWay();
 }
  

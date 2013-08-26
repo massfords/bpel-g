@@ -19,31 +19,27 @@ import org.w3c.dom.Document;
  * created a process but overrides
  * {@link #dispatchToProcess(IAeBusinessProcess)} to do nothing.
  */
-public class AeRestartProcessJournalEntry extends AeInboundReceiveJournalEntry
-{
-   /**
-    * Constructs journal entry to persist to storage.
-    */
-   public AeRestartProcessJournalEntry(int aLocationId, AeInboundReceive aInboundReceive)
-   {
-      super(JOURNAL_RESTART_PROCESS, aLocationId, aInboundReceive);
-   }
+public class AeRestartProcessJournalEntry extends AeInboundReceiveJournalEntry {
+    /**
+     * Constructs journal entry to persist to storage.
+     */
+    public AeRestartProcessJournalEntry(int aLocationId, AeInboundReceive aInboundReceive) {
+        super(JOURNAL_RESTART_PROCESS, aLocationId, aInboundReceive);
+    }
 
-   /**
-    * Constructs journal entry to restore from persisted document.
-    */
-   public AeRestartProcessJournalEntry(int aLocationId, long aJournalId, Document aStorageDocument) throws AeMissingStorageDocumentException
-   {
-      super(JOURNAL_RESTART_PROCESS, aLocationId, aJournalId, aStorageDocument);
-   }
+    /**
+     * Constructs journal entry to restore from persisted document.
+     */
+    public AeRestartProcessJournalEntry(int aLocationId, long aJournalId, Document aStorageDocument) throws AeMissingStorageDocumentException {
+        super(JOURNAL_RESTART_PROCESS, aLocationId, aJournalId, aStorageDocument);
+    }
 
-   /**
-    * Overrides method to do nothing.
-    *
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeInboundReceiveJournalEntry#dispatchToProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
-    */
-   public void dispatchToProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException
-   {
-      // Do not dispatch to process.
-   }
+    /**
+     * Overrides method to do nothing.
+     *
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeInboundReceiveJournalEntry#dispatchToProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
+     */
+    public void dispatchToProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException {
+        // Do not dispatch to process.
+    }
 }

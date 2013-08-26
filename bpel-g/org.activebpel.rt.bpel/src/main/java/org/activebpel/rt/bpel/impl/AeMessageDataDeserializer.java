@@ -38,260 +38,247 @@ import java.util.Map;
 
 /**
  * Constructs a message data object from serialized message data.
+ *
  * @todo should pass type mapper even though this is just for transient fault messages
  */
-public class AeMessageDataDeserializer implements IAeImplStateNames
-{
-   /** The XML <code>Element</code> containing the serialized message data. */
-   private Element mMessageDataElement;
+public class AeMessageDataDeserializer implements IAeImplStateNames {
+    /**
+     * The XML <code>Element</code> containing the serialized message data.
+     */
+    private Element mMessageDataElement;
 
-   /** The message type specifying the message data to produce. */
-   private QName mMessageType;
+    /**
+     * The message type specifying the message data to produce.
+     */
+    private QName mMessageType;
 
-   /** The resulting message data object. */
-   private IAeMessageData mMessageData;
+    /**
+     * The resulting message data object.
+     */
+    private IAeMessageData mMessageData;
 
-   /** Optional variable to use for part type definitions. */
-   private IAeVariable mVariable;
+    /**
+     * Optional variable to use for part type definitions.
+     */
+    private IAeVariable mVariable;
 
-   /** Optional type mapping to use to deserialize simple types. */
-   private AeTypeMapping mTypeMapping;
+    /**
+     * Optional type mapping to use to deserialize simple types.
+     */
+    private AeTypeMapping mTypeMapping;
 
-   /**
-    * Default constructor.
-    */
-   public AeMessageDataDeserializer()
-   {
-   }
+    /**
+     * Default constructor.
+     */
+    public AeMessageDataDeserializer() {
+    }
 
-   /**
-    * Constructs a message data object from the specified serialized message
-    * data and message type.
-    */
-   protected IAeMessageData createMessageData(Element aMessageDataElement, QName aMessageType) throws AeBusinessProcessException
-   {
-      List partElements = selectNodes(aMessageDataElement, "./" + STATE_PART); //$NON-NLS-1$
-      IAeMessageData messageData = AeMessageDataFactory.instance().createMessageData(aMessageType);
+    /**
+     * Constructs a message data object from the specified serialized message
+     * data and message type.
+     */
+    protected IAeMessageData createMessageData(Element aMessageDataElement, QName aMessageType) throws AeBusinessProcessException {
+        List partElements = selectNodes(aMessageDataElement, "./" + STATE_PART); //$NON-NLS-1$
+        IAeMessageData messageData = AeMessageDataFactory.instance().createMessageData(aMessageType);
 
-       for (Object partElement1 : partElements) {
-           Element partElement = (Element) partElement1;
-           String name = partElement.getAttribute(STATE_NAME);
-           Object value;
+        for (Object partElement1 : partElements) {
+            Element partElement = (Element) partElement1;
+            String name = partElement.getAttribute(STATE_NAME);
+            Object value;
 
-           Element data = AeXmlUtil.getFirstSubElement(partElement);
-           if (data != null) {
-               value = createPartDocument(data);
-           } else {
-               value = AeXmlUtil.getText(partElement);
-           }
-
-           messageData.setData(name, value);
-       }
-
-      // If there is a variable to supply type definitions and a type mapping
-      // to deserialize simple types, then fix parts that are simple types.
-      if ((getVariable() != null) && (getTypeMapping() != null))
-      {
-         AeVariableDef variableDef = getVariable().getDefinition();
-         AeTypeMapping typeMapping = getTypeMapping();
-
-         for (Iterator i = messageData.getPartNames(); i.hasNext(); )
-         {
-            String name = (String) i.next();
-            Object value = messageData.getData(name);
-
-            if (value instanceof String && AeUtil.notNullOrEmpty((String)value))
-            {
-               XMLType type = variableDef.getPartType(name);
-               if (type.getName() != null)
-               {
-                  value = typeMapping.deserialize(type, (String) value);
-                  messageData.setData(name, value);
-               }
+            Element data = AeXmlUtil.getFirstSubElement(partElement);
+            if (data != null) {
+                value = createPartDocument(data);
+            } else {
+                value = AeXmlUtil.getText(partElement);
             }
-         }
-      }
-      
-      // Deserialize attachments and add them to the message.
-      messageData.setAttachmentContainer(createAttachmentData(aMessageDataElement));
 
-      return messageData;
-   }
+            messageData.setData(name, value);
+        }
 
-   /**
-    * constructs attachments from the specified serialized message data and add them to the specified attachment container
-    * @param aMessageDataElement
-    * @throws AeBusinessProcessException
-    */
-   protected IAeAttachmentContainer createAttachmentData(Element aMessageDataElement) throws AeBusinessProcessException
-   {
-      IAeAttachmentContainer container = new AeAttachmentContainer();
-      List attachmentElements = selectNodes(aMessageDataElement, "./" + STATE_ATTACHMENT); //$NON-NLS-1$
+        // If there is a variable to supply type definitions and a type mapping
+        // to deserialize simple types, then fix parts that are simple types.
+        if ((getVariable() != null) && (getTypeMapping() != null)) {
+            AeVariableDef variableDef = getVariable().getDefinition();
+            AeTypeMapping typeMapping = getTypeMapping();
 
-       for (Object attachmentElement1 : attachmentElements) {
-           // deserialize attachment item
-           Element attachmentElement = (Element) attachmentElement1;
-           long attachmentId = Long.parseLong(attachmentElement.getAttribute(STATE_ID));
-           long groupId = Long.parseLong(attachmentElement.getAttribute(STATE_GID));
-           long processId = Long.parseLong(attachmentElement.getAttribute(STATE_PID));
+            for (Iterator i = messageData.getPartNames(); i.hasNext(); ) {
+                String name = (String) i.next();
+                Object value = messageData.getData(name);
 
-           // deserialize headers
-           Map<String, String> headers = new HashMap<>();
-           NodeList headerNodes = attachmentElement.getElementsByTagName(STATE_ATTACHMENT_HEADER);
+                if (value instanceof String && AeUtil.notNullOrEmpty((String) value)) {
+                    XMLType type = variableDef.getPartType(name);
+                    if (type.getName() != null) {
+                        value = typeMapping.deserialize(type, (String) value);
+                        messageData.setData(name, value);
+                    }
+                }
+            }
+        }
 
-           for (int h = 0; h < headerNodes.getLength(); h++) {
-               Element header = (Element) headerNodes.item(h);
-               headers.put(header.getAttribute(STATE_NAME), AeXmlUtil.getText(header).trim());
-           }
+        // Deserialize attachments and add them to the message.
+        messageData.setAttachmentContainer(createAttachmentData(aMessageDataElement));
 
-           // Create attachment item and add it to the container.
-           AeStoredAttachmentItem item = new AeStoredAttachmentItem();
-           item.setAttachmentId(attachmentId);
-           item.setGroupId(groupId);
-           item.setProcessId(processId);
-           item.setHeaders(headers);
+        return messageData;
+    }
 
-           container.add(item);
-       }
+    /**
+     * constructs attachments from the specified serialized message data and add them to the specified attachment container
+     *
+     * @param aMessageDataElement
+     * @throws AeBusinessProcessException
+     */
+    protected IAeAttachmentContainer createAttachmentData(Element aMessageDataElement) throws AeBusinessProcessException {
+        IAeAttachmentContainer container = new AeAttachmentContainer();
+        List attachmentElements = selectNodes(aMessageDataElement, "./" + STATE_ATTACHMENT); //$NON-NLS-1$
 
-      return container;
-   }
+        for (Object attachmentElement1 : attachmentElements) {
+            // deserialize attachment item
+            Element attachmentElement = (Element) attachmentElement1;
+            long attachmentId = Long.parseLong(attachmentElement.getAttribute(STATE_ID));
+            long groupId = Long.parseLong(attachmentElement.getAttribute(STATE_GID));
+            long processId = Long.parseLong(attachmentElement.getAttribute(STATE_PID));
 
-   /**
-    * Returns a new part <code>Document</code> with the specified data.
-    *
-    * @param aPartData The root of the part data.
-    */
-   protected Document createPartDocument(Element aPartData)
-   {
-      Document document = AeXmlUtil.newDocument();
-      Element root = (Element) document.importNode(aPartData, true);
-      document.appendChild(root);
-      return document;
-   }
+            // deserialize headers
+            Map<String, String> headers = new HashMap<>();
+            NodeList headerNodes = attachmentElement.getElementsByTagName(STATE_ATTACHMENT_HEADER);
 
-   /**
-    * Returns a message data object constructed from the serialized message
-    * data and message type specified with <code>setMessageDataElement</code>
-    * and <code>setMessageType</code>.
-    */
-   public IAeMessageData getMessageData() throws AeBusinessProcessException
-   {
-      if (mMessageData == null)
-      {
-         if (mMessageDataElement == null)
-         {
-            throw new AeBusinessProcessException(AeMessages.getString("AeMessageDataDeserializer.ERROR_1")); //$NON-NLS-1$
-         }
+            for (int h = 0; h < headerNodes.getLength(); h++) {
+                Element header = (Element) headerNodes.item(h);
+                headers.put(header.getAttribute(STATE_NAME), AeXmlUtil.getText(header).trim());
+            }
 
-         mMessageData = createMessageData(mMessageDataElement, getMessageType());
-      }
+            // Create attachment item and add it to the container.
+            AeStoredAttachmentItem item = new AeStoredAttachmentItem();
+            item.setAttachmentId(attachmentId);
+            item.setGroupId(groupId);
+            item.setProcessId(processId);
+            item.setHeaders(headers);
 
-      return mMessageData;
-   }
+            container.add(item);
+        }
 
-   /**
-    * Returns optional type mapping to use to deserialize simple types.
-    */
-   protected AeTypeMapping getTypeMapping()
-   {
-      return mTypeMapping;
-   }
+        return container;
+    }
 
-   /**
-    * Returns optional variable to use for part type definitions.
-    */
-   protected IAeVariable getVariable()
-   {
-      return mVariable;
-   }
+    /**
+     * Returns a new part <code>Document</code> with the specified data.
+     *
+     * @param aPartData The root of the part data.
+     */
+    protected Document createPartDocument(Element aPartData) {
+        Document document = AeXmlUtil.newDocument();
+        Element root = (Element) document.importNode(aPartData, true);
+        document.appendChild(root);
+        return document;
+    }
 
-   /**
-    * Returns the message type specifying the message data to produce.
-    */
-   protected QName getMessageType()
-   {
-      if (mMessageType == null)
-      {
-         String localPart = mMessageDataElement.getAttribute(STATE_NAME);
-         String namespace = mMessageDataElement.getAttribute(STATE_NAMESPACEURI);
+    /**
+     * Returns a message data object constructed from the serialized message
+     * data and message type specified with <code>setMessageDataElement</code>
+     * and <code>setMessageType</code>.
+     */
+    public IAeMessageData getMessageData() throws AeBusinessProcessException {
+        if (mMessageData == null) {
+            if (mMessageDataElement == null) {
+                throw new AeBusinessProcessException(AeMessages.getString("AeMessageDataDeserializer.ERROR_1")); //$NON-NLS-1$
+            }
 
-         mMessageType = new QName(namespace, localPart);
-      }
+            mMessageData = createMessageData(mMessageDataElement, getMessageType());
+        }
 
-      return mMessageType;
-   }
+        return mMessageData;
+    }
 
-   /**
-    * Resets all output variables.
-    */
-   protected void reset()
-   {
-      mMessageData = null;
-   }
+    /**
+     * Returns optional type mapping to use to deserialize simple types.
+     */
+    protected AeTypeMapping getTypeMapping() {
+        return mTypeMapping;
+    }
 
-   /**
-    * Selects nodes by XPath.
-    *
-    * @param aNode The node to select from.
-    * @param aPath The XPath expression.
-    * @return List The list of matching nodes.
-    * @throws AeBusinessProcessException
-    */
-   protected static List selectNodes(Node aNode, String aPath) throws AeBusinessProcessException
-   {
-      try
-      {
-         XPath xpath = new DOMXPath(aPath);
-         return xpath.selectNodes(aNode);
-      }
-      catch (JaxenException e)
-      {
-         throw new AeBusinessProcessException(AeMessages.getString("AeMessageDataDeserializer.ERROR_2") + aPath, e); //$NON-NLS-1$
-      }
-   }
+    /**
+     * Returns optional variable to use for part type definitions.
+     */
+    protected IAeVariable getVariable() {
+        return mVariable;
+    }
 
-   /**
-    * Sets the XML <code>Element</code> containing the serialized message data.
-    *
-    * @param aMessageDataElement
-    */
-   public void setMessageDataElement(Element aMessageDataElement)
-   {
-      reset();
+    /**
+     * Returns the message type specifying the message data to produce.
+     */
+    protected QName getMessageType() {
+        if (mMessageType == null) {
+            String localPart = mMessageDataElement.getAttribute(STATE_NAME);
+            String namespace = mMessageDataElement.getAttribute(STATE_NAMESPACEURI);
 
-      mMessageDataElement = aMessageDataElement;
-   }
+            mMessageType = new QName(namespace, localPart);
+        }
 
-   /**
-    * Sets the message type specifying the message data to produce.
-    *
-    * @param aMessageType
-    */
-   public void setMessageType(QName aMessageType)
-   {
-      reset();
+        return mMessageType;
+    }
 
-      mMessageType = aMessageType;
-   }
-   
-   /**
-    * Sets optional type mapping to use to deserialize simple types.
-    */
-   public void setTypeMapping(AeTypeMapping aTypeMapping)
-   {
-      reset();
+    /**
+     * Resets all output variables.
+     */
+    protected void reset() {
+        mMessageData = null;
+    }
 
-      mTypeMapping = aTypeMapping;
-   }
+    /**
+     * Selects nodes by XPath.
+     *
+     * @param aNode The node to select from.
+     * @param aPath The XPath expression.
+     * @return List The list of matching nodes.
+     * @throws AeBusinessProcessException
+     */
+    protected static List selectNodes(Node aNode, String aPath) throws AeBusinessProcessException {
+        try {
+            XPath xpath = new DOMXPath(aPath);
+            return xpath.selectNodes(aNode);
+        } catch (JaxenException e) {
+            throw new AeBusinessProcessException(AeMessages.getString("AeMessageDataDeserializer.ERROR_2") + aPath, e); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * Sets optional variable to use for part type definitions.
-    */
-   public void setVariable(IAeVariable aVariable)
-   {
-      reset();
+    /**
+     * Sets the XML <code>Element</code> containing the serialized message data.
+     *
+     * @param aMessageDataElement
+     */
+    public void setMessageDataElement(Element aMessageDataElement) {
+        reset();
 
-      mVariable = aVariable;
-   }
+        mMessageDataElement = aMessageDataElement;
+    }
+
+    /**
+     * Sets the message type specifying the message data to produce.
+     *
+     * @param aMessageType
+     */
+    public void setMessageType(QName aMessageType) {
+        reset();
+
+        mMessageType = aMessageType;
+    }
+
+    /**
+     * Sets optional type mapping to use to deserialize simple types.
+     */
+    public void setTypeMapping(AeTypeMapping aTypeMapping) {
+        reset();
+
+        mTypeMapping = aTypeMapping;
+    }
+
+    /**
+     * Sets optional variable to use for part type definitions.
+     */
+    public void setVariable(IAeVariable aVariable) {
+        reset();
+
+        mVariable = aVariable;
+    }
 }

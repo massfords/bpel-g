@@ -22,110 +22,99 @@ import org.jaxen.saxpath.helpers.XPathReaderFactory;
  * A class that wraps the XPath abstract syntax tree.  The AST is basically a tree of AeXPathNode
  * instances.  This class provides some convenient access to that tree.
  */
-public class AeXPathAST
-{
-   /** The root of the AST. */
-   private AeAbstractXPathNode mRootNode;
+public class AeXPathAST {
+    /**
+     * The root of the AST.
+     */
+    private AeAbstractXPathNode mRootNode;
 
-   /**
-    * Simple constructor.
-    *
-    * @param aRootNode
-    */
-   public AeXPathAST(AeAbstractXPathNode aRootNode)
-   {
-      setRootNode(aRootNode);
-      getRootNode().setParent(null);
+    /**
+     * Simple constructor.
+     *
+     * @param aRootNode
+     */
+    public AeXPathAST(AeAbstractXPathNode aRootNode) {
+        setRootNode(aRootNode);
+        getRootNode().setParent(null);
 
-      normalize();
-   }
+        normalize();
+    }
 
-   /**
-    * Called internally to normalize the AST.
-    */
-   protected void normalize()
-   {
-      setRootNode(getRootNode().normalize());
-   }
+    /**
+     * Called internally to normalize the AST.
+     */
+    protected void normalize() {
+        setRootNode(getRootNode().normalize());
+    }
 
-   /**
-    * Visits the root node of the AST using the given node visitor.
-    * 
-    * @param aNodeVisitor
-    */
-   public void visit(IAeXPathNodeVisitor aNodeVisitor)
-   {
-      getRootNode().accept(aNodeVisitor);
-   }
-   
-   /**
-    * Use the visitor to visit all the nodes in the AST.
-    *
-    * @param aNodeVisitor
-    */
-   public void visitAll(IAeXPathNodeVisitor aNodeVisitor)
-   {
-      AeXPathTreeTraverser traverser = new AeXPathTreeTraverser(aNodeVisitor);
-      traverser.traverse(getRootNode());
-   }
+    /**
+     * Visits the root node of the AST using the given node visitor.
+     *
+     * @param aNodeVisitor
+     */
+    public void visit(IAeXPathNodeVisitor aNodeVisitor) {
+        getRootNode().accept(aNodeVisitor);
+    }
 
-   /**
-    * @return Returns the rootNode.
-    */
-   public AeAbstractXPathNode getRootNode()
-   {
-      return mRootNode;
-   }
+    /**
+     * Use the visitor to visit all the nodes in the AST.
+     *
+     * @param aNodeVisitor
+     */
+    public void visitAll(IAeXPathNodeVisitor aNodeVisitor) {
+        AeXPathTreeTraverser traverser = new AeXPathTreeTraverser(aNodeVisitor);
+        traverser.traverse(getRootNode());
+    }
 
-   /**
-    * @param aRootNode The rootNode to set.
-    */
-   protected void setRootNode(AeAbstractXPathNode aRootNode)
-   {
-      mRootNode = aRootNode;
-   }
+    /**
+     * @return Returns the rootNode.
+     */
+    public AeAbstractXPathNode getRootNode() {
+        return mRootNode;
+    }
 
-   /**
-    * Returns a String representation of this AST for debug purposes.
-    */
-   public String toDebugString()
-   {
-      return AeXPathAST.toDebugString(getRootNode());
-   }
+    /**
+     * @param aRootNode The rootNode to set.
+     */
+    protected void setRootNode(AeAbstractXPathNode aRootNode) {
+        mRootNode = aRootNode;
+    }
 
-   /**
-    * Returns a String representation of the given node for debug purposes.
-    *
-    * @param aNode
-    */
-   public static String toDebugString(AeAbstractXPathNode aNode)
-   {
-      AeXPathDebugSerializeNodeVisitor visitor = new AeXPathDebugSerializeNodeVisitor();
-      aNode.accept(visitor);
-      return visitor.getString();
-   }
+    /**
+     * Returns a String representation of this AST for debug purposes.
+     */
+    public String toDebugString() {
+        return AeXPathAST.toDebugString(getRootNode());
+    }
 
-   /**
-    * Creates a XPath AST for a given XPath.
-    * 
-    * @param aExpression
-    */
-   public static AeXPathAST createXPathAST(String aExpression, IAeNamespaceContext aNamespaceContext)
-         throws AeException
-   {
-      try
-      {
-         AeXPathParseHandler handler = new AeXPathParseHandler(aNamespaceContext);
+    /**
+     * Returns a String representation of the given node for debug purposes.
+     *
+     * @param aNode
+     */
+    public static String toDebugString(AeAbstractXPathNode aNode) {
+        AeXPathDebugSerializeNodeVisitor visitor = new AeXPathDebugSerializeNodeVisitor();
+        aNode.accept(visitor);
+        return visitor.getString();
+    }
 
-         XPathReader reader = XPathReaderFactory.createReader();
-         reader.setXPathHandler(handler);
-         reader.parse(aExpression);
-         
-         return handler.getAST();
-      }
-      catch (SAXPathException | NullPointerException ex)
-      {
-         throw new AeException(ex);
-      }
-   }
+    /**
+     * Creates a XPath AST for a given XPath.
+     *
+     * @param aExpression
+     */
+    public static AeXPathAST createXPathAST(String aExpression, IAeNamespaceContext aNamespaceContext)
+            throws AeException {
+        try {
+            AeXPathParseHandler handler = new AeXPathParseHandler(aNamespaceContext);
+
+            XPathReader reader = XPathReaderFactory.createReader();
+            reader.setXPathHandler(handler);
+            reader.parse(aExpression);
+
+            return handler.getAST();
+        } catch (SAXPathException | NullPointerException ex) {
+            throw new AeException(ex);
+        }
+    }
 }

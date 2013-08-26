@@ -15,15 +15,15 @@ import org.activebpel.rt.bpel.impl.function.AeInvalidFunctionContextException;
  * Interface for class responsible for locating, loading and instantiating
  * <code>IAeFunctionContext</code> impls.
  */
-public interface IAeFunctionContextLocator
-{
-   /**
-    * Find, load, instantiate and return the <code>IAeFunctionContext</code> impl.
-    * 
-    * @param aNamespace The namespace of the function context.
-    * @param aLocation A location hint for locating the <code>IAeFunctionContext</code>class.  This may be null or empty.
-    * @param aClassName The class name of the <code>IAeFunctionContext</code> impl.
-    * @throws AeInvalidFunctionContextException
-    */
-   public IAeFunctionContext locate( String aNamespace, String aLocation, String aClassName ) throws AeInvalidFunctionContextException;
+public interface IAeFunctionContextLocator {
+    /**
+     * Find, load, instantiate and return the <code>IAeFunctionContext</code> impl.
+     *
+     * @param aNamespace The namespace of the function context.
+     * @param aLocation  A location hint for locating the <code>IAeFunctionContext</code>class.  This may be null or empty.
+     * @param aClassName The class name of the <code>IAeFunctionContext</code> impl.
+     * @throws AeInvalidFunctionContextException
+     *
+     */
+    public IAeFunctionContext locate(String aNamespace, String aLocation, String aClassName) throws AeInvalidFunctionContextException;
 }

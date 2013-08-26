@@ -14,12 +14,12 @@ import java.util.Set;
 /**
  * Interface for WSBPEL 2.0 factory to provide access to understood extension activities
  */
-public interface IAeWSBPELFactory
-{
-   /**
-    * Set the understoodExtensionActivities
-    * @param aUnderstoodActivities
-    */
-   public void setUnderstoodExtensionActivities(Set aUnderstoodActivities);
-   
+public interface IAeWSBPELFactory {
+    /**
+     * Set the understoodExtensionActivities
+     *
+     * @param aUnderstoodActivities
+     */
+    public void setUnderstoodExtensionActivities(Set aUnderstoodActivities);
+
 }

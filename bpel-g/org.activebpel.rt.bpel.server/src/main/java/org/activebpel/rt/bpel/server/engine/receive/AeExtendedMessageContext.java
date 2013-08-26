@@ -20,183 +20,164 @@ import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Element;
 
 /**
- * Extended Message Context supporting the additional information required 
+ * Extended Message Context supporting the additional information required
  * by our pluggable receive handlers such as those for SOAP messages, including WSRM
  */
-public class AeExtendedMessageContext extends AeMessageContext implements IAeExtendedMessageContext
-{
-   /**
-     * 
+public class AeExtendedMessageContext extends AeMessageContext implements IAeExtendedMessageContext {
+    /**
+     *
      */
     private static final long serialVersionUID = 6074529531967785258L;
-   private IAeDurableReplyInfo mDurableReplyInfo;
-   private Element mMappedHeaders;
-   private String mTransportUrl;
-   private String mEncodingStyle;
-   private HashMap<Object,Object> mProperties;
-   private Subject mSubject;
+    private IAeDurableReplyInfo mDurableReplyInfo;
+    private Element mMappedHeaders;
+    private String mTransportUrl;
+    private String mEncodingStyle;
+    private HashMap<Object, Object> mProperties;
+    private Subject mSubject;
 
-   /**
-    * Default c-tor
-    */
-   public AeExtendedMessageContext()
-   {
-      super();
-   }
-   
-   /**
-    * Copy constructor from IAeMessageContext
-    * @param aContext
-    */
-   public AeExtendedMessageContext(IAeMessageContext aContext)
-   {
-      super(aContext);
-   }
+    /**
+     * Default c-tor
+     */
+    public AeExtendedMessageContext() {
+        super();
+    }
 
-   /**
-    * Full Copy constructor
-    * @param aContext
-    */
-   public AeExtendedMessageContext(IAeExtendedMessageContext aContext)
-   {
-      super(aContext);
-      setDurableReplyInfo(aContext.getDurableReplyInfo());
-      setTransportUrl(aContext.getTransportUrl());
-      setMappedHeaders(aContext.getMappedHeaders());
-      setEncodingStyle(aContext.getEncodingStyle());
-      getProperties().putAll(aContext.getProperties());
-      setSubject(aContext.getSubject());
-   }
-   
-   /**
-    * Converts to an instance of this class
-    * @param aContext
-    */
-   public static AeExtendedMessageContext convertToExtended(IAeMessageContext aContext)
-   {
-      if (aContext instanceof AeExtendedMessageContext)
-      {
-         return (AeExtendedMessageContext) aContext;
-      }
-      else
-      {
-         return new AeExtendedMessageContext(aContext);
-      }
-   }
-   
-   /**
-    * @return the encodingStyle
-    */
-   public String getEncodingStyle()
-   {
-      return mEncodingStyle;
-   }
+    /**
+     * Copy constructor from IAeMessageContext
+     *
+     * @param aContext
+     */
+    public AeExtendedMessageContext(IAeMessageContext aContext) {
+        super(aContext);
+    }
 
-   /**
-    * @param aEncodingStyle the encodingStyle to set
-    */
-   public void setEncodingStyle(String aEncodingStyle)
-   {
-      mEncodingStyle = aEncodingStyle;
-   }
-   
-   /**
-    * @param aDurableReplyInfo the durableReplyInfo to set
-    */
-   public void setDurableReplyInfo(IAeDurableReplyInfo aDurableReplyInfo)
-   {
-      mDurableReplyInfo = aDurableReplyInfo;
-   }
+    /**
+     * Full Copy constructor
+     *
+     * @param aContext
+     */
+    public AeExtendedMessageContext(IAeExtendedMessageContext aContext) {
+        super(aContext);
+        setDurableReplyInfo(aContext.getDurableReplyInfo());
+        setTransportUrl(aContext.getTransportUrl());
+        setMappedHeaders(aContext.getMappedHeaders());
+        setEncodingStyle(aContext.getEncodingStyle());
+        getProperties().putAll(aContext.getProperties());
+        setSubject(aContext.getSubject());
+    }
 
-   /**
-    * @param aMappedHeaders the mappedHeaders to set
-    */
-   public void setMappedHeaders(Element aMappedHeaders)
-   {
-      mMappedHeaders = aMappedHeaders;
-   }
+    /**
+     * Converts to an instance of this class
+     *
+     * @param aContext
+     */
+    public static AeExtendedMessageContext convertToExtended(IAeMessageContext aContext) {
+        if (aContext instanceof AeExtendedMessageContext) {
+            return (AeExtendedMessageContext) aContext;
+        } else {
+            return new AeExtendedMessageContext(aContext);
+        }
+    }
 
-   /**
-    * @param aTransportUrl the transportUrl to set
-    */
-   public void setTransportUrl(String aTransportUrl)
-   {
-      mTransportUrl = aTransportUrl;
-   }
+    /**
+     * @return the encodingStyle
+     */
+    public String getEncodingStyle() {
+        return mEncodingStyle;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext#getDurableReplyInfo()
-    */
-   public IAeDurableReplyInfo getDurableReplyInfo()
-   {
-      return mDurableReplyInfo;
-   }
+    /**
+     * @param aEncodingStyle the encodingStyle to set
+     */
+    public void setEncodingStyle(String aEncodingStyle) {
+        mEncodingStyle = aEncodingStyle;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext#getMappedHeaders()
-    */
-   public Element getMappedHeaders()
-   {
-      return mMappedHeaders;
-   }
+    /**
+     * @param aDurableReplyInfo the durableReplyInfo to set
+     */
+    public void setDurableReplyInfo(IAeDurableReplyInfo aDurableReplyInfo) {
+        mDurableReplyInfo = aDurableReplyInfo;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext#getTransportUrl()
-    */
-   public String getTransportUrl()
-   {
-      return mTransportUrl;
-   }
+    /**
+     * @param aMappedHeaders the mappedHeaders to set
+     */
+    public void setMappedHeaders(Element aMappedHeaders) {
+        mMappedHeaders = aMappedHeaders;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext#getProperty(java.lang.Object)
-    */
-   public Object getProperty(Object aKey)
-   {
-      if (mProperties == null)
-      {
-         return null;
-      }
-      
-      return mProperties.get(aKey);
-   }
-   
-   /**
-    * sets a property
-    * @param aKey
-    * @param aValue
-    */
-   public void setProperty(Object aKey, Object aValue)
-   {
-      getProperties().put(aKey, aValue);
-   }
-   
-   /**
-    * @return Map of properties
-    */
-   public Map<Object,Object> getProperties()
-   {
-      if (mProperties == null)
-      {
-         mProperties = new HashMap<>();
-      }
-      return mProperties;
-   }
+    /**
+     * @param aTransportUrl the transportUrl to set
+     */
+    public void setTransportUrl(String aTransportUrl) {
+        mTransportUrl = aTransportUrl;
+    }
 
-   /**
-    * @return the subject
-    */
-   public Subject getSubject()
-   {
-      return mSubject;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext#getDurableReplyInfo()
+     */
+    public IAeDurableReplyInfo getDurableReplyInfo() {
+        return mDurableReplyInfo;
+    }
 
-   /**
-    * @param aSubject the subject to set
-    */
-   public void setSubject(Subject aSubject)
-   {
-      mSubject = aSubject;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext#getMappedHeaders()
+     */
+    public Element getMappedHeaders() {
+        return mMappedHeaders;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext#getTransportUrl()
+     */
+    public String getTransportUrl() {
+        return mTransportUrl;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.receive.IAeExtendedMessageContext#getProperty(java.lang.Object)
+     */
+    public Object getProperty(Object aKey) {
+        if (mProperties == null) {
+            return null;
+        }
+
+        return mProperties.get(aKey);
+    }
+
+    /**
+     * sets a property
+     *
+     * @param aKey
+     * @param aValue
+     */
+    public void setProperty(Object aKey, Object aValue) {
+        getProperties().put(aKey, aValue);
+    }
+
+    /**
+     * @return Map of properties
+     */
+    public Map<Object, Object> getProperties() {
+        if (mProperties == null) {
+            mProperties = new HashMap<>();
+        }
+        return mProperties;
+    }
+
+    /**
+     * @return the subject
+     */
+    public Subject getSubject() {
+        return mSubject;
+    }
+
+    /**
+     * @param aSubject the subject to set
+     */
+    public void setSubject(Subject aSubject) {
+        mSubject = aSubject;
+    }
 
 }

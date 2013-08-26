@@ -18,21 +18,18 @@ import org.activebpel.rt.util.AeBlobInputStream;
  * Extends {@link AeBlobInputStream} to automatically add a reference to an
  * {@link AeAttachmentFile}.
  */
-public class AeAttachmentFileInputStream extends AeBlobInputStream
-{
-   /**
-    * Constructs a new input stream on the given file.
-    *
-    * @param aFile
-    * @throws FileNotFoundException
-    */
-   public AeAttachmentFileInputStream(File aFile) throws FileNotFoundException
-   {
-      super(aFile);
-      
-      if (aFile instanceof AeAttachmentFile)
-      {
-         ((AeAttachmentFile) aFile).addReference();
-      }
-   }
+public class AeAttachmentFileInputStream extends AeBlobInputStream {
+    /**
+     * Constructs a new input stream on the given file.
+     *
+     * @param aFile
+     * @throws FileNotFoundException
+     */
+    public AeAttachmentFileInputStream(File aFile) throws FileNotFoundException {
+        super(aFile);
+
+        if (aFile instanceof AeAttachmentFile) {
+            ((AeAttachmentFile) aFile).addReference();
+        }
+    }
 }

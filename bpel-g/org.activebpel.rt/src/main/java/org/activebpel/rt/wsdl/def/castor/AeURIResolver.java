@@ -27,105 +27,96 @@ import org.xml.sax.InputSource;
  * Implements the Castor interface for resolving URI references to instances of
  * <code>URILocation</code>.
  */
-public class AeURIResolver implements URIResolver
-{
-   /** The WSDL locator to use for locating schema resources. */
-   private final WSDLLocator mWSDLLocator;
-   /** The standard schema resolver for locating 'well known' schemas. */
-   private final IAeStandardSchemaResolver mStandardResolver;
-   /** The Castor URI resolver to use if the WSDL locator is not provided. */
-   private URIResolver mDelegate;
-   /** Collection of all unique resolution requests */
-   private final Set<String> mResolvedReferences;
+public class AeURIResolver implements URIResolver {
+    /**
+     * The WSDL locator to use for locating schema resources.
+     */
+    private final WSDLLocator mWSDLLocator;
+    /**
+     * The standard schema resolver for locating 'well known' schemas.
+     */
+    private final IAeStandardSchemaResolver mStandardResolver;
+    /**
+     * The Castor URI resolver to use if the WSDL locator is not provided.
+     */
+    private URIResolver mDelegate;
+    /**
+     * Collection of all unique resolution requests
+     */
+    private final Set<String> mResolvedReferences;
 
-   /**
-    * Constructs a URI resolver using the specified WSDL locator, location, and standard
-    * schema resolver.
-    * 
-    * @param aLocator
-    * @param aStandardResolver
-    */
-   public AeURIResolver(WSDLLocator aLocator, IAeStandardSchemaResolver aStandardResolver)
-   {
-      mWSDLLocator = aLocator;
-      mStandardResolver = aStandardResolver;
-      mResolvedReferences = new HashSet<>();
-   }
+    /**
+     * Constructs a URI resolver using the specified WSDL locator, location, and standard
+     * schema resolver.
+     *
+     * @param aLocator
+     * @param aStandardResolver
+     */
+    public AeURIResolver(WSDLLocator aLocator, IAeStandardSchemaResolver aStandardResolver) {
+        mWSDLLocator = aLocator;
+        mStandardResolver = aStandardResolver;
+        mResolvedReferences = new HashSet<>();
+    }
 
-   /**
-    * Returns the Castor URI resolver to use if the WSDL locator is not
-    * provided.
-    */
-   protected URIResolver getDelegate()
-   {
-      if (mDelegate == null)
-      {
-         mDelegate = new URIResolverImpl();
-      }
+    /**
+     * Returns the Castor URI resolver to use if the WSDL locator is not
+     * provided.
+     */
+    protected URIResolver getDelegate() {
+        if (mDelegate == null) {
+            mDelegate = new URIResolverImpl();
+        }
 
-      return mDelegate;
-   }
+        return mDelegate;
+    }
 
-   /**
-    * @see org.exolab.castor.net.URIResolver#resolve(java.lang.String, java.lang.String)
-    */
-   public URILocation resolve(String aHref, String aDocumentBase) throws URIException
-   {
-      URILocation loc;
-      if (mWSDLLocator != null)
-      {
-         try
-         {
-            loc = new AeURILocation(mWSDLLocator, aHref, aDocumentBase);
-         }
-         catch (IOException e)
-         {
-            throw new URIException(e.getLocalizedMessage(), e);
-         }
-      }
-      else
-         loc =  getDelegate().resolve(aHref, aDocumentBase);
+    /**
+     * @see org.exolab.castor.net.URIResolver#resolve(java.lang.String, java.lang.String)
+     */
+    public URILocation resolve(String aHref, String aDocumentBase) throws URIException {
+        URILocation loc;
+        if (mWSDLLocator != null) {
+            try {
+                loc = new AeURILocation(mWSDLLocator, aHref, aDocumentBase);
+            } catch (IOException e) {
+                throw new URIException(e.getLocalizedMessage(), e);
+            }
+        } else
+            loc = getDelegate().resolve(aHref, aDocumentBase);
 
-      if (loc != null)
-         mResolvedReferences.add(loc.getAbsoluteURI());
+        if (loc != null)
+            mResolvedReferences.add(loc.getAbsoluteURI());
 
-      return loc;
-   }
+        return loc;
+    }
 
-   /**
-    * @see org.exolab.castor.net.URIResolver#resolveURN(java.lang.String)
-    */
-   public URILocation resolveURN(String urn) throws URIException
-   {
-      InputSource iSource = null;
-      if (getStandardResolver() != null)
-      {
-         iSource = getStandardResolver().resolve(urn);
-      }
-      if (iSource != null)
-      {
-         return new AeInputSourceURILocation(iSource, urn);
-      }
-      else
-      {
-         URILocation loc = getDelegate().resolveURN(urn);
-         return loc;
-      }
-   }
-   
-   /**
-    * Returns an iterator over the unique URI references we have been aaked to resolve.
-    */
-   public Iterator<String> getURIReferences()
-   {
-      return mResolvedReferences.iterator();
-   }
+    /**
+     * @see org.exolab.castor.net.URIResolver#resolveURN(java.lang.String)
+     */
+    public URILocation resolveURN(String urn) throws URIException {
+        InputSource iSource = null;
+        if (getStandardResolver() != null) {
+            iSource = getStandardResolver().resolve(urn);
+        }
+        if (iSource != null) {
+            return new AeInputSourceURILocation(iSource, urn);
+        } else {
+            URILocation loc = getDelegate().resolveURN(urn);
+            return loc;
+        }
+    }
 
-   /**
-    * Getter for the standard schema resolver.
-    */
-   protected IAeStandardSchemaResolver getStandardResolver()
-   {
-      return mStandardResolver;
-   }
+    /**
+     * Returns an iterator over the unique URI references we have been aaked to resolve.
+     */
+    public Iterator<String> getURIReferences() {
+        return mResolvedReferences.iterator();
+    }
+
+    /**
+     * Getter for the standard schema resolver.
+     */
+    protected IAeStandardSchemaResolver getStandardResolver() {
+        return mStandardResolver;
+    }
 }

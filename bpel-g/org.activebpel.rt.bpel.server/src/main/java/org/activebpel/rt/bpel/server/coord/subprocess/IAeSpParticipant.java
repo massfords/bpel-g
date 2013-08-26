@@ -12,9 +12,8 @@ package org.activebpel.rt.bpel.server.coord.subprocess;
 import org.activebpel.rt.bpel.coord.IAeParticipant;
 
 /**
- * Interface for AE Subprocess coordination type participant.  
+ * Interface for AE Subprocess coordination type participant.
  */
-public interface IAeSpParticipant extends IAeSpCoordinating, IAeParticipant
-{
-      
+public interface IAeSpParticipant extends IAeSpCoordinating, IAeParticipant {
+
 }

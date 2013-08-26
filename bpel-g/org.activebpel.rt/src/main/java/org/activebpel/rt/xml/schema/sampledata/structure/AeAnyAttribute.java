@@ -8,60 +8,56 @@
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 ////////////////////////////////////////////////////////////////////////////
 
-package org.activebpel.rt.xml.schema.sampledata.structure; 
+package org.activebpel.rt.xml.schema.sampledata.structure;
 
 import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 
 /**
- *  Model class for the Schema wildcard attribute (anyAttribute).
+ * Model class for the Schema wildcard attribute (anyAttribute).
  */
-public class AeAnyAttribute extends AeBaseAttribute
-{
-   /** The replacement namespace. Will be null for unqalified namespace, i.e. ##local. */
-   private String mNamespace;
-   
-   /**
-    * Constructor.
-    */
-   public AeAnyAttribute()
-   {
-   }
+public class AeAnyAttribute extends AeBaseAttribute {
+    /**
+     * The replacement namespace. Will be null for unqalified namespace, i.e. ##local.
+     */
+    private String mNamespace;
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
-    */
-   public void accept(IAeSampleDataVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Constructor.
+     */
+    public AeAnyAttribute() {
+    }
 
-   /**
-    * Gets the replacement attribute namespace.
-    * 
-    * @return String
-    */
-   protected String getNamespace()
-   {
-      return mNamespace;
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
+     */
+    public void accept(IAeSampleDataVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Sets the replacement attribute namepace.
-    * 
-    * @param namespace
-    */
-   public void setNamespace(String namespace)
-   {
-      mNamespace = namespace;
-   }
+    /**
+     * Gets the replacement attribute namespace.
+     *
+     * @return String
+     */
+    protected String getNamespace() {
+        return mNamespace;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#getType()
-    */
-   public int getType()
-   {
-      return AeStructure.ANY_ATTRIBUTE_TYPE;
-   }
-   
+    /**
+     * Sets the replacement attribute namepace.
+     *
+     * @param namespace
+     */
+    public void setNamespace(String namespace) {
+        mNamespace = namespace;
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#getType()
+     */
+    public int getType() {
+        return AeStructure.ANY_ATTRIBUTE_TYPE;
+    }
+
 }
  

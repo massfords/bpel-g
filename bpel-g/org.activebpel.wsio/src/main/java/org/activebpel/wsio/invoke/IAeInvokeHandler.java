@@ -15,14 +15,14 @@ import org.activebpel.wsio.IAeWebServiceResponse;
 /**
  * Interface for the bpel engine to process invokes on a partner.
  */
-public interface IAeInvokeHandler
-{
-   
-   /**
-    * Handle the invoke call.  Query data will be null if none was specified
-    * on the customInvokerUri.
-    * @param aInvoke
-    * @param aQueryData
-    */
-   public IAeWebServiceResponse handleInvoke( IAeInvoke aInvoke, String aQueryData );
+public interface IAeInvokeHandler {
+
+    /**
+     * Handle the invoke call.  Query data will be null if none was specified
+     * on the customInvokerUri.
+     *
+     * @param aInvoke
+     * @param aQueryData
+     */
+    public IAeWebServiceResponse handleInvoke(IAeInvoke aInvoke, String aQueryData);
 }

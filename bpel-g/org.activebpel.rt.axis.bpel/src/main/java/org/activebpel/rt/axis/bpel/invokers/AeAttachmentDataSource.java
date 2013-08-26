@@ -18,54 +18,52 @@ import javax.activation.DataSource;
 import org.activebpel.wsio.IAeWebServiceAttachment;
 
 /**
- * Provides a datasource for WSIO attachments 
+ * Provides a datasource for WSIO attachments
+ *
  * @see javax.activation.DataHandler
  */
-public class AeAttachmentDataSource implements DataSource
-{
-   /** WSIO attachments being sourced */
-   private final IAeWebServiceAttachment mAeWebServiceAttachmentData;
-  
-   /**
-    * Constructor 
-    * @param aAeWebServiceAttachmentData WSIO attachments
-    */
-   public AeAttachmentDataSource(IAeWebServiceAttachment aAeWebServiceAttachmentData)
-   {
-      mAeWebServiceAttachmentData = aAeWebServiceAttachmentData;
-   }
+public class AeAttachmentDataSource implements DataSource {
+    /**
+     * WSIO attachments being sourced
+     */
+    private final IAeWebServiceAttachment mAeWebServiceAttachmentData;
 
-   /**
-    * @see javax.activation.DataSource#getContentType()
-    */
-   public String getContentType()
-   {
-      return mAeWebServiceAttachmentData.getMimeType();
-   }
+    /**
+     * Constructor
+     *
+     * @param aAeWebServiceAttachmentData WSIO attachments
+     */
+    public AeAttachmentDataSource(IAeWebServiceAttachment aAeWebServiceAttachmentData) {
+        mAeWebServiceAttachmentData = aAeWebServiceAttachmentData;
+    }
 
-   /**
-    * @see javax.activation.DataSource#getInputStream()
-    */
-   public InputStream getInputStream() throws IOException
-   {
-      return mAeWebServiceAttachmentData.getContent();
-   }
+    /**
+     * @see javax.activation.DataSource#getContentType()
+     */
+    public String getContentType() {
+        return mAeWebServiceAttachmentData.getMimeType();
+    }
 
-   /**
-    * @see javax.activation.DataSource#getName()
-    */
-   public String getName()
-   {
-      return mAeWebServiceAttachmentData.getContentId();
-   }
+    /**
+     * @see javax.activation.DataSource#getInputStream()
+     */
+    public InputStream getInputStream() throws IOException {
+        return mAeWebServiceAttachmentData.getContent();
+    }
 
-   /**
-    * Overrides method to return <code>null</code>.
-    * 
-    * @see javax.activation.DataSource#getOutputStream()
-    */
-   public OutputStream getOutputStream() throws IOException
-   {
-      return null;
-   }
+    /**
+     * @see javax.activation.DataSource#getName()
+     */
+    public String getName() {
+        return mAeWebServiceAttachmentData.getContentId();
+    }
+
+    /**
+     * Overrides method to return <code>null</code>.
+     *
+     * @see javax.activation.DataSource#getOutputStream()
+     */
+    public OutputStream getOutputStream() throws IOException {
+        return null;
+    }
 }

@@ -25,116 +25,109 @@ import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
  * Looks for receive activities and pick activities with
  * onMessage children.
  */
-abstract public class AeAbstractEntryPointVisitor extends AeAbstractDefVisitor
-{
-   /** holds onto the process def in case subclasses need access */
-   private AeProcessDef mProcessDef;
-   
-   /**
-    * Constructor.
-    */
-   protected AeAbstractEntryPointVisitor()
-   {
-      setTraversalVisitor( new AeTraversalVisitor( new AeDefTraverser(), this ) );
-   }
-   
-   /**
-    * Getter for the process def
-    */
-   protected AeProcessDef getProcessDef()
-   {
-      return mProcessDef;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void visit(AeProcessDef def)
-   {
-      mProcessDef = def;
-      super.visit(def);
-   }
+abstract public class AeAbstractEntryPointVisitor extends AeAbstractDefVisitor {
+    /**
+     * holds onto the process def in case subclasses need access
+     */
+    private AeProcessDef mProcessDef;
 
-   /**
-    * If the accept method return true call processReceive.
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
-    */
-   public void visit(AeActivityReceiveDef def)
-   {
-      if( accept(def) )
-      {
-         processEntryPoint(def);
-      }
-      super.visit(def);
-   }
-   
-   /**
-    * Returns a boolean indicating whether or not the receive should
-    * be processed
-    * @param aDef the receive
-    * @return true if this receive should be processed further
-    */
-   protected boolean accept( AeActivityReceiveDef aDef )
-   {
-      return aDef.isCreateInstance();
-   }
+    /**
+     * Constructor.
+     */
+    protected AeAbstractEntryPointVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * If the pick is acceptable, iterate over its onMessage children
-    * and call process for each one.
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
-    */
-   public void visit(AeActivityPickDef def)
-   {
-      // NOTE: a pick with a createInstance attribute that 
-      // evaluates to true must have at least one onMessage
-      // create keys for each onMessage
-      if( accept(def) )
-      {
-         for( Iterator iter = def.getOnMessageDefs(); iter.hasNext(); )
-         {
-            processEntryPoint( (AeOnMessageDef)iter.next() );
-         }
-      }
-      super.visit(def);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void visit(AeOnEventDef def)
-   {
-      if( accept(def) )
-      {
-         processEntryPoint(def);
-      }
-      super.visit(def);
-   }
+    /**
+     * Getter for the process def
+     */
+    protected AeProcessDef getProcessDef() {
+        return mProcessDef;
+    }
 
-   /**
-    * Determine if this pick should be processed further.
-    * @param aDef
-    * @return true if this pick should be processed further
-    */
-   protected boolean accept( AeActivityPickDef aDef )
-   {
-      return aDef.isCreateInstance();
-   }
-   
-   /**
-    * Determine if this event should be processed further.
-    * 
-    * @param aDef
-    * @return true if this event should be processed further
-    */
-   protected boolean accept (AeOnEventDef aDef)
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void visit(AeProcessDef def) {
+        mProcessDef = def;
+        super.visit(def);
+    }
 
-   /**
-    * Subclasses will do something useful.
-    * @param aDef an acceptable onMessage
-    */
-   abstract protected void processEntryPoint( IAeReceiveActivityDef aDef );
+    /**
+     * If the accept method return true call processReceive.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
+     */
+    public void visit(AeActivityReceiveDef def) {
+        if (accept(def)) {
+            processEntryPoint(def);
+        }
+        super.visit(def);
+    }
+
+    /**
+     * Returns a boolean indicating whether or not the receive should
+     * be processed
+     *
+     * @param aDef the receive
+     * @return true if this receive should be processed further
+     */
+    protected boolean accept(AeActivityReceiveDef aDef) {
+        return aDef.isCreateInstance();
+    }
+
+    /**
+     * If the pick is acceptable, iterate over its onMessage children
+     * and call process for each one.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
+     */
+    public void visit(AeActivityPickDef def) {
+        // NOTE: a pick with a createInstance attribute that
+        // evaluates to true must have at least one onMessage
+        // create keys for each onMessage
+        if (accept(def)) {
+            for (Iterator iter = def.getOnMessageDefs(); iter.hasNext(); ) {
+                processEntryPoint((AeOnMessageDef) iter.next());
+            }
+        }
+        super.visit(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        if (accept(def)) {
+            processEntryPoint(def);
+        }
+        super.visit(def);
+    }
+
+    /**
+     * Determine if this pick should be processed further.
+     *
+     * @param aDef
+     * @return true if this pick should be processed further
+     */
+    protected boolean accept(AeActivityPickDef aDef) {
+        return aDef.isCreateInstance();
+    }
+
+    /**
+     * Determine if this event should be processed further.
+     *
+     * @param aDef
+     * @return true if this event should be processed further
+     */
+    protected boolean accept(AeOnEventDef aDef) {
+        return false;
+    }
+
+    /**
+     * Subclasses will do something useful.
+     *
+     * @param aDef an acceptable onMessage
+     */
+    abstract protected void processEntryPoint(IAeReceiveActivityDef aDef);
 }

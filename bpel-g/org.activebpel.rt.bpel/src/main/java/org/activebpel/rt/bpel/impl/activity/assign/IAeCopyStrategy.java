@@ -7,22 +7,22 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign; 
+package org.activebpel.rt.bpel.impl.activity.assign;
 
 import org.activebpel.rt.bpel.impl.AeBpelException;
 
 /**
- * Provides the interface for copying data returned from a &lt;from&gt; impl to a &lt;to&gt; impl 
+ * Provides the interface for copying data returned from a &lt;from&gt; impl to a &lt;to&gt; impl
  */
-public interface IAeCopyStrategy
-{
-   /**
-    * Copies the data from the from impl to the destination
-    * @param aCopyOperation - provided as a context for the copy 
-    * @param aFromData
-    * @param aToData
-    * @throws AeBpelException
-    */
-   public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException;
+public interface IAeCopyStrategy {
+    /**
+     * Copies the data from the from impl to the destination
+     *
+     * @param aCopyOperation - provided as a context for the copy
+     * @param aFromData
+     * @param aToData
+     * @throws AeBpelException
+     */
+    public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException;
 }
  

@@ -31,215 +31,195 @@ import org.apache.commons.fileupload.FileUploadBase;
  * Attachment uploader for BpelAdmin.
  */
 @SuppressWarnings("deprecation")
-public class AeNewAttachmentUploader extends AeAttachmentBeanBase implements IAeFileUploader
-{
+public class AeNewAttachmentUploader extends AeAttachmentBeanBase implements IAeFileUploader {
 
-   /** Container for any custom query string params */
-   private Map mParams;
+    /**
+     * Container for any custom query string params
+     */
+    private Map mParams;
 
-   /** the attachment file name */
-   private String mFileName;
+    /**
+     * the attachment file name
+     */
+    private String mFileName;
 
-   /** The qualified attachment file path */
-   private String mFilePath;
+    /**
+     * The qualified attachment file path
+     */
+    private String mFilePath;
 
-   /**
-    * xml reperesentation of the attachment attributes
-    * 
-    * <pre>
-    * &lt;attributes&gt;
-    *    &lt;attribute name=&quot;Content-Id&quot; value=&quot;Some value&quot;\&gt;
-    *    &lt;attribute name=&quot;Content-Location&quot; value=&quot;Some location&quot;\&gt;
-    * &lt;/attributes&gt;
-    * </pre>
-    */
-   private String mAttributeXml;
+    /**
+     * xml reperesentation of the attachment attributes
+     * <p/>
+     * <pre>
+     * &lt;attributes&gt;
+     *    &lt;attribute name=&quot;Content-Id&quot; value=&quot;Some value&quot;\&gt;
+     *    &lt;attribute name=&quot;Content-Location&quot; value=&quot;Some location&quot;\&gt;
+     * &lt;/attributes&gt;
+     * </pre>
+     */
+    private String mAttributeXml;
 
-   /** attachment content mime type */
-   private String mContentType;
+    /**
+     * attachment content mime type
+     */
+    private String mContentType;
 
-   /** Content stream of the attachment file */
-   private InputStream mContent;
+    /**
+     * Content stream of the attachment file
+     */
+    private InputStream mContent;
 
-   /**
-    * Set any custom params on the uploader.
-    */
-   public void configure(Map aParams)
-   {
-      mParams = aParams;
-   }
+    /**
+     * Set any custom params on the uploader.
+     */
+    public void configure(Map aParams) {
+        mParams = aParams;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.upload.IAeFileUploader#isMultiPartContent(javax.servlet.http.HttpServletRequest)
-    */
-   public boolean isMultiPartContent(HttpServletRequest aRequest)
-   {
-      return FileUpload.isMultipartContent(aRequest);
-   }
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.upload.IAeFileUploader#isMultiPartContent(javax.servlet.http.HttpServletRequest)
+     */
+    public boolean isMultiPartContent(HttpServletRequest aRequest) {
+        return FileUpload.isMultipartContent(aRequest);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.upload.IAeFileUploader#uploadFile(javax.servlet.http.HttpServletRequest,
-    *      javax.servlet.http.HttpServletResponse)
-    */
-   public void uploadFile(HttpServletRequest aRequest, HttpServletResponse aResponse)
-   {
-      try
-      {
-         FileUploadBase upload = createFileUpload();
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.upload.IAeFileUploader#uploadFile(javax.servlet.http.HttpServletRequest,
+     *      javax.servlet.http.HttpServletResponse)
+     */
+    public void uploadFile(HttpServletRequest aRequest, HttpServletResponse aResponse) {
+        try {
+            FileUploadBase upload = createFileUpload();
 
-         // Iterate through all of the request items.
-         List items = upload.parseRequest(aRequest);
-         Iterator iter = items.iterator();
+            // Iterate through all of the request items.
+            List items = upload.parseRequest(aRequest);
+            Iterator iter = items.iterator();
 
-         while (iter.hasNext())
-         {
-            FileItem item = (FileItem)iter.next();
-            // If it's not a Form Field, then it's an upload.
-            if ( !item.isFormField() )
-            {
-               if ( item.getSize() <= 0 )
-               {
-                  throw new AeException(AeMessages.format("AeNewAttachmentUploader.InvalidFile", new Object[] { getFilePath() })); //$NON-NLS-1$
-               }
+            while (iter.hasNext()) {
+                FileItem item = (FileItem) iter.next();
+                // If it's not a Form Field, then it's an upload.
+                if (!item.isFormField()) {
+                    if (item.getSize() <= 0) {
+                        throw new AeException(AeMessages.format("AeNewAttachmentUploader.InvalidFile", new Object[]{getFilePath()})); //$NON-NLS-1$
+                    }
 
-               mFileName = item.getName();
-               mContentType = AeMimeUtil.getContentType(mFileName, item.getContentType());
-               mContent = item.getInputStream();
-              
+                    mFileName = item.getName();
+                    mContentType = AeMimeUtil.getContentType(mFileName, item.getContentType());
+                    mContent = item.getInputStream();
+
+                } else if (item.isFormField()) {
+                    if ("pid".equals(item.getFieldName())) //$NON-NLS-1$
+                    {
+                        setPid(item.getString());
+                    } else if ("path".equals(item.getFieldName())) //$NON-NLS-1$
+                    {
+                        setPath(item.getString());
+                    } else if ("attributeXml".equals(item.getFieldName())) //$NON-NLS-1$
+                    {
+                        mAttributeXml = item.getString();
+                    } else if ("filePath".equals(item.getFieldName())) //$NON-NLS-1$
+                    {
+                        mFilePath = item.getString();
+                    }
+                }
             }
-            else if ( item.isFormField() )
-            {
-               if ( "pid".equals(item.getFieldName()) ) //$NON-NLS-1$
-               {
-                  setPid(item.getString());
-               }
-               else if ( "path".equals(item.getFieldName()) ) //$NON-NLS-1$
-               {
-                  setPath(item.getString());
-               }
-               else if ( "attributeXml".equals(item.getFieldName()) ) //$NON-NLS-1$
-               {
-                  mAttributeXml = item.getString();
-               }
-               else if ( "filePath".equals(item.getFieldName()) ) //$NON-NLS-1$
-               {
-                  mFilePath = item.getString();
-               }
+        } catch (Throwable t) {
+            setError(t);
+        }
+
+    }
+
+    /**
+     * Creates an instance of <code>org.apache.commons.fileupload.DiskFileUpload</code>.
+     */
+    protected FileUploadBase createFileUpload() {
+        DiskFileUpload diskUpload = new DiskFileUpload();
+
+        if (hasParams()) {
+            Integer thresholdSize = getThresholdSize();
+            if (thresholdSize != null) {
+                diskUpload.setSizeThreshold(thresholdSize);
             }
-         }
-      }
-      catch (Throwable t)
-      {
-         setError(t);
-      }
 
-   }
+            Long maxSize = getMaxUploadSize();
+            if (maxSize != null) {
+                diskUpload.setSizeMax(maxSize);
+            }
+        }
+        return diskUpload;
+    }
 
-   /**
-    * Creates an instance of <code>org.apache.commons.fileupload.DiskFileUpload</code>.
-    */
-   protected FileUploadBase createFileUpload()
-   {
-      DiskFileUpload diskUpload = new DiskFileUpload();
+    /**
+     * Return the threshold size (in bytes) or null if none was configured.
+     */
+    protected Integer getThresholdSize() {
+        Integer value = null;
+        String stringValue = (String) getParams().get(THRESHOLD_BYTES);
+        if (AeUtil.notNullOrEmpty(stringValue)) {
+            value = new Integer(stringValue);
+        }
+        return value;
+    }
 
-      if ( hasParams() )
-      {
-         Integer thresholdSize = getThresholdSize();
-         if ( thresholdSize != null )
-         {
-            diskUpload.setSizeThreshold(thresholdSize);
-         }
+    /**
+     * Return the max upload size or null if none was configured.
+     */
+    protected Long getMaxUploadSize() {
+        Long value = null;
+        String stringValue = (String) getParams().get(MAX_SIZE);
+        if (AeUtil.notNullOrEmpty(stringValue)) {
+            value = new Long(stringValue);
+        }
+        return value;
+    }
 
-         Long maxSize = getMaxUploadSize();
-         if ( maxSize != null )
-         {
-            diskUpload.setSizeMax(maxSize);
-         }
-      }
-      return diskUpload;
-   }
+    /**
+     * Return true if the uploader has been configured with custom params.
+     */
+    protected boolean hasParams() {
+        return getParams() != null;
+    }
 
-   /**
-    * Return the threshold size (in bytes) or null if none was configured.
-    */
-   protected Integer getThresholdSize()
-   {
-      Integer value = null;
-      String stringValue = (String)getParams().get(THRESHOLD_BYTES);
-      if ( AeUtil.notNullOrEmpty(stringValue) )
-      {
-         value = new Integer(stringValue);
-      }
-      return value;
-   }
+    /**
+     * @return Returns the params.
+     */
+    protected Map getParams() {
+        return mParams;
+    }
 
-   /**
-    * Return the max upload size or null if none was configured.
-    */
-   protected Long getMaxUploadSize()
-   {
-      Long value = null;
-      String stringValue = (String)getParams().get(MAX_SIZE);
-      if ( AeUtil.notNullOrEmpty(stringValue) )
-      {
-         value = new Long(stringValue);
-      }
-      return value;
-   }
+    /**
+     * @return xml reperesentation of the attachment attributes
+     */
+    public String getAttributeXml() {
+        return mAttributeXml;
+    }
 
-   /**
-    * Return true if the uploader has been configured with custom params.
-    */
-   protected boolean hasParams()
-   {
-      return getParams() != null;
-   }
+    /**
+     * @return content type of the attachment
+     */
+    public String getContentType() {
+        return mContentType;
+    }
 
-   /**
-    * @return Returns the params.
-    */
-   protected Map getParams()
-   {
-      return mParams;
-   }
+    /**
+     * @return InputStream of the attachment
+     */
+    public InputStream getContent() {
+        return mContent;
+    }
 
-   /**
-    * @return xml reperesentation of the attachment attributes
-    */
-   public String getAttributeXml()
-   {
-      return mAttributeXml;
-   }
+    /**
+     * @return xml reperesentation of the attachment attributes
+     */
+    public String getFileName() {
+        return mFileName == null ? "unknown" : mFileName; //$NON-NLS-1$
+    }
 
-   /**
-    * @return content type of the attachment
-    */
-   public String getContentType()
-   {
-      return mContentType;
-   }
-
-   /**
-    * @return InputStream of the attachment
-    */
-   public InputStream getContent()
-   {
-      return mContent;
-   }
-
-   /**
-    * @return xml reperesentation of the attachment attributes
-    */
-   public String getFileName()
-   {
-      return mFileName == null ? "unknown" : mFileName; //$NON-NLS-1$
-   }
-
-   /**
-    * @return xml reperesentation of the attachment attributes
-    */
-   public String getFilePath()
-   {
-      return mFilePath == null ? "unknown" : mFilePath; //$NON-NLS-1$
-   }
+    /**
+     * @return xml reperesentation of the attachment attributes
+     */
+    public String getFilePath() {
+        return mFilePath == null ? "unknown" : mFilePath; //$NON-NLS-1$
+    }
 }

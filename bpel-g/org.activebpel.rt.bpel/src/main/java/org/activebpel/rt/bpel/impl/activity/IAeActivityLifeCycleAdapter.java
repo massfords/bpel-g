@@ -17,60 +17,67 @@ import org.activebpel.rt.xml.def.IAeAdapter;
 import org.w3c.dom.Element;
 
 /**
- * This interface provides lifecycle support for extension activity impl 
+ * This interface provides lifecycle support for extension activity impl
  */
-public interface IAeActivityLifeCycleAdapter extends IAeAdapter, IAeLifecycleAdapterConstants
-{
-   /**
-    * Called prior to the activity tranistioning from the old state to the new state
-    * @param aOldState
-    * @param aNewState
-    */
-   public void onStateChange(AeBpelState aOldState, AeBpelState aNewState);
-   
-   /**
-    * Provides execution for extension activity impl
-    * @param aContext
-    * @throws AeBusinessProcessException 
-    */
-   public void execute(IAeActivityLifeCycleContext aContext) throws AeBusinessProcessException;
-   
-   /**
-    * Provides termination for extension activity impl
-    * @param aContext
-    * @throws AeBusinessProcessException 
-    */
-   public void terminate(IAeActivityLifeCycleContext aContext) throws AeBusinessProcessException;
+public interface IAeActivityLifeCycleAdapter extends IAeAdapter, IAeLifecycleAdapterConstants {
+    /**
+     * Called prior to the activity tranistioning from the old state to the new state
+     *
+     * @param aOldState
+     * @param aNewState
+     */
+    public void onStateChange(AeBpelState aOldState, AeBpelState aNewState);
 
-   /**
-    * Saves state of extension activity impl
-    * @param aElement
-    */
-   public void save(Element aElement);
+    /**
+     * Provides execution for extension activity impl
+     *
+     * @param aContext
+     * @throws AeBusinessProcessException
+     */
+    public void execute(IAeActivityLifeCycleContext aContext) throws AeBusinessProcessException;
 
-   /**
-    * Restore state of extension activity impl
-    * @param aElement
-    */
-   public void restore(Element aElement);
-   
-   /**
-    * Callback when a message arrives for a message receiver.
-    * @param aContext
-    * @throws AeBusinessProcessException Allows to throw an exception.
-    */
-   public void onMessage(IAeActivityLifeCycleContext aContext, IAeMessageData aMessage) throws AeBusinessProcessException;
+    /**
+     * Provides termination for extension activity impl
+     *
+     * @param aContext
+     * @throws AeBusinessProcessException
+     */
+    public void terminate(IAeActivityLifeCycleContext aContext) throws AeBusinessProcessException;
 
-   /**
-    * Callback when a fault arrives instead of the expected message.
-    * @param aContext
-    * @throws AeBusinessProcessException Allows to throw an exception.
-    */
-   public void onFault(IAeActivityLifeCycleContext aContext, IAeFault aFault) throws AeBusinessProcessException;
-   
-   /**
-    * Gets an adapter impl given the class
-    * @param aClass
-    */
-   public IAeImplAdapter getImplAdapter(Class aClass);
+    /**
+     * Saves state of extension activity impl
+     *
+     * @param aElement
+     */
+    public void save(Element aElement);
+
+    /**
+     * Restore state of extension activity impl
+     *
+     * @param aElement
+     */
+    public void restore(Element aElement);
+
+    /**
+     * Callback when a message arrives for a message receiver.
+     *
+     * @param aContext
+     * @throws AeBusinessProcessException Allows to throw an exception.
+     */
+    public void onMessage(IAeActivityLifeCycleContext aContext, IAeMessageData aMessage) throws AeBusinessProcessException;
+
+    /**
+     * Callback when a fault arrives instead of the expected message.
+     *
+     * @param aContext
+     * @throws AeBusinessProcessException Allows to throw an exception.
+     */
+    public void onFault(IAeActivityLifeCycleContext aContext, IAeFault aFault) throws AeBusinessProcessException;
+
+    /**
+     * Gets an adapter impl given the class
+     *
+     * @param aClass
+     */
+    public IAeImplAdapter getImplAdapter(Class aClass);
 }

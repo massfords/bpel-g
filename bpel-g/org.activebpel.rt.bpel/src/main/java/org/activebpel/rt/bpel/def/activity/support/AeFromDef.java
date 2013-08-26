@@ -20,150 +20,140 @@ import org.w3c.dom.Node;
  * Models the <code>from</code> element in a copy operation or variable initialization. Broke this out as
  * a separate class so it can be explicitly visited.
  */
-public class AeFromDef extends AeVarDef
-{
-   /**
-     * 
+public class AeFromDef extends AeVarDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 7179300656466329978L;
-/** The value of the opaque attribute (if any). */
-   private boolean mOpaque;
-   /** The value of the literal (if any). */
-   private AeLiteralDef mLiteralDef;
-   /** The value of the endpoint reference (if any). */
-   private String mEndpointReference;
+    /**
+     * The value of the opaque attribute (if any).
+     */
+    private boolean mOpaque;
+    /**
+     * The value of the literal (if any).
+     */
+    private AeLiteralDef mLiteralDef;
+    /**
+     * The value of the endpoint reference (if any).
+     */
+    private String mEndpointReference;
 
-   /**
-    * Default ctor
-    */
-   public AeFromDef()
-   {
-      super();
-   }
+    /**
+     * Default ctor
+     */
+    public AeFromDef() {
+        super();
+    }
 
-   /**
-    * Returns the literal Node for the copy variable.
-    * @return Node the literal node
-    */
-   public Node getLiteral()
-   {
-      if (getLiteralDef() != null)
-      {
-         List nodes = getLiteralDef().getChildNodes();
-         if (nodes.size() > 0)
-         {
-            return (Node) nodes.get(0);
-         }
-      }
+    /**
+     * Returns the literal Node for the copy variable.
+     *
+     * @return Node the literal node
+     */
+    public Node getLiteral() {
+        if (getLiteralDef() != null) {
+            List nodes = getLiteralDef().getChildNodes();
+            if (nodes.size() > 0) {
+                return (Node) nodes.get(0);
+            }
+        }
 
-      return null;
-   }
+        return null;
+    }
 
-   /**
-    * Accessor method to obtain the opaque flag.
-    * 
-    * @return flag indicating if assignment variable is opaque
-    */
-   public boolean isOpaque()
-   {
-      return mOpaque;
-   }
+    /**
+     * Accessor method to obtain the opaque flag.
+     *
+     * @return flag indicating if assignment variable is opaque
+     */
+    public boolean isOpaque() {
+        return mOpaque;
+    }
 
-   /**
-    * Mutator method to set the opaque flag.
-    * 
-    * @param aOpaque boolean flag indicating if assignment variable is opaque
-    */
-   public void setOpaque(boolean aOpaque)
-   {
-      mOpaque = aOpaque;
-   }
-   
+    /**
+     * Mutator method to set the opaque flag.
+     *
+     * @param aOpaque boolean flag indicating if assignment variable is opaque
+     */
+    public void setOpaque(boolean aOpaque) {
+        mOpaque = aOpaque;
+    }
 
-   /**
-    * Accessor method to obtain the endpoint reference for the object.
-    * 
-    * @return name of the endpoint reference for the object
-    */
-   public String getEndpointReference()
-   {
-      return mEndpointReference;
-   }
 
-   /**
-    * Mutator method to set the endpoint reference for the object.
-    * 
-    * @param aEndpointReference the endpoint reference value to be set
-    */
-   public void setEndpointReference(String aEndpointReference)
-   {
-      mEndpointReference = aEndpointReference;
-   }
+    /**
+     * Accessor method to obtain the endpoint reference for the object.
+     *
+     * @return name of the endpoint reference for the object
+     */
+    public String getEndpointReference() {
+        return mEndpointReference;
+    }
 
-   /**
-    * Returns true if this from is empty.  This is used during validation, since the from portion
-    * of an assign's copy child should never be empty.
-    */
-   public boolean isEmpty()
-   {
-      return AeUtil.isNullOrEmpty(getExpression()) && getLiteral() == null && !isOpaque()
-            && AeUtil.isNullOrEmpty(getPartnerLink()) && AeUtil.isNullOrEmpty(getVariable());
-   }
+    /**
+     * Mutator method to set the endpoint reference for the object.
+     *
+     * @param aEndpointReference the endpoint reference value to be set
+     */
+    public void setEndpointReference(String aEndpointReference) {
+        mEndpointReference = aEndpointReference;
+    }
 
-   /**
-    * @return Returns the literalDef.
-    */
-   public AeLiteralDef getLiteralDef()
-   {
-      return mLiteralDef;
-   }
+    /**
+     * Returns true if this from is empty.  This is used during validation, since the from portion
+     * of an assign's copy child should never be empty.
+     */
+    public boolean isEmpty() {
+        return AeUtil.isNullOrEmpty(getExpression()) && getLiteral() == null && !isOpaque()
+                && AeUtil.isNullOrEmpty(getPartnerLink()) && AeUtil.isNullOrEmpty(getVariable());
+    }
 
-   /**
-    * @param aLiteralDef The literalDef to set.
-    */
-   public void setLiteralDef(AeLiteralDef aLiteralDef)
-   {
-      mLiteralDef = aLiteralDef;
-   }
+    /**
+     * @return Returns the literalDef.
+     */
+    public AeLiteralDef getLiteralDef() {
+        return mLiteralDef;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeExpressionDef#getBpelNamespace()
-    */
-   public String getBpelNamespace()
-   {
-      return AeDefUtil.getProcessDef(this).getNamespace();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * Returns true if the from is reading partner link data from the myRole
-    */
-   public boolean isMyRole()
-   {
-      // TODO (MF) use a type for this instead of the string
-      return "myRole".equals(getEndpointReference()); //$NON-NLS-1$
-   }
-   
-   /**
-    * Returns true if the from is reading partner link data from the partnerRole
-    */
-   public boolean isPartnerRole()
-   {
-      return "partnerRole".equals(getEndpointReference()); //$NON-NLS-1$
-   }
-   
-   /**
-    * Returns true if this from is a literal from.
-    */
-   public boolean isLiteral()
-   {
-      return getLiteralDef() != null;
-   }
+    /**
+     * @param aLiteralDef The literalDef to set.
+     */
+    public void setLiteralDef(AeLiteralDef aLiteralDef) {
+        mLiteralDef = aLiteralDef;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeExpressionDef#getBpelNamespace()
+     */
+    public String getBpelNamespace() {
+        return AeDefUtil.getProcessDef(this).getNamespace();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * Returns true if the from is reading partner link data from the myRole
+     */
+    public boolean isMyRole() {
+        // TODO (MF) use a type for this instead of the string
+        return "myRole".equals(getEndpointReference()); //$NON-NLS-1$
+    }
+
+    /**
+     * Returns true if the from is reading partner link data from the partnerRole
+     */
+    public boolean isPartnerRole() {
+        return "partnerRole".equals(getEndpointReference()); //$NON-NLS-1$
+    }
+
+    /**
+     * Returns true if this from is a literal from.
+     */
+    public boolean isLiteral() {
+        return getLiteralDef() != null;
+    }
 }

@@ -14,44 +14,44 @@ import java.net.URL;
 /**
  * Wrapper for deployment information, url, metadata, etc.
  */
-public class AeNewDeploymentInfo
-{
-   /** holds onto the deployment context url. */
-   private URL mURL;
-   
-   /** staging deployment url */
-   private URL mTempURL;
-   
-   /**
-    * Accessor for deployment URL.
-    */
-   public URL getURL()
-   {
-      return mURL;
-   }
+public class AeNewDeploymentInfo {
+    /**
+     * holds onto the deployment context url.
+     */
+    private URL mURL;
 
-   /**
-    * Setter for the deployment url.
-    */
-   public void setURL(URL aUrl)
-   {
-      mURL = aUrl;
-   }
-   
-   /**
-    * Accessor for the temp deployment url.
-    */
-   public URL getTempURL()
-   {
-      return mTempURL;
-   }
-   
-   /**
-    * Setter for the temp/staging url.
-    * @param aURL
-    */
-   public void setTempURL( URL aURL )
-   {
-      mTempURL = aURL;
-   }
+    /**
+     * staging deployment url
+     */
+    private URL mTempURL;
+
+    /**
+     * Accessor for deployment URL.
+     */
+    public URL getURL() {
+        return mURL;
+    }
+
+    /**
+     * Setter for the deployment url.
+     */
+    public void setURL(URL aUrl) {
+        mURL = aUrl;
+    }
+
+    /**
+     * Accessor for the temp deployment url.
+     */
+    public URL getTempURL() {
+        return mTempURL;
+    }
+
+    /**
+     * Setter for the temp/staging url.
+     *
+     * @param aURL
+     */
+    public void setTempURL(URL aURL) {
+        mTempURL = aURL;
+    }
 }

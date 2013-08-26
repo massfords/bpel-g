@@ -13,26 +13,25 @@ package org.activebpel.rt.bpel.server.engine.transaction;
  * Defines interface for managing instances of
  * {@link org.activebpel.rt.bpel.server.engine.transaction.IAeTransaction}.
  */
-public interface IAeTransactionManager
-{
-   /**
-    * Begins a new transaction on the current thread.
-    */
-   public void begin() throws AeTransactionException;
+public interface IAeTransactionManager {
+    /**
+     * Begins a new transaction on the current thread.
+     */
+    public void begin() throws AeTransactionException;
 
-   /**
-    * Commits the transaction on the current thread.
-    */
-   public void commit() throws AeTransactionException;
+    /**
+     * Commits the transaction on the current thread.
+     */
+    public void commit() throws AeTransactionException;
 
-   /**
-    * Returns the transaction for the current thread.
-    */
-   public IAeTransaction getTransaction() throws AeTransactionException;
+    /**
+     * Returns the transaction for the current thread.
+     */
+    public IAeTransaction getTransaction() throws AeTransactionException;
 
-   /**
-    * Rolls back the transaction on the current thread.
-    */
-   public void rollback() throws AeTransactionException;
+    /**
+     * Rolls back the transaction on the current thread.
+     */
+    public void rollback() throws AeTransactionException;
 }
 

@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityIfDef;
 import org.activebpel.rt.bpel.def.validation.activity.decision.AeIfValidator;
@@ -15,58 +15,56 @@ import org.activebpel.rt.bpel.def.validation.activity.decision.AeIfValidator;
 /**
  * model provides validation for the 1.1 switch and 2.0 if activities
  */
-public class AeActivityIfValidator extends AeActivityValidator
-{
-   /** error for reporting missing condition */
-   private String mMissingConditionError;
-   
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityIfValidator(AeActivityIfDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * Validates that the if contains at least one conditional check
-    * @see org.activebpel.rt.bpel.def.validation.IAeValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      AeIfValidator child = getChild(AeIfValidator.class);
-      if(child == null)
-      {
-         getReporter().reportProblem( BPEL_MISSING_CONDITION_CODE, getMissingConditionError(), null, getDefinition() );
-      }
-   }
+public class AeActivityIfValidator extends AeActivityValidator {
+    /**
+     * error for reporting missing condition
+     */
+    private String mMissingConditionError;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#checkForMissingChildActivity()
-    */
-   protected void checkForMissingChildActivity()
-   {
-      // no-op here, the child activity will be nested within an if def
-   }
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityIfValidator(AeActivityIfDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * Error message for missing condition
-    */
-   public String getMissingConditionError()
-   {
-      return mMissingConditionError;
-   }
+    /**
+     * Validates that the if contains at least one conditional check
+     *
+     * @see org.activebpel.rt.bpel.def.validation.IAeValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-   /**
-    * Setter for missing condition error message
-    * @param aMissingConditionError
-    */
-   public void setMissingConditionError(String aMissingConditionError)
-   {
-      mMissingConditionError = aMissingConditionError;
-   }
+        AeIfValidator child = getChild(AeIfValidator.class);
+        if (child == null) {
+            getReporter().reportProblem(BPEL_MISSING_CONDITION_CODE, getMissingConditionError(), null, getDefinition());
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#checkForMissingChildActivity()
+     */
+    protected void checkForMissingChildActivity() {
+        // no-op here, the child activity will be nested within an if def
+    }
+
+    /**
+     * Error message for missing condition
+     */
+    public String getMissingConditionError() {
+        return mMissingConditionError;
+    }
+
+    /**
+     * Setter for missing condition error message
+     *
+     * @param aMissingConditionError
+     */
+    public void setMissingConditionError(String aMissingConditionError) {
+        mMissingConditionError = aMissingConditionError;
+    }
 }
  

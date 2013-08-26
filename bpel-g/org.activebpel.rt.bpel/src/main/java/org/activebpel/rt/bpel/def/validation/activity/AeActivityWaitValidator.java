@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityWaitDef;
 import org.activebpel.rt.bpel.def.validation.expressions.IAeExpressionModelValidator;
@@ -15,32 +15,29 @@ import org.activebpel.rt.bpel.def.validation.expressions.IAeExpressionModelValid
 /**
  * model provides validation for the wait activity
  */
-public class AeActivityWaitValidator extends AeActivityValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityWaitValidator(AeActivityWaitDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      IAeExpressionModelValidator child = getChild(IAeExpressionModelValidator.class);
-      if (isNullOrEmpty(child))
-      {
-         getReporter().reportProblem( BPEL_WAIT_FIELD_MISSING_CODE,
-               ERROR_FIELD_MISSING,
-               new String[] { AeActivityWaitDef.TAG_FOR },
-               getDefinition() );
-      }
-   }
+public class AeActivityWaitValidator extends AeActivityValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityWaitValidator(AeActivityWaitDef aDef) {
+        super(aDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        IAeExpressionModelValidator child = getChild(IAeExpressionModelValidator.class);
+        if (isNullOrEmpty(child)) {
+            getReporter().reportProblem(BPEL_WAIT_FIELD_MISSING_CODE,
+                    ERROR_FIELD_MISSING,
+                    new String[]{AeActivityWaitDef.TAG_FOR},
+                    getDefinition());
+        }
+    }
 }
  

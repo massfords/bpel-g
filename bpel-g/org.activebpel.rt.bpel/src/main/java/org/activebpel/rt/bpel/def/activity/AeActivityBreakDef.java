@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity; 
+package org.activebpel.rt.bpel.def.activity;
 
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
@@ -17,41 +17,36 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * Definition object for a continue activity. These activities must be nested
  * within a looping construct like a while or a for-each.
  */
-public class AeActivityBreakDef extends AeActivityDef implements IAeExtensionActivityDef
-{
-   /**
-     * 
+public class AeActivityBreakDef extends AeActivityDef implements IAeExtensionActivityDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -5673445961544403360L;
 
-/**
-    * Ctor 
-    */
-   public AeActivityBreakDef()
-   {
-   }
+    /**
+     * Ctor
+     */
+    public AeActivityBreakDef() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#isUnderstood()
-    */
-   public boolean isUnderstood()
-   {
-      return true;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#getNamespace()
-    */
-   public String getNamespace()
-   {
-      return IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#isUnderstood()
+     */
+    public boolean isUnderstood() {
+        return true;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#getNamespace()
+     */
+    public String getNamespace() {
+        return IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

@@ -13,16 +13,15 @@ package org.activebpel.rt.bpel.def.convert;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 
 /**
- * Interface implemented by BPEL def converters.  A BPEL def converter is responsible for 
+ * Interface implemented by BPEL def converters.  A BPEL def converter is responsible for
  * converting a def from one version of BPEL to another.  For example, we have a converter
  * that is capable of modifying a BPEL 1.1 formatted def into a BPEL 2.0 formatted def.
  */
-public interface IAeBpelDefConverter
-{
-   /**
-    * Called to convert the given process def.
-    *
-    * @param aProcessDef
-    */
-   public void convert(AeProcessDef aProcessDef);
+public interface IAeBpelDefConverter {
+    /**
+     * Called to convert the given process def.
+     *
+     * @param aProcessDef
+     */
+    public void convert(AeProcessDef aProcessDef);
 }

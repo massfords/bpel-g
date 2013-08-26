@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.visitors; 
+package org.activebpel.rt.bpel.def.visitors;
 
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.message.AeMessagePartsMap;
@@ -19,29 +19,26 @@ import javax.xml.namespace.QName;
 /**
  * Provides WS-BPEL 2.0 logic for inlining propertyAliases
  */
-public class AeWSBPELInlinePropertyAliasVisitor extends AeInlinePropertyAliasVisitor
-{
-   /**
-    * Ctor
-    * @param aProvider
-    * @param aExpressionLanguageFactory
-    */
-   protected AeWSBPELInlinePropertyAliasVisitor(IAeContextWSDLProvider aProvider, IAeExpressionLanguageFactory aExpressionLanguageFactory)
-   {
-      super(aProvider, aExpressionLanguageFactory);
-   }
+public class AeWSBPELInlinePropertyAliasVisitor extends AeInlinePropertyAliasVisitor {
+    /**
+     * Ctor
+     *
+     * @param aProvider
+     * @param aExpressionLanguageFactory
+     */
+    protected AeWSBPELInlinePropertyAliasVisitor(IAeContextWSDLProvider aProvider, IAeExpressionLanguageFactory aExpressionLanguageFactory) {
+        super(aProvider, aExpressionLanguageFactory);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeInlinePropertyAliasVisitor#cacheCorrelationPropertyAlias(org.activebpel.rt.message.AeMessagePartsMap, javax.xml.namespace.QName)
-    */
-   protected boolean cacheCorrelationPropertyAlias(AeMessagePartsMap messagePartsMap, QName propName)
-   {
-      boolean found = super.cacheCorrelationPropertyAlias(messagePartsMap, propName);
-      if (!found && messagePartsMap != null &&  messagePartsMap.isSinglePartElement())
-      {
-         found = cachePropertyAlias(IAePropertyAlias.ELEMENT_TYPE, messagePartsMap.getSingleElementPart(), propName);
-      }
-      return found;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeInlinePropertyAliasVisitor#cacheCorrelationPropertyAlias(org.activebpel.rt.message.AeMessagePartsMap, javax.xml.namespace.QName)
+     */
+    protected boolean cacheCorrelationPropertyAlias(AeMessagePartsMap messagePartsMap, QName propName) {
+        boolean found = super.cacheCorrelationPropertyAlias(messagePartsMap, propName);
+        if (!found && messagePartsMap != null && messagePartsMap.isSinglePartElement()) {
+            found = cachePropertyAlias(IAePropertyAlias.ELEMENT_TYPE, messagePartsMap.getSingleElementPart(), propName);
+        }
+        return found;
+    }
 }
  

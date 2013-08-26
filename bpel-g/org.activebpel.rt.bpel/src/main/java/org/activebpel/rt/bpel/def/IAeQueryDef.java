@@ -7,26 +7,25 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def; 
+package org.activebpel.rt.bpel.def;
 
 /**
- * Interface for defs that have queries (like &lt;to&gt;) 
+ * Interface for defs that have queries (like &lt;to&gt;)
  */
-public interface IAeQueryDef
-{
-   /**
-    * Gets the query
-    */
-   public String getQuery();
-   
-   /**
-    * Gets the language for the query
-    */
-   public String getQueryLanguage();
-   
-   /**
-    * Gets the bpel namespace.
-    */
-   public String getBpelNamespace();
+public interface IAeQueryDef {
+    /**
+     * Gets the query
+     */
+    public String getQuery();
+
+    /**
+     * Gets the language for the query
+     */
+    public String getQueryLanguage();
+
+    /**
+     * Gets the bpel namespace.
+     */
+    public String getBpelNamespace();
 }
  

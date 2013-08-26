@@ -19,24 +19,23 @@ import javax.servlet.http.HttpServletResponse;
  * Defines the interface for handling an attachment for
  * {@link AeAttachmentDownloadServlet}.
  */
-public interface IAeAttachmentDownloadHandler
-{
-   /**
-    * Handles the attachment represented by the given attachment stream by
-    * producing an appropriate HTTP response stream.
-    *
-    * @param aRequest
-    * @param aResponse
-    * @param aAttachmentContent
-    * @param aMimeType
-    * @param aFileName
-    * @param aAttachmentSize attachment size in bytes or <code>-1</code> if the attachment size is unknown
-    * @throws IOException
-    */
-   public void handleAttachment(HttpServletRequest aRequest,
-      HttpServletResponse aResponse,
-      InputStream aAttachmentContent,
-      String aMimeType,
-      String aFileName,
-      int aAttachmentSize) throws IOException;
+public interface IAeAttachmentDownloadHandler {
+    /**
+     * Handles the attachment represented by the given attachment stream by
+     * producing an appropriate HTTP response stream.
+     *
+     * @param aRequest
+     * @param aResponse
+     * @param aAttachmentContent
+     * @param aMimeType
+     * @param aFileName
+     * @param aAttachmentSize    attachment size in bytes or <code>-1</code> if the attachment size is unknown
+     * @throws IOException
+     */
+    public void handleAttachment(HttpServletRequest aRequest,
+                                 HttpServletResponse aResponse,
+                                 InputStream aAttachmentContent,
+                                 String aMimeType,
+                                 String aFileName,
+                                 int aAttachmentSize) throws IOException;
 }

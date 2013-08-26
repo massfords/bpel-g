@@ -24,73 +24,67 @@ import org.w3c.dom.Document;
  * object model.
  * <br />
  * The traversal mechanism is driven an AeDefTraverser subclass, the
- * <code>AeInvokeWithScopeTraverser</code>. 
+ * <code>AeInvokeWithScopeTraverser</code>.
  */
-public class AeBpelDelegatingDefWriterVisitor extends AeAbstractDefVisitor implements IAeBPELConstants
-{
-   private AeBaseXmlDefElementCreator mCreator;
-   
-   /**
-    * Constructor.
-    * @param aRegistry to retrieve IAeBpelDefWriter impls
-    */
-   public AeBpelDelegatingDefWriterVisitor(IAeDefRegistry aRegistry)
-   {
-      init();
-      setCreator(new AeBaseXmlDefElementCreator(aRegistry, getTraversalVisitor()));
-   }
-   
-   /**
-    * Install the appropriate traversal visitor
-    * <br />
-    * Override this method to change the traversal behavior.
-    */
-   protected void init()
-   {
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
-   
-   /**
-    * Accessor for the serialized process.
-    * @return the BPEL xml
-    */
-   public Document getProcessDoc()
-   {
-      return getCreator().getDocument();
-   }
+public class AeBpelDelegatingDefWriterVisitor extends AeAbstractDefVisitor implements IAeBPELConstants {
+    private AeBaseXmlDefElementCreator mCreator;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#traverse(org.activebpel.rt.xml.def.AeBaseXmlDef)
-    */
-   protected void traverse(AeBaseXmlDef aDef)
-   {
-      // call the traverse method with the current node from the stack which serves as the parent element
-      // for the element we're going to create for this def.
-      getCreator().createElementAndTraverse(aDef);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aRegistry to retrieve IAeBpelDefWriter impls
+     */
+    public AeBpelDelegatingDefWriterVisitor(IAeDefRegistry aRegistry) {
+        init();
+        setCreator(new AeBaseXmlDefElementCreator(aRegistry, getTraversalVisitor()));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeScopeDef)
-    */
-   public void visit(AeScopeDef def)
-   {
-      // there is no xml to write for a scope def so we do a super.traverse() here.
-      super.traverse(def);
-   }
+    /**
+     * Install the appropriate traversal visitor
+     * <br />
+     * Override this method to change the traversal behavior.
+     */
+    protected void init() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * @return the creator
-    */
-   public AeBaseXmlDefElementCreator getCreator()
-   {
-      return mCreator;
-   }
+    /**
+     * Accessor for the serialized process.
+     *
+     * @return the BPEL xml
+     */
+    public Document getProcessDoc() {
+        return getCreator().getDocument();
+    }
 
-   /**
-    * @param aCreator the creator to set
-    */
-   public void setCreator(AeBaseXmlDefElementCreator aCreator)
-   {
-      mCreator = aCreator;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#traverse(org.activebpel.rt.xml.def.AeBaseXmlDef)
+     */
+    protected void traverse(AeBaseXmlDef aDef) {
+        // call the traverse method with the current node from the stack which serves as the parent element
+        // for the element we're going to create for this def.
+        getCreator().createElementAndTraverse(aDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeScopeDef)
+     */
+    public void visit(AeScopeDef def) {
+        // there is no xml to write for a scope def so we do a super.traverse() here.
+        super.traverse(def);
+    }
+
+    /**
+     * @return the creator
+     */
+    public AeBaseXmlDefElementCreator getCreator() {
+        return mCreator;
+    }
+
+    /**
+     * @param aCreator the creator to set
+     */
+    public void setCreator(AeBaseXmlDefElementCreator aCreator) {
+        mCreator = aCreator;
+    }
 }

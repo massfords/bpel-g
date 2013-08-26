@@ -18,21 +18,18 @@ import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver;
 /**
  * A WS-BPEL implementation of an XQuery expression runner.
  */
-public class AeWSBPELXQueryExpressionRunner extends AeAbstractXQueryExpressionRunner
-{
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createLinkVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
-    */
-   protected VariableResolver createLinkVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver)
-   {
-      return new AeWSBPELXQueryLinkVariableResolver(aFunctionExecContext, aVariableResolver);
-   }
+public class AeWSBPELXQueryExpressionRunner extends AeAbstractXQueryExpressionRunner {
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createLinkVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
+     */
+    protected VariableResolver createLinkVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver) {
+        return new AeWSBPELXQueryLinkVariableResolver(aFunctionExecContext, aVariableResolver);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
-    */
-   protected VariableResolver createVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver)
-   {
-      return new AeWSBPELXQueryVariableResolver(aFunctionExecContext, aVariableResolver);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
+     */
+    protected VariableResolver createVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver) {
+        return new AeWSBPELXQueryVariableResolver(aFunctionExecContext, aVariableResolver);
+    }
 }

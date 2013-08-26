@@ -16,14 +16,14 @@ import org.w3c.dom.Element;
 /**
  * Interface for working with AeDef object serializers.
  */
-public interface IAeDefWriter
-{
-   /**
-    * Serialize the AeDef object and add it to the parent element.
-    * @param aBaseDef the AeDef obj to serialize
-    * @param aParentElement
-    * @return BPEL element (already added to the parent)
-    */
-   public Element createElement(AeBaseXmlDef aBaseDef, Element aParentElement );
+public interface IAeDefWriter {
+    /**
+     * Serialize the AeDef object and add it to the parent element.
+     *
+     * @param aBaseDef       the AeDef obj to serialize
+     * @param aParentElement
+     * @return BPEL element (already added to the parent)
+     */
+    public Element createElement(AeBaseXmlDef aBaseDef, Element aParentElement);
 
 }

@@ -7,34 +7,31 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.wsio.receive; 
+package org.activebpel.wsio.receive;
 
 /**
  * Base class for exceptions that occur when sending a message to the engine.
  */
-public class AeRequestException extends Exception
-{
-   /**
-     * 
+public class AeRequestException extends Exception {
+    /**
+     *
      */
     private static final long serialVersionUID = 556814786327337342L;
 
-/**
-    * No-arg ctor 
-    */
-   public AeRequestException()
-   {
-      
-   }
-   
-   /**
-    * Creates the exception with the specified message.
-    * 
-    * @param aMessage
-    */
-   public AeRequestException(String aMessage)
-   {
-      super(aMessage);
-   }
+    /**
+     * No-arg ctor
+     */
+    public AeRequestException() {
+
+    }
+
+    /**
+     * Creates the exception with the specified message.
+     *
+     * @param aMessage
+     */
+    public AeRequestException(String aMessage) {
+        super(aMessage);
+    }
 }
  

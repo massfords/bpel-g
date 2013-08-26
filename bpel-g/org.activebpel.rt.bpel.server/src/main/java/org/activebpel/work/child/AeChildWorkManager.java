@@ -25,181 +25,168 @@ import commonj.work.WorkManager;
  * Implements a work manager that limits the amount of work scheduled to a
  * parent work manager.
  */
-public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedListener
-{
-   /** <code>WorkItem</code>s waiting to be scheduled to the parent work manager. */
-   private final Collection<AeChildWorkItem> mWaitingQueue = new LinkedList<>();
+public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedListener {
+    /**
+     * <code>WorkItem</code>s waiting to be scheduled to the parent work manager.
+     */
+    private final Collection<AeChildWorkItem> mWaitingQueue = new LinkedList<>();
 
-   /** The maximum number of work items to schedule from this work manager to its parent. */
-   private int mMaxWorkCount = 5; 
+    /**
+     * The maximum number of work items to schedule from this work manager to its parent.
+     */
+    private int mMaxWorkCount = 5;
 
-   /** The number of work items currently scheduled in the parent work manager from this work manager. */
-   private int mScheduledCount = 0;
-   
-   private IAeWorkManagerFactory mWorkManagerFactory;
-   
-   private String mName; 
+    /**
+     * The number of work items currently scheduled in the parent work manager from this work manager.
+     */
+    private int mScheduledCount = 0;
 
-   /**
-    * Decrements the count of work items currently scheduled in the parent work
-    * manager.
-    */
-   protected void decrementScheduledCount()
-   {
-      if (--mScheduledCount < 0)
-      {
-         // Reset it to a sane value.
-         mScheduledCount = 0;
+    private IAeWorkManagerFactory mWorkManagerFactory;
 
-         throw new IllegalStateException(AeMessages.format("AeChildWorkManager.ERROR_NegativeScheduledCount", "child work manager")); //$NON-NLS-1$
-      }
-   }
+    private String mName;
 
-   /**
-    * @return the maximum number of work items to schedule from this work manager to its parent
-    */
-   public int getMaxWorkCount()
-   {
-      return mMaxWorkCount;
-   }
+    /**
+     * Decrements the count of work items currently scheduled in the parent work
+     * manager.
+     */
+    protected void decrementScheduledCount() {
+        if (--mScheduledCount < 0) {
+            // Reset it to a sane value.
+            mScheduledCount = 0;
 
-   /**
-    * @return the count of work items currently scheduled in the parent work manager from this work manager
-    */
-   protected int getScheduledCount()
-   {
-      return mScheduledCount;
-   }
+            throw new IllegalStateException(AeMessages.format("AeChildWorkManager.ERROR_NegativeScheduledCount", "child work manager")); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * @return the <code>Collection</code> of work items waiting to be scheduled to the parent work manager
-    */
-   protected Collection<AeChildWorkItem> getWaitingQueue()
-   {
-      return mWaitingQueue;
-   }
+    /**
+     * @return the maximum number of work items to schedule from this work manager to its parent
+     */
+    public int getMaxWorkCount() {
+        return mMaxWorkCount;
+    }
 
-   /**
-    * Increments the count of work items currently scheduled in the parent work
-    * manager.
-    */
-   protected void incrementScheduledCount()
-   {
-      ++mScheduledCount;
-   }
-   
-   /**
-    * @see commonj.work.WorkManager#schedule(commonj.work.Work)
-    */
-   public WorkItem schedule(Work aWork)
-   {
-      return schedule(aWork, null);
-   }
+    /**
+     * @return the count of work items currently scheduled in the parent work manager from this work manager
+     */
+    protected int getScheduledCount() {
+        return mScheduledCount;
+    }
 
-   /**
-    * @see commonj.work.WorkManager#schedule(commonj.work.Work, commonj.work.WorkListener)
-    */
-   public synchronized WorkItem schedule(Work aWork, WorkListener aWorkListener)
-   {
-      AeChildWorkItem item = new AeChildWorkItem(aWork, aWorkListener, this);
-      item.addChildWorkCompletedListener(this);
+    /**
+     * @return the <code>Collection</code> of work items waiting to be scheduled to the parent work manager
+     */
+    protected Collection<AeChildWorkItem> getWaitingQueue() {
+        return mWaitingQueue;
+    }
 
-      getWaitingQueue().add(item);
-      scheduleWaiting();
+    /**
+     * Increments the count of work items currently scheduled in the parent work
+     * manager.
+     */
+    protected void incrementScheduledCount() {
+        ++mScheduledCount;
+    }
 
-      return item;
-   }
+    /**
+     * @see commonj.work.WorkManager#schedule(commonj.work.Work)
+     */
+    public WorkItem schedule(Work aWork) {
+        return schedule(aWork, null);
+    }
 
-   /**
-    * Schedules waiting work to the parent work manager.
-    */
-   protected synchronized void scheduleWaiting()
-   {
-      // Iterate through the waiting work items until we have scheduled the
-      // maximum possible number of work items.
-      for (Iterator<AeChildWorkItem> i = getWaitingQueue().iterator(); i.hasNext() && (getScheduledCount() < getMaxWorkCount()); )
-      {
-         AeChildWorkItem item = i.next();
+    /**
+     * @see commonj.work.WorkManager#schedule(commonj.work.Work, commonj.work.WorkListener)
+     */
+    public synchronized WorkItem schedule(Work aWork, WorkListener aWorkListener) {
+        AeChildWorkItem item = new AeChildWorkItem(aWork, aWorkListener, this);
+        item.addChildWorkCompletedListener(this);
 
-         // Schedule the work with its listener to the parent work manager.
-         WorkItem scheduledItem = mWorkManagerFactory.getWorkManager().schedule(item.getWork(), item.getWorkListener());
+        getWaitingQueue().add(item);
+        scheduleWaiting();
 
-         // Save the actual WorkItem returned by the parent work manager.
-         item.setScheduledWorkItem(scheduledItem);
+        return item;
+    }
 
-         // And we're off! Remove the work item from the queue and increment the
-         // scheduled count.
-         i.remove();
-         incrementScheduledCount();
-      }
-   }
+    /**
+     * Schedules waiting work to the parent work manager.
+     */
+    protected synchronized void scheduleWaiting() {
+        // Iterate through the waiting work items until we have scheduled the
+        // maximum possible number of work items.
+        for (Iterator<AeChildWorkItem> i = getWaitingQueue().iterator(); i.hasNext() && (getScheduledCount() < getMaxWorkCount()); ) {
+            AeChildWorkItem item = i.next();
 
-   /**
-    * Convenience method that calls {@link #scheduleWaiting()} and handles any
-    * <code>WorkException</code>s.
-    */
-   protected void scheduleWaitingNoException()
-   {
-     scheduleWaiting();
-   }
+            // Schedule the work with its listener to the parent work manager.
+            WorkItem scheduledItem = mWorkManagerFactory.getWorkManager().schedule(item.getWork(), item.getWorkListener());
 
-   /**
-    * Sets the maximum number of work items to schedule from this child work
-    * manager to its parent.
-    *
-    * @param aMaxWorkCount
-    */
-   public void setMaxWorkCount(int aMaxWorkCount)
-   {
-      if (aMaxWorkCount > 0)
-      {
-         mMaxWorkCount = aMaxWorkCount;
-      }
-      else
-      {
-         // Specifying 0 or less means no limit.
-         mMaxWorkCount = Integer.MAX_VALUE;
-      }
+            // Save the actual WorkItem returned by the parent work manager.
+            item.setScheduledWorkItem(scheduledItem);
 
-      // The work count may have increased, allowing us to schedule more work.
-      scheduleWaitingNoException();
-   }
+            // And we're off! Remove the work item from the queue and increment the
+            // scheduled count.
+            i.remove();
+            incrementScheduledCount();
+        }
+    }
 
-   /**
-    * @see commonj.work.WorkManager#waitForAll(java.util.Collection, long)
-    */
-   public boolean waitForAll(Collection aWorkItems, long aTimeoutMillis) throws InterruptedException, IllegalArgumentException
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * Convenience method that calls {@link #scheduleWaiting()} and handles any
+     * <code>WorkException</code>s.
+     */
+    protected void scheduleWaitingNoException() {
+        scheduleWaiting();
+    }
 
-   /**
-    * @see commonj.work.WorkManager#waitForAny(java.util.Collection, long)
-    */
-   public Collection waitForAny(Collection aWorkItems, long aTimeoutMillis) throws InterruptedException, IllegalArgumentException
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * Sets the maximum number of work items to schedule from this child work
+     * manager to its parent.
+     *
+     * @param aMaxWorkCount
+     */
+    public void setMaxWorkCount(int aMaxWorkCount) {
+        if (aMaxWorkCount > 0) {
+            mMaxWorkCount = aMaxWorkCount;
+        } else {
+            // Specifying 0 or less means no limit.
+            mMaxWorkCount = Integer.MAX_VALUE;
+        }
 
-   /**
-    * @see org.activebpel.work.child.IAeChildWorkCompletedListener#workCompleted(commonj.work.WorkItem)
-    */
-   public synchronized void workCompleted(WorkItem aWorkItem)
-   {
-      decrementScheduledCount();
+        // The work count may have increased, allowing us to schedule more work.
+        scheduleWaitingNoException();
+    }
 
-      scheduleWaitingNoException();
-   }
-   
-   public void setWorkManagerFactory(IAeWorkManagerFactory aFactory) {
-	   mWorkManagerFactory = aFactory;
-   }
+    /**
+     * @see commonj.work.WorkManager#waitForAll(java.util.Collection, long)
+     */
+    public boolean waitForAll(Collection aWorkItems, long aTimeoutMillis) throws InterruptedException, IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
 
-public String getName() {
-	return mName;
-}
+    /**
+     * @see commonj.work.WorkManager#waitForAny(java.util.Collection, long)
+     */
+    public Collection waitForAny(Collection aWorkItems, long aTimeoutMillis) throws InterruptedException, IllegalArgumentException {
+        throw new UnsupportedOperationException();
+    }
 
-public void setName(String aName) {
-	mName = aName;
-}
+    /**
+     * @see org.activebpel.work.child.IAeChildWorkCompletedListener#workCompleted(commonj.work.WorkItem)
+     */
+    public synchronized void workCompleted(WorkItem aWorkItem) {
+        decrementScheduledCount();
+
+        scheduleWaitingNoException();
+    }
+
+    public void setWorkManagerFactory(IAeWorkManagerFactory aFactory) {
+        mWorkManagerFactory = aFactory;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String aName) {
+        mName = aName;
+    }
 }

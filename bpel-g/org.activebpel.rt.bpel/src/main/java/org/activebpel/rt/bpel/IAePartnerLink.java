@@ -14,91 +14,91 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 
 /**
- * Describes the interface used for interacting with business process partner 
+ * Describes the interface used for interacting with business process partner
  * links.
  */
-public interface IAePartnerLink extends IAeLocatableObject
-{
-   /**
-    * Gets the name of the partner link
-    */
-   public String getName();
+public interface IAePartnerLink extends IAeLocatableObject {
+    /**
+     * Gets the name of the partner link
+     */
+    public String getName();
 
-   /**
-    * Gets the type of the partner link
-    */
-   public QName getPartnerLinkType();
+    /**
+     * Gets the type of the partner link
+     */
+    public QName getPartnerLinkType();
 
-   /**
-    * Get the version number.
-    */
-   public int getVersionNumber();
+    /**
+     * Get the version number.
+     */
+    public int getVersionNumber();
 
-   /**
-    * Returns the endpoint reference for "myRole" or null if not defined.
-    */
-   public IAeEndpointReference getMyReference();
+    /**
+     * Returns the endpoint reference for "myRole" or null if not defined.
+     */
+    public IAeEndpointReference getMyReference();
 
-   /**
-    * Returns the endpoint reference for "partnerRole" or null if not defined.
-    */
-   public IAeEndpointReference getPartnerReference();
+    /**
+     * Returns the endpoint reference for "partnerRole" or null if not defined.
+     */
+    public IAeEndpointReference getPartnerReference();
 
-   /**
-    * Returns the name of the role that the process is playing.
-    */
-   public String getMyRole();
+    /**
+     * Returns the name of the role that the process is playing.
+     */
+    public String getMyRole();
 
-   /**
-    * Returns the name of the role that the partner is playing.
-    */
-   public String getPartnerRole();
+    /**
+     * Returns the name of the role that the partner is playing.
+     */
+    public String getPartnerRole();
 
-   /**
-    * Getter for the principal
-    */
-   public String getPrincipal();
+    /**
+     * Getter for the principal
+     */
+    public String getPrincipal();
 
-   /**
-    * Setter for the principal
-    * @param aPrincipal
-    * @throws AeBusinessProcessException If the principal was already set to 
-    *         some value other than null.
-    */
-   public void setPrincipal(String aPrincipal) throws AeBusinessProcessException;
+    /**
+     * Setter for the principal
+     *
+     * @param aPrincipal
+     * @throws AeBusinessProcessException If the principal was already set to
+     *                                    some value other than null.
+     */
+    public void setPrincipal(String aPrincipal) throws AeBusinessProcessException;
 
-   /**
-    * Sets the version number.
-    *
-    * @param aVersionNumber
-    */
-   public void setVersionNumber(int aVersionNumber);
-   
-   /**
-    * Increments the version number for the variable 
-    */
-   public void incrementVersionNumber();
+    /**
+     * Sets the version number.
+     *
+     * @param aVersionNumber
+     */
+    public void setVersionNumber(int aVersionNumber);
 
-   /**
-    * Clears the partner link value. Called from the partner link's declaring
-    * scope each time the scope is going to execute since the partner link's 
-    * state is not preserved across invocations.
-    */
-   public void clear();
-   
-   /**
-    * Gets the definition for the plink
-    */
-   public AePartnerLinkDef getDefinition();
-   
-   /**
-    * Gets the conversation id for engine managed correlation 
-    */
-   public String getConversationId();
-   
-   /**
-	* @return
-	*/
-   public Object clone();
-   
+    /**
+     * Increments the version number for the variable
+     */
+    public void incrementVersionNumber();
+
+    /**
+     * Clears the partner link value. Called from the partner link's declaring
+     * scope each time the scope is going to execute since the partner link's
+     * state is not preserved across invocations.
+     */
+    public void clear();
+
+    /**
+     * Gets the definition for the plink
+     */
+    public AePartnerLinkDef getDefinition();
+
+    /**
+     * Gets the conversation id for engine managed correlation
+     */
+    public String getConversationId();
+
+    /**
+     * @return
+     */
+    public Object clone();
+
 }

@@ -16,16 +16,15 @@ import org.w3c.dom.Element;
 /**
  * A factory interface for creating def writers.
  */
-public interface IAeDefWriterFactory
-{
-   /**
-    * Creates a writer def visitor that the dispatch writer can dispatch to.
-    * 
-    * @param aDef
-    * @param aParentElement
-    * @param aNamespaceUri
-    * @param aTagName
-    */
-   public IAeDefWriter createDefWriter(AeBaseXmlDef aDef, Element aParentElement,
-         String aNamespaceUri, String aTagName);
+public interface IAeDefWriterFactory {
+    /**
+     * Creates a writer def visitor that the dispatch writer can dispatch to.
+     *
+     * @param aDef
+     * @param aParentElement
+     * @param aNamespaceUri
+     * @param aTagName
+     */
+    public IAeDefWriter createDefWriter(AeBaseXmlDef aDef, Element aParentElement,
+                                        String aNamespaceUri, String aTagName);
 }

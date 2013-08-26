@@ -12,25 +12,24 @@ package org.activebpel.rt.axis.bpel;
 import org.apache.axis.MessageContext;
 import org.apache.axis.server.AxisServer;
 
-/** 
+/**
  * Extension of the AxisServer that allows us to set the thread-local message context
  * when necessary.  This is necessary when we are invoking Axis handler chains outside of
  * the AxisServer.invoke() method.  An example of this is within a durable reply sender that
  * needs to execute the response handlers before sending the reply message.
  */
-public class AeAxisServer extends AxisServer
-{
-   /**
-     * 
+public class AeAxisServer extends AxisServer {
+    /**
+     *
      */
     private static final long serialVersionUID = 6776265942617566255L;
 
-/**
-    * Sets the current thread-local message context
-    * @param aContext
-    */
-   public static void setCurrentContext(MessageContext aContext)
-   {
-      setCurrentMessageContext(aContext);
-   }
+    /**
+     * Sets the current thread-local message context
+     *
+     * @param aContext
+     */
+    public static void setCurrentContext(MessageContext aContext) {
+        setCurrentMessageContext(aContext);
+    }
 }

@@ -7,23 +7,22 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation; 
+package org.activebpel.rt.bpel.def.validation;
 
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 
 /**
  * interface for the model classes.
  */
-public interface IAeValidator
-{
-   /**
-    * performs any validation for the model
-    */
-   public void validate();
-   
-   /**
-    * Getter for the model's definition
-    */
-   public AeBaseXmlDef getDefinition();
+public interface IAeValidator {
+    /**
+     * performs any validation for the model
+     */
+    public void validate();
+
+    /**
+     * Getter for the model's definition
+     */
+    public AeBaseXmlDef getDefinition();
 }
  

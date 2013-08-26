@@ -27,116 +27,114 @@ import org.xml.sax.InputSource;
 /**
  * This provider allows you to load wsdl files, which may be cached locally.
  */
-public class AeWSDLFactory implements IAeWSDLFactory
-{
-   /** Tag in WSDL catalog which is the WSDL entry item */
-   private static final String WSDL_ENTRY_TAG = "wsdlEntry"; //$NON-NLS-1$
-   /** Tag in WSDL catalog which is the URL for the WSDL entry */
-   private static final String WSDL_URL_TAG = "url"; //$NON-NLS-1$
-   /** Tag in WSDL catalog which is the classpath for the WSDL entry */
-   private static final String WSDL_CLASSPATH_TAG = "classpath"; //$NON-NLS-1$
-   /** Tag in WSDL catalog which is the namespace for the WSDL entry */
-   private static final String WSDL_NAMESPACE_TAG = "namespace"; //$NON-NLS-1$
+public class AeWSDLFactory implements IAeWSDLFactory {
+    /**
+     * Tag in WSDL catalog which is the WSDL entry item
+     */
+    private static final String WSDL_ENTRY_TAG = "wsdlEntry"; //$NON-NLS-1$
+    /**
+     * Tag in WSDL catalog which is the URL for the WSDL entry
+     */
+    private static final String WSDL_URL_TAG = "url"; //$NON-NLS-1$
+    /**
+     * Tag in WSDL catalog which is the classpath for the WSDL entry
+     */
+    private static final String WSDL_CLASSPATH_TAG = "classpath"; //$NON-NLS-1$
+    /**
+     * Tag in WSDL catalog which is the namespace for the WSDL entry
+     */
+    private static final String WSDL_NAMESPACE_TAG = "namespace"; //$NON-NLS-1$
 
-   /** Hash map of url to classpath locations for wsdl  */
-   private static final HashMap<String, String> sUrl2Classpath = new HashMap<>();
+    /**
+     * Hash map of url to classpath locations for wsdl
+     */
+    private static final HashMap<String, String> sUrl2Classpath = new HashMap<>();
 
-   /** Hash map of url to classpath locations for wsdl  */
-   private static final HashMap<String, String> sNamespace2Url = new HashMap<>();
-   
-   /**
-    * Creates a WSDL provider, given the stream for the catalog. The catalog
-    * contains a mapping of URI to resource location. 
-    * @param aCatalog input stream for catalog
-    */
-   public AeWSDLFactory(InputStream aCatalog)
-   {
-      loadWSDLCatalog(aCatalog);
-   }
+    /**
+     * Hash map of url to classpath locations for wsdl
+     */
+    private static final HashMap<String, String> sNamespace2Url = new HashMap<>();
 
-   /**
-    * @see org.activebpel.rt.IAeWSDLFactory#getWSDLSource(java.lang.String)
-    */
-   public InputSource getWSDLSource(String aWsdlUrl) throws AeException
-   {
-      InputStream stream = null;
+    /**
+     * Creates a WSDL provider, given the stream for the catalog. The catalog
+     * contains a mapping of URI to resource location.
+     *
+     * @param aCatalog input stream for catalog
+     */
+    public AeWSDLFactory(InputStream aCatalog) {
+        loadWSDLCatalog(aCatalog);
+    }
 
-      try
-      {
-         // Check if WSDL has catalog entry for the local classpath otherwise open URL
-         String classpath = sUrl2Classpath.get(aWsdlUrl.toLowerCase());
-         if(classpath != null)
-            stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(classpath); 
-         else
-            stream = new URL(aWsdlUrl).openStream();
-      }
-      catch (Exception ex)
-      {
-         throw new AeException(AeMessages.format("AeWSDLFactory.ERROR_4", aWsdlUrl), ex); //$NON-NLS-1$
-      }
+    /**
+     * @see org.activebpel.rt.IAeWSDLFactory#getWSDLSource(java.lang.String)
+     */
+    public InputSource getWSDLSource(String aWsdlUrl) throws AeException {
+        InputStream stream = null;
 
-      return new InputSource(stream);
-   }
+        try {
+            // Check if WSDL has catalog entry for the local classpath otherwise open URL
+            String classpath = sUrl2Classpath.get(aWsdlUrl.toLowerCase());
+            if (classpath != null)
+                stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(classpath);
+            else
+                stream = new URL(aWsdlUrl).openStream();
+        } catch (Exception ex) {
+            throw new AeException(AeMessages.format("AeWSDLFactory.ERROR_4", aWsdlUrl), ex); //$NON-NLS-1$
+        }
 
-   /**
-    * Returns the wsdl source for a passed namespace or null if none.
-    */
-   public InputSource getWSDLForNamespace(String aNamespace) throws AeException
-   {
-      Object obj = sNamespace2Url.get(aNamespace);
-      if(obj != null)
-         return getWSDLSource(obj.toString());
-      return null;
-   }
+        return new InputSource(stream);
+    }
 
-   /**
-    * @see org.activebpel.rt.IAeWSDLFactory#getWSDLLocationForNamespace(java.lang.String)
-    */
-   public String getWSDLLocationForNamespace(String aNamespace) throws AeException
-   {
-      return sNamespace2Url.get(aNamespace);
-   }
+    /**
+     * Returns the wsdl source for a passed namespace or null if none.
+     */
+    public InputSource getWSDLForNamespace(String aNamespace) throws AeException {
+        Object obj = sNamespace2Url.get(aNamespace);
+        if (obj != null)
+            return getWSDLSource(obj.toString());
+        return null;
+    }
 
-   /**
-    * Load the wsdl local catalog file into our internal mapping.
-    * @param aCatalog input stream for catalog of WSDL mappings
-    */
-   private void loadWSDLCatalog(InputStream aCatalog)
-   {
-      if(aCatalog == null)
-         return;
-         
-      AeXMLParserBase parser = new AeXMLParserBase();
-      parser.setValidating(false);
-      parser.setNamespaceAware(true);
-      
-      try
-      {
-         Document doc = parser.loadDocument(aCatalog, null);
-         if(doc.getDocumentElement() != null)
-         {
-            for(Node node=doc.getDocumentElement().getFirstChild(); node != null; node = node.getNextSibling())
-            {
-               if(node.getNodeType() == Node.ELEMENT_NODE)
-               {
-                  if(WSDL_ENTRY_TAG.equals(node.getLocalName()))
-                  {
-                     Element elem = (Element)node;
-                     String namespace = elem.getAttribute(WSDL_NAMESPACE_TAG);
-                     String url = elem.getAttribute(WSDL_URL_TAG).toLowerCase();
-                     String classpath = elem.getAttribute(WSDL_CLASSPATH_TAG);
-                     sUrl2Classpath.put(url, classpath);
-                     if(! AeUtil.isNullOrEmpty(namespace) )
-                        sNamespace2Url.put(namespace, url);
-                  }
-               }
+    /**
+     * @see org.activebpel.rt.IAeWSDLFactory#getWSDLLocationForNamespace(java.lang.String)
+     */
+    public String getWSDLLocationForNamespace(String aNamespace) throws AeException {
+        return sNamespace2Url.get(aNamespace);
+    }
+
+    /**
+     * Load the wsdl local catalog file into our internal mapping.
+     *
+     * @param aCatalog input stream for catalog of WSDL mappings
+     */
+    private void loadWSDLCatalog(InputStream aCatalog) {
+        if (aCatalog == null)
+            return;
+
+        AeXMLParserBase parser = new AeXMLParserBase();
+        parser.setValidating(false);
+        parser.setNamespaceAware(true);
+
+        try {
+            Document doc = parser.loadDocument(aCatalog, null);
+            if (doc.getDocumentElement() != null) {
+                for (Node node = doc.getDocumentElement().getFirstChild(); node != null; node = node.getNextSibling()) {
+                    if (node.getNodeType() == Node.ELEMENT_NODE) {
+                        if (WSDL_ENTRY_TAG.equals(node.getLocalName())) {
+                            Element elem = (Element) node;
+                            String namespace = elem.getAttribute(WSDL_NAMESPACE_TAG);
+                            String url = elem.getAttribute(WSDL_URL_TAG).toLowerCase();
+                            String classpath = elem.getAttribute(WSDL_CLASSPATH_TAG);
+                            sUrl2Classpath.put(url, classpath);
+                            if (!AeUtil.isNullOrEmpty(namespace))
+                                sNamespace2Url.put(namespace, url);
+                        }
+                    }
+                }
             }
-         }
-      }
-      catch(AeException ex)
-      {
-         AeException.logError(ex, AeMessages.getString("AeWSDLFactory.ERROR_5")); //$NON-NLS-1$
-      }
-   }
+        } catch (AeException ex) {
+            AeException.logError(ex, AeMessages.getString("AeWSDLFactory.ERROR_5")); //$NON-NLS-1$
+        }
+    }
 
 }

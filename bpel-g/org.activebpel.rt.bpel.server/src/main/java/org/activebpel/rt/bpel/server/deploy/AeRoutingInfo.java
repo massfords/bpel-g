@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.deploy; 
+package org.activebpel.rt.bpel.server.deploy;
 
 import javax.xml.namespace.QName;
 
@@ -17,75 +17,72 @@ import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import bpelg.services.processes.types.ServiceDeployment;
 
 /**
- * Simple container for returning the routing information for a request.  
+ * Simple container for returning the routing information for a request.
  */
-public class AeRoutingInfo
-{
-   /** the deployment we'll route to */
-   private IAeProcessDeployment mDeployment;
-   /** the service being hit */
-   private ServiceDeployment mServiceData;
-   
-   /**
-    * Ctor
-    * 
-    * @param aDeployment
-    * @param aData
-    */
-   public AeRoutingInfo(IAeProcessDeployment aDeployment, ServiceDeployment aData)
-   {
-      setDeployment(aDeployment);
-      setServiceData(aData);
-   }
-   
-   /**
-    * @return Returns the deployment.
-    */
-   public IAeProcessDeployment getDeployment()
-   {
-      return mDeployment;
-   }
-   
-   /**
-    * @param aDeployment The deployment to set.
-    */
-   public void setDeployment(IAeProcessDeployment aDeployment)
-   {
-      mDeployment = aDeployment;
-   }
-   
-   /**
-    * @return Returns the serviceData.
-    */
-   public ServiceDeployment getServiceData()
-   {
-      return mServiceData;
-   }
-   
-   /**
-    * @param aServiceData The serviceData to set.
-    */
-   public void setServiceData(ServiceDeployment aServiceData)
-   {
-      mServiceData = aServiceData;
-   }
-   
-   /**
-    * Returns true if the service operation is implemented by this process
-    * @param aPortType
-    * @param aOperation
-    */
-   public boolean isImplemented(QName aPortType, String aOperation)
-   {
-      AePartnerLinkDef plinkDef = getDeployment().getProcessDef().findPartnerLinkByLocation(getServiceData().getPartnerLinkId());
-      QName portTypeQName = plinkDef.getMyRolePortType();
-      if (aPortType.equals(portTypeQName))
-      {
-         AeImplementsOperationVisitor visitor = new AeImplementsOperationVisitor(aOperation, plinkDef);
-         getDeployment().getProcessDef().accept(visitor);
-         return visitor.isFound();
-      }
-      return false;
-   }
+public class AeRoutingInfo {
+    /**
+     * the deployment we'll route to
+     */
+    private IAeProcessDeployment mDeployment;
+    /**
+     * the service being hit
+     */
+    private ServiceDeployment mServiceData;
+
+    /**
+     * Ctor
+     *
+     * @param aDeployment
+     * @param aData
+     */
+    public AeRoutingInfo(IAeProcessDeployment aDeployment, ServiceDeployment aData) {
+        setDeployment(aDeployment);
+        setServiceData(aData);
+    }
+
+    /**
+     * @return Returns the deployment.
+     */
+    public IAeProcessDeployment getDeployment() {
+        return mDeployment;
+    }
+
+    /**
+     * @param aDeployment The deployment to set.
+     */
+    public void setDeployment(IAeProcessDeployment aDeployment) {
+        mDeployment = aDeployment;
+    }
+
+    /**
+     * @return Returns the serviceData.
+     */
+    public ServiceDeployment getServiceData() {
+        return mServiceData;
+    }
+
+    /**
+     * @param aServiceData The serviceData to set.
+     */
+    public void setServiceData(ServiceDeployment aServiceData) {
+        mServiceData = aServiceData;
+    }
+
+    /**
+     * Returns true if the service operation is implemented by this process
+     *
+     * @param aPortType
+     * @param aOperation
+     */
+    public boolean isImplemented(QName aPortType, String aOperation) {
+        AePartnerLinkDef plinkDef = getDeployment().getProcessDef().findPartnerLinkByLocation(getServiceData().getPartnerLinkId());
+        QName portTypeQName = plinkDef.getMyRolePortType();
+        if (aPortType.equals(portTypeQName)) {
+            AeImplementsOperationVisitor visitor = new AeImplementsOperationVisitor(aOperation, plinkDef);
+            getDeployment().getProcessDef().accept(visitor);
+            return visitor.isFound();
+        }
+        return false;
+    }
 }
  

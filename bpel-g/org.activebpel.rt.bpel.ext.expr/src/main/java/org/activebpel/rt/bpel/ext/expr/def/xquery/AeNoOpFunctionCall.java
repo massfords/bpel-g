@@ -25,100 +25,93 @@ import net.sf.saxon.type.TypeHierarchy;
  * A no-op XQuery function call.  This is used for simple static validation of the XQuery syntax, as
  * well as for parsing the expression to extract the list of functions.
  */
-public class AeNoOpFunctionCall extends FunctionCall
-{
-   /**
-     * 
+public class AeNoOpFunctionCall extends FunctionCall {
+    /**
+     *
      */
     private static final long serialVersionUID = 398810397849911384L;
-/** The function's namespace. */
-   private String mNamespace;
-   /** The function name. */
-   private String mName;
-   
-   /**
-    * Creates a no op function call with the given namespace and name.  Arguments will be set on the
-    * object later.
-    * 
-    * @param aNamespace
-    * @param aName
-    */
-   public AeNoOpFunctionCall(String aNamespace, String aName)
-   {
-      setNamespace(aNamespace);
-      setName(aName);
-   }
-   
-   /**
-    * @see net.sf.saxon.expr.FunctionCall#checkArguments(net.sf.saxon.expr.StaticContext)
-    */
-   protected void checkArguments(StaticContext aEnv) throws XPathException
-   {
-   }
+    /**
+     * The function's namespace.
+     */
+    private String mNamespace;
+    /**
+     * The function name.
+     */
+    private String mName;
 
-   /**
-    * @see net.sf.saxon.expr.ComputedExpression#computeCardinality()
-    */
-   protected int computeCardinality()
-   {
-      return StaticProperty.ALLOWS_ONE;
-   }
+    /**
+     * Creates a no op function call with the given namespace and name.  Arguments will be set on the
+     * object later.
+     *
+     * @param aNamespace
+     * @param aName
+     */
+    public AeNoOpFunctionCall(String aNamespace, String aName) {
+        setNamespace(aNamespace);
+        setName(aName);
+    }
 
-   /**
-    * @see net.sf.saxon.expr.Expression#getItemType(net.sf.saxon.type.TypeHierarchy)
-    */
-   public ItemType getItemType(TypeHierarchy aArg)
-   {
-      return AnyItemType.getInstance();
-   }
-   
-   /**
-    * Overrides method to prevent pre-evaluation.
-    * 
-    * @see net.sf.saxon.expr.FunctionCall#preEvaluate(net.sf.saxon.expr.StaticContext)
-    */
-   public Expression preEvaluate(StaticContext env) throws XPathException
-   {
-      return this;
-   }
+    /**
+     * @see net.sf.saxon.expr.FunctionCall#checkArguments(net.sf.saxon.expr.StaticContext)
+     */
+    protected void checkArguments(StaticContext aEnv) throws XPathException {
+    }
 
-   /**
-    * @see net.sf.saxon.expr.Expression#evaluateItem(net.sf.saxon.expr.XPathContext)
-    */
-   public Item evaluateItem(XPathContext aContext) throws XPathException
-   {
-      return null;
-   }
-   
-   /**
-    * @return Returns the name.
-    */
-   public String getName()
-   {
-      return mName;
-   }
-   
-   /**
-    * @param aName The name to set.
-    */
-   protected void setName(String aName)
-   {
-      mName = aName;
-   }
+    /**
+     * @see net.sf.saxon.expr.ComputedExpression#computeCardinality()
+     */
+    protected int computeCardinality() {
+        return StaticProperty.ALLOWS_ONE;
+    }
 
-   /**
-    * @return Returns the namespace.
-    */
-   public String getNamespace()
-   {
-      return mNamespace;
-   }
-   
-   /**
-    * @param aNamespace The namespace to set.
-    */
-   protected void setNamespace(String aNamespace)
-   {
-      mNamespace = aNamespace;
-   }
+    /**
+     * @see net.sf.saxon.expr.Expression#getItemType(net.sf.saxon.type.TypeHierarchy)
+     */
+    public ItemType getItemType(TypeHierarchy aArg) {
+        return AnyItemType.getInstance();
+    }
+
+    /**
+     * Overrides method to prevent pre-evaluation.
+     *
+     * @see net.sf.saxon.expr.FunctionCall#preEvaluate(net.sf.saxon.expr.StaticContext)
+     */
+    public Expression preEvaluate(StaticContext env) throws XPathException {
+        return this;
+    }
+
+    /**
+     * @see net.sf.saxon.expr.Expression#evaluateItem(net.sf.saxon.expr.XPathContext)
+     */
+    public Item evaluateItem(XPathContext aContext) throws XPathException {
+        return null;
+    }
+
+    /**
+     * @return Returns the name.
+     */
+    public String getName() {
+        return mName;
+    }
+
+    /**
+     * @param aName The name to set.
+     */
+    protected void setName(String aName) {
+        mName = aName;
+    }
+
+    /**
+     * @return Returns the namespace.
+     */
+    public String getNamespace() {
+        return mNamespace;
+    }
+
+    /**
+     * @param aNamespace The namespace to set.
+     */
+    protected void setNamespace(String aNamespace) {
+        mNamespace = aNamespace;
+    }
 }

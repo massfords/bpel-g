@@ -19,28 +19,27 @@ import commonj.work.WorkManager;
  * <code>WorkManager</code> and the {@link IAeInputMessageWorkManager} (input
  * message work manager) to the engine.
  */
-public interface IAeWorkManagerFactory
-{
-   /**
-    * Initializes the work manager factory from the engine configuration.
-    */
-   public void init() throws AeException;
+public interface IAeWorkManagerFactory {
+    /**
+     * Initializes the work manager factory from the engine configuration.
+     */
+    public void init() throws AeException;
 
-   /**
-    * Returns the CommonJ <code>WorkManager</code> for scheduling CommonJ
-    * <code>Work</code>.
-    */
-   public WorkManager getWorkManager();
+    /**
+     * Returns the CommonJ <code>WorkManager</code> for scheduling CommonJ
+     * <code>Work</code>.
+     */
+    public WorkManager getWorkManager();
 
-   /**
-    * Returns <code>true</code> if and only if the work manager returned by
-    * {@link #getWorkManager()} is our internal implementation.
-    */
-   public boolean isInternalWorkManager();
+    /**
+     * Returns <code>true</code> if and only if the work manager returned by
+     * {@link #getWorkManager()} is our internal implementation.
+     */
+    public boolean isInternalWorkManager();
 
-   /**
-    * Returns the {@link IAeInputMessageWorkManager} for scheduling input
-    * message work.
-    */
-   public IAeInputMessageWorkManager getInputMessageWorkManager();
+    /**
+     * Returns the {@link IAeInputMessageWorkManager} for scheduling input
+     * message work.
+     */
+    public IAeInputMessageWorkManager getInputMessageWorkManager();
 }

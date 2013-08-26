@@ -7,7 +7,7 @@
 // Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT
 // is strictly forbidden. Copyright (c) 2002-2007 All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.recovery; 
+package org.activebpel.rt.bpel.server.engine.recovery;
 
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
@@ -30,147 +30,134 @@ import java.util.List;
  * and then {@link #isSuspendProcessRequired()} to determine whether the given
  * invoke activity requires suspending the process.
  */
-public class AeInvokeRecoveryEvaluator
-{
-   /** Return values for {@link #evaluatePolicyAssertion(Element)}. */
-   private static final int CONTINUE_PROCESS = 0;
-   private static final int SUSPEND_PROCESS  = 1;
-   private static final int IGNORE_ASSERTION = 2;
+public class AeInvokeRecoveryEvaluator {
+    /**
+     * Return values for {@link #evaluatePolicyAssertion(Element)}.
+     */
+    private static final int CONTINUE_PROCESS = 0;
+    private static final int SUSPEND_PROCESS = 1;
+    private static final int IGNORE_ASSERTION = 2;
 
-   /** The invoke activity. */
-   private AeActivityInvokeImpl mInvoke;
-   
-   /**
-    * Constructs the invoke recovery evaluator.
-    */
-   public AeInvokeRecoveryEvaluator()
-   {
-   }
+    /**
+     * The invoke activity.
+     */
+    private AeActivityInvokeImpl mInvoke;
 
-   /**
-    * Evaluates the given policy assertion element, and returns one of
-    * {@link #CONTINUE_PROCESS}, {@link #SUSPEND_PROCESS}, or
-    * {@link #IGNORE_ASSERTION}.
-    *
-    * @param aPolicyAssertion
-    */
-   protected int evaluatePolicyAssertion(Element aPolicyAssertion)
-   {
-      // TODO (KR) Implement an attribute that specifies a service to query.
-      String suspendProcess = aPolicyAssertion.getAttribute(IAePolicyConstants.ATTR_SUSPEND_PROCESS);
-      int action;
-      if (suspendProcess.equals(AeDeployConstants.SUSPEND_TYPE_DEFAULT))
-      {
-         // If the attribute has value "default", then delegate to the engine
-         // configuration setting.
-         boolean suspend = AePreferences.isSuspendProcessOnInvokeRecovery();
-         action = suspend ? SUSPEND_PROCESS : CONTINUE_PROCESS;
-      }
-      else if (suspendProcess.equals(AeDeployConstants.SUSPEND_TYPE_TRUE))
-      {
-         action = SUSPEND_PROCESS;
-      }
-      else if (suspendProcess.equals(AeDeployConstants.SUSPEND_TYPE_FALSE))
-      {
-         action = CONTINUE_PROCESS;
-      }
-      else
-      {
-         // Ignore the unrecognizable value.
-         action = IGNORE_ASSERTION;
-      }
+    /**
+     * Constructs the invoke recovery evaluator.
+     */
+    public AeInvokeRecoveryEvaluator() {
+    }
 
-      return action;
-   }
-   
-   /**
-    * Returns the invoke activity definition object.
-    */
-   protected AeActivityInvokeDef getDef()
-   {
-      return (AeActivityInvokeDef) getInvoke().getDefinition();
-   }
+    /**
+     * Evaluates the given policy assertion element, and returns one of
+     * {@link #CONTINUE_PROCESS}, {@link #SUSPEND_PROCESS}, or
+     * {@link #IGNORE_ASSERTION}.
+     *
+     * @param aPolicyAssertion
+     */
+    protected int evaluatePolicyAssertion(Element aPolicyAssertion) {
+        // TODO (KR) Implement an attribute that specifies a service to query.
+        String suspendProcess = aPolicyAssertion.getAttribute(IAePolicyConstants.ATTR_SUSPEND_PROCESS);
+        int action;
+        if (suspendProcess.equals(AeDeployConstants.SUSPEND_TYPE_DEFAULT)) {
+            // If the attribute has value "default", then delegate to the engine
+            // configuration setting.
+            boolean suspend = AePreferences.isSuspendProcessOnInvokeRecovery();
+            action = suspend ? SUSPEND_PROCESS : CONTINUE_PROCESS;
+        } else if (suspendProcess.equals(AeDeployConstants.SUSPEND_TYPE_TRUE)) {
+            action = SUSPEND_PROCESS;
+        } else if (suspendProcess.equals(AeDeployConstants.SUSPEND_TYPE_FALSE)) {
+            action = CONTINUE_PROCESS;
+        } else {
+            // Ignore the unrecognizable value.
+            action = IGNORE_ASSERTION;
+        }
 
-   /**
-    * Returns the invoke activity.
-    */
-   protected AeActivityInvokeImpl getInvoke()
-   {
-      return mInvoke;
-   }
+        return action;
+    }
 
-   /**
-    * Returns <code>true</code> if and only if the invoke activity set by
-    * {@link #setInvoke(AeActivityInvokeImpl)} is a pending invoke that
-    * requires suspending the process.
-    */
-   public boolean isSuspendProcessRequired() throws AeBusinessProcessException
-   {
-      if (!getInvoke().isPending())
-      {
-         // If the invoke is not pending, then do not suspend the process for
-         // this invoke.
-         return false;
-      }
-   
-      IAePartnerLink partnerLink = getInvoke().findPartnerLink(getDef().getPartnerLink());
-      IAeEndpointReference epr = partnerLink.getPartnerReference();
-      
-      List resolvedPolicies = null;
-      if (epr != null)
-      {
-         resolvedPolicies = epr.getEffectivePolicies(getInvoke().getProcess().getProcessPlan(), getDef().getPortType(), getDef().getOperation());
-      }
-      
-      if (!AeUtil.isNullOrEmpty(resolvedPolicies))
-      {
-         
-         // Iterate through all the policy assertions associated with the
-         // partner role endpoint reference for the invoke's partner link.
-          for (Element policy : epr.getPolicies()) {
-              // We won't suspend for ws-rm
-              NodeList assertions = policy.getElementsByTagNameNS(IAeConstants.WSRM_POLICY_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_RM);
-              if (assertions != null && assertions.getLength() > 0) {
-                  return false;
-              }
+    /**
+     * Returns the invoke activity definition object.
+     */
+    protected AeActivityInvokeDef getDef() {
+        return (AeActivityInvokeDef) getInvoke().getDefinition();
+    }
 
-              assertions = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_INVOKE_RECOVERY);
-              if (assertions != null) {
-                  for (int j = 0; j < assertions.getLength(); ++j) {
-                      Element assertion = (Element) assertions.item(j);
-                      int action = evaluatePolicyAssertion(assertion);
+    /**
+     * Returns the invoke activity.
+     */
+    protected AeActivityInvokeImpl getInvoke() {
+        return mInvoke;
+    }
 
-                      switch (action) {
-                          case SUSPEND_PROCESS:
-                              return true;
+    /**
+     * Returns <code>true</code> if and only if the invoke activity set by
+     * {@link #setInvoke(AeActivityInvokeImpl)} is a pending invoke that
+     * requires suspending the process.
+     */
+    public boolean isSuspendProcessRequired() throws AeBusinessProcessException {
+        if (!getInvoke().isPending()) {
+            // If the invoke is not pending, then do not suspend the process for
+            // this invoke.
+            return false;
+        }
 
-                          case CONTINUE_PROCESS:
-                              return false;
+        IAePartnerLink partnerLink = getInvoke().findPartnerLink(getDef().getPartnerLink());
+        IAeEndpointReference epr = partnerLink.getPartnerReference();
 
-                          default:
-                              // This policy assertion was not definitive; perhaps it
-                              // was invalid or ambiguous. Skip it.
-                              continue;
-                      }
-                  }
-              }
-          }
-      }
-   
-      // If there are no applicable policy assertions, then use the setting
-      // specified by the process deployment descriptor (by default this
-      // delegates to the engine configuration setting).
-      return getInvoke().getProcess().getProcessPlan().isSuspendProcessOnInvokeRecoveryEnabled();
-   }
+        List resolvedPolicies = null;
+        if (epr != null) {
+            resolvedPolicies = epr.getEffectivePolicies(getInvoke().getProcess().getProcessPlan(), getDef().getPortType(), getDef().getOperation());
+        }
 
-   /**
-    * Sets the invoke activity.
-    *
-    * @param aInvoke
-    */
-   public void setInvoke(AeActivityInvokeImpl aInvoke)
-   {
-      mInvoke = aInvoke;
-   }
+        if (!AeUtil.isNullOrEmpty(resolvedPolicies)) {
+
+            // Iterate through all the policy assertions associated with the
+            // partner role endpoint reference for the invoke's partner link.
+            for (Element policy : epr.getPolicies()) {
+                // We won't suspend for ws-rm
+                NodeList assertions = policy.getElementsByTagNameNS(IAeConstants.WSRM_POLICY_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_RM);
+                if (assertions != null && assertions.getLength() > 0) {
+                    return false;
+                }
+
+                assertions = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_INVOKE_RECOVERY);
+                if (assertions != null) {
+                    for (int j = 0; j < assertions.getLength(); ++j) {
+                        Element assertion = (Element) assertions.item(j);
+                        int action = evaluatePolicyAssertion(assertion);
+
+                        switch (action) {
+                            case SUSPEND_PROCESS:
+                                return true;
+
+                            case CONTINUE_PROCESS:
+                                return false;
+
+                            default:
+                                // This policy assertion was not definitive; perhaps it
+                                // was invalid or ambiguous. Skip it.
+                                continue;
+                        }
+                    }
+                }
+            }
+        }
+
+        // If there are no applicable policy assertions, then use the setting
+        // specified by the process deployment descriptor (by default this
+        // delegates to the engine configuration setting).
+        return getInvoke().getProcess().getProcessPlan().isSuspendProcessOnInvokeRecoveryEnabled();
+    }
+
+    /**
+     * Sets the invoke activity.
+     *
+     * @param aInvoke
+     */
+    public void setInvoke(AeActivityInvokeImpl aInvoke) {
+        mInvoke = aInvoke;
+    }
 }
  

@@ -23,127 +23,115 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'onEvent' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeOnEventDef extends AeOnMessageDef
-{
-   /**
-     * 
+public class AeOnEventDef extends AeOnMessageDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 2752682203786693941L;
-/** The 'messageType' attribute. */
-   private QName mMessageType;
-   /** The 'element' attribute. */
-   private QName mElement;
-   /** the type of activity for display in errors */
-   private static final String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.onEvent"); //$NON-NLS-1$
-   
-   /**
-    * Default c'tor.
-    */
-   public AeOnEventDef()
-   {
-      super();
-   }
+    /**
+     * The 'messageType' attribute.
+     */
+    private QName mMessageType;
+    /**
+     * The 'element' attribute.
+     */
+    private QName mElement;
+    /**
+     * the type of activity for display in errors
+     */
+    private static final String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.onEvent"); //$NON-NLS-1$
 
-   /**
-    * @return Returns the element.
-    */
-   public QName getElement()
-   {
-      return mElement;
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeOnEventDef() {
+        super();
+    }
 
-   /**
-    * @param aElement The element to set.
-    */
-   public void setElement(QName aElement)
-   {
-      mElement = aElement;
-   }
+    /**
+     * @return Returns the element.
+     */
+    public QName getElement() {
+        return mElement;
+    }
 
-   /**
-    * @return Returns the messageType.
-    */
-   public QName getMessageType()
-   {
-      return mMessageType;
-   }
+    /**
+     * @param aElement The element to set.
+     */
+    public void setElement(QName aElement) {
+        mElement = aElement;
+    }
 
-   /**
-    * @param aMessageType The messageType to set.
-    */
-   public void setMessageType(QName aMessageType)
-   {
-      mMessageType = aMessageType;
-   }
+    /**
+     * @return Returns the messageType.
+     */
+    public QName getMessageType() {
+        return mMessageType;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @param aMessageType The messageType to set.
+     */
+    public void setMessageType(QName aMessageType) {
+        mMessageType = aMessageType;
+    }
 
-   /**
-    * Returns the <code>onEvent</code>'s scope definition. 
-    */
-   public AeActivityScopeDef getChildScope()
-   {
-      // fixme (MF) not safe for bpws 1.1 but only called by ws-bpel classes at this point
-      if (getActivityDef() instanceof AeActivityScopeDef)
-      {
-         return (AeActivityScopeDef) getActivityDef(); 
-      }
-      return null;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Overrides in order to resolve the variable to the associated scope as opposed
-    * to the anscestor scopes.
-    * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#getMessageDataConsumerVariable()
-    */
-   public AeVariableDef getMessageDataConsumerVariable()
-   {
-      return AeDefUtil.getVariableByName(getVariable(), getContext());
-   }
+    /**
+     * Returns the <code>onEvent</code>'s scope definition.
+     */
+    public AeActivityScopeDef getChildScope() {
+        // fixme (MF) not safe for bpws 1.1 but only called by ws-bpel classes at this point
+        if (getActivityDef() instanceof AeActivityScopeDef) {
+            return (AeActivityScopeDef) getActivityDef();
+        }
+        return null;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#getPartnerLinkDef()
-    */
-   public AePartnerLinkDef getPartnerLinkDef()
-   {
-      AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(getContext(), getPartnerLink());
-      return plinkDef;
-   }
+    /**
+     * Overrides in order to resolve the variable to the associated scope as opposed
+     * to the anscestor scopes.
+     *
+     * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#getMessageDataConsumerVariable()
+     */
+    public AeVariableDef getMessageDataConsumerVariable() {
+        return AeDefUtil.getVariableByName(getVariable(), getContext());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#getContext()
-    */
-   public AeBaseDef getContext()
-   {
-   // fixme (MF) come back to this and create separate def class for ws-bpel onEvent
-      if (getActivityDef() == null)
-      {
-         return this;
-      }
-      else
-      {
-         if (AeDefUtil.isBPWS(this))
-         {
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#getPartnerLinkDef()
+     */
+    public AePartnerLinkDef getPartnerLinkDef() {
+        AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(getContext(), getPartnerLink());
+        return plinkDef;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#getContext()
+     */
+    public AeBaseDef getContext() {
+        // fixme (MF) come back to this and create separate def class for ws-bpel onEvent
+        if (getActivityDef() == null) {
             return this;
-         }
-         else
-         {
-            return getActivityDef();
-         }
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#getTypeDisplayText()
-    */
-   public String getTypeDisplayText()
-   {
-      return sDisplayTypeText;
-   }
+        } else {
+            if (AeDefUtil.isBPWS(this)) {
+                return this;
+            } else {
+                return getActivityDef();
+            }
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef#getTypeDisplayText()
+     */
+    public String getTypeDisplayText() {
+        return sDisplayTypeText;
+    }
 }

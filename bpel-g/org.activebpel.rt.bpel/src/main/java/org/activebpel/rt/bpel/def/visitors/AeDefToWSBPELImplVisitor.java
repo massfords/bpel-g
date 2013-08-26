@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.visitors; 
+package org.activebpel.rt.bpel.def.visitors;
 
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.def.AeCatchDef;
@@ -63,273 +63,248 @@ import org.activebpel.rt.xml.def.AeExtensionElementDef;
 import org.activebpel.rt.xml.def.IAeExtensionObject;
 
 /**
- * Creates impl objects for WS-BPEL 2.0 
+ * Creates impl objects for WS-BPEL 2.0
  */
-public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
-{
-   /** strategy for terminating a 2.0 scope */
-   private static final IAeScopeTerminationStrategy WSBPEL_ScopeTerminationStrategy = new AeWSBPELScopeTerminationStrategy();
-   
-   /** message validator */
-   private static final IAeMessageValidator MESSAGE_VALIDATOR = new AeBPELMessageDataValidator(false);
+public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor {
+    /**
+     * strategy for terminating a 2.0 scope
+     */
+    private static final IAeScopeTerminationStrategy WSBPEL_ScopeTerminationStrategy = new AeWSBPELScopeTerminationStrategy();
 
-   /**
-    * Constructor - inits the visitor
-    * @param aPid - id of the process visitor will create
-    * @param aEngine - engine that will own the process
-    * @param aPlan - deployment plan for the process
-    */
-   public AeDefToWSBPELImplVisitor(long aPid,
-         IAeBusinessProcessEngineInternal aEngine, IAeProcessPlan aPlan)
-   {
-      super(aPid, aEngine, aPlan);
-      init();
-   }
+    /**
+     * message validator
+     */
+    private static final IAeMessageValidator MESSAGE_VALIDATOR = new AeBPELMessageDataValidator(false);
 
-   /**
-    * Constructor - inits the visitor
-    * @param aProcess - process that will own any activities created
-    * @param aParent - parent for the initial activity creation
-    */
-   public AeDefToWSBPELImplVisitor(IAeBusinessProcessInternal aProcess,
-         IAeBpelObject aParent)
-   {
-      super(aProcess, aParent);
-      init();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#createTraverser()
-    */
-   protected IAeDefVisitor createTraverser()
-   {
-      return new AeTraversalVisitor(new AeWSBPELImplementationTraverser(), this);
-   }
+    /**
+     * Constructor - inits the visitor
+     *
+     * @param aPid    - id of the process visitor will create
+     * @param aEngine - engine that will own the process
+     * @param aPlan   - deployment plan for the process
+     */
+    public AeDefToWSBPELImplVisitor(long aPid,
+                                    IAeBusinessProcessEngineInternal aEngine, IAeProcessPlan aPlan) {
+        super(aPid, aEngine, aPlan);
+        init();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
-    */
-   public void visit(AeActivityAssignDef def)
-   {
-      AeActivityAssignWSBPELImpl impl = new AeActivityAssignWSBPELImpl(def, getActivityParent());
-      getActivityParent().addActivity(impl);
-      traverse(def, impl);
-   }
+    /**
+     * Constructor - inits the visitor
+     *
+     * @param aProcess - process that will own any activities created
+     * @param aParent  - parent for the initial activity creation
+     */
+    public AeDefToWSBPELImplVisitor(IAeBusinessProcessInternal aProcess,
+                                    IAeBpelObject aParent) {
+        super(aProcess, aParent);
+        init();
+    }
 
-   /**
-    * Creates the scope implementation and then traverses it.
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
-    */
-   public void visit(AeActivityScopeDef def)
-   {
-      // TODO (MF) provide a separate def for the onEvent scope?
-      AeActivityScopeImpl impl = getActivityParent() instanceof AeOnEvent ? new AeActivityOnEventScopeImpl(def, (AeOnEvent)getActivityParent()) : new AeActivityScopeImpl(def, getActivityParent());
-      impl.setTerminationStrategy(getScopeTerminationStrategy());
-      impl.setFaultMatchingStrategy(getFaultMatchingStrategy());
-      getActivityParent().addActivity(impl);
-      traverse(def, impl);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#createTraverser()
+     */
+    protected IAeDefVisitor createTraverser() {
+        return new AeTraversalVisitor(new AeWSBPELImplementationTraverser(), this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
-    */
-   public void visit(AeCatchDef def)
-   {
-      AeWSBPELFaultHandler fh = new AeWSBPELFaultHandler(def, getScope());
-      getScope().addFaultHandler(fh);
-      traverse(def, fh);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
+     */
+    public void visit(AeActivityAssignDef def) {
+        AeActivityAssignWSBPELImpl impl = new AeActivityAssignWSBPELImpl(def, getActivityParent());
+        getActivityParent().addActivity(impl);
+        traverse(def, impl);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void visit(AeOnEventDef def)
-   {
-      AeOnEvent onEvent = new AeOnEvent(def, getMessageParent());
-      getMessageParent().addMessage(onEvent);
-      onEvent.setMessageValidator(getMessageValidator());
-      
-      assignMessageDataConsumer(onEvent, def);
+    /**
+     * Creates the scope implementation and then traverses it.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
+     */
+    public void visit(AeActivityScopeDef def) {
+        // TODO (MF) provide a separate def for the onEvent scope?
+        AeActivityScopeImpl impl = getActivityParent() instanceof AeOnEvent ? new AeActivityOnEventScopeImpl(def, (AeOnEvent) getActivityParent()) : new AeActivityScopeImpl(def, getActivityParent());
+        impl.setTerminationStrategy(getScopeTerminationStrategy());
+        impl.setFaultMatchingStrategy(getFaultMatchingStrategy());
+        getActivityParent().addActivity(impl);
+        traverse(def, impl);
+    }
 
-      traverse(def, onEvent);
-      
-      // move the child scope that was created for the onEvent from its list of 
-      // children to the queuing scope. This scope is only used to provide 
-      // instance info the plink and such when the onEvent queues. The normal
-      // behavior for the onEvent is for it to defer the creation of its child 
-      // scope instances until the message for the onEvent arrives.
-      AeActivityOnEventScopeImpl queuingScope = (AeActivityOnEventScopeImpl) onEvent.getChildren().get(0);
-      onEvent.setQueuingScope(queuingScope);
-      if (onEvent.isConcurrent())
-      {
-         onEvent.getChildren().clear();
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
+     */
+    public void visit(AeCatchDef def) {
+        AeWSBPELFaultHandler fh = new AeWSBPELFaultHandler(def, getScope());
+        getScope().addFaultHandler(fh);
+        traverse(def, fh);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
-    */
-   public void visit(AeOnAlarmDef def)
-   {
-      if (def.getRepeatEveryDef() == null)
-      {
-         super.visit(def);
-      }
-      else
-      {
-         AeRepeatableOnAlarm alarm = new AeRepeatableOnAlarm(def, getMessageParent());
-         getMessageParent().addAlarm(alarm);
-         traverse(def, alarm);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        AeOnEvent onEvent = new AeOnEvent(def, getMessageParent());
+        getMessageParent().addMessage(onEvent);
+        onEvent.setMessageValidator(getMessageValidator());
 
-   /**
-    * Setup the visitor to install the correct strategies for termination and fault matching 
-    */
-   protected void init()
-   {
-      setScopeTerminationStrategy(WSBPEL_ScopeTerminationStrategy);
-      setFaultMatchingStrategy(AeFaultMatchingStrategyFactory.getInstance(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI));
-      setMessageValidator(MESSAGE_VALIDATOR);
-   }
+        assignMessageDataConsumer(onEvent, def);
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
-    */
-   public void visit(AeVariableDef def)
-   {
-      super.visit(def);
-      if (def.getFromDef() != null)
-      {
-         AeVariablesImpl variablesImpl = (AeVariablesImpl) getVariableContainer();
-         AeVariable variable = (AeVariable) variablesImpl.getMap().get(def.getName());
-         IAeFrom fromImpl = variable.getFrom();
-         AeVirtualCopyOperation copyOp = AeVirtualCopyOperation.createVariableInitializer();
-         copyOp.setFrom(fromImpl); 
-         if (def.isMessageType())
-            copyOp.setTo(new AeToVariableMessage(def.getName()));
-         else if (def.isElement())
-            copyOp.setTo(new AeToVariableElement(def.getName()));
-         else if (def.isType())
-            copyOp.setTo(new AeToVariableType(def.getName()));
-         variablesImpl.addCopyOperation(copyOp);
-      }         
-   }
+        traverse(def, onEvent);
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
-    */
-   public void visit(AeActivityValidateDef def)
-   {
-      IAeActivity impl = new AeActivityValidateImpl(def, getActivityParent());
-      getActivityParent().addActivity(impl);
-      traverse(def, impl);
-   }
+        // move the child scope that was created for the onEvent from its list of
+        // children to the queuing scope. This scope is only used to provide
+        // instance info the plink and such when the onEvent queues. The normal
+        // behavior for the onEvent is for it to defer the creation of its child
+        // scope instances until the message for the onEvent arrives.
+        AeActivityOnEventScopeImpl queuingScope = (AeActivityOnEventScopeImpl) onEvent.getChildren().get(0);
+        onEvent.setQueuingScope(queuingScope);
+        if (onEvent.isConcurrent()) {
+            onEvent.getChildren().clear();
+        }
+    }
 
-   /**
-    * Create the correlation set implementation object and add it to the scope.
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetDef)
-    */
-   public void visit(AeCorrelationSetDef aDef)
-   {
-      AeCorrelationSet set = new AeWSBPELCorrelationSet(aDef, getScope());
-      getScope().addCorrelationSet(set);
-      traverse(aDef, set);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
-    */
-   public void visit(AeExtensionElementDef aDef)
-   {
-      IAeExtensionObject extension = aDef.getExtensionObject();
-      if (extension == null)
-         return;
-      
-      // only supporting extension objects on activities at the moment
-      if (peek() instanceof AeActivityImpl)
-      {
-         IAeExtensionLifecycleAdapter adapter = (IAeExtensionLifecycleAdapter) extension.getAdapter(IAeExtensionLifecycleAdapter.class);
-         if (adapter != null)
-         {
-            AeActivityImpl impl = (AeActivityImpl) peek();
-            impl.addExtension(adapter);
-         }
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
+     */
+    public void visit(AeOnAlarmDef def) {
+        if (def.getRepeatEveryDef() == null) {
+            super.visit(def);
+        } else {
+            AeRepeatableOnAlarm alarm = new AeRepeatableOnAlarm(def, getMessageParent());
+            getMessageParent().addAlarm(alarm);
+            traverse(def, alarm);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(AeChildExtensionActivityDef)
-    */
-   public void visit(AeChildExtensionActivityDef def)
-   {
-      // Convert all unknown extension activities to Empty impls (note that 
-      // validation would have prevented us from getting here if the extension 
-      // were mustUnderstand == 'yes').
-      if (def.isUnderstood())
-      {
-         AeActivityChildExtensionActivityImpl impl = new AeActivityChildExtensionActivityImpl(def, getActivityParent());
-         IAeExtensionObject extension = def.getExtensionObject();
-         IAeActivityLifeCycleAdapter adapter = (IAeActivityLifeCycleAdapter) extension.getAdapter(IAeActivityLifeCycleAdapter.class);
-         impl.setLifeCycleAdapter(adapter);
-         
-         IAeMessageProducerParentAdapter producerParent = (IAeMessageProducerParentAdapter) adapter.getImplAdapter(IAeMessageProducerParentAdapter.class);
-         if (producerParent != null)
-         {
-            IAeMessageDataProducer producer = createMessageProducer(producerParent.getMessageDataProducerDef());
-            producerParent.setMessageDataProducer(producer);
-         }
-         
-         IAeMessageConsumerParentAdapter consumerParent = (IAeMessageConsumerParentAdapter) adapter.getImplAdapter(IAeMessageConsumerParentAdapter.class);
-         if (consumerParent != null)
-         {
-            IAeMessageDataConsumer consumer = createMessageConsumer(consumerParent.getMessageDataConsumerDef());
-            consumerParent.setMessageDataConsumer(consumer);
-         }
-         
-         IAeMessageValidationAdapter validatorAdapter = (IAeMessageValidationAdapter) adapter.getImplAdapter(IAeMessageValidationAdapter.class);
-         if (validatorAdapter != null)
-         {
-            IAeMessageValidator validator = (IAeMessageValidator) adapter.getImplAdapter(IAeMessageValidator.class);
-            validatorAdapter.setMessageValidator(validator);
-         }
-         
-         getActivityParent().addActivity(impl);
-         traverse(def, impl);
-      }
-      else
-      {
-         IAeActivity impl = new AeActivityEmptyImpl(def, getActivityParent());
-         getActivityParent().addActivity(impl);
-         //traverse(def, impl);
-      }
-   }
+    /**
+     * Setup the visitor to install the correct strategies for termination and fault matching
+     */
+    protected void init() {
+        setScopeTerminationStrategy(WSBPEL_ScopeTerminationStrategy);
+        setFaultMatchingStrategy(AeFaultMatchingStrategyFactory.getInstance(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI));
+        setMessageValidator(MESSAGE_VALIDATOR);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
-    */
-   public void visit(AeCorrelationsDef def)
-   {
-      IAeWSIOActivity parent = (IAeWSIOActivity) peek();
-      
-      if (parent instanceof AeOnEvent)
-      {
-         AeOnEventCorrelations correlations = new AeOnEventCorrelations(def, (AeOnEvent) parent);
-         correlations.setFilter(getCorrelationsFilter());
-         parent.setRequestCorrelations(correlations);
-         traverse(def, null);
-      }
-      else
-      {
-         super.visit(def);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
+     */
+    public void visit(AeVariableDef def) {
+        super.visit(def);
+        if (def.getFromDef() != null) {
+            AeVariablesImpl variablesImpl = (AeVariablesImpl) getVariableContainer();
+            AeVariable variable = (AeVariable) variablesImpl.getMap().get(def.getName());
+            IAeFrom fromImpl = variable.getFrom();
+            AeVirtualCopyOperation copyOp = AeVirtualCopyOperation.createVariableInitializer();
+            copyOp.setFrom(fromImpl);
+            if (def.isMessageType())
+                copyOp.setTo(new AeToVariableMessage(def.getName()));
+            else if (def.isElement())
+                copyOp.setTo(new AeToVariableElement(def.getName()));
+            else if (def.isType())
+                copyOp.setTo(new AeToVariableType(def.getName()));
+            variablesImpl.addCopyOperation(copyOp);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#getCorrelationsFilter()
-    */
-   protected IAeCorrelationSetFilter getCorrelationsFilter()
-   {
-      return AeIMACorrelations.INITIALIZED;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
+     */
+    public void visit(AeActivityValidateDef def) {
+        IAeActivity impl = new AeActivityValidateImpl(def, getActivityParent());
+        getActivityParent().addActivity(impl);
+        traverse(def, impl);
+    }
+
+    /**
+     * Create the correlation set implementation object and add it to the scope.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetDef)
+     */
+    public void visit(AeCorrelationSetDef aDef) {
+        AeCorrelationSet set = new AeWSBPELCorrelationSet(aDef, getScope());
+        getScope().addCorrelationSet(set);
+        traverse(aDef, set);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
+     */
+    public void visit(AeExtensionElementDef aDef) {
+        IAeExtensionObject extension = aDef.getExtensionObject();
+        if (extension == null)
+            return;
+
+        // only supporting extension objects on activities at the moment
+        if (peek() instanceof AeActivityImpl) {
+            IAeExtensionLifecycleAdapter adapter = (IAeExtensionLifecycleAdapter) extension.getAdapter(IAeExtensionLifecycleAdapter.class);
+            if (adapter != null) {
+                AeActivityImpl impl = (AeActivityImpl) peek();
+                impl.addExtension(adapter);
+            }
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(AeChildExtensionActivityDef)
+     */
+    public void visit(AeChildExtensionActivityDef def) {
+        // Convert all unknown extension activities to Empty impls (note that
+        // validation would have prevented us from getting here if the extension
+        // were mustUnderstand == 'yes').
+        if (def.isUnderstood()) {
+            AeActivityChildExtensionActivityImpl impl = new AeActivityChildExtensionActivityImpl(def, getActivityParent());
+            IAeExtensionObject extension = def.getExtensionObject();
+            IAeActivityLifeCycleAdapter adapter = (IAeActivityLifeCycleAdapter) extension.getAdapter(IAeActivityLifeCycleAdapter.class);
+            impl.setLifeCycleAdapter(adapter);
+
+            IAeMessageProducerParentAdapter producerParent = (IAeMessageProducerParentAdapter) adapter.getImplAdapter(IAeMessageProducerParentAdapter.class);
+            if (producerParent != null) {
+                IAeMessageDataProducer producer = createMessageProducer(producerParent.getMessageDataProducerDef());
+                producerParent.setMessageDataProducer(producer);
+            }
+
+            IAeMessageConsumerParentAdapter consumerParent = (IAeMessageConsumerParentAdapter) adapter.getImplAdapter(IAeMessageConsumerParentAdapter.class);
+            if (consumerParent != null) {
+                IAeMessageDataConsumer consumer = createMessageConsumer(consumerParent.getMessageDataConsumerDef());
+                consumerParent.setMessageDataConsumer(consumer);
+            }
+
+            IAeMessageValidationAdapter validatorAdapter = (IAeMessageValidationAdapter) adapter.getImplAdapter(IAeMessageValidationAdapter.class);
+            if (validatorAdapter != null) {
+                IAeMessageValidator validator = (IAeMessageValidator) adapter.getImplAdapter(IAeMessageValidator.class);
+                validatorAdapter.setMessageValidator(validator);
+            }
+
+            getActivityParent().addActivity(impl);
+            traverse(def, impl);
+        } else {
+            IAeActivity impl = new AeActivityEmptyImpl(def, getActivityParent());
+            getActivityParent().addActivity(impl);
+            //traverse(def, impl);
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
+     */
+    public void visit(AeCorrelationsDef def) {
+        IAeWSIOActivity parent = (IAeWSIOActivity) peek();
+
+        if (parent instanceof AeOnEvent) {
+            AeOnEventCorrelations correlations = new AeOnEventCorrelations(def, (AeOnEvent) parent);
+            correlations.setFilter(getCorrelationsFilter());
+            parent.setRequestCorrelations(correlations);
+            traverse(def, null);
+        } else {
+            super.visit(def);
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#getCorrelationsFilter()
+     */
+    protected IAeCorrelationSetFilter getCorrelationsFilter() {
+        return AeIMACorrelations.INITIALIZED;
+    }
 }

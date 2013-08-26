@@ -13,95 +13,89 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/** Impl of the lock holder interface that allows multiple owners */
-public class AeLockHolder
-{
-   /** Current owners of the lock */
-   private final Set<String> mOwners = new HashSet<>();
-   /** True if the lock holder is exclusive meaning that only 1 owner is allowed */
-   private boolean mExclusive = false;
+/**
+ * Impl of the lock holder interface that allows multiple owners
+ */
+public class AeLockHolder {
+    /**
+     * Current owners of the lock
+     */
+    private final Set<String> mOwners = new HashSet<>();
+    /**
+     * True if the lock holder is exclusive meaning that only 1 owner is allowed
+     */
+    private boolean mExclusive = false;
 
-   /**
-    * @param aOwnerPath
-    */
-   public void add(String aOwnerPath)
-   {
-      mOwners.add(aOwnerPath);
-   }
+    /**
+     * @param aOwnerPath
+     */
+    public void add(String aOwnerPath) {
+        mOwners.add(aOwnerPath);
+    }
 
-   /**
-    * Returns <code>true</code> if and only if this lock holder has no owners.
-    */
-   public boolean isEmpty()
-   {
-      return mOwners.isEmpty();
-   }
+    /**
+     * Returns <code>true</code> if and only if this lock holder has no owners.
+     */
+    public boolean isEmpty() {
+        return mOwners.isEmpty();
+    }
 
-   /**
-    * Returns <code>true</code> if and only if the lock is exclusive.
-    */
-   public boolean isExclusive()
-   {
-      return mExclusive;
-   }
+    /**
+     * Returns <code>true</code> if and only if the lock is exclusive.
+     */
+    public boolean isExclusive() {
+        return mExclusive;
+    }
 
-   /**
-    * @param aOwnerPath
-    */
-   public void remove(String aOwnerPath)
-   {
-      mOwners.remove(aOwnerPath);
-   }
+    /**
+     * @param aOwnerPath
+     */
+    public void remove(String aOwnerPath) {
+        mOwners.remove(aOwnerPath);
+    }
 
-   /**
-    * @param aFlag
-    */
-   public void setExclusive(boolean aFlag)
-   {
-      mExclusive = aFlag;
-   }
+    /**
+     * @param aFlag
+     */
+    public void setExclusive(boolean aFlag) {
+        mExclusive = aFlag;
+    }
 
-   /**
-    * Returns <code>true</code> if and only if additionals owners can be added to this lock holder.
-    */
-   public boolean canAdd()
-   {
-      return isExclusive()? isEmpty() : true;
-   }
+    /**
+     * Returns <code>true</code> if and only if additionals owners can be added to this lock holder.
+     */
+    public boolean canAdd() {
+        return isExclusive() ? isEmpty() : true;
+    }
 
-   /**
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object o)
-   {
-      if (!(o instanceof AeLockHolder))
-      {
-         return false;
-      }
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object o) {
+        if (!(o instanceof AeLockHolder)) {
+            return false;
+        }
 
-      AeLockHolder other = (AeLockHolder) o;
+        AeLockHolder other = (AeLockHolder) o;
 
-      if (isExclusive() != other.isExclusive())
-      {
-         return false;
-      }
+        if (isExclusive() != other.isExclusive()) {
+            return false;
+        }
 
-      return getOwners().equals(other.getOwners());
-   }
+        return getOwners().equals(other.getOwners());
+    }
 
-   /**
-    * Returns the set of lock owners.
-    */
-   public Set<String> getOwners()
-   {
-      return Collections.unmodifiableSet(mOwners);
-   }
+    /**
+     * Returns the set of lock owners.
+     */
+    public Set<String> getOwners() {
+        return Collections.unmodifiableSet(mOwners);
+    }
 
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return (isExclusive() ? 1 : 0) + getOwners().hashCode();
-   }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return (isExclusive() ? 1 : 0) + getOwners().hashCode();
+    }
 }

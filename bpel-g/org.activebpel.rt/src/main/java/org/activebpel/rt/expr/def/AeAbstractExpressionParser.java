@@ -12,35 +12,33 @@ package org.activebpel.rt.expr.def;
 /**
  * An abstract expression parser that language impls can extend.
  */
-public abstract class AeAbstractExpressionParser implements IAeExpressionParser
-{
-   /** The context to use for parsing. */
-   private IAeExpressionParserContext mParserContext;
+public abstract class AeAbstractExpressionParser implements IAeExpressionParser {
+    /**
+     * The context to use for parsing.
+     */
+    private IAeExpressionParserContext mParserContext;
 
-   /**
-    * Constructor.
-    * 
-    * @param aParserContext
-    */
-   public AeAbstractExpressionParser(IAeExpressionParserContext aParserContext)
-   {
-      setParserContext(aParserContext);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aParserContext
+     */
+    public AeAbstractExpressionParser(IAeExpressionParserContext aParserContext) {
+        setParserContext(aParserContext);
+    }
 
 
-   /**
-    * @return Returns the parserContext.
-    */
-   protected IAeExpressionParserContext getParserContext()
-   {
-      return mParserContext;
-   }
+    /**
+     * @return Returns the parserContext.
+     */
+    protected IAeExpressionParserContext getParserContext() {
+        return mParserContext;
+    }
 
-   /**
-    * @param aParserContext The parserContext to set.
-    */
-   protected void setParserContext(IAeExpressionParserContext aParserContext)
-   {
-      mParserContext = aParserContext;
-   }
+    /**
+     * @param aParserContext The parserContext to set.
+     */
+    protected void setParserContext(IAeExpressionParserContext aParserContext) {
+        mParserContext = aParserContext;
+    }
 }

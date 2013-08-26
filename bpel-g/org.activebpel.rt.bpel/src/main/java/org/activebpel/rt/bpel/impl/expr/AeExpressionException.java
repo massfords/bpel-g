@@ -17,36 +17,34 @@ import org.activebpel.rt.bpel.impl.AeBpelException;
  * from a place where it would not normally be allowed (for example, in a Jaxen VariableContext
  * implementation).
  */
-public class AeExpressionException extends RuntimeException
-{
-   /**
-     * 
+public class AeExpressionException extends RuntimeException {
+    /**
+     *
      */
     private static final long serialVersionUID = 1442148915615249837L;
-/** The wrapped AeException. */
-   private AeBpelException mWrappedException;
+    /**
+     * The wrapped AeException.
+     */
+    private AeBpelException mWrappedException;
 
-   /**
-    * Constructor.
-    */
-   public AeExpressionException(AeBpelException aWrappedException)
-   {
-      setWrappedException(aWrappedException);
-   }
+    /**
+     * Constructor.
+     */
+    public AeExpressionException(AeBpelException aWrappedException) {
+        setWrappedException(aWrappedException);
+    }
 
-   /**
-    * @return Returns the wrappedException.
-    */
-   public AeBpelException getWrappedException()
-   {
-      return mWrappedException;
-   }
+    /**
+     * @return Returns the wrappedException.
+     */
+    public AeBpelException getWrappedException() {
+        return mWrappedException;
+    }
 
-   /**
-    * @param aWrappedException The wrappedException to set.
-    */
-   protected void setWrappedException(AeBpelException aWrappedException)
-   {
-      mWrappedException = aWrappedException;
-   }
+    /**
+     * @param aWrappedException The wrappedException to set.
+     */
+    protected void setWrappedException(AeBpelException aWrappedException) {
+        mWrappedException = aWrappedException;
+    }
 }

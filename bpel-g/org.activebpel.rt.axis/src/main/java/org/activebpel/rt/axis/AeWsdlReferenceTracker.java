@@ -21,38 +21,38 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
  * objects to the wsdl catalog on registration.  Removes <code>IAeWsdlReference</code>
  * instances from the wsdl catalog on unregistration (should be called when the
  * Axis service is removed to ensure that the <code>IAeWsdlReference</code> is
- * eligible for garbage collection). 
+ * eligible for garbage collection).
  */
-public class AeWsdlReferenceTracker
-{
-   /** Map of service names to <code>IAeWsdlReference</code> objects. */
-   private static final Map<String, IAeWsdlReference> mReferences = new HashMap<>();
-   
-   /**
-    * Register the <code>IAeWsdlReference</code> as a <code>IAeCatalogListener</code> with
-    * the catalog.
-    * @param aServiceName
-    * @param aReference
-    */
-   public static void registerReference( String aServiceName, IAeWsdlReference aReference )
-   {
-      unregisterReference( aServiceName );
-      mReferences.put( aServiceName, aReference );
-      AeEngineFactory.getBean(IAeCatalog.class).addCatalogListener( aReference );
+public class AeWsdlReferenceTracker {
+    /**
+     * Map of service names to <code>IAeWsdlReference</code> objects.
+     */
+    private static final Map<String, IAeWsdlReference> mReferences = new HashMap<>();
 
-   }
-   
-   /**
-    * Remove the <code>IAeWsdlReference</code> mapped to the given service name
-    * as a <code>IAeCatalogListener</code>.
-    * @param aServiceName
-    */
-   public static void unregisterReference( String aServiceName )
-   {
-      IAeWsdlReference wsdlRef = mReferences.remove( aServiceName );
-      if( wsdlRef != null )
-      {
-         AeEngineFactory.getBean(IAeCatalog.class).removeCatalogListener( wsdlRef );
-      }
-   }
+    /**
+     * Register the <code>IAeWsdlReference</code> as a <code>IAeCatalogListener</code> with
+     * the catalog.
+     *
+     * @param aServiceName
+     * @param aReference
+     */
+    public static void registerReference(String aServiceName, IAeWsdlReference aReference) {
+        unregisterReference(aServiceName);
+        mReferences.put(aServiceName, aReference);
+        AeEngineFactory.getBean(IAeCatalog.class).addCatalogListener(aReference);
+
+    }
+
+    /**
+     * Remove the <code>IAeWsdlReference</code> mapped to the given service name
+     * as a <code>IAeCatalogListener</code>.
+     *
+     * @param aServiceName
+     */
+    public static void unregisterReference(String aServiceName) {
+        IAeWsdlReference wsdlRef = mReferences.remove(aServiceName);
+        if (wsdlRef != null) {
+            AeEngineFactory.getBean(IAeCatalog.class).removeCatalogListener(wsdlRef);
+        }
+    }
 }

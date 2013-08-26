@@ -21,66 +21,60 @@ import org.activebpel.rt.bpel.impl.activity.IAeVariableContainer;
 /**
  * Implements a variable container that holds a single anonymous variable.
  */
-public class AeAnonymousVariableContainer implements IAeVariableContainer
-{
-   /** The anonymous variable. */
-   IAeVariable mVariable;
+public class AeAnonymousVariableContainer implements IAeVariableContainer {
+    /**
+     * The anonymous variable.
+     */
+    IAeVariable mVariable;
 
-   /**
-    * Returns the anonymous variable.
-    */
-   protected IAeVariable getVariable()
-   {
-      return mVariable;
-   }
+    /**
+     * Returns the anonymous variable.
+     */
+    protected IAeVariable getVariable() {
+        return mVariable;
+    }
 
    /*===========================================================================
     * IAeVariableContainer methods
     *===========================================================================
     */
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#findVariable(java.lang.String)
-    */
-   public IAeVariable findVariable(String aVariableName)
-   {
-      return getVariable();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#findVariable(java.lang.String)
+     */
+    public IAeVariable findVariable(String aVariableName) {
+        return getVariable();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#addVariable(org.activebpel.rt.bpel.IAeVariable)
-    */
-   public void addVariable(IAeVariable aVariable)
-   {
-      if (getVariable() != null)
-      {
-         throw new IllegalStateException(AeMessages.getString("AeAnonymousMessageDataVariable.ERROR_AddVariable")); //$NON-NLS-1$
-      }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#addVariable(org.activebpel.rt.bpel.IAeVariable)
+     */
+    public void addVariable(IAeVariable aVariable) {
+        if (getVariable() != null) {
+            throw new IllegalStateException(AeMessages.getString("AeAnonymousMessageDataVariable.ERROR_AddVariable")); //$NON-NLS-1$
+        }
 
-      mVariable = aVariable;
-   }
+        mVariable = aVariable;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#iterator()
-    */
-   public Iterator<IAeVariable> iterator()
-   {
-      return Collections.singleton(getVariable()).iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#iterator()
+     */
+    public Iterator<IAeVariable> iterator() {
+        return Collections.singleton(getVariable()).iterator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#initialize()
-    */
-   public void initialize() throws AeBpelException
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#initialize()
+     */
+    public void initialize() throws AeBpelException {
+        throw new UnsupportedOperationException();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#getParent()
-    */
-   public IAeBpelObject getParent()
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#getParent()
+     */
+    public IAeBpelObject getParent() {
+        throw new UnsupportedOperationException();
+    }
 }

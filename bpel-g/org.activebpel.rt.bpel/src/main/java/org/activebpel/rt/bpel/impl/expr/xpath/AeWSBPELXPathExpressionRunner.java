@@ -24,7 +24,7 @@ public class AeWSBPELXPathExpressionRunner extends AeAbstractXPathExpressionRunn
      *      org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
      */
     protected VariableContext createVariableContext(IAeFunctionExecutionContext aContext,
-            IAeExpressionRunnerVariableResolver aVariableResolver) {
+                                                    IAeExpressionRunnerVariableResolver aVariableResolver) {
         return new AeWSBPELXPathVariableContext(aContext, aVariableResolver);
     }
 

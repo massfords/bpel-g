@@ -30,375 +30,399 @@ import org.w3c.dom.Document;
 import bpelg.services.processes.types.ProcessStateValueType;
 import bpelg.services.processes.types.SuspendReasonType;
 
-/** Describes the interface used for interacting with business processes */
-public interface IAeBusinessProcess
-{
-   /** Value of an uninitialized process id. */
-   public static long NULL_PROCESS_ID = 0;
-   
-   /** Default process initiator value which is 'anonymous'. */
-   public static final String DEFAULT_INITIATOR = "anonymous"; //$NON-NLS-1$
+/**
+ * Describes the interface used for interacting with business processes
+ */
+public interface IAeBusinessProcess {
+    /**
+     * Value of an uninitialized process id.
+     */
+    public static long NULL_PROCESS_ID = 0;
 
-   /**
-    * Return the partnerRole endpoint reference or null if none is found.
-    * @param aPartnerLinkPath
-    * @throws AeBusinessProcessException
-    */
-   public IAeEndpointReference getPartnerRoleEndpointReference(String aPartnerLinkPath) throws AeBusinessProcessException;
-   
-   /** 
-    * Returns true if this process is participating in an coordinated activity either as a
-    * coordinator or as a participant.
-    * @return true if participating in a coordinated activity.
-    */
-   public boolean isCoordinating();
-     
-   /**
-    * Sets the flag participant flag.
-    * @param aParticipant
-    */
-   public void setParticipant(boolean aParticipant);   
-   
-   /**
-    * Get the state of the process
-    */
-   public ProcessStateValueType getProcessState();
+    /**
+     * Default process initiator value which is 'anonymous'.
+     */
+    public static final String DEFAULT_INITIATOR = "anonymous"; //$NON-NLS-1$
 
-   /**
-    * Get the reason code of process state
-    */
-   public SuspendReasonType getProcessStateReason();
+    /**
+     * Return the partnerRole endpoint reference or null if none is found.
+     *
+     * @param aPartnerLinkPath
+     * @throws AeBusinessProcessException
+     */
+    public IAeEndpointReference getPartnerRoleEndpointReference(String aPartnerLinkPath) throws AeBusinessProcessException;
 
-   /**
-    * Get the process id for this process.
-    */
-   public long getProcessId();
+    /**
+     * Returns true if this process is participating in an coordinated activity either as a
+     * coordinator or as a participant.
+     *
+     * @return true if participating in a coordinated activity.
+     */
+    public boolean isCoordinating();
 
-   /**
-    * The engine this process is running inside of.
-    */
-   public IAeBusinessProcessEngineInternal getEngine();
+    /**
+     * Sets the flag participant flag.
+     *
+     * @param aParticipant
+     */
+    public void setParticipant(boolean aParticipant);
 
-   /**
-    * Suspend the business process.
-    */
-   public void suspend(AeSuspendReason aReasonCode) throws AeBusinessProcessException;
+    /**
+     * Get the state of the process
+     */
+    public ProcessStateValueType getProcessState();
 
-   /**
-    * Returns correlation data on the process instance.
-    * @param aLocationPath Identifies the correlation set within the process.
-    * @return CorrelationData map
-    */
-   public Map<QName, String> getCorrelationData(String aLocationPath) throws AeBusinessProcessException;
+    /**
+     * Get the reason code of process state
+     */
+    public SuspendReasonType getProcessStateReason();
 
-   /**
-    * Set correlation data on the process instance.
-    * @param aLocationPath Identifies the correlation set within the process.
-    * @param aCorrelationData
-    */
-   public void setCorrelationData( String aLocationPath, Map<QName, String> aCorrelationData )
-   throws AeBusinessProcessException;
+    /**
+     * Get the process id for this process.
+     */
+    public long getProcessId();
 
-   /**
-    * Set the partnerRole partner link endpoint reference data.
-    * @param aIsPartnerRole
-    * @param aLocationPath
-    * @param aPartnerEndpointRef
-    * @throws AeBusinessProcessException
-    */
-   public void setPartnerLinkData( boolean aIsPartnerRole, String aLocationPath, Document aPartnerEndpointRef )
-   throws AeBusinessProcessException;
+    /**
+     * The engine this process is running inside of.
+     */
+    public IAeBusinessProcessEngineInternal getEngine();
 
-   /**
-    * Resumes the business process.
-    *
-    * @param aExecute <code>true</code> to execute the process immediately or
-    * <code>false</code> to put the process in a running state without
-    * executing immediately.
-    */
-   public void resume(boolean aExecute) throws AeBusinessProcessException;
+    /**
+     * Suspend the business process.
+     */
+    public void suspend(AeSuspendReason aReasonCode) throws AeBusinessProcessException;
 
-   /**
-    * Resume the business process for the suspended object associated
-    * with the passed location path
-    * @param aLocation the location path of the object to resume.
-    */
-   public void resume(String aLocation) throws AeBusinessProcessException;
+    /**
+     * Returns correlation data on the process instance.
+     *
+     * @param aLocationPath Identifies the correlation set within the process.
+     * @return CorrelationData map
+     */
+    public Map<QName, String> getCorrelationData(String aLocationPath) throws AeBusinessProcessException;
 
-   /**
-    * Retry the activity associated with the passed location path or its
-    * enclosing scope.
-    * @param aLocation
-    * @param aAtScope
-    * @throws AeBusinessProcessException
-    */
-   public void retryActivity( String aLocation, boolean aAtScope ) throws AeBusinessProcessException;
+    /**
+     * Set correlation data on the process instance.
+     *
+     * @param aLocationPath    Identifies the correlation set within the process.
+     * @param aCorrelationData
+     */
+    public void setCorrelationData(String aLocationPath, Map<QName, String> aCorrelationData)
+            throws AeBusinessProcessException;
 
-   /**
-    * Step resume the process and mark the activity associated with passed location
-    * path as complete.  The idea here is that the user has manually corrected
-    * any issues with the suspended activity or its enclosing scope and has put
-    * the process in a state where it can continue (without actually executing
-    * suspended the activity).
-    * @param aLocation
-    * @throws AeBusinessProcessException
-    */
-   public void completeActivity( String aLocation ) throws AeBusinessProcessException;
+    /**
+     * Set the partnerRole partner link endpoint reference data.
+     *
+     * @param aIsPartnerRole
+     * @param aLocationPath
+     * @param aPartnerEndpointRef
+     * @throws AeBusinessProcessException
+     */
+    public void setPartnerLinkData(boolean aIsPartnerRole, String aLocationPath, Document aPartnerEndpointRef)
+            throws AeBusinessProcessException;
 
-   /**
-    * Terminates the business process.
-    */
-   public void terminate() throws AeBusinessProcessException;
+    /**
+     * Resumes the business process.
+     *
+     * @param aExecute <code>true</code> to execute the process immediately or
+     *                 <code>false</code> to put the process in a running state without
+     *                 executing immediately.
+     */
+    public void resume(boolean aExecute) throws AeBusinessProcessException;
 
-   /**
-    * Cancels the process by throwing a forcedTerminatation fault.
-    */
-   public void cancelProcess() throws AeBusinessProcessException;
+    /**
+     * Resume the business process for the suspended object associated
+     * with the passed location path
+     *
+     * @param aLocation the location path of the object to resume.
+     */
+    public void resume(String aLocation) throws AeBusinessProcessException;
 
-   /**
-    * This method allows a parent to queue a child activity to execute.
-    * @param aObject The object that a parent says is ready to execute, links
-    *                 may still prevent this object from immediately executing.
-    */
-   public void queueObjectToExecute(IAeBpelObject aObject) throws AeBusinessProcessException;
+    /**
+     * Retry the activity associated with the passed location path or its
+     * enclosing scope.
+     *
+     * @param aLocation
+     * @param aAtScope
+     * @throws AeBusinessProcessException
+     */
+    public void retryActivity(String aLocation, boolean aAtScope) throws AeBusinessProcessException;
 
-   /**
-    * This method allows a runnable object to be queued for execution.
-    * @param aRunnable
-    */
-   public void queueObjectToExecute(Runnable aRunnable) throws AeBusinessProcessException;
+    /**
+     * Step resume the process and mark the activity associated with passed location
+     * path as complete.  The idea here is that the user has manually corrected
+     * any issues with the suspended activity or its enclosing scope and has put
+     * the process in a state where it can continue (without actually executing
+     * suspended the activity).
+     *
+     * @param aLocation
+     * @throws AeBusinessProcessException
+     */
+    public void completeActivity(String aLocation) throws AeBusinessProcessException;
 
-   /**
-    * Queues the process itself for execution.
-    */
-   public void queueProcessToExecute() throws AeBusinessProcessException;
+    /**
+     * Terminates the business process.
+     */
+    public void terminate() throws AeBusinessProcessException;
 
-   /**
-    * Returns the variable being referenced in the activity location path.
-    * An optional part may be specified when dealing with a message type variable.
-    * @param aActivityLoc the location path for the activity which references this variable
-    * @param aVarName the name of the variable being referenced
-    * @return The variable or null if not found 
-    */
-   public IAeVariable getVariable(String aActivityLoc, String aVarName);
+    /**
+     * Cancels the process by throwing a forcedTerminatation fault.
+     */
+    public void cancelProcess() throws AeBusinessProcessException;
 
-   /**
-    * Sets the message that created the process. The process will keep this until
-    * its start activity executes at which time it'll be consumed by that
-    * activity.
-    * @param aReceiveQueueObject
-    */
-   public void setCreateMessage(AeInboundReceive aReceiveQueueObject);
+    /**
+     * This method allows a parent to queue a child activity to execute.
+     *
+     * @param aObject The object that a parent says is ready to execute, links
+     *                may still prevent this object from immediately executing.
+     */
+    public void queueObjectToExecute(IAeBpelObject aObject) throws AeBusinessProcessException;
 
-   /**
-    * Get the date/time that the process instance was started.
-    */
-   public Date getStartDate();
+    /**
+     * This method allows a runnable object to be queued for execution.
+     *
+     * @param aRunnable
+     */
+    public void queueObjectToExecute(Runnable aRunnable) throws AeBusinessProcessException;
 
-   /**
-    * Gets the date/time that the process ended, either normally, through a fault,
-    * or via termination.
-    */
-   public Date getEndDate();
+    /**
+     * Queues the process itself for execution.
+     */
+    public void queueProcessToExecute() throws AeBusinessProcessException;
 
-   /**
-    * Gets the qualified name of the process.
-    */
-   public QName getName();
+    /**
+     * Returns the variable being referenced in the activity location path.
+     * An optional part may be specified when dealing with a message type variable.
+     *
+     * @param aActivityLoc the location path for the activity which references this variable
+     * @param aVarName     the name of the variable being referenced
+     * @return The variable or null if not found
+     */
+    public IAeVariable getVariable(String aActivityLoc, String aVarName);
 
-   /**
-    * Serialize and return the process state.
-    * @param aForPersistence <code>true</code> to serialize for persistence.
-    * @return Document
-    * @throws AeBusinessProcessException
-    */
-   public Document serializeState(boolean aForPersistence) throws AeBusinessProcessException;
+    /**
+     * Sets the message that created the process. The process will keep this until
+     * its start activity executes at which time it'll be consumed by that
+     * activity.
+     *
+     * @param aReceiveQueueObject
+     */
+    public void setCreateMessage(AeInboundReceive aReceiveQueueObject);
 
-   /**
-    * Serialize and return a process variable.
-    * @param aLocationPath The location XPath of the variable's enclosing scope.
-    * @return Document
-    * @throws AeBusinessProcessException
-    */
-   public Document serializeVariable( String aLocationPath ) throws AeBusinessProcessException;
+    /**
+     * Get the date/time that the process instance was started.
+     */
+    public Date getStartDate();
 
-   /**
-    * Set this process's state from a previously serialized process state document.
-    *
-    * @param aDocument
-    * @throws AeBusinessProcessException
-    */
-   public void setProcessData(Document aDocument) throws AeBusinessProcessException;
+    /**
+     * Gets the date/time that the process ended, either normally, through a fault,
+     * or via termination.
+     */
+    public Date getEndDate();
 
-   /**
-    * Set a variable from a previously serialized variable document.
-    *
-    * @param aLocationPath
-    * @param aDocument
-    * @param aValidate
-    * @throws AeBusinessProcessException
-    */
-   public void setVariableData(String aLocationPath, Document aDocument, boolean aValidate) throws AeBusinessProcessException;
-   
-   /**
-    * Add an attachment to the variable.
-    *
-    * @param aLocationPath
-    * @param aWsioAttachment AeWebServiceAttachment object
-    * @return IAeAttachmentItem - the attachment item added
-    * @throws AeBusinessProcessException
-    */
-   public IAeAttachmentItem addVariableAttachment(String aLocationPath, AeWebServiceAttachment aWsioAttachment) throws AeBusinessProcessException;
-   
-   /**
-    * Remove attachments from the variable.
-    *
-    * @param aLocationPath
-    * @param aAttachmentItemNumbers
-    * @throws AeBusinessProcessException
-    */
-   public void removeVariableAttachments(String aLocationPath, int[] aAttachmentItemNumbers ) throws AeBusinessProcessException;
+    /**
+     * Gets the qualified name of the process.
+     */
+    public QName getName();
 
-   /**
-    * Dispatches an alarm by location path id.
-    *
-    * @param aLocationPathId The location path id.
-    */
-   public void dispatchAlarm(int aLocationPathId, int aAlarmId);
+    /**
+     * Serialize and return the process state.
+     *
+     * @param aForPersistence <code>true</code> to serialize for persistence.
+     * @return Document
+     * @throws AeBusinessProcessException
+     */
+    public Document serializeState(boolean aForPersistence) throws AeBusinessProcessException;
 
-   /**
-    * Dispatches message data to a queued invoke.
-    *
-    * @param aLocationPath The path to the location awaiting the response
-    * @param aData The data we have received from invoke.
-    */
-   public void dispatchInvokeData(String aLocationPath, IAeMessageData aData, Map<String, String> aBusinessProcessProperties);
+    /**
+     * Serialize and return a process variable.
+     *
+     * @param aLocationPath The location XPath of the variable's enclosing scope.
+     * @return Document
+     * @throws AeBusinessProcessException
+     */
+    public Document serializeVariable(String aLocationPath) throws AeBusinessProcessException;
 
-   /**
-    * Dispatches a fault to a queued invoke.
-    *
-    * @param aLocationPath The path to the location awaiting the response
-    * @param aFault The fault we received from invoke.
-    */
-   public void dispatchInvokeFault(String aLocationPath, IAeFault aFault, Map<String, String> aBusinessProcessProperties);
+    /**
+     * Set this process's state from a previously serialized process state document.
+     *
+     * @param aDocument
+     * @throws AeBusinessProcessException
+     */
+    public void setProcessData(Document aDocument) throws AeBusinessProcessException;
 
-   /**
-    * Dispatches message data to a message receiver (by location path id).
-    *
-    * @param aLocationPathId The location path id to the location awaiting the message
-    * @param aInboundReceive Contains the data and other properties for the inbound receive
-    * @param aReplyId queue manager replyId 
-    */
-   public void dispatchReceiveData(int aLocationPathId, AeInboundReceive aInboundReceive, long aReplyId);
+    /**
+     * Set a variable from a previously serialized variable document.
+     *
+     * @param aLocationPath
+     * @param aDocument
+     * @param aValidate
+     * @throws AeBusinessProcessException
+     */
+    public void setVariableData(String aLocationPath, Document aDocument, boolean aValidate) throws AeBusinessProcessException;
 
-   /**
-    * Returns location id corresponding to a location path or <code>-1</code> if not found.
-    */
-   public int getLocationId(String aLocationPath);
+    /**
+     * Add an attachment to the variable.
+     *
+     * @param aLocationPath
+     * @param aWsioAttachment AeWebServiceAttachment object
+     * @return IAeAttachmentItem - the attachment item added
+     * @throws AeBusinessProcessException
+     */
+    public IAeAttachmentItem addVariableAttachment(String aLocationPath, AeWebServiceAttachment aWsioAttachment) throws AeBusinessProcessException;
 
-   /**
-    * Returns location path corresponding to a location id or <code>null</code> if not found.
-    */
-   public String getLocationPath(int aLocationId);
+    /**
+     * Remove attachments from the variable.
+     *
+     * @param aLocationPath
+     * @param aAttachmentItemNumbers
+     * @throws AeBusinessProcessException
+     */
+    public void removeVariableAttachments(String aLocationPath, int[] aAttachmentItemNumbers) throws AeBusinessProcessException;
 
-   /**
-    * Returns a process snapshot that contains all variables and correlation
-    * sets that are live for normal or compensation processing.
-    *
-    * @throws AeBusinessProcessException
-    */
-   public IAeProcessSnapshot getProcessSnapshot() throws AeBusinessProcessException;
+    /**
+     * Dispatches an alarm by location path id.
+     *
+     * @param aLocationPathId The location path id.
+     */
+    public void dispatchAlarm(int aLocationPathId, int aAlarmId);
 
-   /**
-    * Gets the plan that this process was created with.
-    */
-   public IAeProcessPlan getProcessPlan();
+    /**
+     * Dispatches message data to a queued invoke.
+     *
+     * @param aLocationPath The path to the location awaiting the response
+     * @param aData         The data we have received from invoke.
+     */
+    public void dispatchInvokeData(String aLocationPath, IAeMessageData aData, Map<String, String> aBusinessProcessProperties);
 
-   /**
-    * Returns the Bpel implementation object specified by the location id.
-    * @param aLocationId the location id of the Bpel object
-    * @return the Bpel impl object or null if not found
-    */
-   public IAeBpelObject findBpelObject(int aLocationId);
+    /**
+     * Dispatches a fault to a queued invoke.
+     *
+     * @param aLocationPath The path to the location awaiting the response
+     * @param aFault        The fault we received from invoke.
+     */
+    public void dispatchInvokeFault(String aLocationPath, IAeFault aFault, Map<String, String> aBusinessProcessProperties);
 
-   /**
-    * Returns the Bpel implementation object specified by the location path string.
-    * @param aLocationPath the XPath location of the Bpel object
-    * @return the Bpel impl object or null if not found
-    */
-   public IAeBpelObject findBpelObject(String aLocationPath);
-   
-   /**
-    * Returns a partner link specified by the location.
-    * 
-    * @param aLocationPath
-    * @return the partner link or null if not found
-    */
-   public IAePartnerLink findProcessPartnerLink(String aLocationPath);
+    /**
+     * Dispatches message data to a message receiver (by location path id).
+     *
+     * @param aLocationPathId The location path id to the location awaiting the message
+     * @param aInboundReceive Contains the data and other properties for the inbound receive
+     * @param aReplyId        queue manager replyId
+     */
+    public void dispatchReceiveData(int aLocationPathId, AeInboundReceive aInboundReceive, long aReplyId);
 
-   /**
-    * Returns a variable specified by the location.
-    * 
-    * @param aLocationPath
-    * @return the variable or null if not found
-    */
-   public IAeVariable findProcessVariable(String aLocationPath);
-   
-   /**
-    * Sets the engine this process is running inside of.
-    */
-   public void setEngine(IAeBusinessProcessEngineInternal aEngine);
+    /**
+     * Returns location id corresponding to a location path or <code>-1</code> if not found.
+     */
+    public int getLocationId(String aLocationPath);
 
-   /**
-    * Returns true if the process has been suspended.
-    */
-   public boolean isSuspended();
+    /**
+     * Returns location path corresponding to a location id or <code>null</code> if not found.
+     */
+    public String getLocationPath(int aLocationId);
 
-   /**
-    * Starts compensation for the process
-    * @param aCallback
-    * @throws AeBusinessProcessException
-    */
-   public void compensate(IAeCompensationCallback aCallback) throws AeBusinessProcessException;
+    /**
+     * Returns a process snapshot that contains all variables and correlation
+     * sets that are live for normal or compensation processing.
+     *
+     * @throws AeBusinessProcessException
+     */
+    public IAeProcessSnapshot getProcessSnapshot() throws AeBusinessProcessException;
 
-   /**
-    * Releases any resources tied to process level compensation. Called when a compensatable process is
-    * no longer compensatable (likely owing to its coordination ending without having called compensate).
-    */
-   public void releaseCompensationResources();
-   
-   /**
-    * Getter for the BPEL namespace
-    */
-   public String getBPELNamespace();
+    /**
+     * Gets the plan that this process was created with.
+     */
+    public IAeProcessPlan getProcessPlan();
 
-   /**
-    * Returns the process fault or <code>null</code> if the process did not
-    * fault.
-    */
-   public IAeFault getFault();
-   
-   /**
-    * Returns <code>true</code> if and only if the process is in a final state.
-    */
-   public boolean isFinalState();
+    /**
+     * Returns the Bpel implementation object specified by the location id.
+     *
+     * @param aLocationId the location id of the Bpel object
+     * @return the Bpel impl object or null if not found
+     */
+    public IAeBpelObject findBpelObject(int aLocationId);
 
-   /**
-    * Returns <code>true</code> if and only if the process completed normally.
-    */
-   public boolean isNormalCompletion();
+    /**
+     * Returns the Bpel implementation object specified by the location path string.
+     *
+     * @param aLocationPath the XPath location of the Bpel object
+     * @return the Bpel impl object or null if not found
+     */
+    public IAeBpelObject findBpelObject(String aLocationPath);
 
-   /**
-    * Notifies the process that an executable item threw an exception.
-    *
-    * @param aExecutable
-    * @param aThrowable
-    */
-   public void handleExecutableItemException(IAeExecutableQueueItem aExecutable, Throwable aThrowable) throws AeBusinessProcessException;
-   
-   /**
-    * Returns the process initiator (such as the username token or principal token).
-    * @return initiator name or DEFAULT_INITIATOR ('anonymous') if not given.
-    */
-   public String getProcessInitiator();
+    /**
+     * Returns a partner link specified by the location.
+     *
+     * @param aLocationPath
+     * @return the partner link or null if not found
+     */
+    public IAePartnerLink findProcessPartnerLink(String aLocationPath);
+
+    /**
+     * Returns a variable specified by the location.
+     *
+     * @param aLocationPath
+     * @return the variable or null if not found
+     */
+    public IAeVariable findProcessVariable(String aLocationPath);
+
+    /**
+     * Sets the engine this process is running inside of.
+     */
+    public void setEngine(IAeBusinessProcessEngineInternal aEngine);
+
+    /**
+     * Returns true if the process has been suspended.
+     */
+    public boolean isSuspended();
+
+    /**
+     * Starts compensation for the process
+     *
+     * @param aCallback
+     * @throws AeBusinessProcessException
+     */
+    public void compensate(IAeCompensationCallback aCallback) throws AeBusinessProcessException;
+
+    /**
+     * Releases any resources tied to process level compensation. Called when a compensatable process is
+     * no longer compensatable (likely owing to its coordination ending without having called compensate).
+     */
+    public void releaseCompensationResources();
+
+    /**
+     * Getter for the BPEL namespace
+     */
+    public String getBPELNamespace();
+
+    /**
+     * Returns the process fault or <code>null</code> if the process did not
+     * fault.
+     */
+    public IAeFault getFault();
+
+    /**
+     * Returns <code>true</code> if and only if the process is in a final state.
+     */
+    public boolean isFinalState();
+
+    /**
+     * Returns <code>true</code> if and only if the process completed normally.
+     */
+    public boolean isNormalCompletion();
+
+    /**
+     * Notifies the process that an executable item threw an exception.
+     *
+     * @param aExecutable
+     * @param aThrowable
+     */
+    public void handleExecutableItemException(IAeExecutableQueueItem aExecutable, Throwable aThrowable) throws AeBusinessProcessException;
+
+    /**
+     * Returns the process initiator (such as the username token or principal token).
+     *
+     * @return initiator name or DEFAULT_INITIATOR ('anonymous') if not given.
+     */
+    public String getProcessInitiator();
 }

@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
@@ -16,59 +16,54 @@ import org.activebpel.rt.bpel.def.validation.expressions.IAeExpressionModelValid
 /**
  * provides validation for the onAlarm part of an event handler or pick
  */
-public class AeOnAlarmValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeOnAlarmValidator(AeOnAlarmDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
+public class AeOnAlarmValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeOnAlarmValidator(AeOnAlarmDef aDef) {
+        super(aDef);
+    }
 
-      validateAlarmChildren();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-   /**
-    * Validates the OnAlarm's children.  In this case, the OnAlarm must have a single child that
-    * implements the IAeExpressionModel interface.
-    */
-   protected void validateAlarmChildren()
-   {
-      IAeExpressionModelValidator child = getChild(IAeExpressionModelValidator.class);
-      validateAlarmChild(child);
-   }
+        validateAlarmChildren();
+    }
 
-   /**
-    * Validates that the child is not null and contains a non-empty expression. The actual expression (if present)
-    * is validated elsewhere.
-    * @param aChild
-    */
-   protected void validateAlarmChild(IAeExpressionModelValidator aChild)
-   {
-      if (isNullOrEmpty(aChild))
-      {
-         getReporter().reportProblem( BPEL_ALARM_FIELD_MISSING_CODE,
-                                       ERROR_FIELD_MISSING,
-                                       new String[] { AeOnAlarmDef.TAG_ON_ALARM },
-                                       getDefinition() );
-      }
-   }
+    /**
+     * Validates the OnAlarm's children.  In this case, the OnAlarm must have a single child that
+     * implements the IAeExpressionModel interface.
+     */
+    protected void validateAlarmChildren() {
+        IAeExpressionModelValidator child = getChild(IAeExpressionModelValidator.class);
+        validateAlarmChild(child);
+    }
 
-   /**
-    * Getter for the def
-    */
-   protected AeOnAlarmDef getDef()
-   {
-      return (AeOnAlarmDef) getDefinition();
-   }
+    /**
+     * Validates that the child is not null and contains a non-empty expression. The actual expression (if present)
+     * is validated elsewhere.
+     *
+     * @param aChild
+     */
+    protected void validateAlarmChild(IAeExpressionModelValidator aChild) {
+        if (isNullOrEmpty(aChild)) {
+            getReporter().reportProblem(BPEL_ALARM_FIELD_MISSING_CODE,
+                    ERROR_FIELD_MISSING,
+                    new String[]{AeOnAlarmDef.TAG_ON_ALARM},
+                    getDefinition());
+        }
+    }
+
+    /**
+     * Getter for the def
+     */
+    protected AeOnAlarmDef getDef() {
+        return (AeOnAlarmDef) getDefinition();
+    }
 }
  

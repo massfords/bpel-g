@@ -17,59 +17,56 @@ import org.activebpel.rt.bpel.xpath.AeXPathHelper;
 /**
  * Handles selecting a piece of an element using an XPath query.
  */
-public class AeFromVariableTypeWithQuery extends AeFromVariableType
-{
-   /** query for the element */
-   private String mQuery;
+public class AeFromVariableTypeWithQuery extends AeFromVariableType {
+    /**
+     * query for the element
+     */
+    private String mQuery;
 
-   /**
-    * Ctor accepts def
-    *
-    * @param aDef
-    */
-   public AeFromVariableTypeWithQuery(AeFromDef aDef)
-   {
-      super(aDef);
-      setQuery(aDef.getQuery());
-   }
+    /**
+     * Ctor accepts def
+     *
+     * @param aDef
+     */
+    public AeFromVariableTypeWithQuery(AeFromDef aDef) {
+        super(aDef);
+        setQuery(aDef.getQuery());
+    }
 
-   /**
-    * Ctor accepts variable namd and query
-    * @param aVariableName
-    * @param aQuery
-    */
-   public AeFromVariableTypeWithQuery(String aVariableName, String aQuery)
-   {
-      super(aVariableName);
-      setQuery(aQuery);
-   }
+    /**
+     * Ctor accepts variable namd and query
+     *
+     * @param aVariableName
+     * @param aQuery
+     */
+    public AeFromVariableTypeWithQuery(String aVariableName, String aQuery) {
+        super(aVariableName);
+        setQuery(aQuery);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.from.AeFromVariableElement#getFromData()
-    */
-   public Object getFromData() throws AeBusinessProcessException
-   {
-      Object data = super.getFromData();
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.from.AeFromVariableElement#getFromData()
+     */
+    public Object getFromData() throws AeBusinessProcessException {
+        Object data = super.getFromData();
 
-      data = getCopyOperation().getContext().executeQuery(getQuery(), data, false);
-      data = AeXPathHelper.getInstance(getCopyOperation().getContext().getBPELNamespace()).unwrapXPathValue(data);
+        data = getCopyOperation().getContext().executeQuery(getQuery(), data, false);
+        data = AeXPathHelper.getInstance(getCopyOperation().getContext().getBPELNamespace()).unwrapXPathValue(data);
 
-      return data;
-   }
+        return data;
+    }
 
-   /**
-    * @return Returns the query.
-    */
-   public String getQuery()
-   {
-      return mQuery;
-   }
+    /**
+     * @return Returns the query.
+     */
+    public String getQuery() {
+        return mQuery;
+    }
 
-   /**
-    * @param aQuery The query to set.
-    */
-   public void setQuery(String aQuery)
-   {
-      mQuery = aQuery;
-   }
+    /**
+     * @param aQuery The query to set.
+     */
+    public void setQuery(String aQuery) {
+        mQuery = aQuery;
+    }
 }

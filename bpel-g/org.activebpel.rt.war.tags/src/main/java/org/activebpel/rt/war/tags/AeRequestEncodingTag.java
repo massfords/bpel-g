@@ -17,47 +17,42 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.activebpel.rt.war.AeMessages;
 
 /**
- * Sets the character encoding for the page's request parameters. 
+ * Sets the character encoding for the page's request parameters.
  */
-public class AeRequestEncodingTag extends TagSupport
-{
-   /**
-     * 
+public class AeRequestEncodingTag extends TagSupport {
+    /**
+     *
      */
     private static final long serialVersionUID = -3315371708855125002L;
-/** The character encoding value. */
-   protected String mValue;
+    /**
+     * The character encoding value.
+     */
+    protected String mValue;
 
-   /**
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      try
-      {
-         pageContext.getRequest().setCharacterEncoding(getValue());
-      }
-      catch (UnsupportedEncodingException e)
-      {
-         throw new JspException(AeMessages.getString("AeRequestEncodingTag.0") + getValue(), e); //$NON-NLS-1$
-      }
+    /**
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        try {
+            pageContext.getRequest().setCharacterEncoding(getValue());
+        } catch (UnsupportedEncodingException e) {
+            throw new JspException(AeMessages.getString("AeRequestEncodingTag.0") + getValue(), e); //$NON-NLS-1$
+        }
 
-      return SKIP_BODY;
-   }
+        return SKIP_BODY;
+    }
 
-   /**
-    * Returns the character encoding value.
-    */
-   protected String getValue()
-   {
-      return mValue;
-   }
+    /**
+     * Returns the character encoding value.
+     */
+    protected String getValue() {
+        return mValue;
+    }
 
-   /**
-    * Sets the character encoding value.
-    */
-   public void setValue(String aValue)
-   {
-      mValue = aValue;
-   }
+    /**
+     * Sets the character encoding value.
+     */
+    public void setValue(String aValue) {
+        mValue = aValue;
+    }
 }

@@ -7,12 +7,11 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def; 
+package org.activebpel.rt.bpel.def;
 
 /**
  * Tagging interface for container defs that can have compensate activities nested within them
  */
-public interface IAeCompensateParentDef
-{
+public interface IAeCompensateParentDef {
 }
  

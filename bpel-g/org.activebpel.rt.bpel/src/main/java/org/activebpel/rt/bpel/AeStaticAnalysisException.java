@@ -11,24 +11,22 @@ package org.activebpel.rt.bpel;
 
 /**
  * This exception indicates some error within the business process that should
- * have been caught during the static analysis of the business process. An 
+ * have been caught during the static analysis of the business process. An
  * example of this might be an activity trying to access a variable that isn't
- * declared in any enclosing scope or at the process level. 
+ * declared in any enclosing scope or at the process level.
  */
-public class AeStaticAnalysisException extends AeBusinessProcessException
-{
-   /**
-     * 
+public class AeStaticAnalysisException extends AeBusinessProcessException {
+    /**
+     *
      */
     private static final long serialVersionUID = 272803481089437177L;
 
-/**
-    * Creates a static analysis exception with the given message.
-    * 
-    * @param aMessage
-    */
-   public AeStaticAnalysisException(String aMessage)
-   {
-      super(aMessage);
-   }
+    /**
+     * Creates a static analysis exception with the given message.
+     *
+     * @param aMessage
+     */
+    public AeStaticAnalysisException(String aMessage) {
+        super(aMessage);
+    }
 }

@@ -19,39 +19,33 @@ import org.activebpel.rt.util.AeHTMLFormatter;
 /**
  * JSP Tag to convert a Java multi-line string into a JavaScript compatible composite string.
  */
-public class AeJSStringFormatterTag extends AeAbstractPropertyFormatterTag
-{
-   /**
-     * 
+public class AeJSStringFormatterTag extends AeAbstractPropertyFormatterTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -5505898763080032312L;
 
-/**
-    * Overrides method to convert a Java multi-line string into a JavaScript
-    * compatible composite string.
-    *
-    * @see org.activebpel.rt.war.tags.AeAbstractPropertyFormatterTag#getFormattedText()
-    */
-   protected String getFormattedText() throws JspException
-   {
-      try
-      {
-         String value = (String) getPropertyFromBean();
-         return AeHTMLFormatter.formatJavascriptString(value);
-      }
-      catch (ClassCastException e)
-      {
-         throw new JspException(e);
-      }
-   }
+    /**
+     * Overrides method to convert a Java multi-line string into a JavaScript
+     * compatible composite string.
+     *
+     * @see org.activebpel.rt.war.tags.AeAbstractPropertyFormatterTag#getFormattedText()
+     */
+    protected String getFormattedText() throws JspException {
+        try {
+            String value = (String) getPropertyFromBean();
+            return AeHTMLFormatter.formatJavascriptString(value);
+        } catch (ClassCastException e) {
+            throw new JspException(e);
+        }
+    }
 
-   /**
-    * Overrides method to do nothing.
-    * 
-    * @see org.activebpel.rt.war.tags.AeAbstractPropertyFormatterTag#createFormatter(java.lang.String)
-    */
-   protected Format createFormatter(String aPattern) throws AeException
-   {
-      return null;
-   }
+    /**
+     * Overrides method to do nothing.
+     *
+     * @see org.activebpel.rt.war.tags.AeAbstractPropertyFormatterTag#createFormatter(java.lang.String)
+     */
+    protected Format createFormatter(String aPattern) throws AeException {
+        return null;
+    }
 }

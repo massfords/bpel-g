@@ -25,351 +25,361 @@ import java.util.prefs.PreferenceChangeListener;
  * Work objects.
  */
 public class AeWorkManager implements WorkManager, Runnable,
-		PreferenceChangeListener, IAeStoppableWorkManager {
-	/** work waiting to be executing because of a lack of threads */
-	private final AeBlockingQueue<AeQueuedWork> mQueuedWork = new AeBlockingQueue<>();
-	/** our pool of threads */
-	private final AeThreadPool mPool = new AeThreadPool();
-	/** our dispatch thread */
-	private Thread mDispatchThread;
-	/** flag to keep the dispatch thread running */
-	private boolean mKeepGoing = true;
+        PreferenceChangeListener, IAeStoppableWorkManager {
+    /**
+     * work waiting to be executing because of a lack of threads
+     */
+    private final AeBlockingQueue<AeQueuedWork> mQueuedWork = new AeBlockingQueue<>();
+    /**
+     * our pool of threads
+     */
+    private final AeThreadPool mPool = new AeThreadPool();
+    /**
+     * our dispatch thread
+     */
+    private Thread mDispatchThread;
+    /**
+     * flag to keep the dispatch thread running
+     */
+    private boolean mKeepGoing = true;
 
-	/**
-	 * Creates the workmanager and starts its dispatch thread.
-	 */
-	public AeWorkManager() {
-		AePreferences.workManager().addPreferenceChangeListener(this);
-		mDispatchThread = new Thread(this, "AeWorkManager-DispatchThread"); //$NON-NLS-1$
-		mDispatchThread.start();
-	}
+    /**
+     * Creates the workmanager and starts its dispatch thread.
+     */
+    public AeWorkManager() {
+        AePreferences.workManager().addPreferenceChangeListener(this);
+        mDispatchThread = new Thread(this, "AeWorkManager-DispatchThread"); //$NON-NLS-1$
+        mDispatchThread.start();
+    }
 
-	/**
-	 * Accepts the min and max values to use for the thread pool.
-	 * 
-	 * @param aMinPoolSize
-	 * @param aMaxPoolSize
-	 */
-	public AeWorkManager(int aMinPoolSize, int aMaxPoolSize) {
-		setThreadPoolSize(aMinPoolSize, aMaxPoolSize);
-	}
+    /**
+     * Accepts the min and max values to use for the thread pool.
+     *
+     * @param aMinPoolSize
+     * @param aMaxPoolSize
+     */
+    public AeWorkManager(int aMinPoolSize, int aMaxPoolSize) {
+        setThreadPoolSize(aMinPoolSize, aMaxPoolSize);
+    }
 
-	private void updateConfig() {
-		int min = AePreferences.getThreadPoolMin();
-		int max = AePreferences.getThreadPoolMax();
-		setThreadPoolSize(min, max);
-	}
+    private void updateConfig() {
+        int min = AePreferences.getThreadPoolMin();
+        int max = AePreferences.getThreadPoolMax();
+        setThreadPoolSize(min, max);
+    }
 
-	/**
-	 * Sets the size of the thread pool used by the work manager
-	 * 
-	 * @param aMin
-	 * @param aMax
-	 */
-	public void setThreadPoolSize(int aMin, int aMax) {
-		mPool.setPoolSize(aMin, aMax);
-	}
+    /**
+     * Sets the size of the thread pool used by the work manager
+     *
+     * @param aMin
+     * @param aMax
+     */
+    public void setThreadPoolSize(int aMin, int aMax) {
+        mPool.setPoolSize(aMin, aMax);
+    }
 
-	/**
-	 * @see org.activebpel.work.IAeStoppableWorkManager#stop()
-	 */
-	public void stop() {
-		mKeepGoing = false;
-		if (mDispatchThread.isAlive()) {
-			mDispatchThread.interrupt();
-		}
-		mPool.killAllThreads();
-	}
+    /**
+     * @see org.activebpel.work.IAeStoppableWorkManager#stop()
+     */
+    public void stop() {
+        mKeepGoing = false;
+        if (mDispatchThread.isAlive()) {
+            mDispatchThread.interrupt();
+        }
+        mPool.killAllThreads();
+    }
 
-	/**
-	 * Callback method from the worker thread for when it's done executing its
-	 * work. Each time a thread completes we walk the collection of waiting
-	 * objects to see if any of them are able to continue.
-	 * 
-	 * @param aThread
-	 */
-	public void done(AeWorkerThread aThread) {
-		AeWorkItem item = aThread.getWorkItem();
+    /**
+     * Callback method from the worker thread for when it's done executing its
+     * work. Each time a thread completes we walk the collection of waiting
+     * objects to see if any of them are able to continue.
+     *
+     * @param aThread
+     */
+    public void done(AeWorkerThread aThread) {
+        AeWorkItem item = aThread.getWorkItem();
 
-		aThread.clear();
-		item.notifyListeners();
-		mPool.returnThread(aThread);
-	}
+        aThread.clear();
+        item.notifyListeners();
+        mPool.returnThread(aThread);
+    }
 
-	/**
-	 * The runnable target for the dispatch thread. The run method will execute
-	 * until the workmanager is shutdown.
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
-	public void run() {
-		while (keepGoing()) {
-			// wait for some work to get added to the queue
-			mQueuedWork.waitForObject();
-			// if we are not shutting down
-			if (keepGoing()) {
-				// wait for a thread to become available from our pool
-				AeWorkerThread thread = mPool.waitForThread(this);
-				// thread can be null if thread was interrupted while waiting
-				// for new thread
-				if (thread != null) {
-					AeQueuedWork queuedWork = mQueuedWork.getNextObjectOrWait();
-					// queued work can be null if thread was interrupted while
-					// waiting for next object
-					if (queuedWork != null) {
-						thread.schedule(queuedWork.getWork(),
-								queuedWork.getItem(), queuedWork.getListener());
-					}
-				}
-			}
-		}
-	}
+    /**
+     * The runnable target for the dispatch thread. The run method will execute
+     * until the workmanager is shutdown.
+     *
+     * @see java.lang.Runnable#run()
+     */
+    public void run() {
+        while (keepGoing()) {
+            // wait for some work to get added to the queue
+            mQueuedWork.waitForObject();
+            // if we are not shutting down
+            if (keepGoing()) {
+                // wait for a thread to become available from our pool
+                AeWorkerThread thread = mPool.waitForThread(this);
+                // thread can be null if thread was interrupted while waiting
+                // for new thread
+                if (thread != null) {
+                    AeQueuedWork queuedWork = mQueuedWork.getNextObjectOrWait();
+                    // queued work can be null if thread was interrupted while
+                    // waiting for next object
+                    if (queuedWork != null) {
+                        thread.schedule(queuedWork.getWork(),
+                                queuedWork.getItem(), queuedWork.getListener());
+                    }
+                }
+            }
+        }
+    }
 
-	/**
-	 * Returns false if our dispatch thread should stop execution.
-	 */
-	private boolean keepGoing() {
-		return mKeepGoing;
-	}
+    /**
+     * Returns false if our dispatch thread should stop execution.
+     */
+    private boolean keepGoing() {
+        return mKeepGoing;
+    }
 
-	/**
-	 * @see commonj.work.WorkManager#schedule(commonj.work.Work)
-	 */
-	public WorkItem schedule(Work aWork) throws IllegalArgumentException {
-		return schedule(aWork, null);
-	}
+    /**
+     * @see commonj.work.WorkManager#schedule(commonj.work.Work)
+     */
+    public WorkItem schedule(Work aWork) throws IllegalArgumentException {
+        return schedule(aWork, null);
+    }
 
-	/**
-	 * Schedules the work and returns the work item immediately. The dispatch
-	 * thread for the work manager will assign a thread to the newly queued work
-	 * when one becomes available.
-	 * 
-	 * @see commonj.work.WorkManager#schedule(commonj.work.Work,
-	 *      commonj.work.WorkListener)
-	 */
-	public WorkItem schedule(Work aWork, WorkListener aListener)
-			throws IllegalArgumentException {
-		if (isStopped())
-			throw new IllegalArgumentException(
-					AeMessages.getString("AeWorkManager.WorkManagerStopped")); //$NON-NLS-1$
-		AeWorkItem workItem = createWorkItem(aWork);
+    /**
+     * Schedules the work and returns the work item immediately. The dispatch
+     * thread for the work manager will assign a thread to the newly queued work
+     * when one becomes available.
+     *
+     * @see commonj.work.WorkManager#schedule(commonj.work.Work,
+     *      commonj.work.WorkListener)
+     */
+    public WorkItem schedule(Work aWork, WorkListener aListener)
+            throws IllegalArgumentException {
+        if (isStopped())
+            throw new IllegalArgumentException(
+                    AeMessages.getString("AeWorkManager.WorkManagerStopped")); //$NON-NLS-1$
+        AeWorkItem workItem = createWorkItem(aWork);
 
-		fireAccepted(workItem, aListener);
+        fireAccepted(workItem, aListener);
 
-		addWorkToQueue(new AeQueuedWork(aWork, workItem, aListener));
+        addWorkToQueue(new AeQueuedWork(aWork, workItem, aListener));
 
-		return workItem;
-	}
+        return workItem;
+    }
 
-	/**
-	 * Returns true if the work manager has been stopped.
-	 */
-	protected boolean isStopped() {
-		return !mKeepGoing;
-	}
+    /**
+     * Returns true if the work manager has been stopped.
+     */
+    protected boolean isStopped() {
+        return !mKeepGoing;
+    }
 
-	/**
-	 * Adds work to the queue.
-	 * 
-	 * @param aQueuedWork
-	 */
-	private void addWorkToQueue(AeQueuedWork aQueuedWork) {
-		synchronized (mQueuedWork) {
-			mQueuedWork.add(aQueuedWork);
-		}
-	}
+    /**
+     * Adds work to the queue.
+     *
+     * @param aQueuedWork
+     */
+    private void addWorkToQueue(AeQueuedWork aQueuedWork) {
+        synchronized (mQueuedWork) {
+            mQueuedWork.add(aQueuedWork);
+        }
+    }
 
-	/**
-	 * Updates the work item's status and notifies listener that the work has
-	 * been accepted.
-	 * 
-	 * @param aWorkItem
-	 * @param aWorkListener
-	 */
-	private void fireAccepted(AeWorkItem aWorkItem, WorkListener aWorkListener) {
-		aWorkItem.setStatus(WorkEvent.WORK_ACCEPTED);
-		if (aWorkListener != null) {
-			aWorkListener.workAccepted(new AeWorkEvent(aWorkItem,
-					WorkEvent.WORK_ACCEPTED, null));
-		}
-	}
+    /**
+     * Updates the work item's status and notifies listener that the work has
+     * been accepted.
+     *
+     * @param aWorkItem
+     * @param aWorkListener
+     */
+    private void fireAccepted(AeWorkItem aWorkItem, WorkListener aWorkListener) {
+        aWorkItem.setStatus(WorkEvent.WORK_ACCEPTED);
+        if (aWorkListener != null) {
+            aWorkListener.workAccepted(new AeWorkEvent(aWorkItem,
+                    WorkEvent.WORK_ACCEPTED, null));
+        }
+    }
 
-	/**
-	 * Creates a work item based on the type of work being done. If it's a
-	 * serializable work instance then we'll create a remote work item,
-	 * otherwise it's a regular work item.
-	 * 
-	 * @param aWork
-	 */
-	private AeWorkItem createWorkItem(Work aWork) {
-		if (aWork instanceof Serializable) {
-			return new AeRemoteWorkItem(this, aWork);
-		}
-		return new AeWorkItem(aWork);
-	}
+    /**
+     * Creates a work item based on the type of work being done. If it's a
+     * serializable work instance then we'll create a remote work item,
+     * otherwise it's a regular work item.
+     *
+     * @param aWork
+     */
+    private AeWorkItem createWorkItem(Work aWork) {
+        if (aWork instanceof Serializable) {
+            return new AeRemoteWorkItem(this, aWork);
+        }
+        return new AeWorkItem(aWork);
+    }
 
-	/**
-	 * @see commonj.work.WorkManager#waitForAll(java.util.Collection, long)
-	 */
-	public boolean waitForAll(Collection aWorkItems, long aTimeout) {
-		AeWaitForAll waiter = new AeWaitForAll(aWorkItems);
-		return wait(waiter, aTimeout);
-	}
+    /**
+     * @see commonj.work.WorkManager#waitForAll(java.util.Collection, long)
+     */
+    public boolean waitForAll(Collection aWorkItems, long aTimeout) {
+        AeWaitForAll waiter = new AeWaitForAll(aWorkItems);
+        return wait(waiter, aTimeout);
+    }
 
-	/**
-	 * @see commonj.work.WorkManager#waitForAny(java.util.Collection, long)
-	 */
-	public Collection waitForAny(Collection aWorkItems, long aTimeout) {
-		AeWaitForAny waiter = new AeWaitForAny(aWorkItems);
-		wait(waiter, aTimeout);
-		return waiter.getCompletedItems();
-	}
+    /**
+     * @see commonj.work.WorkManager#waitForAny(java.util.Collection, long)
+     */
+    public Collection waitForAny(Collection aWorkItems, long aTimeout) {
+        AeWaitForAny waiter = new AeWaitForAny(aWorkItems);
+        wait(waiter, aTimeout);
+        return waiter.getCompletedItems();
+    }
 
-	/**
-	 * Waits for the waiter to be done.
-	 * 
-	 * @param aWaiter
-	 * @param aTimeout
-	 */
-	private boolean wait(AeWaitForAll aWaiter, long aTimeout) {
-		boolean done = aWaiter.isDone();
+    /**
+     * Waits for the waiter to be done.
+     *
+     * @param aWaiter
+     * @param aTimeout
+     */
+    private boolean wait(AeWaitForAll aWaiter, long aTimeout) {
+        boolean done = aWaiter.isDone();
 
-		if (aTimeout == WorkManager.IMMEDIATE || done) {
-			return done;
-		}
+        if (aTimeout == WorkManager.IMMEDIATE || done) {
+            return done;
+        }
 
-		// now sync on the waiter so we can put it to sleep
-		aWaiter.doWait(aTimeout);
+        // now sync on the waiter so we can put it to sleep
+        aWaiter.doWait(aTimeout);
 
-		return aWaiter.isDone();
-	}
+        return aWaiter.isDone();
+    }
 
-	/**
-	 * Waits for one or all of the work items within its collection to finish
-	 * before calling its notify() method which will notify the calling thread
-	 * from either waitForAll or waitForAny.
-	 */
-	protected class AeWaitForAll implements IAeWorkDoneListener {
-		/** set of work items we're waiting to complete */
-		protected final Collection mColl;
+    /**
+     * Waits for one or all of the work items within its collection to finish
+     * before calling its notify() method which will notify the calling thread
+     * from either waitForAll or waitForAny.
+     */
+    protected class AeWaitForAll implements IAeWorkDoneListener {
+        /**
+         * set of work items we're waiting to complete
+         */
+        protected final Collection mColl;
 
-		/**
-		 * Creates a waiter that will notify its waiting objects when the
-		 * WorkItems in its set have completed.
-		 * 
-		 * @param aColl
-		 */
-		public AeWaitForAll(Collection aColl) {
-			mColl = copyWorkItems(aColl);
+        /**
+         * Creates a waiter that will notify its waiting objects when the
+         * WorkItems in its set have completed.
+         *
+         * @param aColl
+         */
+        public AeWaitForAll(Collection aColl) {
+            mColl = copyWorkItems(aColl);
 
             for (Object wi : mColl) {
                 AeWorkItem item = (AeWorkItem) wi;
                 item.addWorkDoneListener(this);
             }
-		}
+        }
 
-		/**
-		 * We want to work off of a copy of the work items collections which
-		 * would normally be a single call to clone(), but the collection passed
-		 * in may contain objects other than WorkItems and these need to be
-		 * skipped.
-		 * 
-		 * @param aWorkItems
-		 */
-		private Collection<AeWorkItem> copyWorkItems(Collection aWorkItems) {
-			Collection<AeWorkItem> coll = new LinkedList<>();
+        /**
+         * We want to work off of a copy of the work items collections which
+         * would normally be a single call to clone(), but the collection passed
+         * in may contain objects other than WorkItems and these need to be
+         * skipped.
+         *
+         * @param aWorkItems
+         */
+        private Collection<AeWorkItem> copyWorkItems(Collection aWorkItems) {
+            Collection<AeWorkItem> coll = new LinkedList<>();
             for (Object o : aWorkItems) {
                 if (o instanceof AeWorkItem) {
                     coll.add((AeWorkItem) o);
                 }
             }
-			return coll;
-		}
+            return coll;
+        }
 
-		/**
-		 * If the waiting is not done then we'll go into a wait
-		 * 
-		 * @param aTimeout
-		 */
-		public synchronized void doWait(long aTimeout) {
-			if (!isDone()) {
-				try {
-					wait(aTimeout);
-				} catch (InterruptedException e) {
-				}
-			}
-		}
+        /**
+         * If the waiting is not done then we'll go into a wait
+         *
+         * @param aTimeout
+         */
+        public synchronized void doWait(long aTimeout) {
+            if (!isDone()) {
+                try {
+                    wait(aTimeout);
+                } catch (InterruptedException e) {
+                }
+            }
+        }
 
-		/**
-		 * Notifies the waiting objects if our notification criteria is met.
-		 * We're either waiting for all objects to complete or waiting for any
-		 * in the collection to complete.
-		 */
-		public synchronized void checkIfDone() {
-			if (isDone()) {
-				notifyAll();
-			}
-		}
+        /**
+         * Notifies the waiting objects if our notification criteria is met.
+         * We're either waiting for all objects to complete or waiting for any
+         * in the collection to complete.
+         */
+        public synchronized void checkIfDone() {
+            if (isDone()) {
+                notifyAll();
+            }
+        }
 
-		/**
-		 * returns true if the criteria for waiting has been met and we no
-		 * longer need to wait.
-		 */
-		protected boolean isDone() {
-			int completeCount = getCompleteCount();
-			return completeCount == mColl.size();
-		}
+        /**
+         * returns true if the criteria for waiting has been met and we no
+         * longer need to wait.
+         */
+        protected boolean isDone() {
+            int completeCount = getCompleteCount();
+            return completeCount == mColl.size();
+        }
 
-		/**
-		 * Returns the number of completed items within the collection
-		 */
-		protected int getCompleteCount() {
-			int i = 0;
+        /**
+         * Returns the number of completed items within the collection
+         */
+        protected int getCompleteCount() {
+            int i = 0;
             for (Object wi : mColl) {
                 WorkItem workItem = (WorkItem) wi;
                 if (workItem.getStatus() == WorkEvent.WORK_COMPLETED) {
                     i++;
                 }
             }
-			return i;
+            return i;
 
-		}
+        }
 
-		/**
-		 * @see org.activebpel.work.IAeWorkDoneListener#workDone()
-		 */
-		public void workDone() {
-			checkIfDone();
-		}
-	}
+        /**
+         * @see org.activebpel.work.IAeWorkDoneListener#workDone()
+         */
+        public void workDone() {
+            checkIfDone();
+        }
+    }
 
-	/**
-	 * Extends the wait for all routine to notify when any of the objects within
-	 * the coll have completed.
-	 */
-	protected class AeWaitForAny extends AeWaitForAll {
-		/**
-		 * Creates a waiter that will notify its waiting objects when any one of
-		 * the WorkItems in its set have completed.
-		 * 
-		 * @param aColl
-		 */
-		public AeWaitForAny(Collection aColl) {
-			super(aColl);
-		}
+    /**
+     * Extends the wait for all routine to notify when any of the objects within
+     * the coll have completed.
+     */
+    protected class AeWaitForAny extends AeWaitForAll {
+        /**
+         * Creates a waiter that will notify its waiting objects when any one of
+         * the WorkItems in its set have completed.
+         *
+         * @param aColl
+         */
+        public AeWaitForAny(Collection aColl) {
+            super(aColl);
+        }
 
-		/**
-		 * @see org.activebpel.work.AeWorkManager.AeWaitForAll#isDone()
-		 */
-		protected boolean isDone() {
-			return getCompleteCount() > 0;
-		}
+        /**
+         * @see org.activebpel.work.AeWorkManager.AeWaitForAll#isDone()
+         */
+        protected boolean isDone() {
+            return getCompleteCount() > 0;
+        }
 
-		/**
-		 * Gets all of the completed items or null if there are none.
-		 */
-		protected Collection getCompletedItems() {
-			List<WorkItem> list = null;
+        /**
+         * Gets all of the completed items or null if there are none.
+         */
+        protected Collection getCompletedItems() {
+            List<WorkItem> list = null;
             for (Object wi : mColl) {
                 WorkItem item = (WorkItem) wi;
                 if (item.getStatus() == WorkEvent.WORK_COMPLETED) {
@@ -377,30 +387,28 @@ public class AeWorkManager implements WorkManager, Runnable,
                 }
             }
 
-			// 1.1 version of spec requires empty list instead of null
-			if (list == null)
-				list = Collections.emptyList();
-			return list;
-		}
+            // 1.1 version of spec requires empty list instead of null
+            if (list == null)
+                list = Collections.emptyList();
+            return list;
+        }
 
-		/**
-		 * Adds the object to the list, creating the list if the one passed in
-		 * was null.
-		 * 
-		 * @param aItem
-		 *            Object to add to list
-		 * @param aList
-		 *            List or null to return a new one.
-		 */
-		private List<WorkItem> addToList(WorkItem aItem, List<WorkItem> aList) {
-			List<WorkItem> list = aList == null ? new ArrayList<WorkItem>() : aList;
-			list.add(aItem);
-			return list;
-		}
-	}
+        /**
+         * Adds the object to the list, creating the list if the one passed in
+         * was null.
+         *
+         * @param aItem Object to add to list
+         * @param aList List or null to return a new one.
+         */
+        private List<WorkItem> addToList(WorkItem aItem, List<WorkItem> aList) {
+            List<WorkItem> list = aList == null ? new ArrayList<WorkItem>() : aList;
+            list.add(aItem);
+            return list;
+        }
+    }
 
-	@Override
-	public void preferenceChange(PreferenceChangeEvent aEvt) {
-		updateConfig();
-	}
+    @Override
+    public void preferenceChange(PreferenceChangeEvent aEvt) {
+        updateConfig();
+    }
 }

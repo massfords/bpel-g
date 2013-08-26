@@ -13,21 +13,18 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * A XPath node for a comment node step.
  */
-public class AeXPathCommentNodeStepNode extends AeAbstractXPathAxisNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathCommentNodeStepNode(int aAxis)
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_COMMENT_NODE_STEP, aAxis);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+public class AeXPathCommentNodeStepNode extends AeAbstractXPathAxisNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathCommentNodeStepNode(int aAxis) {
+        super(AeAbstractXPathNode.NODE_TYPE_COMMENT_NODE_STEP, aAxis);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

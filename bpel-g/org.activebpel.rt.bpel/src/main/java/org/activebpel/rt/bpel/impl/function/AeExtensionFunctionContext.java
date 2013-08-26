@@ -17,9 +17,9 @@ import org.activebpel.rt.bpel.function.IAeFunction;
 /**
  * A <code>FunctionContext</code> implementation that handles returning BPEL extension functions. Currently
  * supported function are:
- * 
+ * <p/>
  * <pre>
- * getProcessId() 
+ * getProcessId()
  * getProcessName()
  * getProcessInitiator()
  * getMyRoleProperty()
@@ -33,32 +33,30 @@ import org.activebpel.rt.bpel.function.IAeFunction;
  * replaceAttachment()
  * getAttachmentSize()
  * createAttachment()
- * resolveURN() 
+ * resolveURN()
  * base64Encode()
  * getPlanExtensions()
  * </pre>
  */
-public class AeExtensionFunctionContext extends AeAbstractFunctionContext
-{
-    Map<String,IAeFunction> mFunctions;
-    
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionContext#getFunction(java.lang.String) 
-    * TODO: (JB) refractor into a function factory or chain of command pattern to return the objects
-    */
-   public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException
-   {
-       IAeFunction func = getFunctions().get(aLocalName);
-       if (func == null)
-         throw new AeUnresolvableException(formatFunctionNotFoundErrorMsg(aLocalName));
-       return func;
-   }
-   
-   public void setFunctions(Map<String,IAeFunction> aFuncs) {
-       mFunctions = aFuncs;
-   }
-   
-   public Map<String,IAeFunction> getFunctions() {
-       return mFunctions;
-   }
+public class AeExtensionFunctionContext extends AeAbstractFunctionContext {
+    Map<String, IAeFunction> mFunctions;
+
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionContext#getFunction(java.lang.String)
+     *      TODO: (JB) refractor into a function factory or chain of command pattern to return the objects
+     */
+    public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException {
+        IAeFunction func = getFunctions().get(aLocalName);
+        if (func == null)
+            throw new AeUnresolvableException(formatFunctionNotFoundErrorMsg(aLocalName));
+        return func;
+    }
+
+    public void setFunctions(Map<String, IAeFunction> aFuncs) {
+        mFunctions = aFuncs;
+    }
+
+    public Map<String, IAeFunction> getFunctions() {
+        return mFunctions;
+    }
 }

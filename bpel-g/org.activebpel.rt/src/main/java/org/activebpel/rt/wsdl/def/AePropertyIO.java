@@ -22,97 +22,93 @@ import org.w3c.dom.Element;
 
 /**
  * This class serializes and deserializes a Message Property extension
- * implementation. 
+ * implementation.
  */
-public class AePropertyIO extends AeWSDLExtensionIO implements IAeBPELExtendedWSDLConst
-{
-   /**
-    * Serialize a Message Property extension element into a the PrintWriter.
-    * 
-    * @param aParentType a class object indicating where in the WSDL document
-    * this extensibility element was encountered. 
-    * @param aQname the QName of this extension element.
-    * @param aExtElement the extensibility element to be serialized.
-    * @param aWriter the PrintWriter where we're serializing to.
-    * @param aDefinition the Definition that this extensibility element was
-    * encountered in.
-    * @param aExtReg the associated ExtensionRegistry.
-    */
-   public void marshall(
-      Class aParentType,
-      QName aQname,
-      ExtensibilityElement aExtElement,
-      PrintWriter aWriter,
-      Definition aDefinition,
-      ExtensionRegistry aExtReg)
-      throws WSDLException
-   {
-      IAeProperty lProperty = (IAeProperty)aExtElement;
+public class AePropertyIO extends AeWSDLExtensionIO implements IAeBPELExtendedWSDLConst {
+    /**
+     * Serialize a Message Property extension element into a the PrintWriter.
+     *
+     * @param aParentType a class object indicating where in the WSDL document
+     *                    this extensibility element was encountered.
+     * @param aQname      the QName of this extension element.
+     * @param aExtElement the extensibility element to be serialized.
+     * @param aWriter     the PrintWriter where we're serializing to.
+     * @param aDefinition the Definition that this extensibility element was
+     *                    encountered in.
+     * @param aExtReg     the associated ExtensionRegistry.
+     */
+    public void marshall(
+            Class aParentType,
+            QName aQname,
+            ExtensibilityElement aExtElement,
+            PrintWriter aWriter,
+            Definition aDefinition,
+            ExtensionRegistry aExtReg)
+            throws WSDLException {
+        IAeProperty lProperty = (IAeProperty) aExtElement;
 
-      Element lPropDomElem = createElement(aQname);
+        Element lPropDomElem = createElement(aQname);
 
-      // Determine the Namespace prefix of the Property extension.
-      String preferredPrefix = AeWSDLPrefixes.getPropertyPrefix(aQname.getNamespaceURI());
-      String lPrefix = getPrefixOrCreateLocally(aQname.getNamespaceURI(), aDefinition, lPropDomElem, preferredPrefix); 
-      lPropDomElem.setPrefix(lPrefix);
-      lPropDomElem.setAttribute(NAME_ATTRIB, lProperty.getQName().getLocalPart());
+        // Determine the Namespace prefix of the Property extension.
+        String preferredPrefix = AeWSDLPrefixes.getPropertyPrefix(aQname.getNamespaceURI());
+        String lPrefix = getPrefixOrCreateLocally(aQname.getNamespaceURI(), aDefinition, lPropDomElem, preferredPrefix);
+        lPropDomElem.setPrefix(lPrefix);
+        lPropDomElem.setAttribute(NAME_ATTRIB, lProperty.getQName().getLocalPart());
 
-      writePropertyData(lProperty, aDefinition, lPropDomElem);
-      
-      writeElement(lPropDomElem, aWriter);
-   }
+        writePropertyData(lProperty, aDefinition, lPropDomElem);
 
-   /**
-    * Writes the property's type to the element
-    * @param aProperty
-    * @param aDefinition
-    * @param aPropElement
-    */
-   protected void writePropertyData(IAeProperty aProperty, Definition aDefinition, Element aPropElement)
-   {
-      String lTypeQName = toString(aDefinition, aProperty.getTypeName());
-      aPropElement.setAttribute(TYPE_ATTRIB, lTypeQName);
-   }
+        writeElement(lPropDomElem, aWriter);
+    }
 
-   /**
-    * Deserialize a Message Property extension element into a
-    * AePropertyImpl implementation object.
-    * 
-    * @param aParentType a class object indicating where in the WSDL document
-    * this extensibility element was encountered. 
-    * @param aQName the QName of this extension element.
-    * @param aPropertyElem the extensibility DOM element to be deserialized.
-    * @param aDefinition the Definition that this extensibility element was
-    * encountered in.
-    * @param aExtReg the associated ExtensionRegistry.
-    * 
-    * @return ExtensibilyElement the implementation mapping class for this
-    * extension.
-    */
-   public ExtensibilityElement unmarshall(
-      Class aParentType,
-      QName aQName,
-      Element aPropertyElem,
-      Definition aDefinition,
-      ExtensionRegistry aExtReg)
-      throws WSDLException
-   {
-      // Create a new Property implementation object.
-      AePropertyImpl prop = new AePropertyImpl();
-      prop.setQName( new QName(aDefinition.getTargetNamespace(), aPropertyElem.getAttribute(NAME_ATTRIB)) );
-      readPropertyData(aPropertyElem, prop);
-      prop.setRequired(Boolean.TRUE);
-      prop.setElementType(aQName);
-      return prop;
-   }
+    /**
+     * Writes the property's type to the element
+     *
+     * @param aProperty
+     * @param aDefinition
+     * @param aPropElement
+     */
+    protected void writePropertyData(IAeProperty aProperty, Definition aDefinition, Element aPropElement) {
+        String lTypeQName = toString(aDefinition, aProperty.getTypeName());
+        aPropElement.setAttribute(TYPE_ATTRIB, lTypeQName);
+    }
 
-   /**
-    * Reads the type QName
-    * @param aPropertyElem
-    * @param prop
-    */
-   protected void readPropertyData(Element aPropertyElem, AePropertyImpl prop)
-   {
-      prop.setTypeName( AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(TYPE_ATTRIB) ));
-   }
+    /**
+     * Deserialize a Message Property extension element into a
+     * AePropertyImpl implementation object.
+     *
+     * @param aParentType   a class object indicating where in the WSDL document
+     *                      this extensibility element was encountered.
+     * @param aQName        the QName of this extension element.
+     * @param aPropertyElem the extensibility DOM element to be deserialized.
+     * @param aDefinition   the Definition that this extensibility element was
+     *                      encountered in.
+     * @param aExtReg       the associated ExtensionRegistry.
+     * @return ExtensibilyElement the implementation mapping class for this
+     *         extension.
+     */
+    public ExtensibilityElement unmarshall(
+            Class aParentType,
+            QName aQName,
+            Element aPropertyElem,
+            Definition aDefinition,
+            ExtensionRegistry aExtReg)
+            throws WSDLException {
+        // Create a new Property implementation object.
+        AePropertyImpl prop = new AePropertyImpl();
+        prop.setQName(new QName(aDefinition.getTargetNamespace(), aPropertyElem.getAttribute(NAME_ATTRIB)));
+        readPropertyData(aPropertyElem, prop);
+        prop.setRequired(Boolean.TRUE);
+        prop.setElementType(aQName);
+        return prop;
+    }
+
+    /**
+     * Reads the type QName
+     *
+     * @param aPropertyElem
+     * @param prop
+     */
+    protected void readPropertyData(Element aPropertyElem, AePropertyImpl prop) {
+        prop.setTypeName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(TYPE_ATTRIB)));
+    }
 }

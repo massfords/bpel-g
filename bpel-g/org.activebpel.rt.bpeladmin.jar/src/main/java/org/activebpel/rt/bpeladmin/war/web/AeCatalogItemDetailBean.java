@@ -20,131 +20,120 @@ import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
 /**
  * Bean for displaying the details of a wsdl deployment.
  */
-public class AeCatalogItemDetailBean extends AeAbstractAdminBean
-{
-   /** Catalog item deployment details. */
-   private AeCatalogItemDetail mDetail;
-   
-   /**
-    * Default constructor.
-    */
-   public AeCatalogItemDetailBean()
-   {
-      
-   }
-   
-   /**
-    * Setter for the location.
-    * @param aHint
-    */
-   public void setLocation( String aHint )
-   {
-      setDetail(getAdmin().getCatalogItemDetail( aHint ));
-   }
-   
-   /**
-    * Returns true if there is detail info to display.
-    */
-   public boolean isValidDetail()
-   {
-      return getDetail() != null;
-   }
-   
-   /**
-    * Getter for the type.
-    */
-   public String getTypeDisplay()
-   {
-       String type = null;
-      if(IAeBPELExtendedWSDLConst.WSDL_NAMESPACE.equals(getDetail().getTypeURI()))
-         type = "WSDL";
-      else if(XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(getDetail().getTypeURI()))
-          type = "Schema";
-      else if(IAeConstants.XSL_NAMESPACE.equals(getDetail().getTypeURI()))
-          type = "XSL";
-      else
-          type = "Other";
+public class AeCatalogItemDetailBean extends AeAbstractAdminBean {
+    /**
+     * Catalog item deployment details.
+     */
+    private AeCatalogItemDetail mDetail;
 
-       return AeMessages.format("AeCatalogItemDetail.TYPE_DISPLAY", new Object[] { type, getDetail().getTypeURI()}); //$NON-NLS-1$
-   }
-   
-   /**
-    * Getter for the location.
-    */
-   public String getLocation()
-   {
-      return getDetail().getLocation();
-   }
-   
-   /**
-    * Getter for the namespace.
-    */
-   public String getNamespace()
-   {
-       return getDetail().getNamespace();
-   }
-   
-   /**
-    * Getter for the short name to display for the item.
-    */
-   public String getFormattedName()
-   {
-       return getDetail().getFormattedName();
-   }
-   
-   /**
-    * Getter for the catalog resources text.
-    */
-   public String getText()
-   {
-      return getDetail().getText();
-   }
-   
-   /**
-    * Return the <code>AeCatalogItemPlanReference</code> referenced
-    * by the index.
-    * @param aIndex
-    */
-   public AeCatalogItemPlanReference getPlanReferenceDetail( int aIndex )
-   {
-       return getDetail().getPlanReferences()[aIndex];
-   }
-   
-   /**
-    * Return the size of the <code>AeCatalogItemPlanReference</code>
-    * array. 
-    */
-   public int getPlanReferenceDetailSize()
-   {
-       if( getDetail().getPlanReferences() != null )
-       {
-           return getDetail().getPlanReferences().length;
-       }
-       return 0;
-   }
+    /**
+     * Default constructor.
+     */
+    public AeCatalogItemDetailBean() {
 
-   /**
-    * Returns true if there are no <code>AeCatalogItemPlanReference</code> objects
-    * to display.
-    */
-   public boolean isDetailArrayEmpty()
-   {
-       return getPlanReferenceDetailSize() == 0;
-   }
+    }
 
-   /**
-    * @param detail The detail to set.
-    */
-   protected void setDetail(AeCatalogItemDetail detail)
-   {
-      mDetail = detail;
-   }
+    /**
+     * Setter for the location.
+     *
+     * @param aHint
+     */
+    public void setLocation(String aHint) {
+        setDetail(getAdmin().getCatalogItemDetail(aHint));
+    }
 
-   /**
-    * @return Returns the detail.
-    */
-   protected AeCatalogItemDetail getDetail()
-   {
-      return mDetail;
-   }
+    /**
+     * Returns true if there is detail info to display.
+     */
+    public boolean isValidDetail() {
+        return getDetail() != null;
+    }
+
+    /**
+     * Getter for the type.
+     */
+    public String getTypeDisplay() {
+        String type = null;
+        if (IAeBPELExtendedWSDLConst.WSDL_NAMESPACE.equals(getDetail().getTypeURI()))
+            type = "WSDL";
+        else if (XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(getDetail().getTypeURI()))
+            type = "Schema";
+        else if (IAeConstants.XSL_NAMESPACE.equals(getDetail().getTypeURI()))
+            type = "XSL";
+        else
+            type = "Other";
+
+        return AeMessages.format("AeCatalogItemDetail.TYPE_DISPLAY", new Object[]{type, getDetail().getTypeURI()}); //$NON-NLS-1$
+    }
+
+    /**
+     * Getter for the location.
+     */
+    public String getLocation() {
+        return getDetail().getLocation();
+    }
+
+    /**
+     * Getter for the namespace.
+     */
+    public String getNamespace() {
+        return getDetail().getNamespace();
+    }
+
+    /**
+     * Getter for the short name to display for the item.
+     */
+    public String getFormattedName() {
+        return getDetail().getFormattedName();
+    }
+
+    /**
+     * Getter for the catalog resources text.
+     */
+    public String getText() {
+        return getDetail().getText();
+    }
+
+    /**
+     * Return the <code>AeCatalogItemPlanReference</code> referenced
+     * by the index.
+     *
+     * @param aIndex
+     */
+    public AeCatalogItemPlanReference getPlanReferenceDetail(int aIndex) {
+        return getDetail().getPlanReferences()[aIndex];
+    }
+
+    /**
+     * Return the size of the <code>AeCatalogItemPlanReference</code>
+     * array.
+     */
+    public int getPlanReferenceDetailSize() {
+        if (getDetail().getPlanReferences() != null) {
+            return getDetail().getPlanReferences().length;
+        }
+        return 0;
+    }
+
+    /**
+     * Returns true if there are no <code>AeCatalogItemPlanReference</code> objects
+     * to display.
+     */
+    public boolean isDetailArrayEmpty() {
+        return getPlanReferenceDetailSize() == 0;
+    }
+
+    /**
+     * @param detail The detail to set.
+     */
+    protected void setDetail(AeCatalogItemDetail detail) {
+        mDetail = detail;
+    }
+
+    /**
+     * @return Returns the detail.
+     */
+    protected AeCatalogItemDetail getDetail() {
+        return mDetail;
+    }
 }

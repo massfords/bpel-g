@@ -20,52 +20,48 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
 /**
  * An implementation of a Saxon NamespaceResolver.
  */
-public class AeXQueryNamespaceResolver implements NamespaceResolver
-{
-   /** The namespace context. */
-   private IAeNamespaceContext mNamespaceContext;
+public class AeXQueryNamespaceResolver implements NamespaceResolver {
+    /**
+     * The namespace context.
+     */
+    private IAeNamespaceContext mNamespaceContext;
 
-   /**
-    * Constructor given a NS context.
-    * 
-    * @param aNamespaceContext
-    */
-   public AeXQueryNamespaceResolver(IAeNamespaceContext aNamespaceContext)
-   {
-      setNamespaceContext(aNamespaceContext);
-   }
-   
-   /**
-    * @see net.sf.saxon.om.NamespaceResolver#getURIForPrefix(java.lang.String, boolean)
-    */
-   public String getURIForPrefix(String aPrefix, boolean aUseDefault)
-   {
-      return getNamespaceContext().resolvePrefixToNamespace(aPrefix);
-   }
+    /**
+     * Constructor given a NS context.
+     *
+     * @param aNamespaceContext
+     */
+    public AeXQueryNamespaceResolver(IAeNamespaceContext aNamespaceContext) {
+        setNamespaceContext(aNamespaceContext);
+    }
 
-   /**
-    * @see net.sf.saxon.om.NamespaceResolver#iteratePrefixes()
-    */
-   public Iterator iteratePrefixes()
-   {
-      // There is no equivalent of this functinality in IAeNamespaceContext, so just return an 
-      // empty iterator.
-      return Collections.EMPTY_LIST.iterator();
-   }
+    /**
+     * @see net.sf.saxon.om.NamespaceResolver#getURIForPrefix(java.lang.String, boolean)
+     */
+    public String getURIForPrefix(String aPrefix, boolean aUseDefault) {
+        return getNamespaceContext().resolvePrefixToNamespace(aPrefix);
+    }
 
-   /**
-    * @return Returns the namespaceContext.
-    */
-   protected IAeNamespaceContext getNamespaceContext()
-   {
-      return mNamespaceContext;
-   }
+    /**
+     * @see net.sf.saxon.om.NamespaceResolver#iteratePrefixes()
+     */
+    public Iterator iteratePrefixes() {
+        // There is no equivalent of this functinality in IAeNamespaceContext, so just return an
+        // empty iterator.
+        return Collections.EMPTY_LIST.iterator();
+    }
 
-   /**
-    * @param aNamespaceContext The namespaceContext to set.
-    */
-   protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext)
-   {
-      mNamespaceContext = aNamespaceContext;
-   }
+    /**
+     * @return Returns the namespaceContext.
+     */
+    protected IAeNamespaceContext getNamespaceContext() {
+        return mNamespaceContext;
+    }
+
+    /**
+     * @param aNamespaceContext The namespaceContext to set.
+     */
+    protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext) {
+        mNamespaceContext = aNamespaceContext;
+    }
 }

@@ -7,19 +7,18 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity; 
+package org.activebpel.rt.bpel.impl.activity;
 
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 
 /**
  * Tagging interface for the loop controls continue and break that is used as
  * a param to the onContinue and onBreak methods to indicate the source
- * of the loop control that caused the change. This is used primarily for the 
+ * of the loop control that caused the change. This is used primarily for the
  * parallel forEach since it needs to know which child instance is continuing
- * or breaking.  
+ * or breaking.
  */
-public interface IAeLoopControl extends IAeBpelObject
-{
+public interface IAeLoopControl extends IAeBpelObject {
 
 }
  

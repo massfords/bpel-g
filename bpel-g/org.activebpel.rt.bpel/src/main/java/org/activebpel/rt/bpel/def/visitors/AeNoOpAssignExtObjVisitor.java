@@ -10,18 +10,17 @@
 package org.activebpel.rt.bpel.def.visitors;
 
 import org.activebpel.rt.bpel.def.AeProcessDef;
+
 /**
  * A NoOp visitor for BPEL 1.1 since we do not expect AeChildExtensionActivityDef for BPEL 1.1
  */
-public class AeNoOpAssignExtObjVisitor extends AeAbstractDefVisitor
-{
+public class AeNoOpAssignExtObjVisitor extends AeAbstractDefVisitor {
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void visit(AeProcessDef def)
-   {
-      // do nothing
-   }
-  
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void visit(AeProcessDef def) {
+        // do nothing
+    }
+
 }

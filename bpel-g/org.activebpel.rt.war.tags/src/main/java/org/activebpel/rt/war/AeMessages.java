@@ -16,68 +16,63 @@ import java.util.ResourceBundle;
 /**
  * Accessor class for externalized strings
  */
-public class AeMessages
-{
-   private static final String BUNDLE_NAME = "org.activebpel.rt.war.messages";//$NON-NLS-1$
+public class AeMessages {
+    private static final String BUNDLE_NAME = "org.activebpel.rt.war.messages";//$NON-NLS-1$
 
-   private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
-   private AeMessages()
-   {
-   }
+    private AeMessages() {
+    }
 
-   /**
-    * Convenience method for formatting an externalized string with
-    * a single replacement value.
-    * @param aKey key of string from bundle
-    * @param aParam first parameter to substitute
-    * @return the formatted string
-    */
-   public static String format( String aKey, Object aParam )
-   {
-      return format( aKey, new Object[]{aParam} );
-   }
-   
-   /**
-    * Return message formatted externalized string.
-    * @param aKey key of string from bundle
-    * @param aArgs array of arguments for substitution
-    * @return the formatted string
-    */
-   public static String format( String aKey, Object[] aArgs )
-   {
-      String templateString = getString( aKey );
-      return MessageFormat.format( templateString, aArgs );
-   }
+    /**
+     * Convenience method for formatting an externalized string with
+     * a single replacement value.
+     *
+     * @param aKey   key of string from bundle
+     * @param aParam first parameter to substitute
+     * @return the formatted string
+     */
+    public static String format(String aKey, Object aParam) {
+        return format(aKey, new Object[]{aParam});
+    }
 
-   /**
-    * Returns externalized string from resource bundle or key surrounded by exclamation points
-    * if not found.
-    * @param aKey - Key of string to return
-    * @return - String from bundle
-    */
-   public static String getString(String aKey)
-   {
-      return getString(aKey, '!' + aKey + '!');
-   }
-   
-   /**
-    * Returns externalized string from resource bundle or the default message 
-    * the key is not found.
-    * @param aKey - Key of string to return
-    * @param aDefaultMessage - string to return if the key is not found.
-    * @return - String from bundle
-    */
-   public static String getString(String aKey, String aDefaultMessage)
-   {
-      try
-      {
-         return RESOURCE_BUNDLE.getString(aKey);
-      }
-      catch (MissingResourceException e)
-      {
-         return aDefaultMessage;
-      }
-   }
-   
+    /**
+     * Return message formatted externalized string.
+     *
+     * @param aKey  key of string from bundle
+     * @param aArgs array of arguments for substitution
+     * @return the formatted string
+     */
+    public static String format(String aKey, Object[] aArgs) {
+        String templateString = getString(aKey);
+        return MessageFormat.format(templateString, aArgs);
+    }
+
+    /**
+     * Returns externalized string from resource bundle or key surrounded by exclamation points
+     * if not found.
+     *
+     * @param aKey - Key of string to return
+     * @return - String from bundle
+     */
+    public static String getString(String aKey) {
+        return getString(aKey, '!' + aKey + '!');
+    }
+
+    /**
+     * Returns externalized string from resource bundle or the default message
+     * the key is not found.
+     *
+     * @param aKey            - Key of string to return
+     * @param aDefaultMessage - string to return if the key is not found.
+     * @return - String from bundle
+     */
+    public static String getString(String aKey, String aDefaultMessage) {
+        try {
+            return RESOURCE_BUNDLE.getString(aKey);
+        } catch (MissingResourceException e) {
+            return aDefaultMessage;
+        }
+    }
+
 }

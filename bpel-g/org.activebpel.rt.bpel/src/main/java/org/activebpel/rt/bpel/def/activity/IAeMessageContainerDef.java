@@ -17,16 +17,16 @@ import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
 /**
  * Interface for &lt;pick&gt;.
  */
-public interface IAeMessageContainerDef extends IAeAlarmParentDef
-{
-   /**
-    * Gets an iterator over the onMessage defs.
-    */
-   public Iterator<AeOnMessageDef> getOnMessageDefs();
+public interface IAeMessageContainerDef extends IAeAlarmParentDef {
+    /**
+     * Gets an iterator over the onMessage defs.
+     */
+    public Iterator<AeOnMessageDef> getOnMessageDefs();
 
-   /**
-    * Adds the message
-    * @param aMessage
-    */
-   public void addOnMessageDef(AeOnMessageDef aMessage);
+    /**
+     * Adds the message
+     *
+     * @param aMessage
+     */
+    public void addOnMessageDef(AeOnMessageDef aMessage);
 }

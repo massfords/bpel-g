@@ -21,93 +21,84 @@ import org.xml.sax.helpers.DefaultHandler;
  * Implements a SAX <code>DefaultHandler</code> that resolves entities and
  * optionally dispatches errors to a delegate error handler.
  */
-public class AeXMLParserDefaultHandler extends DefaultHandler
-{
-   /** The WSDL locator for locating schema resources. */
-   private final WSDLLocator mWSDLLocator;
+public class AeXMLParserDefaultHandler extends DefaultHandler {
+    /**
+     * The WSDL locator for locating schema resources.
+     */
+    private final WSDLLocator mWSDLLocator;
 
-   /** The delegate SAX <code>ErrorHandler</code>. */
-   private final ErrorHandler mErrorHandler;
+    /**
+     * The delegate SAX <code>ErrorHandler</code>.
+     */
+    private final ErrorHandler mErrorHandler;
 
-   /**
-    * Constructor for entity resolver.
-    */
-   public AeXMLParserDefaultHandler(WSDLLocator aWSDLLocator)
-   {
-      this(aWSDLLocator, null);
-   }
+    /**
+     * Constructor for entity resolver.
+     */
+    public AeXMLParserDefaultHandler(WSDLLocator aWSDLLocator) {
+        this(aWSDLLocator, null);
+    }
 
-   /**
-    * Constructor for entity resolver and error handler.
-    */
-   public AeXMLParserDefaultHandler(WSDLLocator aWSDLLocator, ErrorHandler aErrorHandler)
-   {
-      mWSDLLocator = aWSDLLocator;
-      mErrorHandler = aErrorHandler;
-   }
+    /**
+     * Constructor for entity resolver and error handler.
+     */
+    public AeXMLParserDefaultHandler(WSDLLocator aWSDLLocator, ErrorHandler aErrorHandler) {
+        mWSDLLocator = aWSDLLocator;
+        mErrorHandler = aErrorHandler;
+    }
 
-   /**
-    * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
-    */
-   public void error(SAXParseException aException) throws SAXException
-   {
-      if (getErrorHandler() != null)
-      {
-         getErrorHandler().error(aException);
-      }
-   }
+    /**
+     * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
+     */
+    public void error(SAXParseException aException) throws SAXException {
+        if (getErrorHandler() != null) {
+            getErrorHandler().error(aException);
+        }
+    }
 
-   /**
-    * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
-    */
-   public void fatalError(SAXParseException aException) throws SAXException
-   {
-      if (getErrorHandler() != null)
-      {
-         getErrorHandler().fatalError(aException);
-      }
-   }
+    /**
+     * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
+     */
+    public void fatalError(SAXParseException aException) throws SAXException {
+        if (getErrorHandler() != null) {
+            getErrorHandler().fatalError(aException);
+        }
+    }
 
-   /**
-    * Returns the delegate SAX <code>ErrorHandler</code>.
-    */
-   protected ErrorHandler getErrorHandler()
-   {
-      return mErrorHandler;
-   }
+    /**
+     * Returns the delegate SAX <code>ErrorHandler</code>.
+     */
+    protected ErrorHandler getErrorHandler() {
+        return mErrorHandler;
+    }
 
-   /**
-    * Returns the WSDL locator for locating schema resources.
-    */
-   protected WSDLLocator getWSDLLocator()
-   {
-      return mWSDLLocator;
-   }
+    /**
+     * Returns the WSDL locator for locating schema resources.
+     */
+    protected WSDLLocator getWSDLLocator() {
+        return mWSDLLocator;
+    }
 
-   /**
-    * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
-    */
-   public InputSource resolveEntity(String publicId, String systemId)
-   {
-      WSDLLocator locator = getWSDLLocator();
-      InputSource result = null;
+    /**
+     * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
+     */
+    public InputSource resolveEntity(String publicId, String systemId) {
+        WSDLLocator locator = getWSDLLocator();
+        InputSource result = null;
 
-      if (locator != null)
-      {
-         result = locator.getImportInputSource(locator.getBaseURI(), systemId);
-      }
+        if (locator != null) {
+            result = locator.getImportInputSource(locator.getBaseURI(), systemId);
+        }
 
-      return result;
-   }
+        return result;
+    }
 
-   /**
-    * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
-    */
-   public void warning(SAXParseException aException) throws SAXException
-   {
-      if (getErrorHandler() != null)
-      {
-         getErrorHandler().warning(aException);
-      }
-   }
+    /**
+     * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
+     */
+    public void warning(SAXParseException aException) throws SAXException {
+        if (getErrorHandler() != null) {
+            getErrorHandler().warning(aException);
+        }
+    }
 }

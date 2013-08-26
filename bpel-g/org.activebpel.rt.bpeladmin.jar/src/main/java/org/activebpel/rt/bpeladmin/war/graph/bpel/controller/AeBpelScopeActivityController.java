@@ -21,45 +21,40 @@ import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectBase;
  * Activity type objects appear at the top of the model's child list. This
  * renders BPEL Activity types first, followed by the remainder.
  */
-public class AeBpelScopeActivityController extends AeBpelBandedContainerController
-{
+public class AeBpelScopeActivityController extends AeBpelBandedContainerController {
 
-   /**
-    * Default constructor.
-    */
-   public AeBpelScopeActivityController()
-   {
-      super();
-   }
-  
-   /** 
-    * Overrides method to set the model and reorder the model child so that the activity type
-    * child appear at the top of the list. 
-    * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.IAeGraphController#setModel(java.lang.Object)
-    */
-   public void setModel(Object aModel)
-   {      
-      super.setModel(aModel);
-      // re-order the bpel model child such that Activity type objects appear first,
-      // followed by others such as fault handlers.
-      List<AeBpelObjectBase> children = getModelChildren();
-      List<AeBpelObjectBase> tempList = new ArrayList<>();
-      Iterator<AeBpelObjectBase> it = children.listIterator();
-      // remove non-activity models
-      while (it.hasNext())
-      {
-         AeBpelObjectBase child = it.next();
-         if (!(child instanceof AeBpelActivityObject))
-         {
-            it.remove();
-            tempList.add(child);           
-         }
-      }
-      // add non-activity type models to the end of the list.
-      it = tempList.listIterator();
-      while (it.hasNext())
-      {
-         getModelChildren().add(it.next());
-      }
-   }   
+    /**
+     * Default constructor.
+     */
+    public AeBpelScopeActivityController() {
+        super();
+    }
+
+    /**
+     * Overrides method to set the model and reorder the model child so that the activity type
+     * child appear at the top of the list.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.IAeGraphController#setModel(java.lang.Object)
+     */
+    public void setModel(Object aModel) {
+        super.setModel(aModel);
+        // re-order the bpel model child such that Activity type objects appear first,
+        // followed by others such as fault handlers.
+        List<AeBpelObjectBase> children = getModelChildren();
+        List<AeBpelObjectBase> tempList = new ArrayList<>();
+        Iterator<AeBpelObjectBase> it = children.listIterator();
+        // remove non-activity models
+        while (it.hasNext()) {
+            AeBpelObjectBase child = it.next();
+            if (!(child instanceof AeBpelActivityObject)) {
+                it.remove();
+                tempList.add(child);
+            }
+        }
+        // add non-activity type models to the end of the list.
+        it = tempList.listIterator();
+        while (it.hasNext()) {
+            getModelChildren().add(it.next());
+        }
+    }
 }

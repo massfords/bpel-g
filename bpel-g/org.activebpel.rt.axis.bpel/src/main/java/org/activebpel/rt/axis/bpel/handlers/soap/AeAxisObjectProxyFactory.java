@@ -21,98 +21,86 @@ import org.apache.axis.Message;
 import org.apache.axis.MessageContext;
 
 /**
- * A factory for creating proxies of Axis SOAP objects.  This exists so that we can return our own 
+ * A factory for creating proxies of Axis SOAP objects.  This exists so that we can return our own
  * versions of the Axis soap objects that fix some problems with them.
  */
-public class AeAxisObjectProxyFactory
-{
-   /**
-    * Wrap the <code>MessageContext</code> in the <code>InvocationHandler</code> instance.
-    * 
-    * @param aMessageContext
-    */
-   public static SOAPMessageContext getMessageContextProxy(MessageContext aMessageContext)
-   {
-      return getMessageContextProxy(aMessageContext, SOAPMessageContext.class);
-   }
-   
-   /**
-    * Wrap the <code>MessageContext</code> in the <code>InvocationHandler</code> instance.
-    * 
-    * @param aMessageContext
-    * @param aClass SOAPMessageContext class
-    */
-   public static SOAPMessageContext getMessageContextProxy(MessageContext aMessageContext, Class<SOAPMessageContext> aClass)
-   {
-      InvocationHandler handler = new AeAxisMessageContextInvocationHandler(aMessageContext);
+public class AeAxisObjectProxyFactory {
+    /**
+     * Wrap the <code>MessageContext</code> in the <code>InvocationHandler</code> instance.
+     *
+     * @param aMessageContext
+     */
+    public static SOAPMessageContext getMessageContextProxy(MessageContext aMessageContext) {
+        return getMessageContextProxy(aMessageContext, SOAPMessageContext.class);
+    }
 
-      try
-      {
-         // Fix for defect 1957, which is essentially about things breaking on
-         // newer versions of JBoss 4.0: use the context class loader here
-         // instead of what we used to use (see below). The context class loader
-         // at this point is the active-bpel web application class loader.
-         return (SOAPMessageContext) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-            new Class[] { aClass }, handler);
-      }
-      catch (Throwable t)
-      {
-         AeException.logError(t);
+    /**
+     * Wrap the <code>MessageContext</code> in the <code>InvocationHandler</code> instance.
+     *
+     * @param aMessageContext
+     * @param aClass          SOAPMessageContext class
+     */
+    public static SOAPMessageContext getMessageContextProxy(MessageContext aMessageContext, Class<SOAPMessageContext> aClass) {
+        InvocationHandler handler = new AeAxisMessageContextInvocationHandler(aMessageContext);
 
-         // This is what we used to do. Fall back to it, but it won't work on
-         // JBoss 4.0.4 (and other JBoss versions after 4.0.0).
-         return (SOAPMessageContext) Proxy.newProxyInstance(aMessageContext.getClass().getClassLoader(),
-            new Class[] { aClass }, handler);
-      }
-   }
+        try {
+            // Fix for defect 1957, which is essentially about things breaking on
+            // newer versions of JBoss 4.0: use the context class loader here
+            // instead of what we used to use (see below). The context class loader
+            // at this point is the active-bpel web application class loader.
+            return (SOAPMessageContext) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                    new Class[]{aClass}, handler);
+        } catch (Throwable t) {
+            AeException.logError(t);
 
-   /**
-    * Wrap the <code>Message</code> in the <code>InvocationHandler</code> instance.
-    * 
-    * @param aMessage
-    */
-   public static SOAPMessage getMessageProxy(Message aMessage)
-   {
-      return new AeSOAPMessageWrapper(aMessage);
-   }
+            // This is what we used to do. Fall back to it, but it won't work on
+            // JBoss 4.0.4 (and other JBoss versions after 4.0.0).
+            return (SOAPMessageContext) Proxy.newProxyInstance(aMessageContext.getClass().getClassLoader(),
+                    new Class[]{aClass}, handler);
+        }
+    }
 
-   /**
-    * Wrap the <code>SOAPHeader</code> in the <code>InvocationHandler</code> instance.
-    * 
-    * @param aHeader
-    * @param aClass SOAPHeader class
-    */
-   public static SOAPHeader getSOAPHeaderProxy(org.apache.axis.message.SOAPHeader aHeader, Class<SOAPHeader> aClass)
-   {
-      InvocationHandler handler = new AeAxisSOAPHeaderInvocationHandler(aHeader);
+    /**
+     * Wrap the <code>Message</code> in the <code>InvocationHandler</code> instance.
+     *
+     * @param aMessage
+     */
+    public static SOAPMessage getMessageProxy(Message aMessage) {
+        return new AeSOAPMessageWrapper(aMessage);
+    }
 
-      try
-      {
-         // Fix for defect 1957, which is essentially about things breaking on
-         // newer versions of JBoss 4.0: use the context class loader here
-         // instead of what we used to use (see below). The context class loader
-         // at this point is the active-bpel web application class loader.
-         return (SOAPHeader) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-            new Class[] { aClass }, handler);
-      }
-      catch (Throwable t)
-      {
-         AeException.logError(t);
+    /**
+     * Wrap the <code>SOAPHeader</code> in the <code>InvocationHandler</code> instance.
+     *
+     * @param aHeader
+     * @param aClass  SOAPHeader class
+     */
+    public static SOAPHeader getSOAPHeaderProxy(org.apache.axis.message.SOAPHeader aHeader, Class<SOAPHeader> aClass) {
+        InvocationHandler handler = new AeAxisSOAPHeaderInvocationHandler(aHeader);
 
-         // This is what we used to do. Fall back to it, but it won't work on
-         // JBoss 4.0.4 (and other JBoss versions after 4.0.0).
-         return (SOAPHeader) Proxy.newProxyInstance(aHeader.getClass().getClassLoader(),
-            new Class[] { aClass }, handler);
-      }
-   }
-   
-   /**
-    * Wrap the <code>SOAPHeader</code> in the <code>InvocationHandler</code> instance.
-    * 
-    * @param aHeader
-    */
-   public static SOAPHeader getSOAPHeaderProxy(org.apache.axis.message.SOAPHeader aHeader)
-   {
-      return getSOAPHeaderProxy(aHeader, SOAPHeader.class);
-   }
+        try {
+            // Fix for defect 1957, which is essentially about things breaking on
+            // newer versions of JBoss 4.0: use the context class loader here
+            // instead of what we used to use (see below). The context class loader
+            // at this point is the active-bpel web application class loader.
+            return (SOAPHeader) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                    new Class[]{aClass}, handler);
+        } catch (Throwable t) {
+            AeException.logError(t);
+
+            // This is what we used to do. Fall back to it, but it won't work on
+            // JBoss 4.0.4 (and other JBoss versions after 4.0.0).
+            return (SOAPHeader) Proxy.newProxyInstance(aHeader.getClass().getClassLoader(),
+                    new Class[]{aClass}, handler);
+        }
+    }
+
+    /**
+     * Wrap the <code>SOAPHeader</code> in the <code>InvocationHandler</code> instance.
+     *
+     * @param aHeader
+     */
+    public static SOAPHeader getSOAPHeaderProxy(org.apache.axis.message.SOAPHeader aHeader) {
+        return getSOAPHeaderProxy(aHeader, SOAPHeader.class);
+    }
 }

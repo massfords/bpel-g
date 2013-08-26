@@ -12,19 +12,18 @@ package org.activebpel.rt.bpel;
 import javax.xml.namespace.QName;
 
 /**
- * Interface for engine events 
+ * Interface for engine events
  */
-public interface IAeEngineEvent extends IAeEvent
-{
-   /**
-    * Returns the process id for the engine event.
-    */
-   public long getPID();
-   
-   /**
-    * Returns the namespace qualified name of the process this event represents.
-    */
-   public QName getProcessName();
-   
-   public AeEngineEventType getEventType();
+public interface IAeEngineEvent extends IAeEvent {
+    /**
+     * Returns the process id for the engine event.
+     */
+    public long getPID();
+
+    /**
+     * Returns the namespace qualified name of the process this event represents.
+     */
+    public QName getProcessName();
+
+    public AeEngineEventType getEventType();
 }

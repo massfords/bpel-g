@@ -13,17 +13,16 @@ package org.activebpel.rt.bpel.def;
 /**
  * BPEL constructs that parent the 'compensationHandler' construct should implement this interface.
  */
-public interface IAeCompensationHandlerParentDef
-{
-   /**
-    * Gets the 'compensationHandler' def.
-    */
-   public AeCompensationHandlerDef getCompensationHandlerDef();
-   
-   /**
-    * Sets the 'compensationHandler' def.
-    * 
-    * @param aDef
-    */
-   public void setCompensationHandlerDef(AeCompensationHandlerDef aDef);
+public interface IAeCompensationHandlerParentDef {
+    /**
+     * Gets the 'compensationHandler' def.
+     */
+    public AeCompensationHandlerDef getCompensationHandlerDef();
+
+    /**
+     * Sets the 'compensationHandler' def.
+     *
+     * @param aDef
+     */
+    public void setCompensationHandlerDef(AeCompensationHandlerDef aDef);
 }

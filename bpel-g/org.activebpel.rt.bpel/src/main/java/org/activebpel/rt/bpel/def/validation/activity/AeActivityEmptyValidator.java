@@ -7,24 +7,23 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef;
 
 /**
  * model for validating the empty activity
  */
-public class AeActivityEmptyValidator extends AeActivityValidator
-{
+public class AeActivityEmptyValidator extends AeActivityValidator {
 
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityEmptyValidator(AeActivityEmptyDef aDef)
-   {
-      super(aDef);
-   }
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityEmptyValidator(AeActivityEmptyDef aDef) {
+        super(aDef);
+    }
 
 }
  

@@ -21,83 +21,73 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 /**
  * Implementation of the bpel repeatUntil activity.
  */
-public class AeActivityRepeatUntilImpl extends AeActivityWhileImpl
-{
-   /** Flag indicating if this is the first iteration. */
-   private boolean mFirstIteration = true;
+public class AeActivityRepeatUntilImpl extends AeActivityWhileImpl {
+    /**
+     * Flag indicating if this is the first iteration.
+     */
+    private boolean mFirstIteration = true;
 
-   /**
-    * Constructs the repeatUntil impl object.
-    *
-    * @param aActivityDef
-    * @param aParent
-    */
-   public AeActivityRepeatUntilImpl(AeActivityRepeatUntilDef aActivityDef, IAeActivityParent aParent)
-   {
-      super(aActivityDef, aParent);
-   }
+    /**
+     * Constructs the repeatUntil impl object.
+     *
+     * @param aActivityDef
+     * @param aParent
+     */
+    public AeActivityRepeatUntilImpl(AeActivityRepeatUntilDef aActivityDef, IAeActivityParent aParent) {
+        super(aActivityDef, aParent);
+    }
 
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.AeActivityWhileImpl#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      if (mFirstIteration)
-      {
-         mFirstIteration = false;
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.AeActivityWhileImpl#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        if (mFirstIteration) {
+            mFirstIteration = false;
 
-         // Queue the activity to execute
-         getChild().setState(AeBpelState.INACTIVE);
-         getProcess().queueObjectToExecute(getChild());
-      }
-      else
-      {
-         initAlarmIterations();
-
-         AeConditionDef conditionDef = ((AeActivityRepeatUntilDef) getDefinition()).getConditionDef();
-         boolean isConditionTrue = executeBooleanExpression(conditionDef);
-
-         // Generate engine info event for debug.
-         getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
-               conditionDef.getExpression(), AeProcessInfoEventType.InfoRepeatUntil, getLocationPath(),
-               Boolean.toString(isConditionTrue));
-
-         if(isConditionTrue)
-         {
-            // condition is true so we are done
-            objectCompleted();
-         }
-         else
-         {
-            // queue the activity to execute
+            // Queue the activity to execute
             getChild().setState(AeBpelState.INACTIVE);
             getProcess().queueObjectToExecute(getChild());
-         }
-      }
-   }
+        } else {
+            initAlarmIterations();
 
-   /**
-    * @return Returns the firstIteration.
-    */
-   public boolean isFirstIteration()
-   {
-      return mFirstIteration;
-   }
+            AeConditionDef conditionDef = ((AeActivityRepeatUntilDef) getDefinition()).getConditionDef();
+            boolean isConditionTrue = executeBooleanExpression(conditionDef);
 
-   /**
-    * @param aFirstIteration The firstIteration to set.
-    */
-   public void setFirstIteration(boolean aFirstIteration)
-   {
-      mFirstIteration = aFirstIteration;
-   }
+            // Generate engine info event for debug.
+            getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
+                    conditionDef.getExpression(), AeProcessInfoEventType.InfoRepeatUntil, getLocationPath(),
+                    Boolean.toString(isConditionTrue));
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
+            if (isConditionTrue) {
+                // condition is true so we are done
+                objectCompleted();
+            } else {
+                // queue the activity to execute
+                getChild().setState(AeBpelState.INACTIVE);
+                getProcess().queueObjectToExecute(getChild());
+            }
+        }
+    }
+
+    /**
+     * @return Returns the firstIteration.
+     */
+    public boolean isFirstIteration() {
+        return mFirstIteration;
+    }
+
+    /**
+     * @param aFirstIteration The firstIteration to set.
+     */
+    public void setFirstIteration(boolean aFirstIteration) {
+        mFirstIteration = aFirstIteration;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 }

@@ -31,207 +31,192 @@ import java.util.Map.Entry;
  * Internal normalized message structure used by all engines. These messages are not publicly exposed.
  * For public message API see org.activebpel.wsio.IAeWebServiceMessageData
  */
-public class AeMessageData implements IAeMessageData, Externalizable
-{
-   /** The variable message type for which we are storing data */
-   private QName mMsgType;
-   /** Holds on to the part data, the name of the part is its key. */
-   private Map<String,Object> mPartData = new HashMap<>();
-   /** place holder for optional attachments */
-   private IAeAttachmentContainer mAttachmentContainer;
+public class AeMessageData implements IAeMessageData, Externalizable {
+    /**
+     * The variable message type for which we are storing data
+     */
+    private QName mMsgType;
+    /**
+     * Holds on to the part data, the name of the part is its key.
+     */
+    private Map<String, Object> mPartData = new HashMap<>();
+    /**
+     * place holder for optional attachments
+     */
+    private IAeAttachmentContainer mAttachmentContainer;
 
-   /**
-    * C'tor for serialization.
-    */
-   public AeMessageData()
-   {
-   }
-   
-   /**
-    * Constructor.
-    *
-    * @param aQName
-    * @param aPartData
-    */
-   public AeMessageData( QName aQName, Map<String,Object> aPartData )
-   {
-      this( aQName );
-      mPartData.putAll( aPartData );
-   }
+    /**
+     * C'tor for serialization.
+     */
+    public AeMessageData() {
+    }
 
-   /**
-    * Constructor which takes the QName of the message as input.
-    * @param aMsgType the qualified name of the message this data element represents.
-    */
-   public AeMessageData(QName aMsgType)
-   {
-      mMsgType = aMsgType;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aQName
+     * @param aPartData
+     */
+    public AeMessageData(QName aQName, Map<String, Object> aPartData) {
+        this(aQName);
+        mPartData.putAll(aPartData);
+    }
 
-   /**
-    * Returns the type of message this data is representing.
-    */
-   public QName getMessageType()
-   {
-      return mMsgType;
-   }
+    /**
+     * Constructor which takes the QName of the message as input.
+     *
+     * @param aMsgType the qualified name of the message this data element represents.
+     */
+    public AeMessageData(QName aMsgType) {
+        mMsgType = aMsgType;
+    }
 
-   /**
-    * Returns an iterator over the part names for which we are storing data.
-    */
-   public Iterator<String> getPartNames()
-   {
-      return mPartData.keySet().iterator();
-   }
+    /**
+     * Returns the type of message this data is representing.
+     */
+    public QName getMessageType() {
+        return mMsgType;
+    }
 
-   /**
-    * Returns the data associated with a passed part. Null if none.
-    * @param aPartName The part name to get data for.
-    * @return The data associated with the passed part name. Can be null.
-    */
-   public Object getData(String aPartName)
-   {
-      return mPartData.get(aPartName);
-   }
+    /**
+     * Returns an iterator over the part names for which we are storing data.
+     */
+    public Iterator<String> getPartNames() {
+        return mPartData.keySet().iterator();
+    }
 
-   /**
-    * Sets the data associated with a passed part. Data can be null.
-    * @param aPartName The part to set the data for.
-    * @param aData The data to which the part is set.
-    */
-   public void setData(String aPartName, Object aData)
-   {
-      mPartData.put(aPartName, aData);
-   }
+    /**
+     * Returns the data associated with a passed part. Null if none.
+     *
+     * @param aPartName The part name to get data for.
+     * @return The data associated with the passed part name. Can be null.
+     */
+    public Object getData(String aPartName) {
+        return mPartData.get(aPartName);
+    }
 
-   /**
-    * @see java.lang.Object#clone()
-    */
-   public Object clone()
-   {
-      try
-      {
-         AeMessageData copy = (AeMessageData) super.clone();
-         copy.mPartData = new HashMap<>(mPartData);
-         
-         // walk the map and deep clone any Nodes
-          for (Entry<String, Object> entry : copy.mPartData.entrySet()) {
-              if (entry.getValue() instanceof Document) {
-                  Document doc = (Document) entry.getValue();
-                  entry.setValue(AeXmlUtil.cloneElement(doc.getDocumentElement()).getOwnerDocument());
-              }
-          }
-         
-         // clone attachments
-         if (hasAttachments())
-            copy.setAttachmentContainer(new AeAttachmentContainer(getAttachmentContainer()));
-         
-         return copy;
-      }
-      catch(CloneNotSupportedException e)
-      {
-         throw new InternalError("unexpected error during clone:" + e.getLocalizedMessage()); //$NON-NLS-1$
-      }
-   }
+    /**
+     * Sets the data associated with a passed part. Data can be null.
+     *
+     * @param aPartName The part to set the data for.
+     * @param aData     The data to which the part is set.
+     */
+    public void setData(String aPartName, Object aData) {
+        mPartData.put(aPartName, aData);
+    }
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#getPartCount()
-    */
-   public int getPartCount()
-   {
-      return mPartData.size();
-   }
+    /**
+     * @see java.lang.Object#clone()
+     */
+    public Object clone() {
+        try {
+            AeMessageData copy = (AeMessageData) super.clone();
+            copy.mPartData = new HashMap<>(mPartData);
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#hasAttachments()
-    */
-   public boolean hasAttachments()
-   {
-      return mAttachmentContainer != null && ! mAttachmentContainer.isEmpty();
-   }
-   
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#getAttachmentContainer()
-    */
-   public IAeAttachmentContainer getAttachmentContainer()
-   {
-      if (mAttachmentContainer == null)
-         mAttachmentContainer = new AeAttachmentContainer();
-      
-      return mAttachmentContainer;
-   }
+            // walk the map and deep clone any Nodes
+            for (Entry<String, Object> entry : copy.mPartData.entrySet()) {
+                if (entry.getValue() instanceof Document) {
+                    Document doc = (Document) entry.getValue();
+                    entry.setValue(AeXmlUtil.cloneElement(doc.getDocumentElement()).getOwnerDocument());
+                }
+            }
 
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#setAttachmentContainer(org.activebpel.rt.attachment.IAeAttachmentContainer)
-    */
-   public void setAttachmentContainer(IAeAttachmentContainer aAttachmentContainer)
-   {
-      mAttachmentContainer = aAttachmentContainer;
-   }
+            // clone attachments
+            if (hasAttachments())
+                copy.setAttachmentContainer(new AeAttachmentContainer(getAttachmentContainer()));
 
-   /**
-    * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
-    */
-   public void writeExternal(ObjectOutput aOut) throws IOException
-   {
-      aOut.writeObject(getMessageType());
+            return copy;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError("unexpected error during clone:" + e.getLocalizedMessage()); //$NON-NLS-1$
+        }
+    }
 
-      aOut.writeInt(mPartData.size());
-       for (Entry<String, Object> stringObjectEntry : mPartData.entrySet()) {
-           Entry entry = (Entry) stringObjectEntry;
-           aOut.writeObject(entry.getKey());
-           if (entry.getValue() instanceof Document) {
-               Document doc = (Document) entry.getValue();
-               String serializedDoc = AeXmlUtil.serialize(doc.getDocumentElement());
-               aOut.writeBoolean(true); // true - it is a complex (DOM) part
-               aOut.writeObject(serializedDoc);
-           } else {
-               Object value = entry.getValue();
-               aOut.writeBoolean(false); // false - simple object
-               aOut.writeObject(value);
-           }
-       }
-   }
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#getPartCount()
+     */
+    public int getPartCount() {
+        return mPartData.size();
+    }
 
-   /**
-    * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
-    */
-   public void readExternal(ObjectInput aIn) throws IOException, ClassNotFoundException
-   {
-      mMsgType = (QName) aIn.readObject();
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#hasAttachments()
+     */
+    public boolean hasAttachments() {
+        return mAttachmentContainer != null && !mAttachmentContainer.isEmpty();
+    }
 
-      mPartData = new HashMap<>();
-      int numParts = aIn.readInt();
-      for (int i = 0; i < numParts; i++)
-      {
-         String partName = (String) aIn.readObject();
-         boolean isDom = aIn.readBoolean();
-         Object value = aIn.readObject();
-         if (isDom)
-         {
-            String serializedPartData = (String) value;
-            value = parsePartData(serializedPartData);
-         }
-         mPartData.put(partName, value);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#getAttachmentContainer()
+     */
+    public IAeAttachmentContainer getAttachmentContainer() {
+        if (mAttachmentContainer == null)
+            mAttachmentContainer = new AeAttachmentContainer();
 
-   /**
-    * Parse the given part data.
-    * 
-    * @param aSerializedPartData
-    */
-   private Object parsePartData(String aSerializedPartData)
-   {
-      try
-      {
-         return new AeXMLParserBase(true, false).loadDocumentFromString(aSerializedPartData, null);
-      }
-      catch (AeException ex)
-      {
-         // Will not happen
-         AeException.logError(ex);
-      }
-      return null;
-   }
+        return mAttachmentContainer;
+    }
+
+    /**
+     * @see org.activebpel.rt.message.IAeMessageData#setAttachmentContainer(org.activebpel.rt.attachment.IAeAttachmentContainer)
+     */
+    public void setAttachmentContainer(IAeAttachmentContainer aAttachmentContainer) {
+        mAttachmentContainer = aAttachmentContainer;
+    }
+
+    /**
+     * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
+     */
+    public void writeExternal(ObjectOutput aOut) throws IOException {
+        aOut.writeObject(getMessageType());
+
+        aOut.writeInt(mPartData.size());
+        for (Entry<String, Object> stringObjectEntry : mPartData.entrySet()) {
+            Entry entry = (Entry) stringObjectEntry;
+            aOut.writeObject(entry.getKey());
+            if (entry.getValue() instanceof Document) {
+                Document doc = (Document) entry.getValue();
+                String serializedDoc = AeXmlUtil.serialize(doc.getDocumentElement());
+                aOut.writeBoolean(true); // true - it is a complex (DOM) part
+                aOut.writeObject(serializedDoc);
+            } else {
+                Object value = entry.getValue();
+                aOut.writeBoolean(false); // false - simple object
+                aOut.writeObject(value);
+            }
+        }
+    }
+
+    /**
+     * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
+     */
+    public void readExternal(ObjectInput aIn) throws IOException, ClassNotFoundException {
+        mMsgType = (QName) aIn.readObject();
+
+        mPartData = new HashMap<>();
+        int numParts = aIn.readInt();
+        for (int i = 0; i < numParts; i++) {
+            String partName = (String) aIn.readObject();
+            boolean isDom = aIn.readBoolean();
+            Object value = aIn.readObject();
+            if (isDom) {
+                String serializedPartData = (String) value;
+                value = parsePartData(serializedPartData);
+            }
+            mPartData.put(partName, value);
+        }
+    }
+
+    /**
+     * Parse the given part data.
+     *
+     * @param aSerializedPartData
+     */
+    private Object parsePartData(String aSerializedPartData) {
+        try {
+            return new AeXMLParserBase(true, false).loadDocumentFromString(aSerializedPartData, null);
+        } catch (AeException ex) {
+            // Will not happen
+            AeException.logError(ex);
+        }
+        return null;
+    }
 }

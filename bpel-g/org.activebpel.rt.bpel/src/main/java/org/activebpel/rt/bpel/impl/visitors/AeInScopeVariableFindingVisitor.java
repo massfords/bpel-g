@@ -26,113 +26,102 @@ import org.activebpel.rt.bpel.impl.activity.IAeVariableContainer;
 /**
  * A visitor that finds all variables in scope.
  */
-public class AeInScopeVariableFindingVisitor extends AeImplReverseTraversingVisitor
-{
-   /** A map of variable name -> IAeVariable. */
-   private Map<String, IAeVariable> mInScopeVariables;
-   /** A set of variables that should be excluded from the search. */
-   private Set<String> mExcludedVariables;
+public class AeInScopeVariableFindingVisitor extends AeImplReverseTraversingVisitor {
+    /**
+     * A map of variable name -> IAeVariable.
+     */
+    private Map<String, IAeVariable> mInScopeVariables;
+    /**
+     * A set of variables that should be excluded from the search.
+     */
+    private Set<String> mExcludedVariables;
 
-   /**
-    * C'tor.
-    */
-   public AeInScopeVariableFindingVisitor()
-   {
-      setInScopeVariables(new HashMap<String, IAeVariable>());
-      setExcludedVariables(new HashSet<String>());
-   }
+    /**
+     * C'tor.
+     */
+    public AeInScopeVariableFindingVisitor() {
+        setInScopeVariables(new HashMap<String, IAeVariable>());
+        setExcludedVariables(new HashSet<String>());
+    }
 
-   /**
-    * C'tor.
-    */
-   public AeInScopeVariableFindingVisitor(Set<String> aExcludedVariables)
-   {
-      this();
-      if (aExcludedVariables != null)
-      {
-          setExcludedVariables(aExcludedVariables);
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitScope(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
-    */
-   protected void visitScope(AeActivityScopeImpl aImpl)
-         throws AeBusinessProcessException
-   {
-      findInScopeVariables(aImpl);
-      super.visitScope(aImpl);
-   }
+    /**
+     * C'tor.
+     */
+    public AeInScopeVariableFindingVisitor(Set<String> aExcludedVariables) {
+        this();
+        if (aExcludedVariables != null) {
+            setExcludedVariables(aExcludedVariables);
+        }
+    }
 
-   /**
-   * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visit(org.activebpel.rt.bpel.impl.AeBusinessProcess)
-   */
-   public void visit(AeBusinessProcess aImpl) throws AeBusinessProcessException
-   {
-      findInScopeVariables(aImpl);
-      
-      super.visit(aImpl);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitScope(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
+     */
+    protected void visitScope(AeActivityScopeImpl aImpl)
+            throws AeBusinessProcessException {
+        findInScopeVariables(aImpl);
+        super.visitScope(aImpl);
+    }
 
-   /**
-    * @param aImpl
-    */
-   private void findInScopeVariables(AeActivityScopeImpl aImpl)
-   {
-      IAeVariableContainer variableContainer = aImpl.getVariableContainer();
-      if (variableContainer != null)
-      {
-         for (Iterator<IAeVariable> iter = variableContainer.iterator(); iter.hasNext(); )
-         {
-            IAeVariable variable = iter.next();
-            // If it's not already included, and it's not excluded, then add it to
-            // the map of variables that we've found.
-            if (!getInScopeVariables().containsKey(variable.getName())
-                  && !getExcludedVariables().contains(variable.getName()))
-            {
-               getInScopeVariables().put(variable.getName(), variable);
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visit(org.activebpel.rt.bpel.impl.AeBusinessProcess)
+     */
+    public void visit(AeBusinessProcess aImpl) throws AeBusinessProcessException {
+        findInScopeVariables(aImpl);
+
+        super.visit(aImpl);
+    }
+
+    /**
+     * @param aImpl
+     */
+    private void findInScopeVariables(AeActivityScopeImpl aImpl) {
+        IAeVariableContainer variableContainer = aImpl.getVariableContainer();
+        if (variableContainer != null) {
+            for (Iterator<IAeVariable> iter = variableContainer.iterator(); iter.hasNext(); ) {
+                IAeVariable variable = iter.next();
+                // If it's not already included, and it's not excluded, then add it to
+                // the map of variables that we've found.
+                if (!getInScopeVariables().containsKey(variable.getName())
+                        && !getExcludedVariables().contains(variable.getName())) {
+                    getInScopeVariables().put(variable.getName(), variable);
+                }
             }
-         }
-      }
-   }
+        }
+    }
 
-   /**
-    * Gets the collection of variables found.
-    */
-   public Collection<IAeVariable> getVariables()
-   {
-      return getInScopeVariables().values();
-   }
-   
-   /**
-    * @return Returns the inScopeVariables.
-    */
-   protected Map<String, IAeVariable> getInScopeVariables()
-   {
-      return mInScopeVariables;
-   }
+    /**
+     * Gets the collection of variables found.
+     */
+    public Collection<IAeVariable> getVariables() {
+        return getInScopeVariables().values();
+    }
 
-   /**
-    * @param aInScopeVariables the inScopeVariables to set
-    */
-   protected void setInScopeVariables(Map<String, IAeVariable> aInScopeVariables)
-   {
-      mInScopeVariables = aInScopeVariables;
-   }
+    /**
+     * @return Returns the inScopeVariables.
+     */
+    protected Map<String, IAeVariable> getInScopeVariables() {
+        return mInScopeVariables;
+    }
 
-   /**
-    * @return Returns the excludedVariables.
-    */
-   protected Set<String> getExcludedVariables()
-   {
-      return mExcludedVariables;
-   }
+    /**
+     * @param aInScopeVariables the inScopeVariables to set
+     */
+    protected void setInScopeVariables(Map<String, IAeVariable> aInScopeVariables) {
+        mInScopeVariables = aInScopeVariables;
+    }
 
-   /**
-    * @param aExcludedVariables the excludedVariables to set
-    */
-   protected void setExcludedVariables(Set<String> aExcludedVariables)
-   {
-      mExcludedVariables = aExcludedVariables;
-   }
+    /**
+     * @return Returns the excludedVariables.
+     */
+    protected Set<String> getExcludedVariables() {
+        return mExcludedVariables;
+    }
+
+    /**
+     * @param aExcludedVariables the excludedVariables to set
+     */
+    protected void setExcludedVariables(Set<String> aExcludedVariables) {
+        mExcludedVariables = aExcludedVariables;
+    }
 }

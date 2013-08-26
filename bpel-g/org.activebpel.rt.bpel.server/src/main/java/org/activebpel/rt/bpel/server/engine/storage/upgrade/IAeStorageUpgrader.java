@@ -15,11 +15,10 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
  * A storage upgrader is responsible for upgrading a storage object to the latest
  * version.
  */
-public interface IAeStorageUpgrader
-{
-   /**
-    * Upgrades a storage to the newest version.  What this means will be very specific to
-    * the implementing class.
-    */
-   public void upgrade() throws AeStorageException;
+public interface IAeStorageUpgrader {
+    /**
+     * Upgrades a storage to the newest version.  What this means will be very specific to
+     * the implementing class.
+     */
+    public void upgrade() throws AeStorageException;
 }

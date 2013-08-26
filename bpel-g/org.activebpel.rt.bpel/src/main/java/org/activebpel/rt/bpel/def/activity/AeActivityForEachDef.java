@@ -20,160 +20,154 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * Definition object for the "forEach" activity. This activity provides a way of
  * executing a child scope multiple times in sequence or in parallel.
  */
-public class AeActivityForEachDef extends AeActivityDef implements IAeSingleActivityContainerDef, IAeLoopActivityDef
-{
-   /**
-     * 
+public class AeActivityForEachDef extends AeActivityDef implements IAeSingleActivityContainerDef, IAeLoopActivityDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -3212111656104818083L;
-/** optional completion condition for serial and parallel forEach */
-   private AeForEachCompletionConditionDef mCompletionCondition;
-   /** for each defs can only contain scope activities */
-   private AeActivityScopeDef mChildDef;
-   /** true if the foreach should execute the scope in parallel or false if sequentially */
-   private boolean mParallel;
+    /**
+     * optional completion condition for serial and parallel forEach
+     */
+    private AeForEachCompletionConditionDef mCompletionCondition;
+    /**
+     * for each defs can only contain scope activities
+     */
+    private AeActivityScopeDef mChildDef;
+    /**
+     * true if the foreach should execute the scope in parallel or false if sequentially
+     */
+    private boolean mParallel;
 
-   /** start def contains expression that evaluates to the starting value used for the loop */
-   private AeForEachStartDef mStartDef;
-   /** final def contains expression that evaluates to the final value used for the loop */
-   private AeForEachFinalDef mFinalDef;
+    /**
+     * start def contains expression that evaluates to the starting value used for the loop
+     */
+    private AeForEachStartDef mStartDef;
+    /**
+     * final def contains expression that evaluates to the final value used for the loop
+     */
+    private AeForEachFinalDef mFinalDef;
 
-   /** name of the counter variable (which is always an xs:unsignedInt */
-   private String mCounterName;
+    /**
+     * name of the counter variable (which is always an xs:unsignedInt
+     */
+    private String mCounterName;
 
-   /**
-    * @return Returns the completionCondition.
-    */
-   public AeForEachCompletionConditionDef getCompletionCondition()
-   {
-      return mCompletionCondition;
-   }
+    /**
+     * @return Returns the completionCondition.
+     */
+    public AeForEachCompletionConditionDef getCompletionCondition() {
+        return mCompletionCondition;
+    }
 
-   /**
-    * Return true if the def contains the optional completion def
-    */
-   public boolean hasCompletionCondition()
-   {
-      return mCompletionCondition != null;
-   }
+    /**
+     * Return true if the def contains the optional completion def
+     */
+    public boolean hasCompletionCondition() {
+        return mCompletionCondition != null;
+    }
 
-   /**
-    * @return Returns the finalDef.
-    */
-   public AeForEachFinalDef getFinalDef()
-   {
-      if (mFinalDef == null)
-         mFinalDef = new AeForEachFinalDef();
-      return mFinalDef;
-   }
+    /**
+     * @return Returns the finalDef.
+     */
+    public AeForEachFinalDef getFinalDef() {
+        if (mFinalDef == null)
+            mFinalDef = new AeForEachFinalDef();
+        return mFinalDef;
+    }
 
-   /**
-    * @param aFinalDef The finalDef to set.
-    */
-   public void setFinalDef(AeForEachFinalDef aFinalDef)
-   {
-      mFinalDef = aFinalDef;
-   }
+    /**
+     * @param aFinalDef The finalDef to set.
+     */
+    public void setFinalDef(AeForEachFinalDef aFinalDef) {
+        mFinalDef = aFinalDef;
+    }
 
-   /**
-    * @return Returns the startDef.
-    */
-   public AeForEachStartDef getStartDef()
-   {
-      if (mStartDef == null)
-         mStartDef = new AeForEachStartDef();
-      return mStartDef;
-   }
+    /**
+     * @return Returns the startDef.
+     */
+    public AeForEachStartDef getStartDef() {
+        if (mStartDef == null)
+            mStartDef = new AeForEachStartDef();
+        return mStartDef;
+    }
 
-   /**
-    * @param aStartDef The startDef to set.
-    */
-   public void setStartDef(AeForEachStartDef aStartDef)
-   {
-      mStartDef = aStartDef;
-   }
+    /**
+     * @param aStartDef The startDef to set.
+     */
+    public void setStartDef(AeForEachStartDef aStartDef) {
+        mStartDef = aStartDef;
+    }
 
-   /**
-    * @param aCompletionCondition The completionCondition to set.
-    */
-   public void setCompletionCondition(AeForEachCompletionConditionDef aCompletionCondition)
-   {
-      mCompletionCondition = aCompletionCondition;
-   }
+    /**
+     * @param aCompletionCondition The completionCondition to set.
+     */
+    public void setCompletionCondition(AeForEachCompletionConditionDef aCompletionCondition) {
+        mCompletionCondition = aCompletionCondition;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeSingleActivityContainerDef#getActivityDef()
-    */
-   public AeActivityDef getActivityDef()
-   {
-      return mChildDef;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeSingleActivityContainerDef#getActivityDef()
+     */
+    public AeActivityDef getActivityDef() {
+        return mChildDef;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeSingleActivityContainerDef#setActivityDef(org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   public void setActivityDef(AeActivityDef aActivity)
-   {
-      mChildDef = (AeActivityScopeDef) aActivity;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeSingleActivityContainerDef#setActivityDef(org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    public void setActivityDef(AeActivityDef aActivity) {
+        mChildDef = (AeActivityScopeDef) aActivity;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef)
-   {
-      setActivityDef(aNewActivityDef);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef) {
+        setActivityDef(aNewActivityDef);
+    }
 
-   /**
-    * @return Returns the parallel.
-    */
-   public boolean isParallel()
-   {
-      return mParallel;
-   }
+    /**
+     * @return Returns the parallel.
+     */
+    public boolean isParallel() {
+        return mParallel;
+    }
 
-   /**
-    * @param aParallel The parallel to set.
-    */
-   public void setParallel(boolean aParallel)
-   {
-      mParallel = aParallel;
-   }
+    /**
+     * @param aParallel The parallel to set.
+     */
+    public void setParallel(boolean aParallel) {
+        mParallel = aParallel;
+    }
 
-   /**
-    * @return Returns the counterName.
-    */
-   public String getCounterName()
-   {
-      return mCounterName;
-   }
+    /**
+     * @return Returns the counterName.
+     */
+    public String getCounterName() {
+        return mCounterName;
+    }
 
-   /**
-    * @param aCounterName The counterName to set.
-    */
-   public void setCounterName(String aCounterName)
-   {
-      mCounterName = aCounterName;
-   }
+    /**
+     * @param aCounterName The counterName to set.
+     */
+    public void setCounterName(String aCounterName) {
+        mCounterName = aCounterName;
+    }
 
-   /**
-    * Convenience method that returns the child scope for the forEach.
-    */
-   public AeActivityScopeDef getChildScope()
-   {
-      if (getActivityDef() instanceof AeActivityScopeDef)
-      {
-         return (AeActivityScopeDef) getActivityDef();
-      }
-      return null;
-   }
+    /**
+     * Convenience method that returns the child scope for the forEach.
+     */
+    public AeActivityScopeDef getChildScope() {
+        if (getActivityDef() instanceof AeActivityScopeDef) {
+            return (AeActivityScopeDef) getActivityDef();
+        }
+        return null;
+    }
 }

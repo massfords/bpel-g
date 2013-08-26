@@ -14,38 +14,37 @@ import org.activebpel.rt.AeException;
 /**
  * This class wrappers exceptions getting resource from cache.
  */
-public class AeResourceException extends AeException
-{
-   /**
-     * 
+public class AeResourceException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = -3026354900843508505L;
 
-/**
-    * Construct a resource excetpion with the passed info.
-    * @param aInfo
-    */
-   public AeResourceException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Construct a resource excetpion with the passed info.
+     *
+     * @param aInfo
+     */
+    public AeResourceException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Construct a resource excetpion with the passed cause.
-    * @param aRootCause
-    */
-   public AeResourceException(Throwable aRootCause)
-   {
-      super(aRootCause);
-   }
+    /**
+     * Construct a resource excetpion with the passed cause.
+     *
+     * @param aRootCause
+     */
+    public AeResourceException(Throwable aRootCause) {
+        super(aRootCause);
+    }
 
-   /**
-    * Construct a resource excetpion with the passed info and cause.
-    * @param aInfo
-    */
-   public AeResourceException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Construct a resource excetpion with the passed info and cause.
+     *
+     * @param aInfo
+     */
+    public AeResourceException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
 }

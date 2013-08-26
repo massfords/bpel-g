@@ -19,20 +19,21 @@ import org.activebpel.rt.AeException;
  * Interface the defines contracts for classes that are responsible for
  * encoding a buffered image.
  */
-public interface IAeImageEncoder
-{
-   /**
-    * Returns the MIME content-type
-    * @return mime content type.
-    */
-   public String getContentType();
-   
-   /**
-    * Encodes the image into the output stream.
-    * @param aImage buffered image
-    * @param aOutputStream codec output stream
-    * @throws IOException
-    * @throws AeException
-    */
-   public void encode(BufferedImage aImage, OutputStream aOutputStream) throws IOException, AeException;
+public interface IAeImageEncoder {
+    /**
+     * Returns the MIME content-type
+     *
+     * @return mime content type.
+     */
+    public String getContentType();
+
+    /**
+     * Encodes the image into the output stream.
+     *
+     * @param aImage        buffered image
+     * @param aOutputStream codec output stream
+     * @throws IOException
+     * @throws AeException
+     */
+    public void encode(BufferedImage aImage, OutputStream aOutputStream) throws IOException, AeException;
 }

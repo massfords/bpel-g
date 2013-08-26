@@ -14,71 +14,84 @@ import org.activebpel.rt.bpel.IAeVariable;
 /**
  * Class used to indicate reason for a process being suspended.
  */
-public class AeSuspendReason
-{
-   /** Process was suspended via the administrative console */
-   public static final int SUSPEND_CODE_MANUAL = 0;
-   /** Process was suspended due to and uncaught fault */
-   public static final int SUSPEND_CODE_AUTOMATIC = 1;
-   /** Process was suspended due to the suspend activity */
-   public static final int SUSPEND_CODE_LOGICAL = 2;   
-   /** Process was suspended for internal process migration. */
-   public static final int SUSPEND_CODE_MIGRATE = 3;   
-   /** Process was suspended due to a non-durable invoke pending during process recovery. */
-   public static final int SUSPEND_CODE_INVOKE_RECOVERY = 4;
-   /** Process was suspended due to retry policy on an invoke */
-   public static final int SUSPEND_CODE_INVOKE_RETRY = 5;
-   
+public class AeSuspendReason {
+    /**
+     * Process was suspended via the administrative console
+     */
+    public static final int SUSPEND_CODE_MANUAL = 0;
+    /**
+     * Process was suspended due to and uncaught fault
+     */
+    public static final int SUSPEND_CODE_AUTOMATIC = 1;
+    /**
+     * Process was suspended due to the suspend activity
+     */
+    public static final int SUSPEND_CODE_LOGICAL = 2;
+    /**
+     * Process was suspended for internal process migration.
+     */
+    public static final int SUSPEND_CODE_MIGRATE = 3;
+    /**
+     * Process was suspended due to a non-durable invoke pending during process recovery.
+     */
+    public static final int SUSPEND_CODE_INVOKE_RECOVERY = 4;
+    /**
+     * Process was suspended due to retry policy on an invoke
+     */
+    public static final int SUSPEND_CODE_INVOKE_RETRY = 5;
 
-   /** The reason the process was suspended */
-   private final int mReasonCode;
-   /** Location path where the process was suspended */
-   private String mLocationPath;
-   /** Variable from suspend activity */
-   private IAeVariable mVariable;
-   
-   /**
-    * Default contructor, used for administrative suspension.
-    */
-   public AeSuspendReason()
-   {
-      mReasonCode = SUSPEND_CODE_MANUAL;
-   }
 
-   /**
-    * Constructor which accepts detail information
-    * @param aReasonCode the reason the process was suspened 
-    * @param aLocationPath location path where process was suspended (may be null)
-    * @param aVariable variable from suspend activity (may be null) 
-    */
-   public AeSuspendReason(int aReasonCode, String aLocationPath, IAeVariable aVariable)
-   {
-      mReasonCode = aReasonCode;
-      mLocationPath = aLocationPath;
-      mVariable = aVariable;
-   }
+    /**
+     * The reason the process was suspended
+     */
+    private final int mReasonCode;
+    /**
+     * Location path where the process was suspended
+     */
+    private String mLocationPath;
+    /**
+     * Variable from suspend activity
+     */
+    private IAeVariable mVariable;
 
-   /**
-    * Returns the locationPath, or null if none specified.
-    */
-   public String getLocationPath()
-   {
-      return mLocationPath;
-   }
+    /**
+     * Default contructor, used for administrative suspension.
+     */
+    public AeSuspendReason() {
+        mReasonCode = SUSPEND_CODE_MANUAL;
+    }
 
-   /**
-    * Returns the reasonCode for process suspension.
-    */
-   public int getReasonCode()
-   {
-      return mReasonCode;
-   }
+    /**
+     * Constructor which accepts detail information
+     *
+     * @param aReasonCode   the reason the process was suspened
+     * @param aLocationPath location path where process was suspended (may be null)
+     * @param aVariable     variable from suspend activity (may be null)
+     */
+    public AeSuspendReason(int aReasonCode, String aLocationPath, IAeVariable aVariable) {
+        mReasonCode = aReasonCode;
+        mLocationPath = aLocationPath;
+        mVariable = aVariable;
+    }
 
-   /**
-    * Returns the fault variable responsible for process being suspended.
-    */
-   public IAeVariable getVariable()
-   {
-      return mVariable;
-   }
+    /**
+     * Returns the locationPath, or null if none specified.
+     */
+    public String getLocationPath() {
+        return mLocationPath;
+    }
+
+    /**
+     * Returns the reasonCode for process suspension.
+     */
+    public int getReasonCode() {
+        return mReasonCode;
+    }
+
+    /**
+     * Returns the fault variable responsible for process being suspended.
+     */
+    public IAeVariable getVariable() {
+        return mVariable;
+    }
 }

@@ -7,50 +7,49 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.def.visitors; 
+package org.activebpel.rt.xml.def.visitors;
 
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 
 /**
- * Base visitor with traversal 
+ * Base visitor with traversal
  */
-public class AeTraversingXmlDefVisitor extends AeBaseXmlDefVisitor implements IAeBaseXmlDefVisitor
-{
-   /** Used in conjunction with the traversal object to traverse the object model */
-   private IAeBaseXmlDefVisitor mTraversalVisitor;
-   
-   /**
-    * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visitBaseXmlDef(org.activebpel.rt.xml.def.AeBaseXmlDef)
-    */
-   protected void visitBaseXmlDef(AeBaseXmlDef aDef)
-   {
-      traverse(aDef);
-   }
+public class AeTraversingXmlDefVisitor extends AeBaseXmlDefVisitor implements IAeBaseXmlDefVisitor {
+    /**
+     * Used in conjunction with the traversal object to traverse the object model
+     */
+    private IAeBaseXmlDefVisitor mTraversalVisitor;
 
-   /**
-    * Calls accept on the def object, passing in the traversal visitor.
-    * @param aDef
-    */
-   protected void traverse(AeBaseXmlDef aDef)
-   {
-      aDef.accept(getTraversalVisitor());
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visitBaseXmlDef(org.activebpel.rt.xml.def.AeBaseXmlDef)
+     */
+    protected void visitBaseXmlDef(AeBaseXmlDef aDef) {
+        traverse(aDef);
+    }
 
-   /**
-    * Setter for the traversal visitor.
-    * @param traversalVisitor
-    */
-   public void setTraversalVisitor(IAeBaseXmlDefVisitor traversalVisitor)
-   {
-      mTraversalVisitor = traversalVisitor;
-   }
+    /**
+     * Calls accept on the def object, passing in the traversal visitor.
+     *
+     * @param aDef
+     */
+    protected void traverse(AeBaseXmlDef aDef) {
+        aDef.accept(getTraversalVisitor());
+    }
 
-   /**
-    * Getter for the traversal visitor
-    */
-   public IAeBaseXmlDefVisitor getTraversalVisitor()
-   {
-      return mTraversalVisitor;
-   }
+    /**
+     * Setter for the traversal visitor.
+     *
+     * @param traversalVisitor
+     */
+    public void setTraversalVisitor(IAeBaseXmlDefVisitor traversalVisitor) {
+        mTraversalVisitor = traversalVisitor;
+    }
+
+    /**
+     * Getter for the traversal visitor
+     */
+    public IAeBaseXmlDefVisitor getTraversalVisitor() {
+        return mTraversalVisitor;
+    }
 }
  

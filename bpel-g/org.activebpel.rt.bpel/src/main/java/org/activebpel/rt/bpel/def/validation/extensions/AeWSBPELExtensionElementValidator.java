@@ -20,45 +20,38 @@ import org.activebpel.rt.xml.def.IAeExtensionObject;
 /**
  * Class that validates an extension attribute def.
  */
-public class AeWSBPELExtensionElementValidator extends AeAbstractExtensionElementValidator
-{
-   /**
-    * Constructor.
-    * 
-    * @param aDef
-    */
-   public AeWSBPELExtensionElementValidator(AeExtensionElementDef aDef)
-   {
-      super(aDef);
-   }
+public class AeWSBPELExtensionElementValidator extends AeAbstractExtensionElementValidator {
+    /**
+     * Constructor.
+     *
+     * @param aDef
+     */
+    public AeWSBPELExtensionElementValidator(AeExtensionElementDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-      String extNamespace = getDef().getElementQName().getNamespaceURI();
-      if (IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI.equals(extNamespace))
-      {
-         String [] args = new String [] { getDef().getElementQName().getLocalPart() };
-         String error = AeMessages.getString("AeWSBPELExtensionElementValidator.AddedBPELConstructAsExtensibilityElement"); //$NON-NLS-1$
-         getReporter().reportProblem(WSBPEL_EXTELEM_BPEL_AT_INVALID_LOCATION_CODE, error, args, getDefinition());
-      }
-      else
-      {
-         IAeExtensionObject extensionObject = getDef().getExtensionObject();
-         // If a IAeExtensionUsageAdapter is available, skip the extension validation
-         // check here - it will happen later when we use the IAeExtensionUsageAdapter.
-         if (extensionObject == null || extensionObject.getAdapter(IAeExtensionUsageAdapter.class) == null)
-         {
-            AeExtensionValidator extensionValidator = findExtensionValidator(extNamespace);
-            processExtensionValidator(extensionValidator, getDef().isUnderstood(), extNamespace);
-         }
-      }
-      
-      IAeExtensionObject extObject = getDef().getExtensionObject();
-      doExtensionObjectValidation(extObject);
-   }
+        String extNamespace = getDef().getElementQName().getNamespaceURI();
+        if (IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI.equals(extNamespace)) {
+            String[] args = new String[]{getDef().getElementQName().getLocalPart()};
+            String error = AeMessages.getString("AeWSBPELExtensionElementValidator.AddedBPELConstructAsExtensibilityElement"); //$NON-NLS-1$
+            getReporter().reportProblem(WSBPEL_EXTELEM_BPEL_AT_INVALID_LOCATION_CODE, error, args, getDefinition());
+        } else {
+            IAeExtensionObject extensionObject = getDef().getExtensionObject();
+            // If a IAeExtensionUsageAdapter is available, skip the extension validation
+            // check here - it will happen later when we use the IAeExtensionUsageAdapter.
+            if (extensionObject == null || extensionObject.getAdapter(IAeExtensionUsageAdapter.class) == null) {
+                AeExtensionValidator extensionValidator = findExtensionValidator(extNamespace);
+                processExtensionValidator(extensionValidator, getDef().isUnderstood(), extNamespace);
+            }
+        }
+
+        IAeExtensionObject extObject = getDef().getExtensionObject();
+        doExtensionObjectValidation(extObject);
+    }
 }

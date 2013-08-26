@@ -25,89 +25,84 @@ import org.w3c.dom.Node;
 /**
  * This impl simply maps the AeDef class object to its associated writer.
  */
-public class AeBPWSDefWriterRegistry extends AeAbstractBpelWriterRegistry implements IAeBPELConstants, IAeBpelClassConstants, IAeBpelLegacyConstants
-{
-   /** factory for creating writers */
-   private static final IAeDefWriterFactory sFactory = new IAeDefWriterFactory()
-      {
-         /**
-          * @see org.activebpel.rt.xml.def.io.writers.IAeDefWriterFactory#createDefWriter(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element, java.lang.String, java.lang.String)
-          */
-         public IAeDefWriter createDefWriter(AeBaseXmlDef aDef, Element aParentElement, String aNamespaceUri, String aTagName)
-         {
+public class AeBPWSDefWriterRegistry extends AeAbstractBpelWriterRegistry implements IAeBPELConstants, IAeBpelClassConstants, IAeBpelLegacyConstants {
+    /**
+     * factory for creating writers
+     */
+    private static final IAeDefWriterFactory sFactory = new IAeDefWriterFactory() {
+        /**
+         * @see org.activebpel.rt.xml.def.io.writers.IAeDefWriterFactory#createDefWriter(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element, java.lang.String, java.lang.String)
+         */
+        public IAeDefWriter createDefWriter(AeBaseXmlDef aDef, Element aParentElement, String aNamespaceUri, String aTagName) {
             return new AeBPWSWriterVisitor(aDef, aParentElement, aNamespaceUri, aTagName);
-         }
-      };
+        }
+    };
 
-   /**
-    * Default constructor.
-    */
-   public AeBPWSDefWriterRegistry()
-   {
-      super(IAeBPELConstants.BPWS_NAMESPACE_URI, sFactory);
-   }
+    /**
+     * Default constructor.
+     */
+    public AeBPWSDefWriterRegistry() {
+        super(IAeBPELConstants.BPWS_NAMESPACE_URI, sFactory);
+    }
 
-   /**
-    * Populates the registry with entries.
-    */
-   protected void init()
-   {
-      super.init();
-      
-      registerWriter( ACTIVITY_COMPENSATE_SCOPE_CLASS,  TAG_COMPENSATE );
-      registerWriter( ACTIVITY_IF_CLASS,          TAG_SWITCH );
-      registerWriter( ACTIVITY_TERMINATE_CLASS,   TAG_TERMINATE );
-      registerWriter( ACTIVITY_THROW_CLASS,       TAG_THROW );
-      registerWriter( ACTIVITY_FOREACH_CLASS,  createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH));
+    /**
+     * Populates the registry with entries.
+     */
+    protected void init() {
+        super.init();
 
-      registerWriter( IF_CLASS,                   TAG_CASE );
-      registerWriter( ELSEIF_CLASS,               TAG_CASE );
-      registerWriter( ELSE_CLASS,                 TAG_OTHERWISE );
-      registerWriter( MESSAGE_EXCHANGES_CLASS, createWriter(IAeBPELConstants.ABX_2_0_NAMESPACE_URI, TAG_MESSAGE_EXCHANGES));
-      registerWriter( MESSAGE_EXCHANGE_CLASS,  createWriter(IAeBPELConstants.ABX_2_0_NAMESPACE_URI, TAG_MESSAGE_EXCHANGE));
-      registerWriter( ACTIVITY_FOREACH_COMPLETION_CONDITION, createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH_COMPLETION_CONDITION));
-      registerWriter( ACTIVITY_FOREACH_BRANCHES, createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH_BRANCHES));
-      registerWriter( ACTIVITY_FOREACH_START,  createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH_STARTCOUNTER));
-      registerWriter( ACTIVITY_FOREACH_FINAL,  createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH_FINALCOUNTER));
-      registerWriter( ON_EVENT_CLASS,             TAG_ON_MESSAGE );
+        registerWriter(ACTIVITY_COMPENSATE_SCOPE_CLASS, TAG_COMPENSATE);
+        registerWriter(ACTIVITY_IF_CLASS, TAG_SWITCH);
+        registerWriter(ACTIVITY_TERMINATE_CLASS, TAG_TERMINATE);
+        registerWriter(ACTIVITY_THROW_CLASS, TAG_THROW);
+        registerWriter(ACTIVITY_FOREACH_CLASS, createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH));
 
-      registerWriter( PARTNER_CLASS,              TAG_PARTNER );
+        registerWriter(IF_CLASS, TAG_CASE);
+        registerWriter(ELSEIF_CLASS, TAG_CASE);
+        registerWriter(ELSE_CLASS, TAG_OTHERWISE);
+        registerWriter(MESSAGE_EXCHANGES_CLASS, createWriter(IAeBPELConstants.ABX_2_0_NAMESPACE_URI, TAG_MESSAGE_EXCHANGES));
+        registerWriter(MESSAGE_EXCHANGE_CLASS, createWriter(IAeBPELConstants.ABX_2_0_NAMESPACE_URI, TAG_MESSAGE_EXCHANGE));
+        registerWriter(ACTIVITY_FOREACH_COMPLETION_CONDITION, createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH_COMPLETION_CONDITION));
+        registerWriter(ACTIVITY_FOREACH_BRANCHES, createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH_BRANCHES));
+        registerWriter(ACTIVITY_FOREACH_START, createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH_STARTCOUNTER));
+        registerWriter(ACTIVITY_FOREACH_FINAL, createWriter(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY, TAG_FOREACH_FINALCOUNTER));
+        registerWriter(ON_EVENT_CLASS, TAG_ON_MESSAGE);
 
-      registerWriter( EXTENSION_ACTIVITY_CLASS,   SKIP_WRITER );
-      
-      registerWriter( SOURCES_CLASS,              SKIP_WRITER );
-      registerWriter( TARGETS_CLASS,              SKIP_WRITER );
+        registerWriter(PARTNER_CLASS, TAG_PARTNER);
 
-      registerWriter( JOIN_CONDITION_CLASS,       SKIP_WRITER );
-      registerWriter( TRANSITION_CONDITION_CLASS, SKIP_WRITER );
-      registerWriter( FOR_CLASS,                  SKIP_WRITER );
-      registerWriter( UNTIL_CLASS,                SKIP_WRITER );
+        registerWriter(EXTENSION_ACTIVITY_CLASS, SKIP_WRITER);
 
-      registerWriter( CONDITION_CLASS,            SKIP_WRITER);
+        registerWriter(SOURCES_CLASS, SKIP_WRITER);
+        registerWriter(TARGETS_CLASS, SKIP_WRITER);
 
-      registerWriter( LITERAL_CLASS,              new AeBPWSLiteralWriter());
-      registerWriter( AeQueryDef.class,           SKIP_WRITER);
-      
-      registerWriter( AeExtensionAttributeDef.class, SKIP_WRITER);
-   }
+        registerWriter(JOIN_CONDITION_CLASS, SKIP_WRITER);
+        registerWriter(TRANSITION_CONDITION_CLASS, SKIP_WRITER);
+        registerWriter(FOR_CLASS, SKIP_WRITER);
+        registerWriter(UNTIL_CLASS, SKIP_WRITER);
 
-   /**
-    * A special writer that is able to write out the literal for a bpel4ws 1.1 def.
-    */
-   protected class AeBPWSLiteralWriter implements IAeDefWriter
-   {
-      /**
-       * @see org.activebpel.rt.xml.def.io.writers.IAeDefWriter#createElement(AeBaseXmlDef, org.w3c.dom.Element)
-       */
-      public Element createElement(AeBaseXmlDef aBaseDef, Element aParentElement)
-      {
-         AeLiteralDef def = (AeLiteralDef) aBaseDef;
-          for (Node node : def.getChildNodes()) {
-              Node importedNode = aParentElement.getOwnerDocument().importNode(node, true);
-              aParentElement.appendChild(importedNode);
-          }
+        registerWriter(CONDITION_CLASS, SKIP_WRITER);
 
-         return aParentElement;
-      }
-   }
+        registerWriter(LITERAL_CLASS, new AeBPWSLiteralWriter());
+        registerWriter(AeQueryDef.class, SKIP_WRITER);
+
+        registerWriter(AeExtensionAttributeDef.class, SKIP_WRITER);
+    }
+
+    /**
+     * A special writer that is able to write out the literal for a bpel4ws 1.1 def.
+     */
+    protected class AeBPWSLiteralWriter implements IAeDefWriter {
+        /**
+         * @see org.activebpel.rt.xml.def.io.writers.IAeDefWriter#createElement(AeBaseXmlDef, org.w3c.dom.Element)
+         */
+        public Element createElement(AeBaseXmlDef aBaseDef, Element aParentElement) {
+            AeLiteralDef def = (AeLiteralDef) aBaseDef;
+            for (Node node : def.getChildNodes()) {
+                Node importedNode = aParentElement.getOwnerDocument().importNode(node, true);
+                aParentElement.appendChild(importedNode);
+            }
+
+            return aParentElement;
+        }
+    }
 }

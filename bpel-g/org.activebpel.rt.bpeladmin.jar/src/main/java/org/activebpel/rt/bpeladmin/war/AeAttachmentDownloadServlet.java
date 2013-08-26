@@ -26,111 +26,93 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Responsible for downloading the contents of an attachment and streaming it to a client.
  */
-public class AeAttachmentDownloadServlet extends HttpServlet
-{
-   /**
-     * 
+public class AeAttachmentDownloadServlet extends HttpServlet {
+    /**
+     *
      */
     private static final long serialVersionUID = 8723141806706014007L;
-public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream"; //$NON-NLS-1$
-   private static final String HANDLER_CLASS_PARAMETER = "handler.class"; //$NON-NLS-1$
+    public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream"; //$NON-NLS-1$
+    private static final String HANDLER_CLASS_PARAMETER = "handler.class"; //$NON-NLS-1$
 
-   /**
-    * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
-    *      javax.servlet.http.HttpServletResponse)
-    */
-   protected void doGet(HttpServletRequest aRequest, HttpServletResponse aResponse) throws ServletException,
-         IOException
-   {
-      doPost(aRequest, aResponse);
-   }
+    /**
+     * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
+     *      javax.servlet.http.HttpServletResponse)
+     */
+    protected void doGet(HttpServletRequest aRequest, HttpServletResponse aResponse) throws ServletException,
+            IOException {
+        doPost(aRequest, aResponse);
+    }
 
-   /**
-    * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
-    *      javax.servlet.http.HttpServletResponse)
-    */
-   protected void doPost(HttpServletRequest aRequest, HttpServletResponse aResponse) throws ServletException,
-         IOException
-   {
-      long attachmentItemId;
-      String mimeType;
-      String fileName;
+    /**
+     * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
+     *      javax.servlet.http.HttpServletResponse)
+     */
+    protected void doPost(HttpServletRequest aRequest, HttpServletResponse aResponse) throws ServletException,
+            IOException {
+        long attachmentItemId;
+        String mimeType;
+        String fileName;
 
-      try
-      {
-         attachmentItemId = Long.parseLong(aRequest.getParameter("id")); //$NON-NLS-1$
-         mimeType = aRequest.getParameter("type"); //$NON-NLS-1$
-         fileName = aRequest.getParameter("file"); //$NON-NLS-1$
-      }
-      catch (Exception e)
-      {
-         AeException.logError(e);
-         aResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, AeMessages.getString("AeAttachmentDownloadServlet.1")); //$NON-NLS-1$
-         return;
-      }
+        try {
+            attachmentItemId = Long.parseLong(aRequest.getParameter("id")); //$NON-NLS-1$
+            mimeType = aRequest.getParameter("type"); //$NON-NLS-1$
+            fileName = aRequest.getParameter("file"); //$NON-NLS-1$
+        } catch (Exception e) {
+            AeException.logError(e);
+            aResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, AeMessages.getString("AeAttachmentDownloadServlet.1")); //$NON-NLS-1$
+            return;
+        }
 
-      // Multipart MIME types do not download properly in Firefox; if it's
-      // multipart, then change the MIME type to force proper download.
-      if (AeUtil.isNullOrEmpty(mimeType) || mimeType.startsWith("multipart/")) //$NON-NLS-1$
-      {
-         mimeType = DEFAULT_CONTENT_TYPE;
-      }
+        // Multipart MIME types do not download properly in Firefox; if it's
+        // multipart, then change the MIME type to force proper download.
+        if (AeUtil.isNullOrEmpty(mimeType) || mimeType.startsWith("multipart/")) //$NON-NLS-1$
+        {
+            mimeType = DEFAULT_CONTENT_TYPE;
+        }
 
-      if (AeUtil.isNullOrEmpty(fileName))
-      {
-         fileName = "attachment_" + attachmentItemId + ".bin"; //$NON-NLS-1$ //$NON-NLS-2$
-      }
+        if (AeUtil.isNullOrEmpty(fileName)) {
+            fileName = "attachment_" + attachmentItemId + ".bin"; //$NON-NLS-1$ //$NON-NLS-2$
+        }
 
-      try
-      {
-         IAeAttachmentDownloadHandler handler = createAttachmentDownloadHandler();
-         InputStream content = AeEngineFactory.getEngine().getAttachmentManager().deserialize(attachmentItemId);
+        try {
+            IAeAttachmentDownloadHandler handler = createAttachmentDownloadHandler();
+            InputStream content = AeEngineFactory.getEngine().getAttachmentManager().deserialize(attachmentItemId);
 
-         try
-         {
-            int size = -1;
-            
-            if (content instanceof AeBlobInputStream)
-            {
-               size = ((AeBlobInputStream) content).length();
+            try {
+                int size = -1;
+
+                if (content instanceof AeBlobInputStream) {
+                    size = ((AeBlobInputStream) content).length();
+                }
+
+                handler.handleAttachment(aRequest, aResponse, content, mimeType, fileName, size);
+            } finally {
+                // Make sure we close the attachment stream in order to delete its
+                // temporary file.
+                AeCloser.close(content);
             }
+        } catch (Exception e) {
+            AeException.logError(e);
+            aResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
 
-            handler.handleAttachment(aRequest, aResponse, content, mimeType, fileName, size);
-         }
-         finally
-         {
-            // Make sure we close the attachment stream in order to delete its
-            // temporary file.
-            AeCloser.close(content);
-         }
-      }
-      catch (Exception e)
-      {
-         AeException.logError(e);
-         aResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-      }
-   }
+    /**
+     * Constructs the attachment download handler.
+     */
+    protected IAeAttachmentDownloadHandler createAttachmentDownloadHandler() throws Exception {
+        IAeAttachmentDownloadHandler handler;
 
-   /**
-    * Constructs the attachment download handler.
-    */
-   protected IAeAttachmentDownloadHandler createAttachmentDownloadHandler() throws Exception
-   {
-      IAeAttachmentDownloadHandler handler;
-      
-      // getInitParameter() is implemented by GenericServlet, which is one of
-      // our superclasses.
-      String className = getInitParameter(HANDLER_CLASS_PARAMETER);
+        // getInitParameter() is implemented by GenericServlet, which is one of
+        // our superclasses.
+        String className = getInitParameter(HANDLER_CLASS_PARAMETER);
 
-      if (AeUtil.isNullOrEmpty(className))
-      {
-         handler = new AeAttachmentDownloadHandler();
-      }
-      else
-      {
-         handler = (IAeAttachmentDownloadHandler) Class.forName(className).newInstance();
-      }
+        if (AeUtil.isNullOrEmpty(className)) {
+            handler = new AeAttachmentDownloadHandler();
+        } else {
+            handler = (IAeAttachmentDownloadHandler) Class.forName(className).newInstance();
+        }
 
-      return handler;
-   }
+        return handler;
+    }
 }

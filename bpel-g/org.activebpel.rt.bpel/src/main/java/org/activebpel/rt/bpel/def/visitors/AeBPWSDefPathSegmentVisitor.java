@@ -36,193 +36,171 @@ import org.activebpel.rt.bpel.def.io.IAeBpelLegacyConstants;
 /**
  * A def path visitor implementation for BPEL4WS 1.1
  */
-public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
-{
-   /**
-    * Default c'tor.
-    */
-   public AeBPWSDefPathSegmentVisitor()
-   {
-      super();
-   }
+public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor {
+    /**
+     * Default c'tor.
+     */
+    public AeBPWSDefPathSegmentVisitor() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
-    */
-   public void visit(AeSourcesDef def)
-   {
-      // Skip the implicit 'sources' construct - it isn't really there in bpws 1.1
-      setPathSegment(null);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
-    */
-   public void visit(AeTargetsDef def)
-   {
-      // Skip the implicit 'targets' construct - it isn't really there in bpws 1.1
-      setPathSegment(null);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef)
-    */
-   public void visit(AeTransitionConditionDef def)
-   {
-      // Skip the implicit 'transitionCondition' construct - it isn't really there in bpws 1.1
-      setPathSegment(null);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef)
-    */
-   public void visit(AeJoinConditionDef def)
-   {
-      // Skip the implicit 'joinCondition' construct - it isn't really there in bpws 1.1
-      setPathSegment(null);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForDef)
-    */
-   public void visit(AeForDef def)
-   {
-      // Skip the implicit 'for' construct - it isn't really there in bpws 1.1
-      setPathSegment(null);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeUntilDef)
-    */
-   public void visit(AeUntilDef def)
-   {
-      // Skip the implicit 'until' construct - it isn't really there in bpws 1.1
-      setPathSegment(null);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
+     */
+    public void visit(AeSourcesDef def) {
+        // Skip the implicit 'sources' construct - it isn't really there in bpws 1.1
+        setPathSegment(null);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
-    */
-   public void visit(AeConditionDef def)
-   {
-      // Skip the implicit 'condition' construct - it isn't really there in bpws 1.1
-      setPathSegment(null);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
+     */
+    public void visit(AeTargetsDef def) {
+        // Skip the implicit 'targets' construct - it isn't really there in bpws 1.1
+        setPathSegment(null);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionActivityDef)
-    */
-   public void visit(AeExtensionActivityDef def)
-   {
-      setPathSegment(null);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef)
+     */
+    public void visit(AeTransitionConditionDef def) {
+        // Skip the implicit 'transitionCondition' construct - it isn't really there in bpws 1.1
+        setPathSegment(null);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void visit(AeOnEventDef def)
-   {
-      // We model onMessage w/in eventHandlers as AeOnEvent even in 1.1.
-      setPathSegment(IAeBPELConstants.TAG_ON_MESSAGE);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
-    */
-   public void visit(AeActivityIfDef def)
-   {
-      // We model switch as if
-      setPathSegment(IAeBpelLegacyConstants.TAG_SWITCH);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
-    */
-   public void visit(AeIfDef def)
-   {
-      // We model the 1st case as an ifdef
-      setPathSegment(IAeBpelLegacyConstants.TAG_CASE);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
-    */
-   public void visit(AeElseIfDef def)
-   {
-      // We model the other cases as elseifs
-      setPathSegment(IAeBpelLegacyConstants.TAG_CASE);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
-    */
-   public void visit(AeElseDef def)
-   {
-      // We model the otherwise as an else
-      setPathSegment(IAeBpelLegacyConstants.TAG_OTHERWISE);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
-    */
-   public void visit(AeActivityCompensateScopeDef def)
-   {
-      // We model the <compensate scope="S1"> activity as a compensateScope def
-      setPathSegment(IAeBPELConstants.TAG_COMPENSATE);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef)
+     */
+    public void visit(AeJoinConditionDef def) {
+        // Skip the implicit 'joinCondition' construct - it isn't really there in bpws 1.1
+        setPathSegment(null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForDef)
+     */
+    public void visit(AeForDef def) {
+        // Skip the implicit 'for' construct - it isn't really there in bpws 1.1
+        setPathSegment(null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeUntilDef)
+     */
+    public void visit(AeUntilDef def) {
+        // Skip the implicit 'until' construct - it isn't really there in bpws 1.1
+        setPathSegment(null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
+     */
+    public void visit(AeConditionDef def) {
+        // Skip the implicit 'condition' construct - it isn't really there in bpws 1.1
+        setPathSegment(null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionActivityDef)
+     */
+    public void visit(AeExtensionActivityDef def) {
+        setPathSegment(null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        // We model onMessage w/in eventHandlers as AeOnEvent even in 1.1.
+        setPathSegment(IAeBPELConstants.TAG_ON_MESSAGE);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
+     */
+    public void visit(AeActivityIfDef def) {
+        // We model switch as if
+        setPathSegment(IAeBpelLegacyConstants.TAG_SWITCH);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
+     */
+    public void visit(AeIfDef def) {
+        // We model the 1st case as an ifdef
+        setPathSegment(IAeBpelLegacyConstants.TAG_CASE);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
+     */
+    public void visit(AeElseIfDef def) {
+        // We model the other cases as elseifs
+        setPathSegment(IAeBpelLegacyConstants.TAG_CASE);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
+     */
+    public void visit(AeElseDef def) {
+        // We model the otherwise as an else
+        setPathSegment(IAeBpelLegacyConstants.TAG_OTHERWISE);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
+     */
+    public void visit(AeActivityCompensateScopeDef def) {
+        // We model the <compensate scope="S1"> activity as a compensateScope def
+        setPathSegment(IAeBPELConstants.TAG_COMPENSATE);
+    }
 
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerDef)
-    */
-   public void visit(AePartnerDef def)
-   {
-      setPathSegment(IAeBpelLegacyConstants.TAG_PARTNER);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerDef)
+     */
+    public void visit(AePartnerDef def) {
+        setPathSegment(IAeBpelLegacyConstants.TAG_PARTNER);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnersDef)
-    */
-   public void visit(AePartnersDef def)
-   {
-      setPathSegment(IAeBpelLegacyConstants.TAG_PARTNERS);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnersDef)
+     */
+    public void visit(AePartnersDef def) {
+        setPathSegment(IAeBpelLegacyConstants.TAG_PARTNERS);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
-    */
-   public void visit(AeQueryDef def)
-   {
-      // Skip the implicit 'query' construct - it isn't really there in bpws 1.1
-      setPathSegment(null);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLiteralDef)
-    */
-   public void visit(AeLiteralDef def)
-   {
-      // Skip the implicit 'literal' construct - it isn't really there in bpws 1.1
-      setPathSegment(null);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
-    */
-   public void visit(AeMessageExchangesDef def)
-   {
-      // Skip the implicit construct - since this does not exist in bpws 1.1 and therefore we do not
-      // want to assign new location id/path to legacy documents and change the document's id structs.
-      setPathSegment(null);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
+     */
+    public void visit(AeQueryDef def) {
+        // Skip the implicit 'query' construct - it isn't really there in bpws 1.1
+        setPathSegment(null);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
-    */
-   public void visit(AeMessageExchangeDef def)
-   {
-      // Skip the implicit construct - since this does not exist in bpws 1.1 and therefore we do not
-      // want to assign new location id/path to legacy documents and change the document's id structs.
-      setPathSegment(null);
-   }   
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLiteralDef)
+     */
+    public void visit(AeLiteralDef def) {
+        // Skip the implicit 'literal' construct - it isn't really there in bpws 1.1
+        setPathSegment(null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
+     */
+    public void visit(AeMessageExchangesDef def) {
+        // Skip the implicit construct - since this does not exist in bpws 1.1 and therefore we do not
+        // want to assign new location id/path to legacy documents and change the document's id structs.
+        setPathSegment(null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
+     */
+    public void visit(AeMessageExchangeDef def) {
+        // Skip the implicit construct - since this does not exist in bpws 1.1 and therefore we do not
+        // want to assign new location id/path to legacy documents and change the document's id structs.
+        setPathSegment(null);
+    }
 }

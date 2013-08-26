@@ -17,20 +17,19 @@ import org.activebpel.rt.bpel.def.activity.support.AeUntilDef;
  * Interface contains the getter methods for getting the duration or deadline
  * for a timed event like a wait or an alarm.
  */
-public interface IAeTimedDef
-{
-   /**
-    * Returns the for def, will be null if the def uses the deadline model.
-    */
-   public AeForDef getForDef();
+public interface IAeTimedDef {
+    /**
+     * Returns the for def, will be null if the def uses the deadline model.
+     */
+    public AeForDef getForDef();
 
-   /**
-    * Returns the until def, will be null if the def uses the duration model.
-    */
-   public AeUntilDef getUntilDef();
-   
-   /**
-    * Returns the optional repeatEvery def
-    */
-   public AeRepeatEveryDef getRepeatEveryDef();
+    /**
+     * Returns the until def, will be null if the def uses the duration model.
+     */
+    public AeUntilDef getUntilDef();
+
+    /**
+     * Returns the optional repeatEvery def
+     */
+    public AeRepeatEveryDef getRepeatEveryDef();
 }

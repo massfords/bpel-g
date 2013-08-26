@@ -16,103 +16,100 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Holds individual copy operations of an assign activity
  */
-public class AeAssignCopyDef extends AeBaseDef implements IAeFromParentDef
-{
-   private static final long serialVersionUID = 9036730111713644790L;
-   /** The copy's 'from' construct. */
-   private AeFromDef mFrom;
-   /** The copy's 'to' construct. */
-   private AeToDef mTo;
-   /** The copy's 'keepSrcElementName' attribute. */
-   private boolean mKeepSrcElementName;
-   /** The copy's 'ignoreMissingFromData' attribute  */
-   private boolean mIgnoreMissingFromData;
-   
-   /**
-    * Default constructor
-    */
-   public AeAssignCopyDef()
-   {
-      super();
-   }
+public class AeAssignCopyDef extends AeBaseDef implements IAeFromParentDef {
+    private static final long serialVersionUID = 9036730111713644790L;
+    /**
+     * The copy's 'from' construct.
+     */
+    private AeFromDef mFrom;
+    /**
+     * The copy's 'to' construct.
+     */
+    private AeToDef mTo;
+    /**
+     * The copy's 'keepSrcElementName' attribute.
+     */
+    private boolean mKeepSrcElementName;
+    /**
+     * The copy's 'ignoreMissingFromData' attribute
+     */
+    private boolean mIgnoreMissingFromData;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public final void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Default constructor
+     */
+    public AeAssignCopyDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain the From assignment part of the Copy activity.
-    * 
-    * @return the From assignment object
-    */
-   public final AeFromDef getFromDef()
-   {
-      return mFrom;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public final void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Mutator method to set the From assignment part of the Copy activity.
-    * 
-    * @param aFrom the From part of the Copy activity
-    */
-   public final void setFromDef(AeFromDef aFrom)
-   {
-      mFrom = aFrom;
-   }
+    /**
+     * Accessor method to obtain the From assignment part of the Copy activity.
+     *
+     * @return the From assignment object
+     */
+    public final AeFromDef getFromDef() {
+        return mFrom;
+    }
 
-   /**
-    * Accessor method to obtain the To assignment part of the Copy activity.
-    * 
-    * @return the To assignment object
-    */
-   public final AeToDef getToDef()
-   {
-      return mTo;
-   }
+    /**
+     * Mutator method to set the From assignment part of the Copy activity.
+     *
+     * @param aFrom the From part of the Copy activity
+     */
+    public final void setFromDef(AeFromDef aFrom) {
+        mFrom = aFrom;
+    }
 
-   /**
-    * Mutator method to set the To assignment part of the Copy activity.
-    * 
-    * @param aTo the To part of the Copy activity
-    */
-   public final void setToDef(AeToDef aTo)
-   {
-      mTo = aTo;
-   }
+    /**
+     * Accessor method to obtain the To assignment part of the Copy activity.
+     *
+     * @return the To assignment object
+     */
+    public final AeToDef getToDef() {
+        return mTo;
+    }
 
-   /**
-    * @return Returns the keepSrcElementName.
-    */
-   public final boolean isKeepSrcElementName()
-   {
-      return mKeepSrcElementName;
-   }
+    /**
+     * Mutator method to set the To assignment part of the Copy activity.
+     *
+     * @param aTo the To part of the Copy activity
+     */
+    public final void setToDef(AeToDef aTo) {
+        mTo = aTo;
+    }
 
-   /**
-    * @param aKeepSrcElementName The keepSrcElementName to set.
-    */
-   public final void setKeepSrcElementName(boolean aKeepSrcElementName)
-   {
-      mKeepSrcElementName = aKeepSrcElementName;
-   }
+    /**
+     * @return Returns the keepSrcElementName.
+     */
+    public final boolean isKeepSrcElementName() {
+        return mKeepSrcElementName;
+    }
 
-   /**
-    * @return the ignoreMissingFromData
-    */
-   public final boolean isIgnoreMissingFromData()
-   {
-      return mIgnoreMissingFromData;
-   }
+    /**
+     * @param aKeepSrcElementName The keepSrcElementName to set.
+     */
+    public final void setKeepSrcElementName(boolean aKeepSrcElementName) {
+        mKeepSrcElementName = aKeepSrcElementName;
+    }
 
-   /**
-    * @param aIgnoreMissingFromData the ignoreMissingFromData to set
-    */
-   public void setIgnoreMissingFromData(boolean aIgnoreMissingFromData)
-   {
-      mIgnoreMissingFromData = aIgnoreMissingFromData;
-   }
+    /**
+     * @return the ignoreMissingFromData
+     */
+    public final boolean isIgnoreMissingFromData() {
+        return mIgnoreMissingFromData;
+    }
+
+    /**
+     * @param aIgnoreMissingFromData the ignoreMissingFromData to set
+     */
+    public void setIgnoreMissingFromData(boolean aIgnoreMissingFromData) {
+        mIgnoreMissingFromData = aIgnoreMissingFromData;
+    }
 }

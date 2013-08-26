@@ -14,10 +14,9 @@ package org.activebpel.rt.bpel.server.engine.process;
  * org.activebpel.rt.bpel.server.engine.process.IAeProcessWrapperMap} to call back to
  * its owner.
  */
-public interface IAeProcessWrapperMapCallback
-{
-   /**
-    * Called by the process wrapper map when it is full.
-    */
-   public void notifyProcessWrapperMapFull();
+public interface IAeProcessWrapperMapCallback {
+    /**
+     * Called by the process wrapper map when it is full.
+     */
+    public void notifyProcessWrapperMapFull();
 }

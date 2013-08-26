@@ -23,118 +23,105 @@ import bpelg.services.processes.types.ProcessStateFilterValueType;
 /**
  * Bean for driving display of process pruning portion of storage page.
  */
-public class AeProcessPruningBean extends AePruningBean
-{
-   /** Prune date property. */
-   private Date mPruneDate;
+public class AeProcessPruningBean extends AePruningBean {
+    /**
+     * Prune date property.
+     */
+    private Date mPruneDate;
 
-   /**
-    * Default constructor.
-    */
-   public AeProcessPruningBean()
-   {
-   }
+    /**
+     * Default constructor.
+     */
+    public AeProcessPruningBean() {
+    }
 
-   /**
-    * Returns the prune date property.
-    */
-   public Date getPruneDate()
-   {
-      return mPruneDate;
-   }
+    /**
+     * Returns the prune date property.
+     */
+    public Date getPruneDate() {
+        return mPruneDate;
+    }
 
-   /**
-    * Returns a filter for processes that completed on or before the prune
-    * date.
-    */
-   protected ProcessFilterType getPruneProcessFilter() throws AeException
-   {
-      ProcessFilterType filter = new ProcessFilterType();
-      filter.setMaxReturn(0); // just want a count without results
-      filter.setProcessState(ProcessStateFilterValueType.CompletedOrFaulted);
-      Date compensatedDate = compensateForFilterAdjustment( getPruneDate() );
-      filter.setProcessCompleteEnd( AeDate.toCal(compensatedDate) );
-      return filter;
-   }
-   
-   /**
-    * In the normal course of filter processing, the complete date is adjusted
-    * to the start of the following day. Here the completed by date is adjusted 
-    * to the start of the previous day to compensate.
-    *
-    * @param aDate
-    */
-   protected Date compensateForFilterAdjustment( Date aDate )
-   {
-      Date result = null;
-      
-      if (aDate != null)
-      {
-         result = AeDate.getStartOfDay(AeDate.getPreviousDay(aDate));
-      }
-      return result;
-   }
-   
-   /**
-    * Marshalls the params into the filter and then deletes the processes from storage.
-    */
-   protected void executeDelete()
-   {
-      if (getPruneDate() != null)
-      {
-         try
-         {
-            ProcessFilterType filter = getPruneProcessFilter();
-            int n = AeEngineManagementFactory.getProcessManager().removeProcessByQuery(filter);
+    /**
+     * Returns a filter for processes that completed on or before the prune
+     * date.
+     */
+    protected ProcessFilterType getPruneProcessFilter() throws AeException {
+        ProcessFilterType filter = new ProcessFilterType();
+        filter.setMaxReturn(0); // just want a count without results
+        filter.setProcessState(ProcessStateFilterValueType.CompletedOrFaulted);
+        Date compensatedDate = compensateForFilterAdjustment(getPruneDate());
+        filter.setProcessCompleteEnd(AeDate.toCal(compensatedDate));
+        return filter;
+    }
 
-            String pattern = AeMessages.getString("AeProcessPruningBean.0"); //$NON-NLS-1$
-            Object[] args = {n};
-            setStatusDetail(MessageFormat.format(pattern, args));
+    /**
+     * In the normal course of filter processing, the complete date is adjusted
+     * to the start of the following day. Here the completed by date is adjusted
+     * to the start of the previous day to compensate.
+     *
+     * @param aDate
+     */
+    protected Date compensateForFilterAdjustment(Date aDate) {
+        Date result = null;
 
-            // If the request succeeds, then clear the prune date.
-            setPruneDate(null);
-         } catch (Exception e) {
-             AeException.logError(e, AeMessages.getString("AeProcessPruningBean.ERROR_1")); //$NON-NLS-1$
+        if (aDate != null) {
+            result = AeDate.getStartOfDay(AeDate.getPreviousDay(aDate));
+        }
+        return result;
+    }
 
-             String message = e.getLocalizedMessage();
-             setStatusDetail((message != null) ? message : AeMessages.getString("AeProcessPruningBean.2")); //$NON-NLS-1$
-		}
-      }
-   }
+    /**
+     * Marshalls the params into the filter and then deletes the processes from storage.
+     */
+    protected void executeDelete() {
+        if (getPruneDate() != null) {
+            try {
+                ProcessFilterType filter = getPruneProcessFilter();
+                int n = AeEngineManagementFactory.getProcessManager().removeProcessByQuery(filter);
 
-   /**
-    * Marshalls the params into the filter and then reports how many processes matched
-    * the criteria. 
-    */
-   protected void executeQuery()
-   {
-      if (getPruneDate() != null)
-      {
-         setPrunePending(true);
+                String pattern = AeMessages.getString("AeProcessPruningBean.0"); //$NON-NLS-1$
+                Object[] args = {n};
+                setStatusDetail(MessageFormat.format(pattern, args));
 
-         try
-         {
-            ProcessFilterType filter = getPruneProcessFilter();
-            int numProcesses = getAdmin().getProcessCount(filter);
+                // If the request succeeds, then clear the prune date.
+                setPruneDate(null);
+            } catch (Exception e) {
+                AeException.logError(e, AeMessages.getString("AeProcessPruningBean.ERROR_1")); //$NON-NLS-1$
 
-            String pattern = AeMessages.getString("AeProcessPruningBean.3"); //$NON-NLS-1$
-            Object[] args = {numProcesses};
-            setStatusDetail(MessageFormat.format(pattern, args));
-            setPruneValid(numProcesses > 0);
-         }
-         catch (AeException e)
-         {
-            AeException.logError(e, AeMessages.getString("AeProcessPruningBean.ERROR_4")); //$NON-NLS-1$
-            setStatusDetail(AeMessages.getString("AeProcessPruningBean.5")); //$NON-NLS-1$
-         }
-      }
-   }
+                String message = e.getLocalizedMessage();
+                setStatusDetail((message != null) ? message : AeMessages.getString("AeProcessPruningBean.2")); //$NON-NLS-1$
+            }
+        }
+    }
 
-   /**
-    * Sets the prune date.
-    */
-   public void setPruneDate(Date aPruneDate)
-   {
-      mPruneDate = aPruneDate;
-   }
+    /**
+     * Marshalls the params into the filter and then reports how many processes matched
+     * the criteria.
+     */
+    protected void executeQuery() {
+        if (getPruneDate() != null) {
+            setPrunePending(true);
+
+            try {
+                ProcessFilterType filter = getPruneProcessFilter();
+                int numProcesses = getAdmin().getProcessCount(filter);
+
+                String pattern = AeMessages.getString("AeProcessPruningBean.3"); //$NON-NLS-1$
+                Object[] args = {numProcesses};
+                setStatusDetail(MessageFormat.format(pattern, args));
+                setPruneValid(numProcesses > 0);
+            } catch (AeException e) {
+                AeException.logError(e, AeMessages.getString("AeProcessPruningBean.ERROR_4")); //$NON-NLS-1$
+                setStatusDetail(AeMessages.getString("AeProcessPruningBean.5")); //$NON-NLS-1$
+            }
+        }
+    }
+
+    /**
+     * Sets the prune date.
+     */
+    public void setPruneDate(Date aPruneDate) {
+        mPruneDate = aPruneDate;
+    }
 }

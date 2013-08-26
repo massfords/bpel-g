@@ -15,31 +15,26 @@ import java.util.ResourceBundle;
 /**
  * Accessor class for externalized strings
  */
-public class AeMessages
-{
-   private static final String BUNDLE_NAME = "org.activebpel.rt.axis.bpel.web.messages";//$NON-NLS-1$
+public class AeMessages {
+    private static final String BUNDLE_NAME = "org.activebpel.rt.axis.bpel.web.messages";//$NON-NLS-1$
 
-   private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
-   private AeMessages()
-   {
-   }
+    private AeMessages() {
+    }
 
-   /**
-    * Returns externalized string from resource bundle or key surrounded by exclamation points
-    * if not found.
-    * @param key - Key of string to return
-    * @return - String from bundle
-    */      
-   public static String getString(String key)
-   {
-      try
-      {
-         return RESOURCE_BUNDLE.getString(key);
-      }
-      catch (MissingResourceException e)
-      {
-         return '!' + key + '!';
-      }
-   }
+    /**
+     * Returns externalized string from resource bundle or key surrounded by exclamation points
+     * if not found.
+     *
+     * @param key - Key of string to return
+     * @return - String from bundle
+     */
+    public static String getString(String key) {
+        try {
+            return RESOURCE_BUNDLE.getString(key);
+        } catch (MissingResourceException e) {
+            return '!' + key + '!';
+        }
+    }
 }

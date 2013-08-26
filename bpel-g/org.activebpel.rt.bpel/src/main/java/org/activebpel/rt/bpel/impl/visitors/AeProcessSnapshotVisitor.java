@@ -31,251 +31,235 @@ import java.util.Set;
  * variables and correlation sets that are still live for normal or
  * compensation processing.
  */
-public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
-{
-   /** The <code>Set</code> of <code>AeCorrelationSet</code> instances. */
-   private final Set<AeCorrelationSet> mCorrelationSets = new HashSet<>();
+public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor {
+    /**
+     * The <code>Set</code> of <code>AeCorrelationSet</code> instances.
+     */
+    private final Set<AeCorrelationSet> mCorrelationSets = new HashSet<>();
 
-   /** The <code>Set</code> of <code>IAeVariable</code> instances. */
-   private final Set<IAeVariable> mVariables = new HashSet<>();
-   
-   /** The <code>Set</code> of <code>AePartnerLink</code> instances. */
-   private final Set<IAePartnerLink> mPartnerLinks = new HashSet<>();
+    /**
+     * The <code>Set</code> of <code>IAeVariable</code> instances.
+     */
+    private final Set<IAeVariable> mVariables = new HashSet<>();
 
-   /** The <code>Set</code> of pending <code>AeActivityInvokeImpl</code> instances. */
-   private final Set<AeActivityInvokeImpl> mPendingInvokes = new HashSet<>();
+    /**
+     * The <code>Set</code> of <code>AePartnerLink</code> instances.
+     */
+    private final Set<IAePartnerLink> mPartnerLinks = new HashSet<>();
 
-   /**
-    * Adds all live variable and correlation set instances reachable from the
-    * specified compensation info object.
-    *
-    * @param aCompInfo
-    */
-   protected void addCompInfo(AeCompInfo aCompInfo)
-   {
-      AeScopeSnapshot snapshot = aCompInfo.getSnapshot();
-      if (snapshot != null)
-      {
-         Set<AeCorrelationSet> correlationSets = snapshot.getCorrelationSets();
-         Set<IAeVariable> variables = snapshot.getVariables();
-         Set<IAePartnerLink> partnerLinks = snapshot.getPartnerLinks();
-   
-         addCorrelationSets(correlationSets);
-         addVariables(variables);
-         addPartnerLinks(partnerLinks);
-      }
+    /**
+     * The <code>Set</code> of pending <code>AeActivityInvokeImpl</code> instances.
+     */
+    private final Set<AeActivityInvokeImpl> mPendingInvokes = new HashSet<>();
 
-      // Add variables and correlation sets from enclosed scopes' compensation
-      // infos.
-       for (AeCompInfo enclosedScope : aCompInfo.getEnclosedScopes()) {
-           addCompInfo(enclosedScope);
-       }
-   }
+    /**
+     * Adds all live variable and correlation set instances reachable from the
+     * specified compensation info object.
+     *
+     * @param aCompInfo
+     */
+    protected void addCompInfo(AeCompInfo aCompInfo) {
+        AeScopeSnapshot snapshot = aCompInfo.getSnapshot();
+        if (snapshot != null) {
+            Set<AeCorrelationSet> correlationSets = snapshot.getCorrelationSets();
+            Set<IAeVariable> variables = snapshot.getVariables();
+            Set<IAePartnerLink> partnerLinks = snapshot.getPartnerLinks();
 
-   /**
-    * Adds the specified correlation set instance to the set that will be
-    * returned by <code>getCorrelationSets</code>.
-    *
-    * @param aCorrelationSet
-    */
-   protected void addCorrelationSet(AeCorrelationSet aCorrelationSet)
-   {
-      getCorrelationSets().add(aCorrelationSet);
-   }
+            addCorrelationSets(correlationSets);
+            addVariables(variables);
+            addPartnerLinks(partnerLinks);
+        }
 
-   /**
-    * Adds the specified set of correlation set instances to the set that will
-    * be returned by <code>getCorrelationSets</code>.
-    *
-    * @param aCorrelationSets
-    */
-   protected void addCorrelationSets(Set<AeCorrelationSet> aCorrelationSets)
-   {
-      getCorrelationSets().addAll(aCorrelationSets);
-   }
+        // Add variables and correlation sets from enclosed scopes' compensation
+        // infos.
+        for (AeCompInfo enclosedScope : aCompInfo.getEnclosedScopes()) {
+            addCompInfo(enclosedScope);
+        }
+    }
 
-   /**
-    * Adds the specified invoke instance to the set of pending invokes that
-    * will be returned by <code>getPendingInvokes</code>.
-    *
-    * @param aInvoke
-    */
-   protected void addPendingInvoke(AeActivityInvokeImpl aInvoke)
-   {
-      getPendingInvokes().add(aInvoke);
-   }
+    /**
+     * Adds the specified correlation set instance to the set that will be
+     * returned by <code>getCorrelationSets</code>.
+     *
+     * @param aCorrelationSet
+     */
+    protected void addCorrelationSet(AeCorrelationSet aCorrelationSet) {
+        getCorrelationSets().add(aCorrelationSet);
+    }
 
-   /**
-    * Adds all live variable and correlation set instances reachable from the
-    * specified activity scope implementation object.
-    *
-    * @param aImpl
-    * @param aScopeDef
-    */
-   protected void addScope(AeActivityScopeImpl aImpl, AeScopeDef aScopeDef) throws AeBusinessProcessException
-   {
-      // Add the scope's variables.
-      for (Iterator i = aScopeDef.getVariableDefs(); i.hasNext(); )
-      {
-         AeVariableDef variableDef = (AeVariableDef) i.next();
-         IAeVariable variable = aImpl.findVariable(variableDef.getName());
+    /**
+     * Adds the specified set of correlation set instances to the set that will
+     * be returned by <code>getCorrelationSets</code>.
+     *
+     * @param aCorrelationSets
+     */
+    protected void addCorrelationSets(Set<AeCorrelationSet> aCorrelationSets) {
+        getCorrelationSets().addAll(aCorrelationSets);
+    }
 
-         addVariable(variable);
-      }
+    /**
+     * Adds the specified invoke instance to the set of pending invokes that
+     * will be returned by <code>getPendingInvokes</code>.
+     *
+     * @param aInvoke
+     */
+    protected void addPendingInvoke(AeActivityInvokeImpl aInvoke) {
+        getPendingInvokes().add(aInvoke);
+    }
 
-      // Add the scope's correlation sets.
-      for (Iterator i = aScopeDef.getCorrelationSetDefs(); i.hasNext(); )
-      {
-         AeCorrelationSetDef correlationSetDef = (AeCorrelationSetDef) i.next();
-         AeCorrelationSet correlationSet = aImpl.findCorrelationSet(correlationSetDef.getName());
+    /**
+     * Adds all live variable and correlation set instances reachable from the
+     * specified activity scope implementation object.
+     *
+     * @param aImpl
+     * @param aScopeDef
+     */
+    protected void addScope(AeActivityScopeImpl aImpl, AeScopeDef aScopeDef) throws AeBusinessProcessException {
+        // Add the scope's variables.
+        for (Iterator i = aScopeDef.getVariableDefs(); i.hasNext(); ) {
+            AeVariableDef variableDef = (AeVariableDef) i.next();
+            IAeVariable variable = aImpl.findVariable(variableDef.getName());
 
-         addCorrelationSet(correlationSet);
-      }
+            addVariable(variable);
+        }
 
-      if (aImpl.hasCompInfo())
-      {
-         // Add variables and correlation sets from the scope's compensation
-         // info.
-         addCompInfo(aImpl.getCompInfo());
-      }
-   }
+        // Add the scope's correlation sets.
+        for (Iterator i = aScopeDef.getCorrelationSetDefs(); i.hasNext(); ) {
+            AeCorrelationSetDef correlationSetDef = (AeCorrelationSetDef) i.next();
+            AeCorrelationSet correlationSet = aImpl.findCorrelationSet(correlationSetDef.getName());
 
-   /**
-    * Adds the fault variable.
-    * @param aImpl
-    * @throws AeBusinessProcessException
-    */
-   protected void addFaultVariable(AeFaultHandler aImpl) throws AeBusinessProcessException
-   {
-      if ( aImpl.hasFaultVariable() )
-      {
-         addVariable( aImpl.getFaultVariable() );
-      }
-   }
-      
-   
-   /**
-    * Adds the specified variable instance to the set that will be returned by
-    * <code>getVariables</code>.
-    *
-    * @param aVariable
-    */
-   protected void addVariable(IAeVariable aVariable)
-   {
-      getVariables().add(aVariable);
-   }
+            addCorrelationSet(correlationSet);
+        }
 
-   /**
-    * Adds the specified set of variable instances to the set that will be
-    * returned by <code>getVariables</code>.
-    *
-    * @param aVariables
-    */
-   protected void addVariables(Set<IAeVariable> aVariables)
-   {
-      getVariables().addAll(aVariables);
-   }
-   
-   /**
-    * Adds the specified set of partner link instances to the set that will be 
-    * returned by <code>getPartnerLinks</code>
-    * 
-    * @param aPartnerLinks
-    */
-   protected void addPartnerLinks(Set<IAePartnerLink> aPartnerLinks)
-   {
-      getPartnerLinks().addAll(aPartnerLinks);
-   }
+        if (aImpl.hasCompInfo()) {
+            // Add variables and correlation sets from the scope's compensation
+            // info.
+            addCompInfo(aImpl.getCompInfo());
+        }
+    }
 
-   /**
-    * Returns the <code>Set</code> of <code>AeCorrelationSet</code> instances.
-    */
-   public Set<AeCorrelationSet> getCorrelationSets()
-   {
-      return mCorrelationSets;
-   }
+    /**
+     * Adds the fault variable.
+     *
+     * @param aImpl
+     * @throws AeBusinessProcessException
+     */
+    protected void addFaultVariable(AeFaultHandler aImpl) throws AeBusinessProcessException {
+        if (aImpl.hasFaultVariable()) {
+            addVariable(aImpl.getFaultVariable());
+        }
+    }
 
-   /**
-    * Returns the <code>Set</code> of pending <code>AeActivityInvokeImpl</code> instances.
-    */
-   public Set<AeActivityInvokeImpl> getPendingInvokes()
-   {
-      return mPendingInvokes;
-   }
 
-   /**
-    * Returns the <code>Set</code> of <code>IAeVariable</code> instances.
-    */
-   public Set<IAeVariable> getVariables()
-   {
-      return mVariables;
-   }
-   
-   /**
-    * Returns the set of AePartnerLink instances.
-    */
-   public Set<IAePartnerLink> getPartnerLinks()
-   {
-      return mPartnerLinks;
-   }
-   
-   /** 
-    * Overrides method to add fault variables. 
-    * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeWSBPELFaultHandler)
-    */
-   public void visit(AeWSBPELFaultHandler aImpl) throws AeBusinessProcessException
-   {
-      super.visit(aImpl); 
-      addFaultVariable( aImpl);
-   }   
+    /**
+     * Adds the specified variable instance to the set that will be returned by
+     * <code>getVariables</code>.
+     *
+     * @param aVariable
+     */
+    protected void addVariable(IAeVariable aVariable) {
+        getVariables().add(aVariable);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl)
-    */
-   public void visit(AeActivityInvokeImpl aImpl) throws AeBusinessProcessException
-   {
-      super.visit(aImpl);   
+    /**
+     * Adds the specified set of variable instances to the set that will be
+     * returned by <code>getVariables</code>.
+     *
+     * @param aVariables
+     */
+    protected void addVariables(Set<IAeVariable> aVariables) {
+        getVariables().addAll(aVariables);
+    }
 
-      if (aImpl.isPending())
-      {
-         addPendingInvoke(aImpl);
-      }
-   }
+    /**
+     * Adds the specified set of partner link instances to the set that will be
+     * returned by <code>getPartnerLinks</code>
+     *
+     * @param aPartnerLinks
+     */
+    protected void addPartnerLinks(Set<IAePartnerLink> aPartnerLinks) {
+        getPartnerLinks().addAll(aPartnerLinks);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitScope(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
-    */
-   protected void visitScope(AeActivityScopeImpl aImpl)
-         throws AeBusinessProcessException
-   {
-      super.visitScope(aImpl);
-      AeActivityScopeDef activityScopeDef = (AeActivityScopeDef) aImpl.getDefinition();
-      AeScopeDef scopeDef = activityScopeDef.getScopeDef();
-      addScope(aImpl, scopeDef);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.AeBusinessProcess)
-    */
-   public void visit(AeBusinessProcess aImpl) throws AeBusinessProcessException
-   {
-      super.visit(aImpl);
+    /**
+     * Returns the <code>Set</code> of <code>AeCorrelationSet</code> instances.
+     */
+    public Set<AeCorrelationSet> getCorrelationSets() {
+        return mCorrelationSets;
+    }
 
-      AeProcessDef processDef = (AeProcessDef) aImpl.getDefinition();
-      addScope(aImpl, processDef);
-   }
+    /**
+     * Returns the <code>Set</code> of pending <code>AeActivityInvokeImpl</code> instances.
+     */
+    public Set<AeActivityInvokeImpl> getPendingInvokes() {
+        return mPendingInvokes;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler)
-    */
-   public void visit(AeCompensationHandler aImpl) throws AeBusinessProcessException
-   {
-      super.visit(aImpl);
+    /**
+     * Returns the <code>Set</code> of <code>IAeVariable</code> instances.
+     */
+    public Set<IAeVariable> getVariables() {
+        return mVariables;
+    }
 
-      AeCompInfo compInfo = aImpl.getCompInfo();
-      if (compInfo != null)
-      {
-         addCompInfo(compInfo);
-      }
-   }
+    /**
+     * Returns the set of AePartnerLink instances.
+     */
+    public Set<IAePartnerLink> getPartnerLinks() {
+        return mPartnerLinks;
+    }
+
+    /**
+     * Overrides method to add fault variables.
+     *
+     * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeWSBPELFaultHandler)
+     */
+    public void visit(AeWSBPELFaultHandler aImpl) throws AeBusinessProcessException {
+        super.visit(aImpl);
+        addFaultVariable(aImpl);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl)
+     */
+    public void visit(AeActivityInvokeImpl aImpl) throws AeBusinessProcessException {
+        super.visit(aImpl);
+
+        if (aImpl.isPending()) {
+            addPendingInvoke(aImpl);
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitScope(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
+     */
+    protected void visitScope(AeActivityScopeImpl aImpl)
+            throws AeBusinessProcessException {
+        super.visitScope(aImpl);
+        AeActivityScopeDef activityScopeDef = (AeActivityScopeDef) aImpl.getDefinition();
+        AeScopeDef scopeDef = activityScopeDef.getScopeDef();
+        addScope(aImpl, scopeDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.AeBusinessProcess)
+     */
+    public void visit(AeBusinessProcess aImpl) throws AeBusinessProcessException {
+        super.visit(aImpl);
+
+        AeProcessDef processDef = (AeProcessDef) aImpl.getDefinition();
+        addScope(aImpl, processDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor#visit(org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler)
+     */
+    public void visit(AeCompensationHandler aImpl) throws AeBusinessProcessException {
+        super.visit(aImpl);
+
+        AeCompInfo compInfo = aImpl.getCompInfo();
+        if (compInfo != null) {
+            addCompInfo(compInfo);
+        }
+    }
 }

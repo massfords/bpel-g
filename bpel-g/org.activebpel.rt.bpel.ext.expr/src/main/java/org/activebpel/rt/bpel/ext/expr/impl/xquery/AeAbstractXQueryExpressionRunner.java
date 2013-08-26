@@ -42,131 +42,115 @@ import org.w3c.dom.Node;
 /**
  * A base class for implementations of an XQuery expression runner.
  */
-public abstract class AeAbstractXQueryExpressionRunner extends AeAbstractExpressionRunner
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#createExpressionTypeConverter(org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
-    */
-   protected IAeExpressionTypeConverter createExpressionTypeConverter(IAeExpressionRunnerContext aContext)
-   {
-      return new AeXQueryExpressionTypeConverter();
-   }
+public abstract class AeAbstractXQueryExpressionRunner extends AeAbstractExpressionRunner {
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#createExpressionTypeConverter(org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
+     */
+    protected IAeExpressionTypeConverter createExpressionTypeConverter(IAeExpressionRunnerContext aContext) {
+        return new AeXQueryExpressionTypeConverter();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
-    */
-   protected Object doExecuteExpression(String aExpression, IAeExpressionRunnerContext aContext)
-         throws AeBpelException
-   {
-      try
-      {
-         IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
-         IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
+     */
+    protected Object doExecuteExpression(String aExpression, IAeExpressionRunnerContext aContext)
+            throws AeBpelException {
+        try {
+            IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
+            IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
 
-         Configuration config = new Configuration();
-         config.setExtensionBinder(new AeXQueryFunctionLibrary(funcExecContext));
-         StaticQueryContext staticContext = new StaticQueryContext(config);
-         VariableResolver varResolver = createVariableResolver(funcExecContext, aContext.getVariableResolver());
-         staticContext.setVariableResolver(varResolver);
-         staticContext.setExternalNamespaceResolver(new AeXQueryNamespaceResolver(aContext.getNamespaceContext()));
-         XQueryExpression exp = staticContext.compileQuery(aExpression);
+            Configuration config = new Configuration();
+            config.setExtensionBinder(new AeXQueryFunctionLibrary(funcExecContext));
+            StaticQueryContext staticContext = new StaticQueryContext(config);
+            VariableResolver varResolver = createVariableResolver(funcExecContext, aContext.getVariableResolver());
+            staticContext.setVariableResolver(varResolver);
+            staticContext.setExternalNamespaceResolver(new AeXQueryNamespaceResolver(aContext.getNamespaceContext()));
+            XQueryExpression exp = staticContext.compileQuery(aExpression);
 
-         return executeXQueryExpression(aContext, config, staticContext, exp);
-      }
-      catch (AeExpressionException ee)
-      {
-         throw ee.getWrappedException();
-      }
-      catch (Throwable t)
-      {
-         throwSubLangExecutionFault(aExpression, t, aContext);
-         return null; // Will never get here - the above call will always throw.
-      }
-   }
+            return executeXQueryExpression(aContext, config, staticContext, exp);
+        } catch (AeExpressionException ee) {
+            throw ee.getWrappedException();
+        } catch (Throwable t) {
+            throwSubLangExecutionFault(aExpression, t, aContext);
+            return null; // Will never get here - the above call will always throw.
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteJoinConditionExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
-    */
-   protected Object doExecuteJoinConditionExpression(String aExpression, IAeExpressionRunnerContext aContext) throws AeBpelException
-   {
-      try
-      {
-         IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
-         IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteJoinConditionExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
+     */
+    protected Object doExecuteJoinConditionExpression(String aExpression, IAeExpressionRunnerContext aContext) throws AeBpelException {
+        try {
+            IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
+            IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
 
-         Configuration config = new Configuration();
-         config.setExtensionBinder(new AeXQueryFunctionLibrary(funcExecContext));
-         StaticQueryContext staticContext = new StaticQueryContext(config);
-         VariableResolver varResolver = createLinkVariableResolver(funcExecContext, aContext.getVariableResolver());
-         staticContext.setVariableResolver(varResolver);
-         staticContext.setExternalNamespaceResolver(new AeXQueryNamespaceResolver(aContext.getNamespaceContext()));
-         XQueryExpression exp = staticContext.compileQuery(aExpression);
+            Configuration config = new Configuration();
+            config.setExtensionBinder(new AeXQueryFunctionLibrary(funcExecContext));
+            StaticQueryContext staticContext = new StaticQueryContext(config);
+            VariableResolver varResolver = createLinkVariableResolver(funcExecContext, aContext.getVariableResolver());
+            staticContext.setVariableResolver(varResolver);
+            staticContext.setExternalNamespaceResolver(new AeXQueryNamespaceResolver(aContext.getNamespaceContext()));
+            XQueryExpression exp = staticContext.compileQuery(aExpression);
 
-         return executeXQueryExpression(aContext, config, staticContext, exp);
-      }
-      catch (AeExpressionException ee)
-      {
-         throw ee.getWrappedException();
-      }
-      catch (Throwable t)
-      {
-         throwSubLangExecutionFault(aExpression, t, aContext);
-         return null; // Will never get here - the above call will always throw.
-      }
-   }
+            return executeXQueryExpression(aContext, config, staticContext, exp);
+        } catch (AeExpressionException ee) {
+            throw ee.getWrappedException();
+        } catch (Throwable t) {
+            throwSubLangExecutionFault(aExpression, t, aContext);
+            return null; // Will never get here - the above call will always throw.
+        }
+    }
 
-   /**
-    * Executes a compiled XQuery.  This method is used to share code between doExecuteExpression and
-    * doExecuteJoinConditionExpression.
-    * 
-    * @param aContext
-    * @param aConfig
-    * @param aStaticContext
-    * @param aXQueryExpression
-    * @throws XPathException
-    */
-   protected Object executeXQueryExpression(IAeExpressionRunnerContext aContext, Configuration aConfig,
-         StaticQueryContext aStaticContext, XQueryExpression aXQueryExpression) throws XPathException
-   {
-      DynamicQueryContext dynamicContext = new DynamicQueryContext(aConfig);
-      // For expressions, the context item is always null, but go ahead and add it anyway, since 
-      // it is on the interface.
-      if (aContext.getEvaluationContext() instanceof Node)
-      {
-         Node context = (Node) aContext.getEvaluationContext();
-         dynamicContext.setContextItem(aStaticContext.buildDocument(new DOMSource(context)));
-      }
-      // Note: the call to iterator effectively evaluates the expression and returns a Sequence of
-      // items.
-      SequenceIterator resultsIter = aXQueryExpression.iterator(dynamicContext);
-      DocumentInfo docInfo = QueryResult.wrap(resultsIter, aConfig);
-      Properties props = new Properties();
-      props.setProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
-      props.setProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
-      // Create a DOM Document/Element to store the result
-      Document doc = AeXmlUtil.newDocument();
-      DOMResult result = new DOMResult(doc);
-      QueryResult.serialize(docInfo, result, props, aConfig);
-      
-      return new AeXQueryExpressionResult((Document) result.getNode());
-   }
+    /**
+     * Executes a compiled XQuery.  This method is used to share code between doExecuteExpression and
+     * doExecuteJoinConditionExpression.
+     *
+     * @param aContext
+     * @param aConfig
+     * @param aStaticContext
+     * @param aXQueryExpression
+     * @throws XPathException
+     */
+    protected Object executeXQueryExpression(IAeExpressionRunnerContext aContext, Configuration aConfig,
+                                             StaticQueryContext aStaticContext, XQueryExpression aXQueryExpression) throws XPathException {
+        DynamicQueryContext dynamicContext = new DynamicQueryContext(aConfig);
+        // For expressions, the context item is always null, but go ahead and add it anyway, since
+        // it is on the interface.
+        if (aContext.getEvaluationContext() instanceof Node) {
+            Node context = (Node) aContext.getEvaluationContext();
+            dynamicContext.setContextItem(aStaticContext.buildDocument(new DOMSource(context)));
+        }
+        // Note: the call to iterator effectively evaluates the expression and returns a Sequence of
+        // items.
+        SequenceIterator resultsIter = aXQueryExpression.iterator(dynamicContext);
+        DocumentInfo docInfo = QueryResult.wrap(resultsIter, aConfig);
+        Properties props = new Properties();
+        props.setProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
+        props.setProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
+        // Create a DOM Document/Element to store the result
+        Document doc = AeXmlUtil.newDocument();
+        DOMResult result = new DOMResult(doc);
+        QueryResult.serialize(docInfo, result, props, aConfig);
 
-   /**
-    * Creates the variable resolver to use for executing expressions.  Note that this implementation
-    * returns null because BPEL 1.1 does not allow binding BPEL variables using the XQuery $varName
-    * syntax.
-    * 
-    * @param aFunctionExecContext
-    * @param aVariableResolver 
-    */
-   protected abstract VariableResolver createVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver);
+        return new AeXQueryExpressionResult((Document) result.getNode());
+    }
 
-   /**
-    * Creates the variable resolver to use for executing joing condition expressions.  Note that 
-    * this implementation returns null because BPEL 1.1 does not allow binding BPEL links using 
-    * the XQuery $linkName syntax.
-    * 
-    * @param aFunctionExecContext
-    */
-   protected abstract VariableResolver createLinkVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver);
+    /**
+     * Creates the variable resolver to use for executing expressions.  Note that this implementation
+     * returns null because BPEL 1.1 does not allow binding BPEL variables using the XQuery $varName
+     * syntax.
+     *
+     * @param aFunctionExecContext
+     * @param aVariableResolver
+     */
+    protected abstract VariableResolver createVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver);
+
+    /**
+     * Creates the variable resolver to use for executing joing condition expressions.  Note that
+     * this implementation returns null because BPEL 1.1 does not allow binding BPEL links using
+     * the XQuery $linkName syntax.
+     *
+     * @param aFunctionExecContext
+     */
+    protected abstract VariableResolver createLinkVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver);
 }

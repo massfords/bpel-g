@@ -18,42 +18,42 @@ import javax.xml.namespace.QName;
 /**
  * Wraps the invoke response data.
  */
-public interface IAeWebServiceResponse extends Serializable
-{
-   /**
-    * Accessor for the error code QName.
-    */
-   public QName getErrorCode();
-   
-   /**
-    * Accessor for any message data.  This may be null.
-    */
-   public IAeWebServiceMessageData getMessageData();
-   
-   /**
-    * Return true if the response wraps a fault.
-    */
-   public boolean isFaultResponse();
-   
-   /**
-    * Returns an error message associated with the fault or null if there is none.
-    */
-   public String getErrorString();
-   
-   /**
-    * Returns a stacktrace or other detailed information associated with the fault or null if there was none. 
-    */
-   public String getErrorDetail();
-   
-   /**
-    * Return the <code>Map</code> of (string) name/value pairs from the
-    * business process.
-    */
-   public Map<String,String> getBusinessProcessProperties();
-   
-   /**
-    * Flag that indicates that the actual response will be coming later. (Early Reply to the client)
-    * @return Returns true if the response is early reply.
-    */
-   public boolean isEarlyReply();   
+public interface IAeWebServiceResponse extends Serializable {
+    /**
+     * Accessor for the error code QName.
+     */
+    public QName getErrorCode();
+
+    /**
+     * Accessor for any message data.  This may be null.
+     */
+    public IAeWebServiceMessageData getMessageData();
+
+    /**
+     * Return true if the response wraps a fault.
+     */
+    public boolean isFaultResponse();
+
+    /**
+     * Returns an error message associated with the fault or null if there is none.
+     */
+    public String getErrorString();
+
+    /**
+     * Returns a stacktrace or other detailed information associated with the fault or null if there was none.
+     */
+    public String getErrorDetail();
+
+    /**
+     * Return the <code>Map</code> of (string) name/value pairs from the
+     * business process.
+     */
+    public Map<String, String> getBusinessProcessProperties();
+
+    /**
+     * Flag that indicates that the actual response will be coming later. (Early Reply to the client)
+     *
+     * @return Returns true if the response is early reply.
+     */
+    public boolean isEarlyReply();
 }

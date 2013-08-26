@@ -12,6 +12,5 @@ package org.activebpel.rt.xml.def;
 /**
  * Interface for adapters to add behavior for extension elements
  */
-public interface IAeAdapter
-{
+public interface IAeAdapter {
 }

@@ -25,168 +25,157 @@ import java.util.List;
  * Handles the details of reading and writing comments
  * during def process serialization/deserialization.
  */
-public class AeCommentIO
-{
+public class AeCommentIO {
 
-   /** Accumulated comments awaiting an encounter with their corresponding comment-aware def element. */
-   private final StringBuilder lastComments = new StringBuilder();
+    /**
+     * Accumulated comments awaiting an encounter with their corresponding comment-aware def element.
+     */
+    private final StringBuilder lastComments = new StringBuilder();
 
-   /**
-    * Comments precede activity node.  Check to see if any comment
-    * strings preceeded the current activity node and if they did,
-    * add them to the <code>AeActivityObject</code> reference.
-    * @param aCurrentDef will be populated with any comments stored in the buffer
-    */
-   public void preserveComments(AeBaseXmlDef aCurrentDef)
-   {
-      if ( commentBufferHasComments() )
-      {
-         addCommentToCurrentActivity(aCurrentDef);
-      }
-   }
+    /**
+     * Comments precede activity node.  Check to see if any comment
+     * strings preceeded the current activity node and if they did,
+     * add them to the <code>AeActivityObject</code> reference.
+     *
+     * @param aCurrentDef will be populated with any comments stored in the buffer
+     */
+    public void preserveComments(AeBaseXmlDef aCurrentDef) {
+        if (commentBufferHasComments()) {
+            addCommentToCurrentActivity(aCurrentDef);
+        }
+    }
 
-   /**
-    * Returns, as a new String, the accumulated comments text then clears its value.  
-    * @return String
-    */
-   public String getAndClearLastComments()
-   {
-      String comment = lastComments.toString();
-      lastComments.setLength(0);
-      return AeUtil.trimText(comment);
-   }
+    /**
+     * Returns, as a new String, the accumulated comments text then clears its value.
+     *
+     * @return String
+     */
+    public String getAndClearLastComments() {
+        String comment = lastComments.toString();
+        lastComments.setLength(0);
+        return AeUtil.trimText(comment);
+    }
 
-   /**
-    * Convenience method to set current comment/s on def
-    * @param aBaseDef
-    */
-   private void addCommentToCurrentActivity(AeBaseXmlDef aBaseDef)
-   {
-      aBaseDef.setComment( getAndClearLastComments() );
-   }
+    /**
+     * Convenience method to set current comment/s on def
+     *
+     * @param aBaseDef
+     */
+    private void addCommentToCurrentActivity(AeBaseXmlDef aBaseDef) {
+        aBaseDef.setComment(getAndClearLastComments());
+    }
 
 
-   /**
-    * Indicates if any comment nodes preceeded the current def
-    * @return boolean status indicating if comment node/s preceeded activity
-    */
-   private boolean commentBufferHasComments()
-   {
-      return getLastComments().length() > 0;
-   }
-   
-   /**
-    * Accessor method for accumulated BPEL comments.
-    * @return StringBuffer.
-    */
-   private StringBuilder getLastComments()
-   {
-      return lastComments;
-   }
-   
-   /**
-    * Appends the given string to the end of the accumulated comment string. 
-    * A newline is appended prior to the given string if the accumulated comment
-    * string is not empty.
-    * @param aAppendString the comment to append
-    */
-   public void appendToComments(String aAppendString)
-   {
-      if ( aAppendString != null )
-      {
+    /**
+     * Indicates if any comment nodes preceeded the current def
+     *
+     * @return boolean status indicating if comment node/s preceeded activity
+     */
+    private boolean commentBufferHasComments() {
+        return getLastComments().length() > 0;
+    }
 
-         if ( lastComments.length() > 0 )
-         {
-        	 lastComments.append("\n"); //$NON-NLS-1$
-         }
+    /**
+     * Accessor method for accumulated BPEL comments.
+     *
+     * @return StringBuffer.
+     */
+    private StringBuilder getLastComments() {
+        return lastComments;
+    }
 
-         lastComments.append(aAppendString);
-      }
-   }
+    /**
+     * Appends the given string to the end of the accumulated comment string.
+     * A newline is appended prior to the given string if the accumulated comment
+     * string is not empty.
+     *
+     * @param aAppendString the comment to append
+     */
+    public void appendToComments(String aAppendString) {
+        if (aAppendString != null) {
 
-   /**
-    * Generates a formatted XML comment node(s) based upon the given comment string argument.
-    * The string argument may contain newline characters.  A separate comment node is generated for
-    * each newline delimited substring.  When multiple comment nodes are generated each comment 
-    * string is right space-padded for matching right margins.  For Document node arguments, 
-    * generated comment nodes are added as children.  For Element node arguments, generated comment 
-    * nodes are added as siblings.  
-    * @param aNode a Document or Element node for parenting generated comment nodes. 
-    * @param aComments the comment string. May contain newline characters.
-    */
-   public static void writeFormattedComments(Node aNode, String aComments)
-   {
-      List<String> formattedComments = formatComments(aComments);
-      if ( aNode instanceof Document )
-      {
-         Document doc = (Document)aNode;
-         // add comment nodes as child nodes.
-         for (String comment : formattedComments)
-         {
-            doc.appendChild( doc.createComment(comment) );
-         }
-      }
-      else if ( aNode instanceof Element )
-      {
-         Element elem = (Element)aNode;
-         // add comment nodes as preceding sibling nodes.
-         for (String comment : formattedComments)
-         {
-            Node commentNode = elem.getOwnerDocument().createComment(comment);
-            elem.getParentNode().insertBefore( commentNode, elem );
-         }
-      }
-   }  
-    
-   /**
-    * Breaks up a string of newline delimited text lines into a list. Each line is space padded
-    * on the right so that line matches the length of the longest line in the list.
-    * @param aComments a string of newline delimited text lines.
-    * @return ArrayList a list string lines.
-    */
-   private static List<String> formatComments(String aComments)
-   {
-      ArrayList<String> formattedList = new ArrayList<>();
-      if ( ! AeUtil.isNullOrEmpty(aComments) )
-      {
-         int maxLen = 0;
-         List<String> commentList = new ArrayList<>();
-         String line;
-         BufferedReader buffReader = new BufferedReader(new StringReader(aComments));
-         try
-         {
-            while ( ((line = buffReader.readLine()) != null) )
-            {
-               line = line.trim();
-               maxLen = (line.length() > maxLen ? line.length() : maxLen); 
-               commentList.add(line);
+            if (lastComments.length() > 0) {
+                lastComments.append("\n"); //$NON-NLS-1$
             }
-         }
-         catch (IOException e) { }    // eat the exception. 
 
-         if ( maxLen > 0 )
-         {
-            // Add string lines to the results list.
-             for (String c : commentList) {
-                 String commentLine = " " + getPadding(c, maxLen) + " "; //$NON-NLS-1$ //$NON-NLS-2$
-                 formattedList.add(commentLine);
-             }
-         }
-      }
-      return formattedList;
-   }
-   
-   /**
-    * Space pads, as needed, the given string argument.
-    * @param aStr The string to be padded.
-    * @param aStrMax The length the string needs to be including padding.
-    * @return String the original string text right-padded with spaces as necessary.
-    */
-   private static String getPadding(String aStr, int aStrMax)
-   {
-      StringBuilder padString = new StringBuilder(aStr);
-      for ( int i=0; i < (aStrMax-aStr.length()); i++ )
-         padString.append(" "); //$NON-NLS-1$
-      return padString.toString();
-   }
+            lastComments.append(aAppendString);
+        }
+    }
+
+    /**
+     * Generates a formatted XML comment node(s) based upon the given comment string argument.
+     * The string argument may contain newline characters.  A separate comment node is generated for
+     * each newline delimited substring.  When multiple comment nodes are generated each comment
+     * string is right space-padded for matching right margins.  For Document node arguments,
+     * generated comment nodes are added as children.  For Element node arguments, generated comment
+     * nodes are added as siblings.
+     *
+     * @param aNode     a Document or Element node for parenting generated comment nodes.
+     * @param aComments the comment string. May contain newline characters.
+     */
+    public static void writeFormattedComments(Node aNode, String aComments) {
+        List<String> formattedComments = formatComments(aComments);
+        if (aNode instanceof Document) {
+            Document doc = (Document) aNode;
+            // add comment nodes as child nodes.
+            for (String comment : formattedComments) {
+                doc.appendChild(doc.createComment(comment));
+            }
+        } else if (aNode instanceof Element) {
+            Element elem = (Element) aNode;
+            // add comment nodes as preceding sibling nodes.
+            for (String comment : formattedComments) {
+                Node commentNode = elem.getOwnerDocument().createComment(comment);
+                elem.getParentNode().insertBefore(commentNode, elem);
+            }
+        }
+    }
+
+    /**
+     * Breaks up a string of newline delimited text lines into a list. Each line is space padded
+     * on the right so that line matches the length of the longest line in the list.
+     *
+     * @param aComments a string of newline delimited text lines.
+     * @return ArrayList a list string lines.
+     */
+    private static List<String> formatComments(String aComments) {
+        ArrayList<String> formattedList = new ArrayList<>();
+        if (!AeUtil.isNullOrEmpty(aComments)) {
+            int maxLen = 0;
+            List<String> commentList = new ArrayList<>();
+            String line;
+            BufferedReader buffReader = new BufferedReader(new StringReader(aComments));
+            try {
+                while (((line = buffReader.readLine()) != null)) {
+                    line = line.trim();
+                    maxLen = (line.length() > maxLen ? line.length() : maxLen);
+                    commentList.add(line);
+                }
+            } catch (IOException e) {
+            }    // eat the exception.
+
+            if (maxLen > 0) {
+                // Add string lines to the results list.
+                for (String c : commentList) {
+                    String commentLine = " " + getPadding(c, maxLen) + " "; //$NON-NLS-1$ //$NON-NLS-2$
+                    formattedList.add(commentLine);
+                }
+            }
+        }
+        return formattedList;
+    }
+
+    /**
+     * Space pads, as needed, the given string argument.
+     *
+     * @param aStr    The string to be padded.
+     * @param aStrMax The length the string needs to be including padding.
+     * @return String the original string text right-padded with spaces as necessary.
+     */
+    private static String getPadding(String aStr, int aStrMax) {
+        StringBuilder padString = new StringBuilder(aStr);
+        for (int i = 0; i < (aStrMax - aStr.length()); i++)
+            padString.append(" "); //$NON-NLS-1$
+        return padString.toString();
+    }
 }

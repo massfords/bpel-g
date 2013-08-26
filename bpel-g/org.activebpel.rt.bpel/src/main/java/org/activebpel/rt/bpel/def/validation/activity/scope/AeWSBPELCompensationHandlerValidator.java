@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -17,30 +17,27 @@ import org.activebpel.rt.bpel.def.validation.extensions.AeExtensionValidator;
 /**
  * model provides validation for the compensationHandler def
  */
-public class AeWSBPELCompensationHandlerValidator extends AeCompensationHandlerValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeWSBPELCompensationHandlerValidator(AeCompensationHandlerDef aDef)
-   {
-      super(aDef);
-   }
+public class AeWSBPELCompensationHandlerValidator extends AeCompensationHandlerValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeWSBPELCompensationHandlerValidator(AeCompensationHandlerDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      // Is this an extension compensation handler?  (process level comp handler)
-      if (getDef().getParent() instanceof AeProcessDef)
-      {
-         AeExtensionValidator extensionValidator = findExtensionValidator(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ALLOW_PROCESS_COORDINATION);
-         processExtensionValidator(extensionValidator, true, IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ALLOW_PROCESS_COORDINATION);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        // Is this an extension compensation handler?  (process level comp handler)
+        if (getDef().getParent() instanceof AeProcessDef) {
+            AeExtensionValidator extensionValidator = findExtensionValidator(IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ALLOW_PROCESS_COORDINATION);
+            processExtensionValidator(extensionValidator, true, IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ALLOW_PROCESS_COORDINATION);
+        }
+    }
 }
  

@@ -14,17 +14,16 @@ package org.activebpel.rt.bpel.def;
  * Defs that can be a parent of the 'eventHandlers' construct should implement this
  * interface.
  */
-public interface IAeEventHandlersParentDef
-{
-   /**
-    * Returns the event handlers child def.
-    */
-   public AeEventHandlersDef getEventHandlersDef();
+public interface IAeEventHandlersParentDef {
+    /**
+     * Returns the event handlers child def.
+     */
+    public AeEventHandlersDef getEventHandlersDef();
 
-   /**
-    * Sets the event handlers child def.
-    * 
-    * @param aEventHandlers
-    */
-   public void setEventHandlers(AeEventHandlersDef aEventHandlers);
+    /**
+     * Sets the event handlers child def.
+     *
+     * @param aEventHandlers
+     */
+    public void setEventHandlers(AeEventHandlersDef aEventHandlers);
 }

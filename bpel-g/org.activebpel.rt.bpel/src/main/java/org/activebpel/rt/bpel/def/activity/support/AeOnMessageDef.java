@@ -34,367 +34,344 @@ import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 import org.activebpel.rt.message.AeMessagePartsMap;
 
-/** The onMessage element used within the Pick activity */
+/**
+ * The onMessage element used within the Pick activity
+ */
 public class AeOnMessageDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef,
-      IAeReceiveActivityDef, IAeActivityCreateInstanceDef, IAeFromPartsParentDef, IAeCorrelationsParentDef,
-      IAeMessageDataConsumerDef
-{
-   /**
-     * 
+        IAeReceiveActivityDef, IAeActivityCreateInstanceDef, IAeFromPartsParentDef, IAeCorrelationsParentDef,
+        IAeMessageDataConsumerDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -275736037845433303L;
-/** message variable */
-   private String mVariable;
-   /** on message one-way flag. */
-   private boolean mOneWay = false;
-   /** Message exchange value */
-   private String mMessageExchange;
-   /** delegate which handle the partner link and correlation information. */
-   private final AePartnerLinkDelegate mDelegate = new AePartnerLinkDelegate();
-   /** The fromParts child def. */
-   private AeFromPartsDef mFromPartsDef;
-   /** name of the strategy used to consumer the message data */
-   private String mMessageDataConsumerStrategy;
-   /** the type of activity for display in errors */
-   private static final String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.onMessage"); //$NON-NLS-1$
-   
-   /**
-    * Default constructor
-    */
-   public AeOnMessageDef()
-   {
-      super();
-   }
+    /**
+     * message variable
+     */
+    private String mVariable;
+    /**
+     * on message one-way flag.
+     */
+    private boolean mOneWay = false;
+    /**
+     * Message exchange value
+     */
+    private String mMessageExchange;
+    /**
+     * delegate which handle the partner link and correlation information.
+     */
+    private final AePartnerLinkDelegate mDelegate = new AePartnerLinkDelegate();
+    /**
+     * The fromParts child def.
+     */
+    private AeFromPartsDef mFromPartsDef;
+    /**
+     * name of the strategy used to consumer the message data
+     */
+    private String mMessageDataConsumerStrategy;
+    /**
+     * the type of activity for display in errors
+     */
+    private static final String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.onMessage"); //$NON-NLS-1$
 
-   /**
-    * Returns the delegate.
-    */
-   protected AePartnerLinkDelegate getDelegate()
-   {
-      return mDelegate;
-   }
+    /**
+     * Default constructor
+     */
+    public AeOnMessageDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain the name of the partner link.
-    *
-    * @return name of partner link
-    */
-   public String getPartnerLink()
-   {
-      return getDelegate().getPartnerLink();
-   }
+    /**
+     * Returns the delegate.
+     */
+    protected AePartnerLinkDelegate getDelegate() {
+        return mDelegate;
+    }
 
-   /**
-    * Mutator method to set the name of the partner link.
-    *
-    * @param aPartnerLink name of partner link
-    */
-   public void setPartnerLink(String aPartnerLink)
-   {
-      getDelegate().setPartnerLink( aPartnerLink );
-   }
+    /**
+     * Accessor method to obtain the name of the partner link.
+     *
+     * @return name of partner link
+     */
+    public String getPartnerLink() {
+        return getDelegate().getPartnerLink();
+    }
 
-   /**
-    * Accessor method to obtain the port type for the message.
-    *
-    * @return port type of message
-    */
-   public QName getPortType()
-   {
-      return getDelegate().getPortType();
-   }
+    /**
+     * Mutator method to set the name of the partner link.
+     *
+     * @param aPartnerLink name of partner link
+     */
+    public void setPartnerLink(String aPartnerLink) {
+        getDelegate().setPartnerLink(aPartnerLink);
+    }
 
-   /**
-    * Mutator method to set the port type of the message.
-    *
-    * @param aPortType port type of the message
-    */
-   public void setPortType(QName aPortType)
-   {
-      getDelegate().setPortType(aPortType);
-   }
+    /**
+     * Accessor method to obtain the port type for the message.
+     *
+     * @return port type of message
+     */
+    public QName getPortType() {
+        return getDelegate().getPortType();
+    }
 
-   /**
-    * Accessor method to obtain the operation for the message.
-    *
-    * @return operation of message
-    */
-   public String getOperation()
-   {
-      return getDelegate().getOperation();
-   }
+    /**
+     * Mutator method to set the port type of the message.
+     *
+     * @param aPortType port type of the message
+     */
+    public void setPortType(QName aPortType) {
+        getDelegate().setPortType(aPortType);
+    }
 
-   /**
-    * Mutator method to set the operation of the message.
-    *
-    * @param aOperation operation of the message
-    */
-   public void setOperation(String aOperation)
-   {
-      getDelegate().setOperation(aOperation);
-   }
+    /**
+     * Accessor method to obtain the operation for the message.
+     *
+     * @return operation of message
+     */
+    public String getOperation() {
+        return getDelegate().getOperation();
+    }
 
-   /**
-    * Accessor method to obtain the variable for the message.
-    *
-    * @return variable for message
-    */
-   public String getVariable()
-   {
-      return mVariable;
-   }
+    /**
+     * Mutator method to set the operation of the message.
+     *
+     * @param aOperation operation of the message
+     */
+    public void setOperation(String aOperation) {
+        getDelegate().setOperation(aOperation);
+    }
 
-   /**
-    * Mutator method to set the variable for the message.
-    *
-    * @param aVariable the variable for the message
-    */
-   public void setVariable(String aVariable)
-   {
-      mVariable = aVariable;
-   }
+    /**
+     * Accessor method to obtain the variable for the message.
+     *
+     * @return variable for message
+     */
+    public String getVariable() {
+        return mVariable;
+    }
 
-   /**
-    * Provides the ability to add a correlation element to the correlation list.
-    *
-    * @param aCorrelation the correlation to be added
-    */
-   public void addCorrelationDef(AeCorrelationDef aCorrelation)
-   {
-      getDelegate().addCorrelation(aCorrelation);
-   }
+    /**
+     * Mutator method to set the variable for the message.
+     *
+     * @param aVariable the variable for the message
+     */
+    public void setVariable(String aVariable) {
+        mVariable = aVariable;
+    }
 
-   /**
-    * Provide a list of the Correlation objects for the user to iterate .
-    *
-    * @return iterator of AeCorrelationDef objects or null if none defined
-    */
-   public Iterator getCorrelationDefs()
-   {
-      return getDelegate().getCorrelationDefs();
-   }
+    /**
+     * Provides the ability to add a correlation element to the correlation list.
+     *
+     * @param aCorrelation the correlation to be added
+     */
+    public void addCorrelationDef(AeCorrelationDef aCorrelation) {
+        getDelegate().addCorrelation(aCorrelation);
+    }
 
-   /**
-    * Utility method to determine if a message has a correlation list
-    * @return true if there are elements in the correlation list.
-    */
-   public boolean hasCorrelationList()
-   {
-      return getDelegate().hasCorrelationList();
-   }
+    /**
+     * Provide a list of the Correlation objects for the user to iterate .
+     *
+     * @return iterator of AeCorrelationDef objects or null if none defined
+     */
+    public Iterator getCorrelationDefs() {
+        return getDelegate().getCorrelationDefs();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Utility method to determine if a message has a correlation list
+     *
+     * @return true if there are elements in the correlation list.
+     */
+    public boolean hasCorrelationList() {
+        return getDelegate().hasCorrelationList();
+    }
 
-   /**
-    * Accessor method to obtain the oneWay flag.
-    */
-   public boolean isOneWay()
-   {
-      return mOneWay;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Mutator method to set the one way flag for the activity.
-    *
-    * @param aOneWay boolean flag indicating if the instance should be one way.
-    */
-   public void setOneWay(boolean aOneWay)
-   {
-      mOneWay = aOneWay;
-   }
+    /**
+     * Accessor method to obtain the oneWay flag.
+     */
+    public boolean isOneWay() {
+        return mOneWay;
+    }
 
-   /**
-    * @return Returns the messageExchange.
-    */
-   public String getMessageExchange()
-   {
-      return mMessageExchange;
-   }
+    /**
+     * Mutator method to set the one way flag for the activity.
+     *
+     * @param aOneWay boolean flag indicating if the instance should be one way.
+     */
+    public void setOneWay(boolean aOneWay) {
+        mOneWay = aOneWay;
+    }
 
-   /**
-    * @param aMessageExchange The messageExchange to set.
-    */
-   public void setMessageExchange(String aMessageExchange)
-   {
-      mMessageExchange = aMessageExchange;
-   }
+    /**
+     * @return Returns the messageExchange.
+     */
+    public String getMessageExchange() {
+        return mMessageExchange;
+    }
 
-   /**
-    * Overrides method to return the state of the parent def (Pick) activity's createInstance attribute.
-    * @see org.activebpel.rt.bpel.def.IAeActivityCreateInstanceDef#isCreateInstance()
-    */
-   public boolean isCreateInstance()
-   {
-      if ( getParent() instanceof IAeActivityCreateInstanceDef )
-      {
-         return ( (IAeActivityCreateInstanceDef) getParent()).isCreateInstance();
-      }
-      else
-      {
-         return false;
-      }
-   }
+    /**
+     * @param aMessageExchange The messageExchange to set.
+     */
+    public void setMessageExchange(String aMessageExchange) {
+        mMessageExchange = aMessageExchange;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#setFromPartsDef(AeFromPartsDef)
-    */
-   public void setFromPartsDef(AeFromPartsDef aDef)
-   {
-      mFromPartsDef = aDef;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartsDef()
-    */
-   public AeFromPartsDef getFromPartsDef()
-   {
-      return mFromPartsDef;
-   }
+    /**
+     * Overrides method to return the state of the parent def (Pick) activity's createInstance attribute.
+     *
+     * @see org.activebpel.rt.bpel.def.IAeActivityCreateInstanceDef#isCreateInstance()
+     */
+    public boolean isCreateInstance() {
+        if (getParent() instanceof IAeActivityCreateInstanceDef) {
+            return ((IAeActivityCreateInstanceDef) getParent()).isCreateInstance();
+        } else {
+            return false;
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
-    */
-   public Iterator<? extends AeFromPartDef> getFromPartDefs()
-   {
-      if (getFromPartsDef() == null)
-         return Collections.<AeFromPartDef>emptyList().iterator();
-      else
-         return getFromPartsDef().getFromPartDefs();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#setFromPartsDef(AeFromPartsDef)
+     */
+    public void setFromPartsDef(AeFromPartsDef aDef) {
+        mFromPartsDef = aDef;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#getCorrelationsDef()
-    */
-   public AeCorrelationsDef getCorrelationsDef()
-   {
-      return getDelegate().getCorrelationsDef();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartsDef()
+     */
+    public AeFromPartsDef getFromPartsDef() {
+        return mFromPartsDef;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#setCorrelationsDef(org.activebpel.rt.bpel.def.AeCorrelationsDef)
-    */
-   public void setCorrelationsDef(AeCorrelationsDef aDef)
-   {
-      getDelegate().setCorrelationsDef(aDef);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
+     */
+    public Iterator<? extends AeFromPartDef> getFromPartDefs() {
+        if (getFromPartsDef() == null)
+            return Collections.<AeFromPartDef>emptyList().iterator();
+        else
+            return getFromPartsDef().getFromPartDefs();
+    }
 
-   /**
-    * Gets the partner link key.
-    */
-   private AePartnerLinkDefKey getPartnerLinkKey()
-   {
-      AePartnerLinkDef plinkDef = getPartnerLinkDef();
-      if (plinkDef == null)
-         return null;
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#getCorrelationsDef()
+     */
+    public AeCorrelationsDef getCorrelationsDef() {
+        return getDelegate().getCorrelationsDef();
+    }
 
-      return new AePartnerLinkDefKey(plinkDef);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#setCorrelationsDef(org.activebpel.rt.bpel.def.AeCorrelationsDef)
+     */
+    public void setCorrelationsDef(AeCorrelationsDef aDef) {
+        getDelegate().setCorrelationsDef(aDef);
+    }
 
-   /**
-    * Gets the partner link def
-    */
-   public AePartnerLinkDef getPartnerLinkDef()
-   {
-      AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(this, getPartnerLink());
-      return plinkDef;
-   }
+    /**
+     * Gets the partner link key.
+     */
+    private AePartnerLinkDefKey getPartnerLinkKey() {
+        AePartnerLinkDef plinkDef = getPartnerLinkDef();
+        if (plinkDef == null)
+            return null;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAePartnerLinkActivityDef#getPartnerLinkOperationKey()
-    */
-   public AePartnerLinkOpKey getPartnerLinkOperationKey()
-   {
-      AePartnerLinkDefKey defKey = getPartnerLinkKey();
-      if (defKey == null)
-         return null;
+        return new AePartnerLinkDefKey(plinkDef);
+    }
 
-      return new AePartnerLinkOpKey(defKey, getOperation());
-   }
+    /**
+     * Gets the partner link def
+     */
+    public AePartnerLinkDef getPartnerLinkDef() {
+        AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(this, getPartnerLink());
+        return plinkDef;
+    }
 
-   /**
-    * Sets the message parts map for the input message.
-    */
-   public void setConsumerMessagePartsMap(AeMessagePartsMap aInputMessagePartsMap)
-   {
-      getDelegate().setConsumerMessagePartsMap(aInputMessagePartsMap);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAePartnerLinkActivityDef#getPartnerLinkOperationKey()
+     */
+    public AePartnerLinkOpKey getPartnerLinkOperationKey() {
+        AePartnerLinkDefKey defKey = getPartnerLinkKey();
+        if (defKey == null)
+            return null;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getConsumerMessagePartsMap()
-    */
-   public AeMessagePartsMap getConsumerMessagePartsMap()
-   {
-      return getDelegate().getConsumerMessagePartsMap();
-   }
+        return new AePartnerLinkOpKey(defKey, getOperation());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getMessageDataConsumerVariable()
-    */
-   public AeVariableDef getMessageDataConsumerVariable()
-   {
-      return AeDefUtil.getVariableByName(getVariable(), this);
-}
+    /**
+     * Sets the message parts map for the input message.
+     */
+    public void setConsumerMessagePartsMap(AeMessagePartsMap aInputMessagePartsMap) {
+        getDelegate().setConsumerMessagePartsMap(aInputMessagePartsMap);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#setMessageDataConsumerStrategy(java.lang.String)
-    */
-   public void setMessageDataConsumerStrategy(String aStrategy)
-   {
-      mMessageDataConsumerStrategy = aStrategy;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getMessageDataConsumerStrategy()
-    */
-   public String getMessageDataConsumerStrategy()
-   {
-      return mMessageDataConsumerStrategy;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getConsumerMessagePartsMap()
+     */
+    public AeMessagePartsMap getConsumerMessagePartsMap() {
+        return getDelegate().getConsumerMessagePartsMap();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef#getContext()
-    */
-   public AeBaseDef getContext()
-   {
-      return this;
-   }
-   
-   /**
-    * Convenience method to return if this onMessage is nested within a pick
-    * or a BPWS 1.1 scope activity.
-    */
-   public boolean isPickMessage()
-   {
-      return getParent() instanceof AeActivityPickDef;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getMessageDataConsumerVariable()
+     */
+    public AeVariableDef getMessageDataConsumerVariable() {
+        return AeDefUtil.getVariableByName(getVariable(), this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getConsumerOperation()
-    */
-   public String getConsumerOperation()
-   {
-      return getOperation();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#setMessageDataConsumerStrategy(java.lang.String)
+     */
+    public void setMessageDataConsumerStrategy(String aStrategy) {
+        mMessageDataConsumerStrategy = aStrategy;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getConsumerPortType()
-    */
-   public QName getConsumerPortType()
-   {
-      return getPortType();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getMessageDataConsumerStrategy()
+     */
+    public String getMessageDataConsumerStrategy() {
+        return mMessageDataConsumerStrategy;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef#getTypeDisplayText()
-    */
-   public String getTypeDisplayText()
-   {
-      return sDisplayTypeText;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef#getContext()
+     */
+    public AeBaseDef getContext() {
+        return this;
+    }
+
+    /**
+     * Convenience method to return if this onMessage is nested within a pick
+     * or a BPWS 1.1 scope activity.
+     */
+    public boolean isPickMessage() {
+        return getParent() instanceof AeActivityPickDef;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getConsumerOperation()
+     */
+    public String getConsumerOperation() {
+        return getOperation();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef#getConsumerPortType()
+     */
+    public QName getConsumerPortType() {
+        return getPortType();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef#getTypeDisplayText()
+     */
+    public String getTypeDisplayText() {
+        return sDisplayTypeText;
+    }
 }

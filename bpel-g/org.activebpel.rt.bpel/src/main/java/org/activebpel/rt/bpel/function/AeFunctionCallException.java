@@ -15,47 +15,45 @@ import org.activebpel.rt.AeException;
  * This exception is thrown when an exception is found during execution of a
  * function.
  */
-public class AeFunctionCallException extends AeException
-{
-   /**
-     * 
+public class AeFunctionCallException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = -3014787387461891437L;
 
-/**
-    * Construct a new function call exception.
-    */
-   public AeFunctionCallException()
-   {
-      super();
-   }
+    /**
+     * Construct a new function call exception.
+     */
+    public AeFunctionCallException() {
+        super();
+    }
 
-   /**
-    * Construct a new function call exception with the passed info string.
-    * @see java.lang.Throwable#Throwable(String)
-    */
-   public AeFunctionCallException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Construct a new function call exception with the passed info string.
+     *
+     * @see java.lang.Throwable#Throwable(String)
+     */
+    public AeFunctionCallException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Construct with a root exception (used primarily for rethrowing an underlying exception).
-    * @param aRootCause
-    */
-   public AeFunctionCallException(Throwable aRootCause)
-   {
-      super(aRootCause);
-   }
+    /**
+     * Construct with a root exception (used primarily for rethrowing an underlying exception).
+     *
+     * @param aRootCause
+     */
+    public AeFunctionCallException(Throwable aRootCause) {
+        super(aRootCause);
+    }
 
-   /**
-    * Construct with a root exception (used prinarily for rethrowing an underlying exception).
-    * @param aInfo Informational message for the exception
-    * @param aRootCause Root cause of the exception
-    */
-   public AeFunctionCallException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Construct with a root exception (used prinarily for rethrowing an underlying exception).
+     *
+     * @param aInfo      Informational message for the exception
+     * @param aRootCause Root cause of the exception
+     */
+    public AeFunctionCallException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
 }

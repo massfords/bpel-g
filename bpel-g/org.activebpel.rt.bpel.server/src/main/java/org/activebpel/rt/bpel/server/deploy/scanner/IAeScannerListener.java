@@ -16,15 +16,15 @@ import bpelg.services.deploy.UnhandledException;
 /**
  * Listener interface for event callbacks fired when
  * the <code>AeDirectoryScanner</code> detects a change
- * in its watch file list. 
+ * in its watch file list.
  */
-public interface IAeScannerListener
-{
-   
-   /**
-    * Notification that a watch file has changed.
-    * @param aEvent
-    */
-   public void onChange( AeScanEvent aEvent ) throws UnhandledException, MissingResourcesException;
+public interface IAeScannerListener {
+
+    /**
+     * Notification that a watch file has changed.
+     *
+     * @param aEvent
+     */
+    public void onChange(AeScanEvent aEvent) throws UnhandledException, MissingResourcesException;
 
 }

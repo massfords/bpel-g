@@ -15,12 +15,11 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
 /**
  * Defines interface for reading process state from storage.
  */
-public interface IAeProcessStateReader
-{
-   /**
-    * Reads the state of the given process from storage.
-    *
-    * @param aProcess
-    */
-   public void readProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException;
+public interface IAeProcessStateReader {
+    /**
+     * Reads the state of the given process from storage.
+     *
+     * @param aProcess
+     */
+    public void readProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException;
 }

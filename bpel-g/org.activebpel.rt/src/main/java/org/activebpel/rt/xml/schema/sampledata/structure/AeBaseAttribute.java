@@ -8,14 +8,13 @@
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 ////////////////////////////////////////////////////////////////////////////
 
-package org.activebpel.rt.xml.schema.sampledata.structure; 
+package org.activebpel.rt.xml.schema.sampledata.structure;
 
 
 /**
  * Abstract base attribute class. E.g. base class for attribute structure objects and
  * wildcard attribute (anyAttribute) structure objects.
  */
-public abstract class AeBaseAttribute extends AeStructure
-{
+public abstract class AeBaseAttribute extends AeStructure {
 }
  

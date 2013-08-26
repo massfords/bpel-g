@@ -17,33 +17,32 @@ import org.activebpel.rt.IAeConstants;
 import org.w3c.dom.Element;
 
 /**
- * Interface for classes that represent a wsp:Policy extensibility element in 
+ * Interface for classes that represent a wsp:Policy extensibility element in
  * a WSDL document
  */
-public interface IAePolicy extends ExtensibilityElement, ElementExtensible 
-{
-   public static final String WSU_ID_ATTRIBUTE = "Id"; //$NON-NLS-1$
-   public static final String POLICY_ELEMENT = "Policy"; //$NON-NLS-1$
-   public static final QName POLICY_QNAME = new QName(IAeConstants.WSP_NAMESPACE_URI, POLICY_ELEMENT);
-   
-   /**
-    * @return the wsu:Id relative to the base URI
-    */
-   public String getReferenceId();
+public interface IAePolicy extends ExtensibilityElement, ElementExtensible {
+    public static final String WSU_ID_ATTRIBUTE = "Id"; //$NON-NLS-1$
+    public static final String POLICY_ELEMENT = "Policy"; //$NON-NLS-1$
+    public static final QName POLICY_QNAME = new QName(IAeConstants.WSP_NAMESPACE_URI, POLICY_ELEMENT);
 
-   /**
-    * @param aId the wsu:Id to set
-    */
-   public void setReferenceId(String aId);
+    /**
+     * @return the wsu:Id relative to the base URI
+     */
+    public String getReferenceId();
 
-   /**
-    * @return the wsp:Policy element
-    */
-   public Element getPolicyElement();
+    /**
+     * @param aId the wsu:Id to set
+     */
+    public void setReferenceId(String aId);
 
-   /**
-    * @param aPolicy the policy element to set
-    */
-   public void setPolicyElement(Element aPolicy);
-   
+    /**
+     * @return the wsp:Policy element
+     */
+    public Element getPolicyElement();
+
+    /**
+     * @param aPolicy the policy element to set
+     */
+    public void setPolicyElement(Element aPolicy);
+
 }

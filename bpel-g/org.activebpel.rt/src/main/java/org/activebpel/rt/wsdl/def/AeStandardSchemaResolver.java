@@ -20,48 +20,39 @@ import org.xml.sax.InputSource;
  * This implemenation of a standard schema resolver knows how to resolve standard schemas
  * from within the context of the AWF Designer.
  */
-public class AeStandardSchemaResolver implements IAeStandardSchemaResolver
-{
-   /**
-    * Creates a new standard schema resolver.
-    */
-   public static IAeStandardSchemaResolver newInstance()
-   {
-      return new AeStandardSchemaResolver();
-   }
+public class AeStandardSchemaResolver implements IAeStandardSchemaResolver {
+    /**
+     * Creates a new standard schema resolver.
+     */
+    public static IAeStandardSchemaResolver newInstance() {
+        return new AeStandardSchemaResolver();
+    }
 
-   /**
-    * Default constructor.
-    */
-   public AeStandardSchemaResolver()
-   {
-   }
+    /**
+     * Default constructor.
+     */
+    public AeStandardSchemaResolver() {
+    }
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.IAeStandardSchemaResolver#resolve(java.lang.String)
-    */
-   public InputSource resolve(String aNamespace)
-   {
-      try
-      {
-         InputStream is = AeStandardSchemas.getStandardSchema(aNamespace);
-         if (is != null)
-         {
-            return new InputSource(is);
-         }
-      }
-      catch (Throwable t)
-      {
-         AeException.logError(t, AeMessages.getString("AeStandardSchemaResolver.ERROR_0")); //$NON-NLS-1$
-      }
-      return null;
-   }
+    /**
+     * @see org.activebpel.rt.wsdl.def.IAeStandardSchemaResolver#resolve(java.lang.String)
+     */
+    public InputSource resolve(String aNamespace) {
+        try {
+            InputStream is = AeStandardSchemas.getStandardSchema(aNamespace);
+            if (is != null) {
+                return new InputSource(is);
+            }
+        } catch (Throwable t) {
+            AeException.logError(t, AeMessages.getString("AeStandardSchemaResolver.ERROR_0")); //$NON-NLS-1$
+        }
+        return null;
+    }
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.IAeStandardSchemaResolver#canResolve(java.lang.String)
-    */
-   public boolean canResolve(String aNamespace)
-   {
-      return AeStandardSchemas.canResolve(aNamespace);
-   }
+    /**
+     * @see org.activebpel.rt.wsdl.def.IAeStandardSchemaResolver#canResolve(java.lang.String)
+     */
+    public boolean canResolve(String aNamespace) {
+        return AeStandardSchemas.canResolve(aNamespace);
+    }
 }

@@ -24,92 +24,80 @@ import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
  * Assigns {@link org.activebpel.rt.message.AeMessagePartsMap} info to web
  * service activities.
  */
-public class AeWSBPELDefMessagePartsMapVisitor extends AeAbstractDefMessagePartsMapVisitor
-{
-   /**
-    * Constructs the visitor with the given WSDL provider.
-    *
-    * @param aWSDLProvider
-    */
-   public AeWSBPELDefMessagePartsMapVisitor(IAeContextWSDLProvider aWSDLProvider)
-   {
-      super(aWSDLProvider);
-   }
+public class AeWSBPELDefMessagePartsMapVisitor extends AeAbstractDefMessagePartsMapVisitor {
+    /**
+     * Constructs the visitor with the given WSDL provider.
+     *
+     * @param aWSDLProvider
+     */
+    public AeWSBPELDefMessagePartsMapVisitor(IAeContextWSDLProvider aWSDLProvider) {
+        super(aWSDLProvider);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
-    */
-   public void visit(AeActivityInvokeDef def)
-   {
-      QName portType = getPartnerRolePortType(def);
-      String operation = def.getOperation();
-      String locationPath = def.getLocationPath();
-   
-      if (def.getProducerMessagePartsMap() == null)
-      {
-         AeMessagePartsMap inputMap = createInputMessagePartsMap(portType, operation, null, null, locationPath);
-         def.setProducerMessagePartsMap(inputMap);
-      }
-   
-      if (def.getConsumerMessagePartsMap() == null)
-      {
-         AeMessagePartsMap outputMap = createOutputMessagePartsMap(portType, operation, null, null, locationPath);
-         def.setConsumerMessagePartsMap(outputMap);
-      }
-   
-      super.visit(def);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
-    */
-   public void visit(AeChildExtensionActivityDef def)
-   {
-      if (def.getExtensionObject() != null)
-      {
-         // producer 
-         IAeMessageDataProducerDef producerDef = (IAeMessageDataProducerDef) def.getExtensionObject().getAdapter(IAeMessageDataProducerDef.class);
-         if (producerDef != null)
-         {
-            AeMessagePartsMap map = createInputMessagePartsMap(producerDef.getProducerPortType(), producerDef.getProducerOperation(), null, null, def.getLocationPath());
-            producerDef.setProducerMessagePartsMap(map);
-         }
-         
-         // consumer
-         IAeMessageDataConsumerDef consumerDef = (IAeMessageDataConsumerDef) def.getExtensionObject().getAdapter(IAeMessageDataConsumerDef.class);
-         if (consumerDef != null)
-         {
-            AeMessagePartsMap map = createOutputMessagePartsMap(consumerDef.getConsumerPortType(), consumerDef.getConsumerOperation(), null, null, def.getLocationPath());
-            consumerDef.setConsumerMessagePartsMap(map);
-         }
-      }
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
+     */
+    public void visit(AeActivityInvokeDef def) {
+        QName portType = getPartnerRolePortType(def);
+        String operation = def.getOperation();
+        String locationPath = def.getLocationPath();
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefMessagePartsMapVisitor#createFaultMessagePartsMap(javax.xml.namespace.QName, java.lang.String, javax.xml.namespace.QName, java.lang.String)
-    */
-   protected AeMessagePartsMap createFaultMessagePartsMap(QName aPortType, String aOperation, QName aFaultName, String aLocationPath)
-   {
-      Message message = AeWSDLDefHelper.getFaultMessage(getWSDLProvider(), aPortType, aOperation, aFaultName);
-      return (message == null) ? null : createMessagePartsMap(message, aLocationPath);
-   }
+        if (def.getProducerMessagePartsMap() == null) {
+            AeMessagePartsMap inputMap = createInputMessagePartsMap(portType, operation, null, null, locationPath);
+            def.setProducerMessagePartsMap(inputMap);
+        }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefMessagePartsMapVisitor#createInputMessagePartsMap(javax.xml.namespace.QName, java.lang.String, javax.xml.namespace.QName, javax.xml.namespace.QName, java.lang.String)
-    */
-   protected AeMessagePartsMap createInputMessagePartsMap(QName aPortType, String aOperation, QName aRequestMessageType, QName aResponseMessageType, String aLocationPath)
-   {
-      Message message = AeWSDLDefHelper.getInputMessage(getWSDLProvider(), aPortType, aOperation);
-      return (message == null) ? null : createMessagePartsMap(message, aLocationPath);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefMessagePartsMapVisitor#createOutputMessagePartsMap(javax.xml.namespace.QName, java.lang.String, javax.xml.namespace.QName, javax.xml.namespace.QName, java.lang.String)
-    */
-   protected AeMessagePartsMap createOutputMessagePartsMap(QName aPortType, String aOperation, QName aRequestMessageType, QName aResponseMessageType, String aLocationPath)
-   {
-      Message message = AeWSDLDefHelper.getOutputMessage(getWSDLProvider(), aPortType, aOperation);
-      return (message == null) ? null : createMessagePartsMap(message, aLocationPath);
-   }
+        if (def.getConsumerMessagePartsMap() == null) {
+            AeMessagePartsMap outputMap = createOutputMessagePartsMap(portType, operation, null, null, locationPath);
+            def.setConsumerMessagePartsMap(outputMap);
+        }
+
+        super.visit(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
+     */
+    public void visit(AeChildExtensionActivityDef def) {
+        if (def.getExtensionObject() != null) {
+            // producer
+            IAeMessageDataProducerDef producerDef = (IAeMessageDataProducerDef) def.getExtensionObject().getAdapter(IAeMessageDataProducerDef.class);
+            if (producerDef != null) {
+                AeMessagePartsMap map = createInputMessagePartsMap(producerDef.getProducerPortType(), producerDef.getProducerOperation(), null, null, def.getLocationPath());
+                producerDef.setProducerMessagePartsMap(map);
+            }
+
+            // consumer
+            IAeMessageDataConsumerDef consumerDef = (IAeMessageDataConsumerDef) def.getExtensionObject().getAdapter(IAeMessageDataConsumerDef.class);
+            if (consumerDef != null) {
+                AeMessagePartsMap map = createOutputMessagePartsMap(consumerDef.getConsumerPortType(), consumerDef.getConsumerOperation(), null, null, def.getLocationPath());
+                consumerDef.setConsumerMessagePartsMap(map);
+            }
+        }
+        super.visit(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefMessagePartsMapVisitor#createFaultMessagePartsMap(javax.xml.namespace.QName, java.lang.String, javax.xml.namespace.QName, java.lang.String)
+     */
+    protected AeMessagePartsMap createFaultMessagePartsMap(QName aPortType, String aOperation, QName aFaultName, String aLocationPath) {
+        Message message = AeWSDLDefHelper.getFaultMessage(getWSDLProvider(), aPortType, aOperation, aFaultName);
+        return (message == null) ? null : createMessagePartsMap(message, aLocationPath);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefMessagePartsMapVisitor#createInputMessagePartsMap(javax.xml.namespace.QName, java.lang.String, javax.xml.namespace.QName, javax.xml.namespace.QName, java.lang.String)
+     */
+    protected AeMessagePartsMap createInputMessagePartsMap(QName aPortType, String aOperation, QName aRequestMessageType, QName aResponseMessageType, String aLocationPath) {
+        Message message = AeWSDLDefHelper.getInputMessage(getWSDLProvider(), aPortType, aOperation);
+        return (message == null) ? null : createMessagePartsMap(message, aLocationPath);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefMessagePartsMapVisitor#createOutputMessagePartsMap(javax.xml.namespace.QName, java.lang.String, javax.xml.namespace.QName, javax.xml.namespace.QName, java.lang.String)
+     */
+    protected AeMessagePartsMap createOutputMessagePartsMap(QName aPortType, String aOperation, QName aRequestMessageType, QName aResponseMessageType, String aLocationPath) {
+        Message message = AeWSDLDefHelper.getOutputMessage(getWSDLProvider(), aPortType, aOperation);
+        return (message == null) ? null : createMessagePartsMap(message, aLocationPath);
+    }
 }

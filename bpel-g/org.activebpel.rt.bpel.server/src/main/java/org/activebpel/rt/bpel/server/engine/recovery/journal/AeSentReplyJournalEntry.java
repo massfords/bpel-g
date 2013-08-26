@@ -24,93 +24,88 @@ import org.w3c.dom.Element;
 /**
  * Implements journal entry for a sent reply.
  */
-public class AeSentReplyJournalEntry extends AeAbstractJournalEntry
-{
-   /** The reply object. */
-   private AeReply mReply;
+public class AeSentReplyJournalEntry extends AeAbstractJournalEntry {
+    /**
+     * The reply object.
+     */
+    private AeReply mReply;
 
-   /** The associated process properties. */
-   private Map mProcessProperties;
+    /**
+     * The associated process properties.
+     */
+    private Map mProcessProperties;
 
-   /**
-    * Constructs sent reply to persist to storage.
-    */
-   public AeSentReplyJournalEntry(AeReply aReply, Map aProcessProperties)
-   {
-      // Pass 0 for location id.
-      super(JOURNAL_SENT_REPLY, 0);
+    /**
+     * Constructs sent reply to persist to storage.
+     */
+    public AeSentReplyJournalEntry(AeReply aReply, Map aProcessProperties) {
+        // Pass 0 for location id.
+        super(JOURNAL_SENT_REPLY, 0);
 
-      mReply = aReply;
-      mProcessProperties = aProcessProperties;
-   }
+        mReply = aReply;
+        mProcessProperties = aProcessProperties;
+    }
 
-   /**
-    * Constructs sent reply to restore from storage.
-    */
-   public AeSentReplyJournalEntry(int aLocationId, long aJournalId, Document aStorageDocument) throws AeMissingStorageDocumentException
-   {
-      // Pass 0 for location id.
-      super(JOURNAL_SENT_REPLY, 0, aJournalId, aStorageDocument);
+    /**
+     * Constructs sent reply to restore from storage.
+     */
+    public AeSentReplyJournalEntry(int aLocationId, long aJournalId, Document aStorageDocument) throws AeMissingStorageDocumentException {
+        // Pass 0 for location id.
+        super(JOURNAL_SENT_REPLY, 0, aJournalId, aStorageDocument);
 
-      if (aStorageDocument == null)
-      {
-         throw new AeMissingStorageDocumentException();
-      }
-   }
+        if (aStorageDocument == null) {
+            throw new AeMissingStorageDocumentException();
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry#dispatchToProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
-    */
-   public void dispatchToProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException
-   {
-      // Do nothing.
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry#dispatchToProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
+     */
+    public void dispatchToProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException {
+        // Do nothing.
+    }
 
-   /**
-    * Returns the associated process properties.
-    */
-   public Map getProcessProperties() throws AeBusinessProcessException
-   {
-      deserialize();
-      return mProcessProperties;
-   }
+    /**
+     * Returns the associated process properties.
+     */
+    public Map getProcessProperties() throws AeBusinessProcessException {
+        deserialize();
+        return mProcessProperties;
+    }
 
-   /**
-    * Returns the reply object.
-    */
-   public AeReply getReply() throws AeBusinessProcessException
-   {
-      deserialize();
-      return mReply;
-   }
+    /**
+     * Returns the reply object.
+     */
+    public AeReply getReply() throws AeBusinessProcessException {
+        deserialize();
+        return mReply;
+    }
 
-   /**
-    * Overrides method to deserialize the storage document to a reply object.
-    *
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalDeserialize(org.w3c.dom.Document)
-    */
-   protected void internalDeserialize(Document aStorageDocument) throws AeBusinessProcessException
-   {
-      Element root = aStorageDocument.getDocumentElement();
+    /**
+     * Overrides method to deserialize the storage document to a reply object.
+     *
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalDeserialize(org.w3c.dom.Document)
+     */
+    protected void internalDeserialize(Document aStorageDocument) throws AeBusinessProcessException {
+        Element root = aStorageDocument.getDocumentElement();
 
-      AeReplyDeserializer deserializer = new AeReplyDeserializer();
-      deserializer.setReplyElement(root);
+        AeReplyDeserializer deserializer = new AeReplyDeserializer();
+        deserializer.setReplyElement(root);
 
-      mReply = deserializer.getReply();
-      mProcessProperties = deserializeProcessProperties(root);
-   }
+        mReply = deserializer.getReply();
+        mProcessProperties = deserializeProcessProperties(root);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalSerialize(org.activebpel.rt.xml.schema.AeTypeMapping)
-    */
-   protected AeFastDocument internalSerialize(AeTypeMapping aTypeMapping) throws AeBusinessProcessException
-   {
-      AeReplySerializer serializer = new AeReplySerializer();
-      serializer.setReply(getReply());
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalSerialize(org.activebpel.rt.xml.schema.AeTypeMapping)
+     */
+    protected AeFastDocument internalSerialize(AeTypeMapping aTypeMapping) throws AeBusinessProcessException {
+        AeReplySerializer serializer = new AeReplySerializer();
+        serializer.setReply(getReply());
 
-      AeFastDocument result = serializer.getReplyDocument();
-      serializeProcessProperties(result.getRootElement(), getProcessProperties());
+        AeFastDocument result = serializer.getReplyDocument();
+        serializeProcessProperties(result.getRootElement(), getProcessProperties());
 
-      return result;
-   }
+        return result;
+    }
 }

@@ -17,26 +17,27 @@ import javax.servlet.jsp.PageContext;
 /**
  * Base tag class related to tags that needs to access a names space mapping.
  */
-public abstract class AeAbstractXpathTag extends AeAbstractBeanPropertyTag
-{
-   private static final long serialVersionUID = -4008820284852198603L;
-   /** Request attribute key used to store the name space map. */
-   public static final String NSMAP_KEY = "org.activebpel.rt.war.tags.NSMAP"; //$NON-NLS-1$
-   /**
-    * Returns the NS Map from the request scope. If the map did not exist, a new hash map
-    * is created and set on the request scope.
-    * @return Map containing namespace prefix uri mapping.
-    */
-   protected Map<String, String> getNamespaceMap()
-   {
-      @SuppressWarnings("unchecked")
-	  Map<String, String> map = (Map<String, String>) pageContext.getAttribute(NSMAP_KEY, PageContext.REQUEST_SCOPE );
-      if (map == null)
-      {
-         map = new HashMap<>();
-         pageContext.setAttribute(NSMAP_KEY, map, PageContext.REQUEST_SCOPE );
-      }
-      return map;
-   }
+public abstract class AeAbstractXpathTag extends AeAbstractBeanPropertyTag {
+    private static final long serialVersionUID = -4008820284852198603L;
+    /**
+     * Request attribute key used to store the name space map.
+     */
+    public static final String NSMAP_KEY = "org.activebpel.rt.war.tags.NSMAP"; //$NON-NLS-1$
+
+    /**
+     * Returns the NS Map from the request scope. If the map did not exist, a new hash map
+     * is created and set on the request scope.
+     *
+     * @return Map containing namespace prefix uri mapping.
+     */
+    protected Map<String, String> getNamespaceMap() {
+        @SuppressWarnings("unchecked")
+        Map<String, String> map = (Map<String, String>) pageContext.getAttribute(NSMAP_KEY, PageContext.REQUEST_SCOPE);
+        if (map == null) {
+            map = new HashMap<>();
+            pageContext.setAttribute(NSMAP_KEY, map, PageContext.REQUEST_SCOPE);
+        }
+        return map;
+    }
 
 }

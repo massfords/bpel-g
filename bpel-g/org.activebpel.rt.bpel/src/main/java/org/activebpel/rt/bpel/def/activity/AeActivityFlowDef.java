@@ -23,91 +23,86 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel flow activity.
  */
-public class AeActivityFlowDef extends AeActivityDef implements IAeMultipleActivityContainerDef
-{
-   private static final long serialVersionUID = 55963937468851520L;
-   /** The list of activities in the flow. */
-   private final List<AeActivityDef> mActivities = new ArrayList<>();  // Will always be at least one
-   /** Container used to store links for Flow. */
-   private AeLinksDef mLinks;
+public class AeActivityFlowDef extends AeActivityDef implements IAeMultipleActivityContainerDef {
+    private static final long serialVersionUID = 55963937468851520L;
+    /**
+     * The list of activities in the flow.
+     */
+    private final List<AeActivityDef> mActivities = new ArrayList<>();  // Will always be at least one
+    /**
+     * Container used to store links for Flow.
+     */
+    private AeLinksDef mLinks;
 
-   /**
-    * Default constructor
-    */
-   public AeActivityFlowDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityFlowDef() {
+        super();
+    }
 
-   /**
-    * Getter for the links def.
-    */
-   public AeLinksDef getLinksDef()
-   {
-      return mLinks;
-   }
+    /**
+     * Getter for the links def.
+     */
+    public AeLinksDef getLinksDef() {
+        return mLinks;
+    }
 
-   /**
-    * Sets the links def.
-    * 
-    * @param aDef
-    */
-   public void setLinksDef(AeLinksDef aDef)
-   {
-      mLinks = aDef;
-   }
+    /**
+     * Sets the links def.
+     *
+     * @param aDef
+     */
+    public void setLinksDef(AeLinksDef aDef) {
+        mLinks = aDef;
+    }
 
-   /**
-    * Provide a list of the Link objects for the user to iterate .
-    * 
-    * @return iterator of AeLinkDef objects 
-    */
-   public Iterator getLinkDefs()
-   {
-      if (mLinks == null)
-         return Collections.EMPTY_LIST.iterator();
-      else
-         return mLinks.getLinkDefs();
-   }
+    /**
+     * Provide a list of the Link objects for the user to iterate .
+     *
+     * @return iterator of AeLinkDef objects
+     */
+    public Iterator getLinkDefs() {
+        if (mLinks == null)
+            return Collections.EMPTY_LIST.iterator();
+        else
+            return mLinks.getLinkDefs();
+    }
 
-   /**
-    * Adds an activity definition to the list of activities to execute.
-    * @param aActivity the link to be added.
-    */
-   public void addActivityDef(AeActivityDef aActivity)
-   {
-      mActivities.add(aActivity);
-   }
+    /**
+     * Adds an activity definition to the list of activities to execute.
+     *
+     * @param aActivity the link to be added.
+     */
+    public void addActivityDef(AeActivityDef aActivity) {
+        mActivities.add(aActivity);
+    }
 
-   /**
-    * Provide a list of the activity elements for the user to iterate .
-    * @return iterator of AeActivityDef objects
-    */
-   public Iterator getActivityDefs()
-   {
-      return mActivities.iterator();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef)
-   {
-      for (ListIterator<AeActivityDef> liter = mActivities.listIterator(); liter.hasNext(); )
-      {
-         AeActivityDef activityDef = liter.next();
-         if (activityDef == aOldActivityDef)
-         {
-            liter.set(aNewActivityDef);
-         }
-      }
-   }
+    /**
+     * Provide a list of the activity elements for the user to iterate .
+     *
+     * @return iterator of AeActivityDef objects
+     */
+    public Iterator getActivityDefs() {
+        return mActivities.iterator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef) {
+        for (ListIterator<AeActivityDef> liter = mActivities.listIterator(); liter.hasNext(); ) {
+            AeActivityDef activityDef = liter.next();
+            if (activityDef == aOldActivityDef) {
+                liter.set(aNewActivityDef);
+            }
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

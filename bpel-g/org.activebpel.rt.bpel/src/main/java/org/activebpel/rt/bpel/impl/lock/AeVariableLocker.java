@@ -34,283 +34,261 @@ import org.w3c.dom.Node;
  * shared locks to be obtained on the same variable. An exclusive lock does not
  * allow more than one owner and will not be installed unless it's the only lock
  * holder for the variable.
- *
+ * <p/>
  * If an activity is unable to obtain the lock it requires (either shared or
  * exclusive) then it will not enter its ready to execute state until it receives
  * a callback from this class via the IAeVariableLockCallback interface.
  */
-public class AeVariableLocker implements IAeVariableLocker
-{
-   /** Map of variable paths to their lock holders */
-   private final Map<String, AeLockHolder> mLockedPaths = new HashMap<>();
+public class AeVariableLocker implements IAeVariableLocker {
+    /**
+     * Map of variable paths to their lock holders
+     */
+    private final Map<String, AeLockHolder> mLockedPaths = new HashMap<>();
 
-   /** Map of the failed lock requests that are awaiting an unlock to continue */
-   private final Map<String, AeLockRequest> mFailedLockRequests = new HashMap<>();
+    /**
+     * Map of the failed lock requests that are awaiting an unlock to continue
+     */
+    private final Map<String, AeLockRequest> mFailedLockRequests = new HashMap<>();
 
-   /** Map of the owner paths to the variables that they have locked. */
-   private final Map<String, Set<String>> mOwnersToVariablesLocked = new HashMap<>();
+    /**
+     * Map of the owner paths to the variables that they have locked.
+     */
+    private final Map<String, Set<String>> mOwnersToVariablesLocked = new HashMap<>();
 
-   /**
-    * Returns true if all of the variables in the set were able to be
-    * locked. If one or more were already locked by a previous call then the
-    * method will return false and the callback instance we be notified when
-    * the variables have been locked.
-    * @param aSetOfVariablePaths The location paths of the variables you want to lock
-    * @param aOwnerXPath The location path of the caller
-    * @param aCallback The callback object that gets notified when the lock is
-    *                  acquired if it's not immediately available
-    */
-   public synchronized boolean addExclusiveLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback)
-   {
-      if (AeUtil.isNullOrEmpty(aSetOfVariablePaths))
-         return true;
+    /**
+     * Returns true if all of the variables in the set were able to be
+     * locked. If one or more were already locked by a previous call then the
+     * method will return false and the callback instance we be notified when
+     * the variables have been locked.
+     *
+     * @param aSetOfVariablePaths The location paths of the variables you want to lock
+     * @param aOwnerXPath         The location path of the caller
+     * @param aCallback           The callback object that gets notified when the lock is
+     *                            acquired if it's not immediately available
+     */
+    public synchronized boolean addExclusiveLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback) {
+        if (AeUtil.isNullOrEmpty(aSetOfVariablePaths))
+            return true;
 
-      AeLockRequest request = new AeExclusiveLockRequest(this, aSetOfVariablePaths, aOwnerXPath, aCallback);
-      return request.acquireLock();
-   }
+        AeLockRequest request = new AeExclusiveLockRequest(this, aSetOfVariablePaths, aOwnerXPath, aCallback);
+        return request.acquireLock();
+    }
 
-   /**
-    * Returns true if all of the variables in the set were able to be
-    * locked. Shared locks will be denied only if an exclusive lock is present
-    * on the variable being requested.
-    * @param aSetOfVariablePaths The location paths of the variables you want to lock
-    * @param aOwnerXPath The location path of the caller
-    * @param aCallback The callback object that gets notified when the lock is
-    *                  acquired if it's not immediately available
-    */
-   public synchronized boolean addSharedLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback)
-   {
-      if (AeUtil.isNullOrEmpty(aSetOfVariablePaths))
-         return true;
+    /**
+     * Returns true if all of the variables in the set were able to be
+     * locked. Shared locks will be denied only if an exclusive lock is present
+     * on the variable being requested.
+     *
+     * @param aSetOfVariablePaths The location paths of the variables you want to lock
+     * @param aOwnerXPath         The location path of the caller
+     * @param aCallback           The callback object that gets notified when the lock is
+     *                            acquired if it's not immediately available
+     */
+    public synchronized boolean addSharedLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback) {
+        if (AeUtil.isNullOrEmpty(aSetOfVariablePaths))
+            return true;
 
-      AeSharedLockRequest request = new AeSharedLockRequest(this, aSetOfVariablePaths, aOwnerXPath, aCallback);
-      return request.acquireLock();
-   }
+        AeSharedLockRequest request = new AeSharedLockRequest(this, aSetOfVariablePaths, aOwnerXPath, aCallback);
+        return request.acquireLock();
+    }
 
-   /**
-    * Called by an activity once it has finished executing or has faulted. This unlocks
-    * all of the variables in the set and will possibly result in notifying
-    * one or more of the waiting callbacks.
-    * @param aOwner - the owner of the lock
-    */
-   public synchronized void releaseLocks(String aOwner) throws AeBusinessProcessException
-   {
-      Set<String> set = mOwnersToVariablesLocked.remove(aOwner);
-      
-      // TODO (MF) look into avoiding acquiring locks if object in final state which is what led me here in the first place
-      mFailedLockRequests.remove(aOwner);
+    /**
+     * Called by an activity once it has finished executing or has faulted. This unlocks
+     * all of the variables in the set and will possibly result in notifying
+     * one or more of the waiting callbacks.
+     *
+     * @param aOwner - the owner of the lock
+     */
+    public synchronized void releaseLocks(String aOwner) throws AeBusinessProcessException {
+        Set<String> set = mOwnersToVariablesLocked.remove(aOwner);
 
-      if (set != null)
-      {
-         removeLocks(set, aOwner);
-         retryFailedRequests();
-      }
-   }
+        // TODO (MF) look into avoiding acquiring locks if object in final state which is what led me here in the first place
+        mFailedLockRequests.remove(aOwner);
 
-   /**
-    * Walks the set of variable paths being unlocked and removes them
-    * from their lock holders. If the removal causes a lock holder to become
-    * empty then it is removed from the map of locked variables.
-    * @param aSetOfVariablePaths - A set of variable location paths
-    * @param aOwner - location path for the lock owner being removed
-    */
-   private void removeLocks(Set<String> aSetOfVariablePaths, String aOwner)
-   {
-      for (String variablePath : aSetOfVariablePaths)
-      {
-         AeLockHolder lockHolder = getLockHolder(variablePath);
-         // should never be null
-         lockHolder.remove(aOwner);
-         if (lockHolder.isEmpty())
-         {
-            mLockedPaths.remove(variablePath);
-         }
-      }
-   }
+        if (set != null) {
+            removeLocks(set, aOwner);
+            retryFailedRequests();
+        }
+    }
 
-   /**
-    * Retries all of the existing failed requests. This gets called each time
-    * an activity releases its locks.
-    */
-   private void retryFailedRequests() throws AeBusinessProcessException
-   {
-      if (!mFailedLockRequests.isEmpty())
-      {
-         Map<String, AeLockRequest> map = new HashMap<>(mFailedLockRequests);
-         mFailedLockRequests.clear();
-         for (AeLockRequest request : map.values())
-         {
-            if (request.acquireLock())
-            {
-               request.getCallback().variableLocksAcquired(request.getOwner());
+    /**
+     * Walks the set of variable paths being unlocked and removes them
+     * from their lock holders. If the removal causes a lock holder to become
+     * empty then it is removed from the map of locked variables.
+     *
+     * @param aSetOfVariablePaths - A set of variable location paths
+     * @param aOwner              - location path for the lock owner being removed
+     */
+    private void removeLocks(Set<String> aSetOfVariablePaths, String aOwner) {
+        for (String variablePath : aSetOfVariablePaths) {
+            AeLockHolder lockHolder = getLockHolder(variablePath);
+            // should never be null
+            lockHolder.remove(aOwner);
+            if (lockHolder.isEmpty()) {
+                mLockedPaths.remove(variablePath);
             }
-         }
-      }
-   }
+        }
+    }
 
-   /**
-    * Gets the lock holder for the path specified.
-    * @param aVariablePath - path to the variable
-    */
-   AeLockHolder getLockHolder(String aVariablePath)
-   {
-      return mLockedPaths.get(aVariablePath);
-   }
+    /**
+     * Retries all of the existing failed requests. This gets called each time
+     * an activity releases its locks.
+     */
+    private void retryFailedRequests() throws AeBusinessProcessException {
+        if (!mFailedLockRequests.isEmpty()) {
+            Map<String, AeLockRequest> map = new HashMap<>(mFailedLockRequests);
+            mFailedLockRequests.clear();
+            for (AeLockRequest request : map.values()) {
+                if (request.acquireLock()) {
+                    request.getCallback().variableLocksAcquired(request.getOwner());
+                }
+            }
+        }
+    }
 
-   /**
-    * Adds a lock holder.
-    *
-    * @param aVariablePath
-    * @param aOwnerPath
-    * @param aExclusive
-    */
-   void addLockHolder(String aVariablePath, String aOwnerPath, boolean aExclusive)
-   {
-      // Add variable->owner mapping (via AeLockHolder).
-      AeLockHolder lockHolder = mLockedPaths.get(aVariablePath);
+    /**
+     * Gets the lock holder for the path specified.
+     *
+     * @param aVariablePath - path to the variable
+     */
+    AeLockHolder getLockHolder(String aVariablePath) {
+        return mLockedPaths.get(aVariablePath);
+    }
 
-      if (lockHolder == null)
-      {
-         lockHolder = new AeLockHolder();
-         mLockedPaths.put(aVariablePath, lockHolder);
-      }
+    /**
+     * Adds a lock holder.
+     *
+     * @param aVariablePath
+     * @param aOwnerPath
+     * @param aExclusive
+     */
+    void addLockHolder(String aVariablePath, String aOwnerPath, boolean aExclusive) {
+        // Add variable->owner mapping (via AeLockHolder).
+        AeLockHolder lockHolder = mLockedPaths.get(aVariablePath);
 
-      lockHolder.add(aOwnerPath);
-      lockHolder.setExclusive(aExclusive);
+        if (lockHolder == null) {
+            lockHolder = new AeLockHolder();
+            mLockedPaths.put(aVariablePath, lockHolder);
+        }
 
-      // Add owner->variable mapping.
-      Set<String> variablePaths = mOwnersToVariablesLocked.get(aOwnerPath);
+        lockHolder.add(aOwnerPath);
+        lockHolder.setExclusive(aExclusive);
 
-      if (variablePaths == null)
-      {
-         variablePaths = new HashSet<>();
-         mOwnersToVariablesLocked.put(aOwnerPath, variablePaths);
-      }
+        // Add owner->variable mapping.
+        Set<String> variablePaths = mOwnersToVariablesLocked.get(aOwnerPath);
 
-      variablePaths.add(aVariablePath);
-   }
+        if (variablePaths == null) {
+            variablePaths = new HashSet<>();
+            mOwnersToVariablesLocked.put(aOwnerPath, variablePaths);
+        }
 
-   /**
-    * Adds a lock request to the set of lock requests to retry.
-    *
-    * @param aOwnerPath
-    * @param aLockRequest
-    */
-   void addLockRequest(String aOwnerPath, AeLockRequest aLockRequest)
-   {
-      // Note that this blows away any existing lock request by this owner.
-      mFailedLockRequests.put(aOwnerPath, aLockRequest);
-   }
+        variablePaths.add(aVariablePath);
+    }
 
-   /**
-    * Clears all locks (for deserialization).
-    */
-   void clearLocks()
-   {
-      mLockedPaths.clear();
-      mOwnersToVariablesLocked.clear();
-   }
+    /**
+     * Adds a lock request to the set of lock requests to retry.
+     *
+     * @param aOwnerPath
+     * @param aLockRequest
+     */
+    void addLockRequest(String aOwnerPath, AeLockRequest aLockRequest) {
+        // Note that this blows away any existing lock request by this owner.
+        mFailedLockRequests.put(aOwnerPath, aLockRequest);
+    }
 
-   /**
-    * Clears all outstanding lock requests (for deserialization).
-    */
-   void clearRequests()
-   {
-      mFailedLockRequests.clear();
-   }
+    /**
+     * Clears all locks (for deserialization).
+     */
+    void clearLocks() {
+        mLockedPaths.clear();
+        mOwnersToVariablesLocked.clear();
+    }
 
-   /**
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object aObject)
-   {
-      if (!(aObject instanceof AeVariableLocker))
-      {
-         return false;
-      }
+    /**
+     * Clears all outstanding lock requests (for deserialization).
+     */
+    void clearRequests() {
+        mFailedLockRequests.clear();
+    }
 
-      AeVariableLocker other = (AeVariableLocker) aObject;
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object aObject) {
+        if (!(aObject instanceof AeVariableLocker)) {
+            return false;
+        }
 
-      return mLockedPaths.equals(other.mLockedPaths)
-          && mFailedLockRequests.equals(other.mFailedLockRequests)
-          && mOwnersToVariablesLocked.equals(other.mOwnersToVariablesLocked);
-   }
+        AeVariableLocker other = (AeVariableLocker) aObject;
 
-   /**
-    * Returns set of locked variable paths (for serialization).
-    */
-   Set<String> getLockedPaths()
-   {
-      return Collections.unmodifiableSet(mLockedPaths.keySet());
-   }
+        return mLockedPaths.equals(other.mLockedPaths)
+                && mFailedLockRequests.equals(other.mFailedLockRequests)
+                && mOwnersToVariablesLocked.equals(other.mOwnersToVariablesLocked);
+    }
 
-   /**
-    * Returns collection of outstanding lock requests (for serialization).
-    */
-   Collection<AeLockRequest> getLockRequests()
-   {
-      return Collections.unmodifiableCollection(mFailedLockRequests.values());
-   }
+    /**
+     * Returns set of locked variable paths (for serialization).
+     */
+    Set<String> getLockedPaths() {
+        return Collections.unmodifiableSet(mLockedPaths.keySet());
+    }
 
-   /**
-    * Returns serialization of this variable locker suitable for input to
-    * <code>setLockerData</code>.
-    *
-    * @param aCallback which callback to serialize lock requests for
-    * @return DocumentFragment the serialized locker data
-    */
-   public synchronized DocumentFragment getLockerData(IAeVariableLockCallback aCallback) throws AeBusinessProcessException
-   {
-      AeLockerSerializer serializer = new AeLockerSerializer(this, aCallback);
+    /**
+     * Returns collection of outstanding lock requests (for serialization).
+     */
+    Collection<AeLockRequest> getLockRequests() {
+        return Collections.unmodifiableCollection(mFailedLockRequests.values());
+    }
 
-      try
-      {
-         return serializer.serialize();
-      }
-      catch (AeException e)
-      {
-         throw new AeBusinessProcessException(AeMessages.getString("AeVariableLocker.ERROR_0"), e); //$NON-NLS-1$
-      }
-   }
+    /**
+     * Returns serialization of this variable locker suitable for input to
+     * <code>setLockerData</code>.
+     *
+     * @param aCallback which callback to serialize lock requests for
+     * @return DocumentFragment the serialized locker data
+     */
+    public synchronized DocumentFragment getLockerData(IAeVariableLockCallback aCallback) throws AeBusinessProcessException {
+        AeLockerSerializer serializer = new AeLockerSerializer(this, aCallback);
 
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return mLockedPaths.hashCode()
-           + mFailedLockRequests.hashCode()
-           + mOwnersToVariablesLocked.hashCode();
-   }
+        try {
+            return serializer.serialize();
+        } catch (AeException e) {
+            throw new AeBusinessProcessException(AeMessages.getString("AeVariableLocker.ERROR_0"), e); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * Returns <code>true</code> if and only if the specified variable path is locked.
-    *
-    * @param aVariablePath
-    */
-   boolean isLocked(String aVariablePath)
-   {
-      return mLockedPaths.containsKey(aVariablePath);
-   }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return mLockedPaths.hashCode()
+                + mFailedLockRequests.hashCode()
+                + mOwnersToVariablesLocked.hashCode();
+    }
 
-   /**
-    * Sets this variable locker's data from a serialization produced by
-    * <code>getLockerData</code>.
-    *
-    * @param aNode the serialized locker data
-    * @param aCallback which callback to use when reconstructing lock requests
-    */
-   public synchronized void setLockerData(Node aNode, IAeVariableLockCallback aCallback) throws AeBusinessProcessException
-   {
-      AeLockerDeserializer deserializer = new AeLockerDeserializer(this, aCallback);
+    /**
+     * Returns <code>true</code> if and only if the specified variable path is locked.
+     *
+     * @param aVariablePath
+     */
+    boolean isLocked(String aVariablePath) {
+        return mLockedPaths.containsKey(aVariablePath);
+    }
 
-      try
-      {
-         deserializer.deserialize(aNode);
-      }
-      catch (AeException e)
-      {
-         throw new AeBusinessProcessException(AeMessages.getString("AeVariableLocker.ERROR_1"), e); //$NON-NLS-1$
-      }
-   }
+    /**
+     * Sets this variable locker's data from a serialization produced by
+     * <code>getLockerData</code>.
+     *
+     * @param aNode     the serialized locker data
+     * @param aCallback which callback to use when reconstructing lock requests
+     */
+    public synchronized void setLockerData(Node aNode, IAeVariableLockCallback aCallback) throws AeBusinessProcessException {
+        AeLockerDeserializer deserializer = new AeLockerDeserializer(this, aCallback);
+
+        try {
+            deserializer.deserialize(aNode);
+        } catch (AeException e) {
+            throw new AeBusinessProcessException(AeMessages.getString("AeVariableLocker.ERROR_1"), e); //$NON-NLS-1$
+        }
+    }
 }

@@ -17,16 +17,14 @@ import org.w3c.dom.Element;
 /**
  * Special reader for reading in extension elements.
  */
-public class AeExtensionElementReader implements IAeDefReader
-{
-   /**
-    * @see org.activebpel.rt.xml.def.io.readers.IAeDefReader#read(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
-    */
-   public AeBaseXmlDef read(AeBaseXmlDef aParent, Element aElement) throws AeException
-   {
-      AeExtensionElementDef extElemDef = new AeExtensionElementDef(aElement);
-      extElemDef.setParentXmlDef(aParent);
-      aParent.addExtensionElementDef(extElemDef);
-      return extElemDef;
-   }
+public class AeExtensionElementReader implements IAeDefReader {
+    /**
+     * @see org.activebpel.rt.xml.def.io.readers.IAeDefReader#read(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
+     */
+    public AeBaseXmlDef read(AeBaseXmlDef aParent, Element aElement) throws AeException {
+        AeExtensionElementDef extElemDef = new AeExtensionElementDef(aElement);
+        extElemDef.setParentXmlDef(aParent);
+        aParent.addExtensionElementDef(extElemDef);
+        return extElemDef;
+    }
 }

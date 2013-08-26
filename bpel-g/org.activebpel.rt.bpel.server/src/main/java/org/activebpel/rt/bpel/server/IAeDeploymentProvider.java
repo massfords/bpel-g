@@ -22,55 +22,60 @@ import org.activebpel.rt.bpel.server.deploy.AeServiceNotFoundException;
 /**
  * Manages the deployment descriptors which have been deployed for BPEL processes.
  */
-public interface IAeDeploymentProvider extends IAePlanManager
-{
-   /**
-    * Add a new plan deployment.
-    * @param aDeployment
-    */
-   public void addDeploymentPlan( IAeProcessDeployment aDeployment );
-   
-   /**
-    * Returns the deployment plan for the plan capable of creating a new instance
-    * fo the provided process name.
-    * @param aProcessName the process we want the deployment plan for.
-    */
-   public IAeProcessDeployment findCurrentDeployment(QName aProcessName) throws AeBusinessProcessException;
-   
-   /**
-    * Gets the deployment plan for the given process id.
-    * @param aProcessId
-    * @param aProcessName
-    */
-   public IAeProcessDeployment findDeploymentPlan(long aProcessId, QName aProcessName) throws AeBusinessProcessException;
+public interface IAeDeploymentProvider extends IAePlanManager {
+    /**
+     * Add a new plan deployment.
+     *
+     * @param aDeployment
+     */
+    public void addDeploymentPlan(IAeProcessDeployment aDeployment);
 
-   /**
-    * Gets an Iterator of IAeProcessDeployment for all the deployed plans.
-    */
-   public Iterator<IAeProcessDeployment> getDeployedPlans();
+    /**
+     * Returns the deployment plan for the plan capable of creating a new instance
+     * fo the provided process name.
+     *
+     * @param aProcessName the process we want the deployment plan for.
+     */
+    public IAeProcessDeployment findCurrentDeployment(QName aProcessName) throws AeBusinessProcessException;
 
-   /**
-    * Remove the deployment for the specified process qname.
-    * @param aProcessName
-    */
-   public void removeDeploymentPlan( QName aProcessName );
-   
-   /**
-    * Gets the routing information for the given service name
-    * 
-    * @param aServiceName
-    * @throws AeBusinessProcessException if not found
-    */
-   public AeRoutingInfo getRoutingInfoByServiceName(String aServiceName) throws AeBusinessProcessException;
-   
-   /**
-    * Gets the routing info for a process that provides a service with the given 
-    * name, port type and operation.
-    * @param aService
-    * @param aPortType
-    * @param aOperation
-    * @throws AeServiceNotFoundException
-    * @throws AeOperationNotImplementedException
-    */
-   public AeRoutingInfo findService(String aService, QName aPortType, String aOperation) throws AeServiceNotFoundException, AeOperationNotImplementedException;
+    /**
+     * Gets the deployment plan for the given process id.
+     *
+     * @param aProcessId
+     * @param aProcessName
+     */
+    public IAeProcessDeployment findDeploymentPlan(long aProcessId, QName aProcessName) throws AeBusinessProcessException;
+
+    /**
+     * Gets an Iterator of IAeProcessDeployment for all the deployed plans.
+     */
+    public Iterator<IAeProcessDeployment> getDeployedPlans();
+
+    /**
+     * Remove the deployment for the specified process qname.
+     *
+     * @param aProcessName
+     */
+    public void removeDeploymentPlan(QName aProcessName);
+
+    /**
+     * Gets the routing information for the given service name
+     *
+     * @param aServiceName
+     * @throws AeBusinessProcessException if not found
+     */
+    public AeRoutingInfo getRoutingInfoByServiceName(String aServiceName) throws AeBusinessProcessException;
+
+    /**
+     * Gets the routing info for a process that provides a service with the given
+     * name, port type and operation.
+     *
+     * @param aService
+     * @param aPortType
+     * @param aOperation
+     * @throws AeServiceNotFoundException
+     * @throws AeOperationNotImplementedException
+     *
+     */
+    public AeRoutingInfo findService(String aService, QName aPortType, String aOperation) throws AeServiceNotFoundException, AeOperationNotImplementedException;
 }

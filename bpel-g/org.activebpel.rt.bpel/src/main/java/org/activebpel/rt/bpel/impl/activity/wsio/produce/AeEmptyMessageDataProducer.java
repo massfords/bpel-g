@@ -16,23 +16,19 @@ import org.activebpel.rt.message.IAeMessageData;
 /**
  * Implements a message data producer that produces an empty message.
  */
-public class AeEmptyMessageDataProducer extends AeAbstractMessageDataProducer
-{
-   /**
-    * Constructs a message data producer that produces an empty message for the
-    * given context
-    *
-    */
-   public AeEmptyMessageDataProducer()
-   {
-      super();
-   }
+public class AeEmptyMessageDataProducer extends AeAbstractMessageDataProducer {
+    /**
+     * Constructs a message data producer that produces an empty message for the
+     * given context
+     */
+    public AeEmptyMessageDataProducer() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducer#produceMessageData(org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext)
-    */
-   public IAeMessageData produceMessageData(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException
-   {
-      return new AeEmptyMessage(aContext.getMessageDataProducerDef().getProducerMessagePartsMap().getMessageType());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducer#produceMessageData(org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext)
+     */
+    public IAeMessageData produceMessageData(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException {
+        return new AeEmptyMessage(aContext.getMessageDataProducerDef().getProducerMessagePartsMap().getMessageType());
+    }
 }

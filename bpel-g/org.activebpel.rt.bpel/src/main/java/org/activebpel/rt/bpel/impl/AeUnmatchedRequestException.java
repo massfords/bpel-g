@@ -7,27 +7,26 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl; 
+package org.activebpel.rt.bpel.impl;
 
 import org.activebpel.rt.bpel.AeMessages;
 
 /**
- * A correlation violation resulting from an unmatched request. 
+ * A correlation violation resulting from an unmatched request.
  */
-public class AeUnmatchedRequestException extends AeCorrelationViolationException
-{
-   /**
-     * 
+public class AeUnmatchedRequestException extends AeCorrelationViolationException {
+    /**
+     *
      */
     private static final long serialVersionUID = -3257143956975679077L;
 
-/**
-    * Ctor takes namespace for the bpel fault
-    * @param aNamespace
-    */
-   public AeUnmatchedRequestException(String aNamespace)
-   {
-      super(AeMessages.getString("AeUnmatchedRequestException.Message"), AeFaultFactory.getFactory(aNamespace).getUnmatchedRequest()); //$NON-NLS-1$
-   }
+    /**
+     * Ctor takes namespace for the bpel fault
+     *
+     * @param aNamespace
+     */
+    public AeUnmatchedRequestException(String aNamespace) {
+        super(AeMessages.getString("AeUnmatchedRequestException.Message"), AeFaultFactory.getFactory(aNamespace).getUnmatchedRequest()); //$NON-NLS-1$
+    }
 }
  

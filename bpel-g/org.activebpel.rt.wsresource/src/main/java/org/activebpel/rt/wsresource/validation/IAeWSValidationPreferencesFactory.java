@@ -13,11 +13,10 @@ package org.activebpel.rt.wsresource.validation;
 /**
  * Interface for factories that will create <code>IAeWSResourceValidationPreferences</code>.
  */
-public interface IAeWSValidationPreferencesFactory
-{
-   /**
-    * Create a IAeWSResourceValidationPreferences object
-    */
-   public IAeWSResourceValidationPreferences createPreferences();
-   
+public interface IAeWSValidationPreferencesFactory {
+    /**
+     * Create a IAeWSResourceValidationPreferences object
+     */
+    public IAeWSResourceValidationPreferences createPreferences();
+
 }

@@ -12,12 +12,11 @@ package org.activebpel.rt.bpel.impl;
 /**
  * Defines interface for listening to <code>AeExecutionQueue</code> events.
  */
-public interface IAeExecutionQueueListener
-{
-   /**
-    * Handles execution queue event.
-    *
-    * @param aEvent
-    */
-   public void handleExecutionQueueEvent(IAeExecutionQueueEvent aEvent);
+public interface IAeExecutionQueueListener {
+    /**
+     * Handles execution queue event.
+     *
+     * @param aEvent
+     */
+    public void handleExecutionQueueEvent(IAeExecutionQueueEvent aEvent);
 }

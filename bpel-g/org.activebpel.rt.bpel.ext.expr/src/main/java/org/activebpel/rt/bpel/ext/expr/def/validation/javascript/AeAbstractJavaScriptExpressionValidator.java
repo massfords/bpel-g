@@ -23,73 +23,63 @@ import org.mozilla.javascript.Token;
 /**
  * This is a base class for JavaScript expression validators.
  */
-public abstract class AeAbstractJavaScriptExpressionValidator extends AeAbstractExpressionValidator
-{
-   /**
-    * Overrides method to do additional validation on the javascript parse tree for join conditions.  This
-    * method delegates to the superclass to do most of the validation, but then does a little bit extra.
-    * 
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#doJoinConditionValidation(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   protected void doJoinConditionValidation(IAeExpressionParseResult aParseResult,
-         AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
-   {
-      super.doJoinConditionValidation(aParseResult, aValidationResult, aContext);
-      
-      validateJSNodeForJoinCondition(((AeAbstractJavaScriptParseResult) aParseResult).getRootNode(), aParseResult,
-            aValidationResult);
-   }
+public abstract class AeAbstractJavaScriptExpressionValidator extends AeAbstractExpressionValidator {
+    /**
+     * Overrides method to do additional validation on the javascript parse tree for join conditions.  This
+     * method delegates to the superclass to do most of the validation, but then does a little bit extra.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#doJoinConditionValidation(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    protected void doJoinConditionValidation(IAeExpressionParseResult aParseResult,
+                                             AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext) {
+        super.doJoinConditionValidation(aParseResult, aValidationResult, aContext);
 
-   /**
-    * Validates that the given node is ok for a join condition.  This specifically looks for 
-    * literal nodes that are not contained within function calls.
-    * 
-    * @param aNode
-    * @param aParseResult
-    * @param aValidationResult
-    */
-   protected void validateJSNodeForJoinCondition(Node aNode, IAeExpressionParseResult aParseResult,
-         AeExpressionValidationResult aValidationResult)
-   {
-      if (aNode.getType() == Token.CALL)
-      {
-         return;
-      }
-      else if (aNode.getType() == Token.STRING)
-      {
-         addError(aValidationResult,
-               AeMessages.getString("AeJavaScriptExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
-               new Object [] { aNode.getString(), aParseResult.getExpression() });
-         return;
-      }
-      else if (aNode.getType() == Token.NUMBER)
-      {
-         addError(aValidationResult,
-               AeMessages.getString("AeJavaScriptExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
-               new Object [] {aNode.getDouble(), aParseResult.getExpression() });
-         return;
-      }
+        validateJSNodeForJoinCondition(((AeAbstractJavaScriptParseResult) aParseResult).getRootNode(), aParseResult,
+                aValidationResult);
+    }
 
-      Node child = aNode.getFirstChild();
-      while ( child != null)
-      {
-         validateJSNodeForJoinCondition(child, aParseResult, aValidationResult);
-         child = child.getNext();
-      }
-   }
+    /**
+     * Validates that the given node is ok for a join condition.  This specifically looks for
+     * literal nodes that are not contained within function calls.
+     *
+     * @param aNode
+     * @param aParseResult
+     * @param aValidationResult
+     */
+    protected void validateJSNodeForJoinCondition(Node aNode, IAeExpressionParseResult aParseResult,
+                                                  AeExpressionValidationResult aValidationResult) {
+        if (aNode.getType() == Token.CALL) {
+            return;
+        } else if (aNode.getType() == Token.STRING) {
+            addError(aValidationResult,
+                    AeMessages.getString("AeJavaScriptExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
+                    new Object[]{aNode.getString(), aParseResult.getExpression()});
+            return;
+        } else if (aNode.getType() == Token.NUMBER) {
+            addError(aValidationResult,
+                    AeMessages.getString("AeJavaScriptExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
+                    new Object[]{aNode.getDouble(), aParseResult.getExpression()});
+            return;
+        }
 
-   /**
-    * Overrides method to supply a javascript version of the expression parser.
-    * 
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected abstract IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext);
+        Node child = aNode.getFirstChild();
+        while (child != null) {
+            validateJSNodeForJoinCondition(child, aParseResult, aValidationResult);
+            child = child.getNext();
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#handleNoFunctionsInJoinCondition(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult)
-    */
-   protected void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult)
-   {
-      // Do nothing - you can have a valid boolean expression in Javascript without function calls.
-   }
+    /**
+     * Overrides method to supply a javascript version of the expression parser.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected abstract IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext);
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#handleNoFunctionsInJoinCondition(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult)
+     */
+    protected void handleNoFunctionsInJoinCondition(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult) {
+        // Do nothing - you can have a valid boolean expression in Javascript without function calls.
+    }
 }

@@ -20,31 +20,26 @@ import org.activebpel.rt.bpel.impl.activity.support.AeLink;
 /**
  * A visitor that traverses a BPEL implementation object tree.
  */
-public class AeImplTraversingVisitor extends AeAbstractImplVisitor
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitBase(org.activebpel.rt.bpel.impl.AeAbstractBpelObject)
-    */
-   protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException
-   {
-      if (aImpl instanceof AeActivityImpl)
-      {
-         for (Iterator i = ((AeActivityImpl) aImpl).getSourceLinks(); i.hasNext(); )
-         {
-            AeLink link = (AeLink) i.next();
-            link.accept(this);
-         }
-      }
+public class AeImplTraversingVisitor extends AeAbstractImplVisitor {
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitBase(org.activebpel.rt.bpel.impl.AeAbstractBpelObject)
+     */
+    protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException {
+        if (aImpl instanceof AeActivityImpl) {
+            for (Iterator i = ((AeActivityImpl) aImpl).getSourceLinks(); i.hasNext(); ) {
+                AeLink link = (AeLink) i.next();
+                link.accept(this);
+            }
+        }
 
-      for (Iterator<? extends IAeBpelObject> i = aImpl.getChildrenForStateChange(); i.hasNext(); )
-      {
-         AeAbstractBpelObject child = (AeAbstractBpelObject) i.next();
-         
-         if (child == null) {
-        	 System.out.println(aImpl.getClass().getName());
-         }
-         
-         child.accept(this);
-      }
-   }
+        for (Iterator<? extends IAeBpelObject> i = aImpl.getChildrenForStateChange(); i.hasNext(); ) {
+            AeAbstractBpelObject child = (AeAbstractBpelObject) i.next();
+
+            if (child == null) {
+                System.out.println(aImpl.getClass().getName());
+            }
+
+            child.accept(this);
+        }
+    }
 }

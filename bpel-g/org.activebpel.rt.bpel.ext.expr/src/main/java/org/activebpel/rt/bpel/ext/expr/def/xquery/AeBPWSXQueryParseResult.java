@@ -18,14 +18,12 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 /**
  * A concrete implementation of a xquery parse result for BPEL 1.1.
  */
-public class AeBPWSXQueryParseResult extends AeAbstractXQueryParseResult
-{
-   /**
-    * Constructs the BPWS xquery parse result.
-    */
-   public AeBPWSXQueryParseResult(String aExpression, Expression aXQueryExpression, Configuration aConfiguration,
-         IAeExpressionParserContext aParserContext)
-   {
-      super(aExpression, aXQueryExpression, aConfiguration, aParserContext);
-   }
+public class AeBPWSXQueryParseResult extends AeAbstractXQueryParseResult {
+    /**
+     * Constructs the BPWS xquery parse result.
+     */
+    public AeBPWSXQueryParseResult(String aExpression, Expression aXQueryExpression, Configuration aConfiguration,
+                                   IAeExpressionParserContext aParserContext) {
+        super(aExpression, aXQueryExpression, aConfiguration, aParserContext);
+    }
 }

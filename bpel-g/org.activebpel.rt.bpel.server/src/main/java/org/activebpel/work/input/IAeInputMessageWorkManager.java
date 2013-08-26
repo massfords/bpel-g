@@ -15,18 +15,17 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
  * Defines the interface for a work manager that schedules instances of
  * {@link IAeInputMessageWork}.
  */
-public interface IAeInputMessageWorkManager
-{
-   /**
-    * Schedules input message work for the given process id.
-    *
-    * @param aProcessId
-    * @param aInputMessageWork
-    */
-   public void schedule(long aProcessId, IAeInputMessageWork aInputMessageWork) throws AeBusinessProcessException;
+public interface IAeInputMessageWorkManager {
+    /**
+     * Schedules input message work for the given process id.
+     *
+     * @param aProcessId
+     * @param aInputMessageWork
+     */
+    public void schedule(long aProcessId, IAeInputMessageWork aInputMessageWork) throws AeBusinessProcessException;
 
-   /**
-    * Signals the input message work manager to stop. 
-    */
-   public void stop();
+    /**
+     * Signals the input message work manager to stop.
+     */
+    public void stop();
 }

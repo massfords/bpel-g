@@ -20,71 +20,74 @@ import org.w3c.dom.Element;
  * These Business Process variables are associated with either messages or
  * standard schema described xml data.
  */
-public interface IAeVariableView
-{
-   /**
-    * Get the name of the variable.
-    */
-   public String getName();
-   
-   /**
-    * Get the message data associated with the variable or throws an exception if
-    * the variable has not been initialized.
-    */
-   public IAeMessageData getMessageData() throws AeUninitializedVariableException;
-   
-   /**
-    * Returns true if the variable has data associated with it.
-    */
-   public boolean hasMessageData();
+public interface IAeVariableView {
+    /**
+     * Get the name of the variable.
+     */
+    public String getName();
 
-   /**
-    * Get the data if the variable is specified as type. Returns null if not type.
-    * @throws AeUninitializedVariableException 
-    */
-   public Object getTypeData() throws AeUninitializedVariableException;
+    /**
+     * Get the message data associated with the variable or throws an exception if
+     * the variable has not been initialized.
+     */
+    public IAeMessageData getMessageData() throws AeUninitializedVariableException;
 
-   /**
-    * Get the data if the variable is specified as element. Returns null if not element.
-    */
-   public Element getElementData() throws AeUninitializedVariableException;;
+    /**
+     * Returns true if the variable has data associated with it.
+     */
+    public boolean hasMessageData();
 
-   /**
-    * Accessor method to obtain messageType of this object. Returns
-    * null if not a message.
-    */
-   public QName getMessageType();
-   
-   /**
-    * Returns true if the variable is an Element variable.
-    */
-   public boolean isElement();
+    /**
+     * Get the data if the variable is specified as type. Returns null if not type.
+     *
+     * @throws AeUninitializedVariableException
+     *
+     */
+    public Object getTypeData() throws AeUninitializedVariableException;
 
-   /**
-    * Returns true if the variable is a Message variable.
-    */
-   public boolean isMessageType();
+    /**
+     * Get the data if the variable is specified as element. Returns null if not element.
+     */
+    public Element getElementData() throws AeUninitializedVariableException;
 
-   /**
-    * Returns true if the variable is a Type variable (complex or simple type).
-    */
-   public boolean isType();
+    ;
 
-   /**
-    * Returns the element decaration associated with this variable, null if
-    * not an element.
-    */
-   public QName getElement();
+    /**
+     * Accessor method to obtain messageType of this object. Returns
+     * null if not a message.
+     */
+    public QName getMessageType();
 
-   /**
-    * Returns the type decaration associated with this variable, null if
-    * not an type.
-    */
-   public QName getType();
+    /**
+     * Returns true if the variable is an Element variable.
+     */
+    public boolean isElement();
 
-   /**
-    * Returns <code>true</code> if and only if the variable has data.
-    */
-   public boolean hasData();   
-   
+    /**
+     * Returns true if the variable is a Message variable.
+     */
+    public boolean isMessageType();
+
+    /**
+     * Returns true if the variable is a Type variable (complex or simple type).
+     */
+    public boolean isType();
+
+    /**
+     * Returns the element decaration associated with this variable, null if
+     * not an element.
+     */
+    public QName getElement();
+
+    /**
+     * Returns the type decaration associated with this variable, null if
+     * not an type.
+     */
+    public QName getType();
+
+    /**
+     * Returns <code>true</code> if and only if the variable has data.
+     */
+    public boolean hasData();
+
 }

@@ -15,22 +15,21 @@ import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 /**
  * Defines the interface for recovered alarm and queue manager items.
  */
-public interface IAeRecoveredItem
-{
-   /**
-    * Returns the location id of the activity for the recovered item;
-    * may return <code>0</code> if the location id is not relevant.
-    */
-   public int getLocationId();
+public interface IAeRecoveredItem {
+    /**
+     * Returns the location id of the activity for the recovered item;
+     * may return <code>0</code> if the location id is not relevant.
+     */
+    public int getLocationId();
 
-   /**
-    * Queues the recovered item to the given engine.
-    */
-   public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException;
-   
-   /**
-    * Returns true if the recovered item is an instruction to remove an item
-    * that was previously queued.
-    */
-   public boolean isRemoval();
+    /**
+     * Queues the recovered item to the given engine.
+     */
+    public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException;
+
+    /**
+     * Returns true if the recovered item is an instruction to remove an item
+     * that was previously queued.
+     */
+    public boolean isRemoval();
 }

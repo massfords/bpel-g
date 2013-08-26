@@ -23,64 +23,59 @@ import java.util.ResourceBundle;
  * An abstract class that implements the resource bundle management.  Extending this
  * class will allow other tags to access externalized strings.
  */
-public abstract class AeAbstractResourceTag extends BodyTagSupport
-{
-   /**
-     * 
+public abstract class AeAbstractResourceTag extends BodyTagSupport {
+    /**
+     *
      */
     private static final long serialVersionUID = -5719968890312472049L;
 
-private static final String NOT_PRESENT = "none"; //$NON-NLS-1$
-   
-   /** Collection of bundles based on locale */
-   protected static final Hashtable<String, ResourceBundle> sBundleTable = new Hashtable<>();
+    private static final String NOT_PRESENT = "none"; //$NON-NLS-1$
 
-   /**
-    * Gets the resource bundle to use.
-    */
-   public static synchronized ResourceBundle getResourceBundle(ServletContext aServletContext, ServletRequest aServletRequest)
-   {
-      // If the bundle for the requesting locale has not been loaded, load it and save it.
-      Locale locale = aServletRequest.getLocale();
-      String country = locale.getCountry();
-      if (AeUtil.isNullOrEmpty(country))
-         country = NOT_PRESENT;
-      String language = locale.getLanguage();
-      if (AeUtil.isNullOrEmpty(language))
-         language = NOT_PRESENT;
-      
-      String bundleKey = language + "_" + country; //$NON-NLS-1$
-      
-      ResourceBundle bundle = sBundleTable.get(bundleKey);
-      if (bundle == null)
-      {
-         try
-         {
-            String bundleLoc = aServletContext.getInitParameter("resource-bundle-class"); //$NON-NLS-1$
-            String bundlePrefix = aServletContext.getInitParameter("bundle-prefix"); //$NON-NLS-1$
-            Class<?> c = Class.forName(bundleLoc);
-            Constructor constructor = c.getConstructor( new Class[] { String.class, ServletContext.class, ServletRequest.class } );
-            bundle = (ResourceBundle) constructor.newInstance(bundlePrefix, aServletContext, aServletRequest);
-            sBundleTable.put(bundleKey, bundle);
-         }
-         catch (Exception e)
-         {
-            e.printStackTrace();
-         }
-      }
-      return bundle;
-   }
+    /**
+     * Collection of bundles based on locale
+     */
+    protected static final Hashtable<String, ResourceBundle> sBundleTable = new Hashtable<>();
 
-   /**
-    * Given a page context and a property name, returns the resource string value.  In 
-    * other words, this method gets the exernalized string given a key into the bundle.
-    * 
-    * @param aPropertyName
-    */
-   protected String getResourceString(String aPropertyName)
-   {
-      ResourceBundle bundle = getResourceBundle(pageContext.getServletContext(), pageContext.getRequest());
-      return bundle.getString(aPropertyName);
-   }
+    /**
+     * Gets the resource bundle to use.
+     */
+    public static synchronized ResourceBundle getResourceBundle(ServletContext aServletContext, ServletRequest aServletRequest) {
+        // If the bundle for the requesting locale has not been loaded, load it and save it.
+        Locale locale = aServletRequest.getLocale();
+        String country = locale.getCountry();
+        if (AeUtil.isNullOrEmpty(country))
+            country = NOT_PRESENT;
+        String language = locale.getLanguage();
+        if (AeUtil.isNullOrEmpty(language))
+            language = NOT_PRESENT;
+
+        String bundleKey = language + "_" + country; //$NON-NLS-1$
+
+        ResourceBundle bundle = sBundleTable.get(bundleKey);
+        if (bundle == null) {
+            try {
+                String bundleLoc = aServletContext.getInitParameter("resource-bundle-class"); //$NON-NLS-1$
+                String bundlePrefix = aServletContext.getInitParameter("bundle-prefix"); //$NON-NLS-1$
+                Class<?> c = Class.forName(bundleLoc);
+                Constructor constructor = c.getConstructor(new Class[]{String.class, ServletContext.class, ServletRequest.class});
+                bundle = (ResourceBundle) constructor.newInstance(bundlePrefix, aServletContext, aServletRequest);
+                sBundleTable.put(bundleKey, bundle);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return bundle;
+    }
+
+    /**
+     * Given a page context and a property name, returns the resource string value.  In
+     * other words, this method gets the exernalized string given a key into the bundle.
+     *
+     * @param aPropertyName
+     */
+    protected String getResourceString(String aPropertyName) {
+        ResourceBundle bundle = getResourceBundle(pageContext.getServletContext(), pageContext.getRequest());
+        return bundle.getString(aPropertyName);
+    }
 
 }

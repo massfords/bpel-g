@@ -25,47 +25,43 @@ import java.util.List;
 /**
  * A WS-BPEL version of a XQuery parse result.
  */
-public class AeWSBPELXQueryParseResult extends AeAbstractXQueryParseResult
-{
-   /**
-    * Constructs a WS-BPEL XQuery Parse Result.
-    * 
-    * @param aExpression
-    * @param aXQueryExpression
-    * @param aConfiguration
-    * @param aParserContext
-    */
-   public AeWSBPELXQueryParseResult(String aExpression, Expression aXQueryExpression, Configuration aConfiguration,
-         IAeExpressionParserContext aParserContext)
-   {
-      super(aExpression, aXQueryExpression, aConfiguration, aParserContext);
-   }
+public class AeWSBPELXQueryParseResult extends AeAbstractXQueryParseResult {
+    /**
+     * Constructs a WS-BPEL XQuery Parse Result.
+     *
+     * @param aExpression
+     * @param aXQueryExpression
+     * @param aConfiguration
+     * @param aParserContext
+     */
+    public AeWSBPELXQueryParseResult(String aExpression, Expression aXQueryExpression, Configuration aConfiguration,
+                                     IAeExpressionParserContext aParserContext) {
+        super(aExpression, aXQueryExpression, aConfiguration, aParserContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult#getVarDataList()
-    */
-   public List<AeVariableData> getVarDataList()
-   {
-      List<AeVariableData> varData = super.getVarDataList();
-      varData.addAll(getVarDataFromXQueryVariables());
-      return varData;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult#getVarDataList()
+     */
+    public List<AeVariableData> getVarDataList() {
+        List<AeVariableData> varData = super.getVarDataList();
+        varData.addAll(getVarDataFromXQueryVariables());
+        return varData;
+    }
 
-   /**
-    * Gets a list of AeVariableData objects built from the 
-    */
-   protected Collection<AeVariableData> getVarDataFromXQueryVariables()
-   {
-      List<AeVariableData> list = new LinkedList<>();
-       for (AeScriptVarDef varDef : getVariableReferences()) {
-           // BPEL 2.0 variables are referenced using an unqualified XPath 1.0 variable reference.
-           if (AeUtil.isNullOrEmpty(varDef.getNamespace())) {
-               AeXPathVariableReference varRef = new AeXPathVariableReference(varDef.getName());
-               // Note that, at the moment, the query portion of the var def will be null for any
-               // $varName syntax based XQuery var reference.
-               list.add(new AeVariableData(varRef.getVariableName(), varRef.getPartName(), varDef.getQuery()));
-           }
-       }
-      return list;
-   }
+    /**
+     * Gets a list of AeVariableData objects built from the
+     */
+    protected Collection<AeVariableData> getVarDataFromXQueryVariables() {
+        List<AeVariableData> list = new LinkedList<>();
+        for (AeScriptVarDef varDef : getVariableReferences()) {
+            // BPEL 2.0 variables are referenced using an unqualified XPath 1.0 variable reference.
+            if (AeUtil.isNullOrEmpty(varDef.getNamespace())) {
+                AeXPathVariableReference varRef = new AeXPathVariableReference(varDef.getName());
+                // Note that, at the moment, the query portion of the var def will be null for any
+                // $varName syntax based XQuery var reference.
+                list.add(new AeVariableData(varRef.getVariableName(), varRef.getPartName(), varDef.getQuery()));
+            }
+        }
+        return list;
+    }
 }

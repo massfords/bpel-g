@@ -32,61 +32,65 @@ import bpelg.services.deploy.types.pdd.PartnerLinkType;
  * elements) within a BPR file.
  */
 public class AeDuplicateServiceNameValidator implements
-		IAePredeploymentValidator {
-	/** Error msg pattern for duplicate service name desc within the BPR. */
-	private static final String DUPLICATE_SERVICE_WITHIN_BPR = AeMessages
-			.getString("AeDuplicateServiceNameValidator.0"); //$NON-NLS-1$
-	/** Error msg pattern for duplicate service name with another BPR */
-	private static final String DUPLICATE_SERVICE_OTHER_BPR = AeMessages
-			.getString("AeDuplicateServiceNameValidator.OtherBpr"); //$NON-NLS-1$
+        IAePredeploymentValidator {
+    /**
+     * Error msg pattern for duplicate service name desc within the BPR.
+     */
+    private static final String DUPLICATE_SERVICE_WITHIN_BPR = AeMessages
+            .getString("AeDuplicateServiceNameValidator.0"); //$NON-NLS-1$
+    /**
+     * Error msg pattern for duplicate service name with another BPR
+     */
+    private static final String DUPLICATE_SERVICE_OTHER_BPR = AeMessages
+            .getString("AeDuplicateServiceNameValidator.OtherBpr"); //$NON-NLS-1$
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.deploy.validate.IAePredeploymentValidator#validate(org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr,
-	 *      org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
-	 */
-	public void validate(IAeBpr aBprFile, IAeBaseErrorReporter aReporter)
-			throws AeException {
-		Map<String,String> myRoleServices = new HashMap<>();
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.validate.IAePredeploymentValidator#validate(org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr,
+     *      org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
+     */
+    public void validate(IAeBpr aBprFile, IAeBaseErrorReporter aReporter)
+            throws AeException {
+        Map<String, String> myRoleServices = new HashMap<>();
 
-		for (AePddResource pddResource : aBprFile.getPddResources()) {
-			for (PartnerLinkType plinkType : pddResource.getPdd()
-					.getPartnerLinks().getPartnerLink()) {
-				MyRoleType myRole = plinkType.getMyRole();
-				if (myRole == null)
-					continue;
+        for (AePddResource pddResource : aBprFile.getPddResources()) {
+            for (PartnerLinkType plinkType : pddResource.getPdd()
+                    .getPartnerLinks().getPartnerLink()) {
+                MyRoleType myRole = plinkType.getMyRole();
+                if (myRole == null)
+                    continue;
 
-				String serviceName = myRole.getService();
+                String serviceName = myRole.getService();
 
-				if (myRoleServices.containsKey(serviceName)) {
-					String otherPdd = myRoleServices.get(serviceName);
-					String[] args = { serviceName, pddResource.getName(),
-							otherPdd, aBprFile.getBprFileName() };
-					aReporter
-							.addError(DUPLICATE_SERVICE_WITHIN_BPR, args, null);
-				} else {
-					myRoleServices.put(serviceName, pddResource.getName());
+                if (myRoleServices.containsKey(serviceName)) {
+                    String otherPdd = myRoleServices.get(serviceName);
+                    String[] args = {serviceName, pddResource.getName(),
+                            otherPdd, aBprFile.getBprFileName()};
+                    aReporter
+                            .addError(DUPLICATE_SERVICE_WITHIN_BPR, args, null);
+                } else {
+                    myRoleServices.put(serviceName, pddResource.getName());
 
-					// check to see if the plan is already deployed in another
-					// bpr
-					AeRoutingInfo routingInfo = null;
-					try {
-						routingInfo = AeEngineFactory.getBean(
-								IAeDeploymentProvider.class)
-								.getRoutingInfoByServiceName(serviceName);
-						QName conflictingProcess = routingInfo.getServiceData()
-								.getProcessName();
-						String[] args = { serviceName, pddResource.getName(),
-								aBprFile.getBprFileName(),
-								conflictingProcess.getNamespaceURI(),
-								conflictingProcess.getLocalPart() };
-						aReporter.addError(DUPLICATE_SERVICE_OTHER_BPR, args,
-								null);
-					} catch (AeBusinessProcessException e) {
-						// an exception means that there is no process deployed
-						// using this service
-					}
-				}
-			}
-		}
-	}
+                    // check to see if the plan is already deployed in another
+                    // bpr
+                    AeRoutingInfo routingInfo = null;
+                    try {
+                        routingInfo = AeEngineFactory.getBean(
+                                IAeDeploymentProvider.class)
+                                .getRoutingInfoByServiceName(serviceName);
+                        QName conflictingProcess = routingInfo.getServiceData()
+                                .getProcessName();
+                        String[] args = {serviceName, pddResource.getName(),
+                                aBprFile.getBprFileName(),
+                                conflictingProcess.getNamespaceURI(),
+                                conflictingProcess.getLocalPart()};
+                        aReporter.addError(DUPLICATE_SERVICE_OTHER_BPR, args,
+                                null);
+                    } catch (AeBusinessProcessException e) {
+                        // an exception means that there is no process deployed
+                        // using this service
+                    }
+                }
+            }
+        }
+    }
 }

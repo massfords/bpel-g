@@ -25,77 +25,69 @@ import org.apache.axis.server.AxisServer;
 import org.apache.axis.transport.http.AxisServlet;
 
 /**
- * The process engine servlet starts up the bpel server, as well as the axis 
- * server.  It is automatically loaded on startup as part of the web.xml for 
- * the tomcat deployment.  After it starts up the server it spawns a thread 
+ * The process engine servlet starts up the bpel server, as well as the axis
+ * server.  It is automatically loaded on startup as part of the web.xml for
+ * the tomcat deployment.  After it starts up the server it spawns a thread
  * which listens for business process archive deployments.
  */
-public class AeProcessEngineServlet extends AxisServlet
-{
+public class AeProcessEngineServlet extends AxisServlet {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -8165149089539255494L;
-/** The axis server */
-   protected static AxisServer mAxisServer = null;
+    /**
+     * The axis server
+     */
+    protected static AxisServer mAxisServer = null;
 
-   /**
-    * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
-    */
-   public void init(ServletConfig aConfig) throws ServletException
-   {
-      log.info(AeMessages.getString("AeProcessEngineServlet.12")); //$NON-NLS-1$
-      try
-      {
-         // set the axis server context for base static code
-         aConfig.getServletContext().setAttribute(ATTR_AXIS_ENGINE, getEngine());
-      }
-      catch (Exception e)
-      {
-         log.error(AeMessages.getString("AeProcessEngineServlet.13"), e); //$NON-NLS-1$
-         throw new ServletException(e);
-      }
-      
-      super.init(aConfig);
-   }
-   
-   /**
-    * @see org.apache.axis.transport.http.AxisServlet#reportAvailableServices(javax.servlet.http.HttpServletResponse, java.io.PrintWriter, javax.servlet.http.HttpServletRequest)
-    */
-   protected void reportAvailableServices(HttpServletResponse aResponse,
-         PrintWriter aWriter, HttpServletRequest aRequest)
-         throws ConfigurationException, AxisFault
-   {
-      // handle utf-8 chars in the wsdl listing
-	  aResponse.setCharacterEncoding( AeUTF8Util.UTF8_ENCODING );
-      super.reportAvailableServices(aResponse, aWriter, aRequest);
-   }
-   
-   /**
-    * Overrides so we can create our own axis engine configuration.
-    * @see org.apache.axis.transport.http.AxisServletBase#getEngine()
-    */
-   public AxisServer getEngine() throws AxisFault 
-   {
-      return AeAxisServerFactory.getAxisServer();
-   }
-   
-   /**
-    * Accessor for the Axis server.
-    */
-   public static AxisServer getAxisServer() 
-   {
-      try 
-      {
-          return AeAxisServerFactory.getAxisServer();
-      }
-      catch (AxisFault af)
-      {
-          AeException.logError(af);
-          return null;
-      }
-   }
+    /**
+     * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
+     */
+    public void init(ServletConfig aConfig) throws ServletException {
+        log.info(AeMessages.getString("AeProcessEngineServlet.12")); //$NON-NLS-1$
+        try {
+            // set the axis server context for base static code
+            aConfig.getServletContext().setAttribute(ATTR_AXIS_ENGINE, getEngine());
+        } catch (Exception e) {
+            log.error(AeMessages.getString("AeProcessEngineServlet.13"), e); //$NON-NLS-1$
+            throw new ServletException(e);
+        }
+
+        super.init(aConfig);
+    }
+
+    /**
+     * @see org.apache.axis.transport.http.AxisServlet#reportAvailableServices(javax.servlet.http.HttpServletResponse, java.io.PrintWriter, javax.servlet.http.HttpServletRequest)
+     */
+    protected void reportAvailableServices(HttpServletResponse aResponse,
+                                           PrintWriter aWriter, HttpServletRequest aRequest)
+            throws ConfigurationException, AxisFault {
+        // handle utf-8 chars in the wsdl listing
+        aResponse.setCharacterEncoding(AeUTF8Util.UTF8_ENCODING);
+        super.reportAvailableServices(aResponse, aWriter, aRequest);
+    }
+
+    /**
+     * Overrides so we can create our own axis engine configuration.
+     *
+     * @see org.apache.axis.transport.http.AxisServletBase#getEngine()
+     */
+    public AxisServer getEngine() throws AxisFault {
+        return AeAxisServerFactory.getAxisServer();
+    }
+
+    /**
+     * Accessor for the Axis server.
+     */
+    public static AxisServer getAxisServer() {
+        try {
+            return AeAxisServerFactory.getAxisServer();
+        } catch (AxisFault af) {
+            AeException.logError(af);
+            return null;
+        }
+    }
 
 }
 

@@ -17,21 +17,20 @@ import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
  * Defines the interface for a message data consumer to interact with a BPEL
  * implementation object.
  */
-public interface IAeMessageDataConsumerContext
-{
-   /**
-    * Returns the BPEL implementation object.
-    */
-   public AeAbstractBpelObject getBpelObject();
+public interface IAeMessageDataConsumerContext {
+    /**
+     * Returns the BPEL implementation object.
+     */
+    public AeAbstractBpelObject getBpelObject();
 
-   /**
-    * Returns the variable to receive the data if this is a variable
-    * interaction.
-    */
-   public IAeVariable getVariable();
-   
-   /**
-    * Getter for consumer def
-    */
-   public IAeMessageDataConsumerDef getMessageConsumerDef();
+    /**
+     * Returns the variable to receive the data if this is a variable
+     * interaction.
+     */
+    public IAeVariable getVariable();
+
+    /**
+     * Getter for consumer def
+     */
+    public IAeMessageDataConsumerDef getMessageConsumerDef();
 }

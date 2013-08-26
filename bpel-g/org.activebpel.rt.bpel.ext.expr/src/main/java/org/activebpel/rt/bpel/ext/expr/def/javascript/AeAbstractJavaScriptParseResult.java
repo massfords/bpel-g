@@ -24,123 +24,117 @@ import org.mozilla.javascript.Token;
 /**
  * A base class for javascript parse results.
  */
-public abstract class AeAbstractJavaScriptParseResult extends AeAbstractExpressionParseResult
-{
-   /** The root of the javascript parse tree. */
-   private ScriptOrFnNode mRootNode;
-   /** The cached list of functions. */
-   private Set<AeScriptFuncDef> mFunctions;
-   /** The cached list of variables. */
-   private Set<AeScriptVarDef> mVariables;
+public abstract class AeAbstractJavaScriptParseResult extends AeAbstractExpressionParseResult {
+    /**
+     * The root of the javascript parse tree.
+     */
+    private ScriptOrFnNode mRootNode;
+    /**
+     * The cached list of functions.
+     */
+    private Set<AeScriptFuncDef> mFunctions;
+    /**
+     * The cached list of variables.
+     */
+    private Set<AeScriptVarDef> mVariables;
 
-   /**
-    * Constructor.
-    * 
-    * @param aExpression
-    * @param aRootNode
-    * @param aParserContext
-    */
-   public AeAbstractJavaScriptParseResult(String aExpression, ScriptOrFnNode aRootNode,
-         IAeExpressionParserContext aParserContext)
-   {
-      super(aExpression, aParserContext);
-      setRootNode(aRootNode);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aExpression
+     * @param aRootNode
+     * @param aParserContext
+     */
+    public AeAbstractJavaScriptParseResult(String aExpression, ScriptOrFnNode aRootNode,
+                                           IAeExpressionParserContext aParserContext) {
+        super(aExpression, aParserContext);
+        setRootNode(aRootNode);
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getFunctions()
-    */
-   public Set<AeScriptFuncDef> getFunctions()
-   {
-      if (mFunctions == null)
-      {
-         mFunctions = extractFunctions(getRootNode(), null);
-      }
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getFunctions()
+     */
+    public Set<AeScriptFuncDef> getFunctions() {
+        if (mFunctions == null) {
+            mFunctions = extractFunctions(getRootNode(), null);
+        }
 
-      return mFunctions;
-   }
-   
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVariableReferences()
-    */
-   public Set<AeScriptVarDef> getVariableReferences()
-   {
-      if (mVariables == null)
-         mVariables = extractVariables(getRootNode());
+        return mFunctions;
+    }
 
-      return mVariables;
-   }
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVariableReferences()
+     */
+    public Set<AeScriptVarDef> getVariableReferences() {
+        if (mVariables == null)
+            mVariables = extractVariables(getRootNode());
 
-   
-   /**
-    * Extracts a function def object from the given JavaScript (Rhino) Node.  The Node is actually
-    * a parse tree. This parse tree will be navigated and nodes of type CALL will be extracted into
-    * AeScriptFuncDef objects.  A list of these objects will then be returned.
-    * 
-    * @param aNode
-    * @param aParentFunc
-    */
-   protected Set<AeScriptFuncDef> extractFunctions(Node aNode, AeScriptFuncDef aParentFunc)
-   {
-      Set<AeScriptFuncDef> set = new LinkedHashSet<>();
-      AeScriptFuncDef parentFunc = aParentFunc;
+        return mVariables;
+    }
 
-      // If the Node is a Function Call, extract it and add it to the list.
-      if (aNode.getType() == Token.CALL)
-      {
-         AeScriptFuncDef funcDef = AeJavaScriptParseUtil.extractFunction(getParserContext().getNamespaceContext(), aNode);
-         funcDef.setParent(parentFunc);
-         AeJavaScriptParseUtil.extractArgsIntoFunction(aNode, funcDef);
-         set.add(funcDef);
-         parentFunc = funcDef;
-      }
 
-      // Now process all of the node's children.
-      Node child = aNode.getFirstChild();
-      while (child != null)
-      {
-         set.addAll(extractFunctions(child, parentFunc));
-         child = child.getNext();
-      }
+    /**
+     * Extracts a function def object from the given JavaScript (Rhino) Node.  The Node is actually
+     * a parse tree. This parse tree will be navigated and nodes of type CALL will be extracted into
+     * AeScriptFuncDef objects.  A list of these objects will then be returned.
+     *
+     * @param aNode
+     * @param aParentFunc
+     */
+    protected Set<AeScriptFuncDef> extractFunctions(Node aNode, AeScriptFuncDef aParentFunc) {
+        Set<AeScriptFuncDef> set = new LinkedHashSet<>();
+        AeScriptFuncDef parentFunc = aParentFunc;
 
-      return set;
-   }
+        // If the Node is a Function Call, extract it and add it to the list.
+        if (aNode.getType() == Token.CALL) {
+            AeScriptFuncDef funcDef = AeJavaScriptParseUtil.extractFunction(getParserContext().getNamespaceContext(), aNode);
+            funcDef.setParent(parentFunc);
+            AeJavaScriptParseUtil.extractArgsIntoFunction(aNode, funcDef);
+            set.add(funcDef);
+            parentFunc = funcDef;
+        }
 
-   /**
-    * Extracts a variable def object from the given JavaScript (Rhino) Node.  The Node is actually
-    * a parse tree. This parse tree will be navigated and nodes of type VAR will be extracted into
-    * AeScriptVarDef objects.  A set of these objects will then be returned.
-    * 
-    * @param aNode
-    */
-   protected Set<AeScriptVarDef> extractVariables(Node aNode)
-   {
-      Set<AeScriptVarDef> set = new LinkedHashSet<>();
+        // Now process all of the node's children.
+        Node child = aNode.getFirstChild();
+        while (child != null) {
+            set.addAll(extractFunctions(child, parentFunc));
+            child = child.getNext();
+        }
 
-      // Now process all of the node's children.
-      Node child = aNode.getFirstChild();
-      while (child != null)
-      {
-         set.addAll(extractVariables(child));
-         child = child.getNext();
-      }
+        return set;
+    }
 
-      return set;
-   }
+    /**
+     * Extracts a variable def object from the given JavaScript (Rhino) Node.  The Node is actually
+     * a parse tree. This parse tree will be navigated and nodes of type VAR will be extracted into
+     * AeScriptVarDef objects.  A set of these objects will then be returned.
+     *
+     * @param aNode
+     */
+    protected Set<AeScriptVarDef> extractVariables(Node aNode) {
+        Set<AeScriptVarDef> set = new LinkedHashSet<>();
 
-   /**
-    * @return Returns the rootNode.
-    */
-   public ScriptOrFnNode getRootNode()
-   {
-      return mRootNode;
-   }
+        // Now process all of the node's children.
+        Node child = aNode.getFirstChild();
+        while (child != null) {
+            set.addAll(extractVariables(child));
+            child = child.getNext();
+        }
 
-   /**
-    * @param aRootNode The rootNode to set.
-    */
-   protected void setRootNode(ScriptOrFnNode aRootNode)
-   {
-      mRootNode = aRootNode;
-   }
+        return set;
+    }
+
+    /**
+     * @return Returns the rootNode.
+     */
+    public ScriptOrFnNode getRootNode() {
+        return mRootNode;
+    }
+
+    /**
+     * @param aRootNode The rootNode to set.
+     */
+    protected void setRootNode(ScriptOrFnNode aRootNode) {
+        mRootNode = aRootNode;
+    }
 }

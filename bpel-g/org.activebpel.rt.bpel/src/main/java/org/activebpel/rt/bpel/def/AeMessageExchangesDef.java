@@ -20,120 +20,114 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Simple container for string values used for binding receives and replies
  */
-public class AeMessageExchangesDef extends AeBaseContainer<AeMessageExchangeDef, AeMessageExchangeDef>
-{
-   private static final long serialVersionUID = -1116836666830553841L;
+public class AeMessageExchangesDef extends AeBaseContainer<AeMessageExchangeDef, AeMessageExchangeDef> {
+    private static final long serialVersionUID = -1116836666830553841L;
 
-   /** true if the messageExchanges implicitly declares the "default" messageExchange value */
-   private boolean mDefaultDeclared = false;
+    /**
+     * true if the messageExchanges implicitly declares the "default" messageExchange value
+     */
+    private boolean mDefaultDeclared = false;
 
-   /** cached set of values for the messageExchanges contained within this def */
-   private Set<String> mValues = null;
+    /**
+     * cached set of values for the messageExchanges contained within this def
+     */
+    private Set<String> mValues = null;
 
-   /** Indicates if this def is an implicit construct. */
-   private boolean mImplict;
-   
-   /**
-    * Default c'tor.
-    */
-   public AeMessageExchangesDef()
-   {
-      super();
-   }
+    /**
+     * Indicates if this def is an implicit construct.
+     */
+    private boolean mImplict;
 
-   /**
-    * @return the implict
-    */
-   public boolean isImplict()
-   {
-      return mImplict;
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeMessageExchangesDef() {
+        super();
+    }
 
-   /**
-    * @param aImplict the implict to set
-    */
-   public void setImplict(boolean aImplict)
-   {
-      mImplict = aImplict;
-   }
+    /**
+     * @return the implict
+     */
+    public boolean isImplict() {
+        return mImplict;
+    }
 
-
-   /**
-    * Returns true if the message exchange value is contained within the set of declared message exchanges
-    * or if the value is empty and the def implicitly declares a default.
-    * @param aValue
-    */
-   public boolean declaresMessageExchange(String aValue)
-   {
-      return getMessageExchangeValues().contains(aValue) || (isDefaultDeclared() && AeUtil.isNullOrEmpty(aValue));
-   }
-
-   /**
-    * Gets an Iterator over the message exchange defs.
-    */
-   public Iterator<? extends Object> getMessageExchangeDefs()
-   {
-      return getValues();
-   }
-
-   /**
-    * @return Returns the messageExchanges.
-    */
-   public Set getMessageExchangeValues()
-   {
-      if (mValues == null)
-      {
-         Set<String> set = new HashSet<>();
-         for (Iterator<? extends AeMessageExchangeDef> iter = getValues(); iter.hasNext(); )
-         {
-            AeMessageExchangeDef msgExchangeDef = iter.next();
-            set.add(msgExchangeDef.getName());
-         }
-         mValues = Collections.unmodifiableSet(set);
-      }
-      return mValues;
-   }
-
-   /**
-    * Increase visibility and clear message exchange def name cache.
-    * @see org.activebpel.rt.bpel.def.AeBaseContainer#add(java.lang.Object)
-    */
-   public void add(AeMessageExchangeDef aValue)
-   {
-      super.add(aValue);
-      clearValues();
-   }
-
-   /**
-    * Clears the cached set of values
-    */
-   protected void clearValues()
-   {
-      mValues = null;
-   }
-
-   /**
-    * @return Returns the defaultDeclared.
-    */
-   public boolean isDefaultDeclared()
-   {
-      return mDefaultDeclared;
-   }
-
-   /**
-    * @param aDefaultDeclared The defaultDeclared to set.
-    */
-   public void setDefaultDeclared(boolean aDefaultDeclared)
-   {
-      mDefaultDeclared = aDefaultDeclared;
-   }
+    /**
+     * @param aImplict the implict to set
+     */
+    public void setImplict(boolean aImplict) {
+        mImplict = aImplict;
+    }
 
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Returns true if the message exchange value is contained within the set of declared message exchanges
+     * or if the value is empty and the def implicitly declares a default.
+     *
+     * @param aValue
+     */
+    public boolean declaresMessageExchange(String aValue) {
+        return getMessageExchangeValues().contains(aValue) || (isDefaultDeclared() && AeUtil.isNullOrEmpty(aValue));
+    }
+
+    /**
+     * Gets an Iterator over the message exchange defs.
+     */
+    public Iterator<? extends Object> getMessageExchangeDefs() {
+        return getValues();
+    }
+
+    /**
+     * @return Returns the messageExchanges.
+     */
+    public Set getMessageExchangeValues() {
+        if (mValues == null) {
+            Set<String> set = new HashSet<>();
+            for (Iterator<? extends AeMessageExchangeDef> iter = getValues(); iter.hasNext(); ) {
+                AeMessageExchangeDef msgExchangeDef = iter.next();
+                set.add(msgExchangeDef.getName());
+            }
+            mValues = Collections.unmodifiableSet(set);
+        }
+        return mValues;
+    }
+
+    /**
+     * Increase visibility and clear message exchange def name cache.
+     *
+     * @see org.activebpel.rt.bpel.def.AeBaseContainer#add(java.lang.Object)
+     */
+    public void add(AeMessageExchangeDef aValue) {
+        super.add(aValue);
+        clearValues();
+    }
+
+    /**
+     * Clears the cached set of values
+     */
+    protected void clearValues() {
+        mValues = null;
+    }
+
+    /**
+     * @return Returns the defaultDeclared.
+     */
+    public boolean isDefaultDeclared() {
+        return mDefaultDeclared;
+    }
+
+    /**
+     * @param aDefaultDeclared The defaultDeclared to set.
+     */
+    public void setDefaultDeclared(boolean aDefaultDeclared) {
+        mDefaultDeclared = aDefaultDeclared;
+    }
+
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

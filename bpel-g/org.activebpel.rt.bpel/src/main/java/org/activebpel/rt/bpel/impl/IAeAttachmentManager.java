@@ -19,88 +19,88 @@ import org.activebpel.wsio.IAeWebServiceAttachment;
 import org.activebpel.wsio.IAeWebServiceMessageData;
 
 /**
- * A generic attachment manager that provides a means of serializing and converting attachments formats. 
+ * A generic attachment manager that provides a means of serializing and converting attachments formats.
  */
-public interface IAeAttachmentManager extends IAeManager
-{
-   /**
-    * Associates the attachments in the given attachment container with the
-    * given process.
-    *
-    * @param aContainer
-    * @param aProcessId
-    */
-   public void associateProcess(IAeAttachmentContainer aContainer, long aProcessId) throws AeBusinessProcessException;
-   
-   /**
-    * Convert attachment items from {@link IAeAttachmentContainer} to {@link IAeWebServiceMessageData}
-    * format.
-    *
-    * @param aBpelContainer
-    * @return list of wsio attachments in IAeWebServiceAttachment format
-    */
-   public List<IAeWebServiceAttachment> bpel2wsio(IAeAttachmentContainer aBpelContainer) throws AeBusinessProcessException;
+public interface IAeAttachmentManager extends IAeManager {
+    /**
+     * Associates the attachments in the given attachment container with the
+     * given process.
+     *
+     * @param aContainer
+     * @param aProcessId
+     */
+    public void associateProcess(IAeAttachmentContainer aContainer, long aProcessId) throws AeBusinessProcessException;
 
-   /**
-    * Convert attachment items from {@link IAeWebServiceMessageData} to {@link IAeAttachmentContainer}
-    * format.
-    *
-    * @param aWsioAttachments
-    * @return IAeAttachmenContainer
-    */
-   public IAeAttachmentContainer wsio2bpel(List<IAeWebServiceAttachment> aWsioAttachments) throws AeBusinessProcessException;
+    /**
+     * Convert attachment items from {@link IAeAttachmentContainer} to {@link IAeWebServiceMessageData}
+     * format.
+     *
+     * @param aBpelContainer
+     * @return list of wsio attachments in IAeWebServiceAttachment format
+     */
+    public List<IAeWebServiceAttachment> bpel2wsio(IAeAttachmentContainer aBpelContainer) throws AeBusinessProcessException;
 
-   /**
-    * Deserializes a stored attachment to a stream.
-    *
-    * @param aAttachmentId
-    * @return attachment binary input stream
-    */
-   public InputStream deserialize(long aAttachmentId) throws AeBusinessProcessException;
+    /**
+     * Convert attachment items from {@link IAeWebServiceMessageData} to {@link IAeAttachmentContainer}
+     * format.
+     *
+     * @param aWsioAttachments
+     * @return IAeAttachmenContainer
+     */
+    public IAeAttachmentContainer wsio2bpel(List<IAeWebServiceAttachment> aWsioAttachments) throws AeBusinessProcessException;
 
-   /**
-    * Notifies the attachment manager that the engine has finished populating a
-    * synchronous response for the given process.
-    *
-    * @param aProcessId
-    */
-   public void responseFilled(long aProcessId);
+    /**
+     * Deserializes a stored attachment to a stream.
+     *
+     * @param aAttachmentId
+     * @return attachment binary input stream
+     */
+    public InputStream deserialize(long aAttachmentId) throws AeBusinessProcessException;
 
-   /**
-    * Notifies the attachment manager that the engine is waiting to populate a
-    * synchronous response for the given process. Since the response may include
-    * attachments, the attachment manager must hold onto any attachments for
-    * the process until the engine calls {@link #responseFilled(long)}.
-    *
-    * @param aProcessId
-    */
-   public void responsePending(long aProcessId);
+    /**
+     * Notifies the attachment manager that the engine has finished populating a
+     * synchronous response for the given process.
+     *
+     * @param aProcessId
+     */
+    public void responseFilled(long aProcessId);
 
-   /**
-    * Stores the attachments in the given container.
-    *
-    * @param aContainer
-    * @param aPlan May determine whether the attachments are stored locally or persistently
-    * @throws AeBusinessProcessException
-    */
-   public void storeAttachments(IAeAttachmentContainer aContainer, IAeProcessPlan aPlan) throws AeBusinessProcessException;
+    /**
+     * Notifies the attachment manager that the engine is waiting to populate a
+     * synchronous response for the given process. Since the response may include
+     * attachments, the attachment manager must hold onto any attachments for
+     * the process until the engine calls {@link #responseFilled(long)}.
+     *
+     * @param aProcessId
+     */
+    public void responsePending(long aProcessId);
 
-   /**
-    * Stores the attachments in the given container and associates the
-    * attachments with the given process (unless <code>aProcessId</code> is
-    * {@link IAeBusinessProcess#NULL_PROCESS_ID}).
-    *
-    * @param aContainer
-    * @param aPlan May determine whether the attachments are stored locally or persistently
-    * @param aProcessId
-    * @throws AeBusinessProcessException
-    */
-   public void storeAttachments(IAeAttachmentContainer aContainer, IAeProcessPlan aPlan, long aProcessId) throws AeBusinessProcessException;
-   
-   /**
-    * Removes an attachment.
-    * @param aAttachmentId
-    * @throws AeBusinessProcessException
-    */
-   public void removeAttachment(long aAttachmentId) throws AeBusinessProcessException;
+    /**
+     * Stores the attachments in the given container.
+     *
+     * @param aContainer
+     * @param aPlan      May determine whether the attachments are stored locally or persistently
+     * @throws AeBusinessProcessException
+     */
+    public void storeAttachments(IAeAttachmentContainer aContainer, IAeProcessPlan aPlan) throws AeBusinessProcessException;
+
+    /**
+     * Stores the attachments in the given container and associates the
+     * attachments with the given process (unless <code>aProcessId</code> is
+     * {@link IAeBusinessProcess#NULL_PROCESS_ID}).
+     *
+     * @param aContainer
+     * @param aPlan      May determine whether the attachments are stored locally or persistently
+     * @param aProcessId
+     * @throws AeBusinessProcessException
+     */
+    public void storeAttachments(IAeAttachmentContainer aContainer, IAeProcessPlan aPlan, long aProcessId) throws AeBusinessProcessException;
+
+    /**
+     * Removes an attachment.
+     *
+     * @param aAttachmentId
+     * @throws AeBusinessProcessException
+     */
+    public void removeAttachment(long aAttachmentId) throws AeBusinessProcessException;
 }

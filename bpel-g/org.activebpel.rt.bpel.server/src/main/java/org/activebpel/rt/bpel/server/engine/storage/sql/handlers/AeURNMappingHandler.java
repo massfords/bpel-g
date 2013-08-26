@@ -20,22 +20,19 @@ import org.apache.commons.dbutils.ResultSetHandler;
 
 
 /**
- * Walks the result set building a map of urn to url values. 
+ * Walks the result set building a map of urn to url values.
  */
-public class AeURNMappingHandler implements ResultSetHandler<Map<String,String>>
-{
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public Map<String,String> handle(ResultSet aRs) throws SQLException
-   {
-      Map<String,String> map = new HashMap<>();
-      while(aRs.next())
-      {
-         String urn = aRs.getString(IAeURNColumns.COL_URN);
-         String url = AeDbUtils.getString(aRs.getClob(IAeURNColumns.COL_URL));
-         map.put(urn, url);
-      }
-      return map;
-   }
+public class AeURNMappingHandler implements ResultSetHandler<Map<String, String>> {
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public Map<String, String> handle(ResultSet aRs) throws SQLException {
+        Map<String, String> map = new HashMap<>();
+        while (aRs.next()) {
+            String urn = aRs.getString(IAeURNColumns.COL_URN);
+            String url = AeDbUtils.getString(aRs.getClob(IAeURNColumns.COL_URL));
+            map.put(urn, url);
+        }
+        return map;
+    }
 }

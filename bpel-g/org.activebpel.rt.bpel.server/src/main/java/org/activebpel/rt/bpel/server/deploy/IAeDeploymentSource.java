@@ -20,27 +20,26 @@ import bpelg.services.processes.types.ServiceDeployments;
 /**
  * Interface for deploying bpel process to the engine.
  */
-public interface IAeDeploymentSource
-{
-   /**
-    * Gets the plan in id for this deployment source. Only applies when versioning is enabled.
-    */
-   public int getPlanId();
+public interface IAeDeploymentSource {
+    /**
+     * Gets the plan in id for this deployment source. Only applies when versioning is enabled.
+     */
+    public int getPlanId();
 
-   /**
-    * AeProcessDef for the bpel process.
-    */
-   public AeProcessDef getProcessDef();
-   
-   /**
-    * Return the collection of partner link descriptors.
-    */
-   public Collection<AePartnerLinkDescriptor> getPartnerLinkDescriptors();
+    /**
+     * AeProcessDef for the bpel process.
+     */
+    public AeProcessDef getProcessDef();
 
-   /**
-    * Gets the services for the plan
-    */
-   public ServiceDeployments getServices() throws AeDeploymentException;
+    /**
+     * Return the collection of partner link descriptors.
+     */
+    public Collection<AePartnerLinkDescriptor> getPartnerLinkDescriptors();
 
-   public Pdd getPdd();
+    /**
+     * Gets the services for the plan
+     */
+    public ServiceDeployments getServices() throws AeDeploymentException;
+
+    public Pdd getPdd();
 }

@@ -13,21 +13,18 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for an or expression.
  */
-public class AeXPathOrExprNode extends AeAbstractXPathBooleanNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathOrExprNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_OR_EXPR);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+public class AeXPathOrExprNode extends AeAbstractXPathBooleanNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathOrExprNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_OR_EXPR);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

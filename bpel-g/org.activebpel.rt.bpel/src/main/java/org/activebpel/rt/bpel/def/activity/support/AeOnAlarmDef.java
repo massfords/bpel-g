@@ -16,115 +16,106 @@ import org.activebpel.rt.bpel.def.activity.IAeTimedDef;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 
-/** The onAlarm element used within the Pick activity */
-public class AeOnAlarmDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef, IAeTimedDef, IAeForUntilParentDef
-{
-   /**
-     * 
+/**
+ * The onAlarm element used within the Pick activity
+ */
+public class AeOnAlarmDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef, IAeTimedDef, IAeForUntilParentDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -3092381568670938327L;
-/** The 'for' child construct. */
-   private AeForDef mForDef;
-   /** The 'until' child construct. */
-   private AeUntilDef mUntilDef;
-   /** The 'repeatEvery' child construct. */
-   private AeRepeatEveryDef mRepeatEvery;
+    /**
+     * The 'for' child construct.
+     */
+    private AeForDef mForDef;
+    /**
+     * The 'until' child construct.
+     */
+    private AeUntilDef mUntilDef;
+    /**
+     * The 'repeatEvery' child construct.
+     */
+    private AeRepeatEveryDef mRepeatEvery;
 
-   /**
-    * Default constructor
-    */
-   public AeOnAlarmDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeOnAlarmDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain the For attribute.
-    * 
-    * @return name of For attribute
-    */
-   public String getFor()
-   {
-      if (mForDef != null)
-      {
-         return mForDef.getExpression();
-      }
-      else
-      {
-         return null;
-      }
-   }
+    /**
+     * Accessor method to obtain the For attribute.
+     *
+     * @return name of For attribute
+     */
+    public String getFor() {
+        if (mForDef != null) {
+            return mForDef.getExpression();
+        } else {
+            return null;
+        }
+    }
 
-   /**
-    * Accessor method to obtain the Until attribute.
-    * 
-    * @return name of Until attribute
-    */
-   public String getUntil()
-   {
-      if (mUntilDef != null)
-      {
-         return mUntilDef.getExpression();
-      }
-      else
-      {
-         return null;
-      }
-   }
+    /**
+     * Accessor method to obtain the Until attribute.
+     *
+     * @return name of Until attribute
+     */
+    public String getUntil() {
+        if (mUntilDef != null) {
+            return mUntilDef.getExpression();
+        } else {
+            return null;
+        }
+    }
 
-   /**
-    * @return Returns the forDef.
-    */
-   public AeForDef getForDef()
-   {
-      return mForDef;
-   }
+    /**
+     * @return Returns the forDef.
+     */
+    public AeForDef getForDef() {
+        return mForDef;
+    }
 
-   /**
-    * @param aForDef The forDef to set.
-    */
-   public void setForDef(AeForDef aForDef)
-   {
-      mForDef = aForDef;
-   }
+    /**
+     * @param aForDef The forDef to set.
+     */
+    public void setForDef(AeForDef aForDef) {
+        mForDef = aForDef;
+    }
 
-   /**
-    * @return Returns the untilDef.
-    */
-   public AeUntilDef getUntilDef()
-   {
-      return mUntilDef;
-   }
+    /**
+     * @return Returns the untilDef.
+     */
+    public AeUntilDef getUntilDef() {
+        return mUntilDef;
+    }
 
-   /**
-    * @param aUntilDef The untilDef to set.
-    */
-   public void setUntilDef(AeUntilDef aUntilDef)
-   {
-      mUntilDef = aUntilDef;
-   }
+    /**
+     * @param aUntilDef The untilDef to set.
+     */
+    public void setUntilDef(AeUntilDef aUntilDef) {
+        mUntilDef = aUntilDef;
+    }
 
-   /**
-    * @return Returns the repeatEvery.
-    */
-   public AeRepeatEveryDef getRepeatEveryDef()
-   {
-      return mRepeatEvery;
-   }
+    /**
+     * @return Returns the repeatEvery.
+     */
+    public AeRepeatEveryDef getRepeatEveryDef() {
+        return mRepeatEvery;
+    }
 
-   /**
-    * @param aRepeatEvery The repeatEvery to set.
-    */
-   public void setRepeatEveryDef(AeRepeatEveryDef aRepeatEvery)
-   {
-      mRepeatEvery = aRepeatEvery;
-   }
+    /**
+     * @param aRepeatEvery The repeatEvery to set.
+     */
+    public void setRepeatEveryDef(AeRepeatEveryDef aRepeatEvery) {
+        mRepeatEvery = aRepeatEvery;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

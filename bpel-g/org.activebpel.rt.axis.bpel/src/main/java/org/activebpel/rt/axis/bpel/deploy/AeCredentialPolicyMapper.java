@@ -21,93 +21,86 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Creates Policy Deployment for a XPath mapping assertions 
+ * Creates Policy Deployment for a XPath mapping assertions
  */
-public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
-{
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
-    */
-   public List<Element> getServerRequestHandlers( List<Element> aPolicyList ) throws AeException
-   {
-      return Collections.<Element>emptyList();
-   }
+public class AeCredentialPolicyMapper extends AeAxisPolicyMapper {
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
+     */
+    public List<Element> getServerRequestHandlers(List<Element> aPolicyList) throws AeException {
+        return Collections.<Element>emptyList();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
-    */
-   public List<Element> getServerResponseHandlers( List<Element> aPolicyList )
-   throws AeException
-   {
-      return Collections.<Element>emptyList();
-   }
-   
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientRequestHandlers(java.util.List)
-    */
-   public List<Element> getClientRequestHandlers( List<Element> aPolicyList )
-   throws AeException
-   {
-      return Collections.<Element>emptyList();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
+     */
+    public List<Element> getServerResponseHandlers(List<Element> aPolicyList)
+            throws AeException {
+        return Collections.<Element>emptyList();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientResponseHandlers(java.util.List)
-    */
-   public List<Element> getClientResponseHandlers( List<Element> aPolicyList )
-   throws AeException
-   {
-      return Collections.<Element>emptyList();
-   }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServiceParameters(java.util.List)
-    */
-   public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
-   {
-      return Collections.<Element>emptyList();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientRequestHandlers(java.util.List)
+     */
+    public List<Element> getClientRequestHandlers(List<Element> aPolicyList)
+            throws AeException {
+        return Collections.<Element>emptyList();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
-    */
-   public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
-   {
-      Map<String, Object> map = new HashMap<>();
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientResponseHandlers(java.util.List)
+     */
+    public List<Element> getClientResponseHandlers(List<Element> aPolicyList)
+            throws AeException {
+        return Collections.<Element>emptyList();
+    }
 
-       for (Element pe : aPolicyList) {
-           String username = null;
-           String password = null;
-           // grab the username (if any)
-           NodeList children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI,
-                   TAG_ASSERT_AUTH_USER);
-           if (children.getLength() > 0) {
-               username = children.item(0).getFirstChild().getNodeValue();
-               map.put(TAG_ASSERT_AUTH_USER, username);
-           }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServiceParameters(java.util.List)
+     */
+    public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException {
+        return Collections.<Element>emptyList();
+    }
 
-           // grab the cleartext password (if any)
-           children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI,
-                   TAG_ASSERT_AUTH_PWD_CLEARTEXT);
-           if (children.getLength() > 0) {
-               password = children.item(0).getFirstChild().getNodeValue();
-               password = AeCryptoUtil.encryptString(password);
-               map.put(TAG_ASSERT_AUTH_PASSWORD, password);
-           }
-           // grab the encrypted password (if any)
-           children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_AUTH_PASSWORD);
-           if (children.getLength() > 0) {
-               password = children.item(0).getFirstChild().getNodeValue();
-               map.put(TAG_ASSERT_AUTH_PASSWORD, password);
-           }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
+     */
+    public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException {
+        Map<String, Object> map = new HashMap<>();
 
-           // grab the preemptive flag
-           children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_AUTH_PREEMPTIVE);
-           if (children.getLength() > 0) {
-               map.put(TAG_ASSERT_AUTH_PREEMPTIVE, "true"); //$NON-NLS-1$
-           }
-       }
-      return map;
-   }
+        for (Element pe : aPolicyList) {
+            String username = null;
+            String password = null;
+            // grab the username (if any)
+            NodeList children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI,
+                    TAG_ASSERT_AUTH_USER);
+            if (children.getLength() > 0) {
+                username = children.item(0).getFirstChild().getNodeValue();
+                map.put(TAG_ASSERT_AUTH_USER, username);
+            }
+
+            // grab the cleartext password (if any)
+            children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI,
+                    TAG_ASSERT_AUTH_PWD_CLEARTEXT);
+            if (children.getLength() > 0) {
+                password = children.item(0).getFirstChild().getNodeValue();
+                password = AeCryptoUtil.encryptString(password);
+                map.put(TAG_ASSERT_AUTH_PASSWORD, password);
+            }
+            // grab the encrypted password (if any)
+            children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_AUTH_PASSWORD);
+            if (children.getLength() > 0) {
+                password = children.item(0).getFirstChild().getNodeValue();
+                map.put(TAG_ASSERT_AUTH_PASSWORD, password);
+            }
+
+            // grab the preemptive flag
+            children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_AUTH_PREEMPTIVE);
+            if (children.getLength() > 0) {
+                map.put(TAG_ASSERT_AUTH_PREEMPTIVE, "true"); //$NON-NLS-1$
+            }
+        }
+        return map;
+    }
 }

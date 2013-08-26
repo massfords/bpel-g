@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.IAeCompensateParentDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef;
@@ -15,37 +15,34 @@ import org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef;
 /**
  * Model for validating the compensate activity
  */
-public class AeActivityCompensateValidator extends AeActivityValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityCompensateValidator(AeActivityCompensateDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * Getter for the def
-    */
-   protected AeActivityCompensateDef getDef()
-   {
-      return (AeActivityCompensateDef) getDefinition();
-   }
+public class AeActivityCompensateValidator extends AeActivityValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityCompensateValidator(AeActivityCompensateDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * Validates that the compensate activity is properly nested.
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
+    /**
+     * Getter for the def
+     */
+    protected AeActivityCompensateDef getDef() {
+        return (AeActivityCompensateDef) getDefinition();
+    }
 
-      if (!enclosedWithinDef(IAeCompensateParentDef.class))
-      {
-         getReporter().reportProblem( BPEL_MISPLACED_COMPENSATE_CODE, ERROR_MISPLACED_COMPENSATE, null, getDefinition() );
-      }
-   }
+    /**
+     * Validates that the compensate activity is properly nested.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        if (!enclosedWithinDef(IAeCompensateParentDef.class)) {
+            getReporter().reportProblem(BPEL_MISPLACED_COMPENSATE_CODE, ERROR_MISPLACED_COMPENSATE, null, getDefinition());
+        }
+    }
 }
  

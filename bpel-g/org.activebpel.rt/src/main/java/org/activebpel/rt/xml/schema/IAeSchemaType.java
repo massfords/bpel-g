@@ -13,13 +13,12 @@ package org.activebpel.rt.xml.schema;
 /**
  * An interface that all schema type classes should implement.
  */
-public interface IAeSchemaType
-{
-   /**
-    * Called to accept the schema type visitor.  All implementations should simply call
-    * <code>aVisitor.visit(this)</code>.
-    * 
-    * @param aVisitor
-    */
-   public void accept(IAeSchemaTypeVisitor aVisitor);
+public interface IAeSchemaType {
+    /**
+     * Called to accept the schema type visitor.  All implementations should simply call
+     * <code>aVisitor.visit(this)</code>.
+     *
+     * @param aVisitor
+     */
+    public void accept(IAeSchemaTypeVisitor aVisitor);
 }

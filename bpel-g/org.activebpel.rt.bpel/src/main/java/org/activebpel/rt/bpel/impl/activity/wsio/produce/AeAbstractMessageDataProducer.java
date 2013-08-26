@@ -23,65 +23,61 @@ import org.activebpel.rt.message.IAeMessageData;
  * The base class for message data producers that provides access to a delegate
  * {@link org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext}.
  */
-public abstract class AeAbstractMessageDataProducer implements IAeMessageDataProducer
-{
-   /** An anonymous variable for wrapping outgoing message data. */
-   private IAeVariable mAnonymousVariable;
+public abstract class AeAbstractMessageDataProducer implements IAeMessageDataProducer {
+    /**
+     * An anonymous variable for wrapping outgoing message data.
+     */
+    private IAeVariable mAnonymousVariable;
 
-   /** The copy operation context that accesses variables in the BPEL object. */
-   private IAeCopyOperationContext mCopyOperationContext;
+    /**
+     * The copy operation context that accesses variables in the BPEL object.
+     */
+    private IAeCopyOperationContext mCopyOperationContext;
 
-   /**
-    * Constructs a message data producer with access to the given delegate
-    * message data producer context.
-    *
-    */
-   protected AeAbstractMessageDataProducer()
-   {
-   }
+    /**
+     * Constructs a message data producer with access to the given delegate
+     * message data producer context.
+     */
+    protected AeAbstractMessageDataProducer() {
+    }
 
-   /**
-    * Returns a new instance of the outgoing message data.
-    * @param aMap
-    * @throws AeBusinessProcessException
-    */
-   protected IAeMessageData createMessageData(AeMessagePartsMap aMap) throws AeBusinessProcessException
-   {
-      // We won't know the outgoing message type if we are replying with a fault
-      // that was not defined as part of the WSDL operation. 
-      // TODO (MF) When static analysis is updated, then remove this check and throw.
-      if (aMap == null)
-      {
-         throw new AeBusinessProcessException(AeMessages.getString("AeAbstractMessageDataProducer.ERROR_MissingMessagePartsMap")); //$NON-NLS-1$
-      }
+    /**
+     * Returns a new instance of the outgoing message data.
+     *
+     * @param aMap
+     * @throws AeBusinessProcessException
+     */
+    protected IAeMessageData createMessageData(AeMessagePartsMap aMap) throws AeBusinessProcessException {
+        // We won't know the outgoing message type if we are replying with a fault
+        // that was not defined as part of the WSDL operation.
+        // TODO (MF) When static analysis is updated, then remove this check and throw.
+        if (aMap == null) {
+            throw new AeBusinessProcessException(AeMessages.getString("AeAbstractMessageDataProducer.ERROR_MissingMessagePartsMap")); //$NON-NLS-1$
+        }
 
-      return AeMessageDataFactory.instance().createMessageData(aMap.getMessageType());
-   }
+        return AeMessageDataFactory.instance().createMessageData(aMap.getMessageType());
+    }
 
-   /**
-    * Returns an anonymous variable for wrapping outgoing message data.
-    */
-   protected IAeVariable getAnonymousVariable(AeMessagePartsMap aMap) throws AeBusinessProcessException
-   {
-      if (mAnonymousVariable == null)
-      {
-         mAnonymousVariable = new AeAnonymousMessageVariable(aMap);
-      }
-      
-      return mAnonymousVariable;
-   }
+    /**
+     * Returns an anonymous variable for wrapping outgoing message data.
+     */
+    protected IAeVariable getAnonymousVariable(AeMessagePartsMap aMap) throws AeBusinessProcessException {
+        if (mAnonymousVariable == null) {
+            mAnonymousVariable = new AeAnonymousMessageVariable(aMap);
+        }
 
-   /**
-    * Returns the copy operation context that accesses variables in the BPEL
-    * object.
-    */
-   protected IAeCopyOperationContext getCopyOperationContext(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException
-   {
-      if (mCopyOperationContext == null)
-      {
-         mCopyOperationContext = new AeCopyOperationContext(aContext.getBpelObject());
-      }
-   
-      return mCopyOperationContext;
-   }
+        return mAnonymousVariable;
+    }
+
+    /**
+     * Returns the copy operation context that accesses variables in the BPEL
+     * object.
+     */
+    protected IAeCopyOperationContext getCopyOperationContext(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException {
+        if (mCopyOperationContext == null) {
+            mCopyOperationContext = new AeCopyOperationContext(aContext.getBpelObject());
+        }
+
+        return mCopyOperationContext;
+    }
 }

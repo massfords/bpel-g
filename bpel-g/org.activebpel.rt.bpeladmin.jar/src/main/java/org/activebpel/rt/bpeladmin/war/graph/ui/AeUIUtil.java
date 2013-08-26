@@ -27,125 +27,119 @@ import org.activebpel.rt.AeException;
 /**
  * Utility methods used for the UI components.
  */
-public class AeUIUtil
-{
-   /** AWT component to act as a media observer */
-   private static final Component sImageObserver = new Container();
-   /** Media tracker used when loading images */
-   private static final MediaTracker sMediaTracker = new MediaTracker(sImageObserver);
-   
-   private AeUIUtil()
-   {
-   }
+public class AeUIUtil {
+    /**
+     * AWT component to act as a media observer
+     */
+    private static final Component sImageObserver = new Container();
+    /**
+     * Media tracker used when loading images
+     */
+    private static final MediaTracker sMediaTracker = new MediaTracker(sImageObserver);
 
-   /**
-    * Loads and returns the image given its filename.
-    * @param aFilename image filename
-    * @return image
-    * @throws IOException
-    */
-   public static Image loadImage(String aFilename) throws IOException {
-      File file = new File(aFilename);
-      return loadImage(file.toURI().toURL());
-   }      
+    private AeUIUtil() {
+    }
 
-   /**
-    * Loads and returns the image given class and the resource path. 
-    * @param aClass class from which this resource is to be loaded.
-    * @param aResourceName path or name of resource.
-    * @return image
-    * @throws IOException
-    */
-   public static Image loadImage(Class aClass, String aResourceName) throws IOException  {
-      return loadImage( aClass.getResource(aResourceName) );
-   }      
-   
-   /**
-    * Loads the image given its URL. This method will block until the image has been loaded.
-    * @param aURL url of the image
-    * @return image or <code>null</code> if not found.
-    * @throws IOException
-    */
-   public static Image loadImage(URL aURL) throws IOException  {
-      // aURL param maybe null if the url was constructed using aClass.getResource(aResourceName)  
-      // and the resource did not exist (ie. class loader was not able to locate the resource.
-      if (aURL == null)
-      {
-         return null;
-      }
-      try
-      {
-         Toolkit toolkit = sImageObserver.getToolkit();
-         Image image = toolkit.getImage(aURL);         
-         waitUntilReady(image);
-         return image;
-      }
-      catch(Throwable t)
-      {
-         AeException.logError(t,t.getLocalizedMessage());
-         throw new IOException(t.getLocalizedMessage());
-      }      
-   }
-   
-   /**
-    * Returns the inputstream to the given resource.
-    * @param aClass resource class 
-    * @param aResourceName name of resource
-    * @return inputstream to the resource
-    * @throws IOException
-    */
-   public static InputStream getImageInputStream(Class aClass, String aResourceName) {
-         return aClass.getResourceAsStream(aResourceName);
-   }
-   
-   /**
-    * Returns a filtered image given the original image and the image filter.
-    * @param aImage original source image
-    * @param aImageFilter image filter to apply
-    * @return filtered image
-    * @throws AeException
-    */
-   public static Image createFilteredImage(Image aImage, ImageFilter aImageFilter) throws AeException
-   {
-      try
-      {
-         ImageProducer producer = new FilteredImageSource(aImage.getSource(), aImageFilter);
-         Image image = sImageObserver.createImage(producer);
-         waitUntilReady(image);
-         return image;
-      }
-      catch(Throwable t)
-      {
-         throw new AeException(t);
-      }
-   }
-   
-   /** 
-    * @return image observer component used by the media tracker.
-    */
-   public static Component getImageObserver()
-   {
-      return sImageObserver;
-   }
-   
-   /**
-    * Adds the image to the media tracker and blocks until the image is ready (produced).
-    * @param aImage image to add to the media tracker.
-    */
-   public static void waitUntilReady(Image aImage)
-   {
-      if (aImage != null)
-      {
-         try 
-         { 
-            int id = aImage.hashCode();
-            sMediaTracker.addImage(aImage, id);
-            sMediaTracker.waitForID(id);
-         } 
-         catch (Exception e) 
-         {
-            // ignore errors image didn't load, handled by display
-         }
-      }
-   }
+    /**
+     * Loads and returns the image given its filename.
+     *
+     * @param aFilename image filename
+     * @return image
+     * @throws IOException
+     */
+    public static Image loadImage(String aFilename) throws IOException {
+        File file = new File(aFilename);
+        return loadImage(file.toURI().toURL());
+    }
+
+    /**
+     * Loads and returns the image given class and the resource path.
+     *
+     * @param aClass        class from which this resource is to be loaded.
+     * @param aResourceName path or name of resource.
+     * @return image
+     * @throws IOException
+     */
+    public static Image loadImage(Class aClass, String aResourceName) throws IOException {
+        return loadImage(aClass.getResource(aResourceName));
+    }
+
+    /**
+     * Loads the image given its URL. This method will block until the image has been loaded.
+     *
+     * @param aURL url of the image
+     * @return image or <code>null</code> if not found.
+     * @throws IOException
+     */
+    public static Image loadImage(URL aURL) throws IOException {
+        // aURL param maybe null if the url was constructed using aClass.getResource(aResourceName)
+        // and the resource did not exist (ie. class loader was not able to locate the resource.
+        if (aURL == null) {
+            return null;
+        }
+        try {
+            Toolkit toolkit = sImageObserver.getToolkit();
+            Image image = toolkit.getImage(aURL);
+            waitUntilReady(image);
+            return image;
+        } catch (Throwable t) {
+            AeException.logError(t, t.getLocalizedMessage());
+            throw new IOException(t.getLocalizedMessage());
+        }
+    }
+
+    /**
+     * Returns the inputstream to the given resource.
+     *
+     * @param aClass        resource class
+     * @param aResourceName name of resource
+     * @return inputstream to the resource
+     * @throws IOException
+     */
+    public static InputStream getImageInputStream(Class aClass, String aResourceName) {
+        return aClass.getResourceAsStream(aResourceName);
+    }
+
+    /**
+     * Returns a filtered image given the original image and the image filter.
+     *
+     * @param aImage       original source image
+     * @param aImageFilter image filter to apply
+     * @return filtered image
+     * @throws AeException
+     */
+    public static Image createFilteredImage(Image aImage, ImageFilter aImageFilter) throws AeException {
+        try {
+            ImageProducer producer = new FilteredImageSource(aImage.getSource(), aImageFilter);
+            Image image = sImageObserver.createImage(producer);
+            waitUntilReady(image);
+            return image;
+        } catch (Throwable t) {
+            throw new AeException(t);
+        }
+    }
+
+    /**
+     * @return image observer component used by the media tracker.
+     */
+    public static Component getImageObserver() {
+        return sImageObserver;
+    }
+
+    /**
+     * Adds the image to the media tracker and blocks until the image is ready (produced).
+     *
+     * @param aImage image to add to the media tracker.
+     */
+    public static void waitUntilReady(Image aImage) {
+        if (aImage != null) {
+            try {
+                int id = aImage.hashCode();
+                sMediaTracker.addImage(aImage, id);
+                sMediaTracker.waitForID(id);
+            } catch (Exception e) {
+                // ignore errors image didn't load, handled by display
+            }
+        }
+    }
 }

@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.def.io.readers; 
+package org.activebpel.rt.xml.def.io.readers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,226 +20,216 @@ import org.activebpel.rt.xml.def.IAeBaseXmlDefConstants;
 /**
  * Registry impl that provides two means of looking up a reader for an element.
  * The first is a parent/child map which maps the parent def object to the child
- * element. This mapping is useful if you want to have different def objects 
+ * element. This mapping is useful if you want to have different def objects
  * to model a construct based on its location within the model. The other map is
- * simply a map of element qname to reader. 
+ * simply a map of element qname to reader.
  */
-public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefConstants
-{
-   /** map of QNames to readers */
-   private final Map<QName, IAeDefReader> mGenericReadersMap = new HashMap<>();
-   /** maps def class to map of child QName to reader  */
-   private final Map<Class<?>, Map<QName, IAeDefReader>> mParentRegistryMap = new HashMap<>();
-   /** The reader def visitor factory that the dispatch reader will use to create readers. */
-   private IAeReaderFactory mReaderFactory;
-   /** A reader that can read in an extension element. */
-   private IAeDefReader mExtensionReader;
-   /** The default namespace for the domain */
-   private String mDefaultNamespace;
-   
-   /**
-    * Ctor
-    * @param aDefaultNamespace
-    * @param aReaderFactory
-    */
-   public AeDefReaderRegistry(String aDefaultNamespace, IAeReaderFactory aReaderFactory)
-   {
-      setDefaultNamespace(aDefaultNamespace);
-      setReaderFactory(aReaderFactory);
-      
-      init();
-   }
+public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefConstants {
+    /**
+     * map of QNames to readers
+     */
+    private final Map<QName, IAeDefReader> mGenericReadersMap = new HashMap<>();
+    /**
+     * maps def class to map of child QName to reader
+     */
+    private final Map<Class<?>, Map<QName, IAeDefReader>> mParentRegistryMap = new HashMap<>();
+    /**
+     * The reader def visitor factory that the dispatch reader will use to create readers.
+     */
+    private IAeReaderFactory mReaderFactory;
+    /**
+     * A reader that can read in an extension element.
+     */
+    private IAeDefReader mExtensionReader;
+    /**
+     * The default namespace for the domain
+     */
+    private String mDefaultNamespace;
 
-   /**
-    * Initializes the reader registry.
-    */
-   protected void init()
-   {
-      initParentRegistry();
-      initGenericElementRegistry();
-   }
+    /**
+     * Ctor
+     *
+     * @param aDefaultNamespace
+     * @param aReaderFactory
+     */
+    public AeDefReaderRegistry(String aDefaultNamespace, IAeReaderFactory aReaderFactory) {
+        setDefaultNamespace(aDefaultNamespace);
+        setReaderFactory(aReaderFactory);
 
-   /**
-    * Initializes the parent registry.
-    */
-   protected void initParentRegistry()
-   {
-   }
+        init();
+    }
 
-   /**
-    * Initializes the generic element registry.
-    */
-   protected void initGenericElementRegistry()
-   {
-   }
+    /**
+     * Initializes the reader registry.
+     */
+    protected void init() {
+        initParentRegistry();
+        initGenericElementRegistry();
+    }
 
-   /**
-    * @return Returns the genericReadersMap.
-    */
-   protected Map<QName, IAeDefReader> getGenericReadersMap()
-   {
-      return mGenericReadersMap;
-   }
+    /**
+     * Initializes the parent registry.
+     */
+    protected void initParentRegistry() {
+    }
 
-   /**
-    * Accessor for parent registry map.
-    * @return registry map
-    */
-   protected Map<Class<?>, Map<QName, IAeDefReader>> getParentRegistry()
-   {
-      return mParentRegistryMap;
-   }
+    /**
+     * Initializes the generic element registry.
+     */
+    protected void initGenericElementRegistry() {
+    }
 
-   /**
-    * @return Returns the readerFactory.
-    */
-   protected IAeReaderFactory getReaderFactory()
-   {
-      return mReaderFactory;
-   }
+    /**
+     * @return Returns the genericReadersMap.
+     */
+    protected Map<QName, IAeDefReader> getGenericReadersMap() {
+        return mGenericReadersMap;
+    }
 
-   /**
-    * @param aReaderFactory The readerFactory to set.
-    */
-   protected void setReaderFactory(IAeReaderFactory aReaderFactory)
-   {
-      mReaderFactory = aReaderFactory;
-   }
+    /**
+     * Accessor for parent registry map.
+     *
+     * @return registry map
+     */
+    protected Map<Class<?>, Map<QName, IAeDefReader>> getParentRegistry() {
+        return mParentRegistryMap;
+    }
 
-   /**
-    * @param aExtensionReader
-    */
-   protected void setExtensionReader(IAeDefReader aExtensionReader)
-   {
-      mExtensionReader = aExtensionReader;
-   }
+    /**
+     * @return Returns the readerFactory.
+     */
+    protected IAeReaderFactory getReaderFactory() {
+        return mReaderFactory;
+    }
 
-   /**
-    * Getter for the extension reader
-    */
-   public IAeDefReader getExtensionReader()
-   {
-      if (mExtensionReader == null)
-         mExtensionReader = new AeExtensionElementReader();
-      return mExtensionReader;
-   }
+    /**
+     * @param aReaderFactory The readerFactory to set.
+     */
+    protected void setReaderFactory(IAeReaderFactory aReaderFactory) {
+        mReaderFactory = aReaderFactory;
+    }
 
-   /**
-    * Gets the registry's inner map for the given Class.  If the map does not already
-    * exist, this method will create and add it.
-    * 
-    * @param aClass
-    */
-   protected Map<QName, IAeDefReader> getOrCreateInnerRegistryMap(Class<?> aClass)
-   {
-      Map<QName, IAeDefReader> innerMap = getParentRegistry().get(aClass);
-      if (innerMap == null)
-      {
-         innerMap = new HashMap<>();
-         getParentRegistry().put(aClass, innerMap);
-      }
-      return innerMap;
-   }
+    /**
+     * @param aExtensionReader
+     */
+    protected void setExtensionReader(IAeDefReader aExtensionReader) {
+        mExtensionReader = aExtensionReader;
+    }
 
-   /**
-    * Adds the readers to the map with the specified qname, allowing for our extensions
-    * not assuming that they're in the model's namespace.
-    * @param aClass
-    * @param aElementQName
-    * @param aReader
-    */
-   protected void registerReader(Class<?> aClass, QName aElementQName, IAeDefReader aReader)
-   {
-      Map<QName, IAeDefReader> innerMap = getOrCreateInnerRegistryMap(aClass);
-      innerMap.put( aElementQName, aReader );
-   }
+    /**
+     * Getter for the extension reader
+     */
+    public IAeDefReader getExtensionReader() {
+        if (mExtensionReader == null)
+            mExtensionReader = new AeExtensionElementReader();
+        return mExtensionReader;
+    }
 
-  /**
-   * Return the appropriate IAeDefReader impl for this
-   * parent def and QName mapping.
-   * @param aParentDef parent AeBaseXmlDef in the object model
-   * @param aElementQName the child element QName
-   * @return IAeReader impl for deserializing this element or null if not found
-   * 
-   * @see org.activebpel.rt.xml.def.io.readers.IAeDefReaderRegistry#getReader(org.activebpel.rt.xml.def.AeBaseXmlDef, javax.xml.namespace.QName)
-   */
-   public IAeDefReader getReader(AeBaseXmlDef aParentDef, QName aElementQName) throws UnsupportedOperationException
-   {
-      // look for any specific parent/qname reader mappings
-      IAeDefReader reader = null;
-      if (aParentDef != null)
-      {
-         Map<QName, IAeDefReader> childReadersMap = getParentRegistry().get(aParentDef.getClass());
-         
-         if( childReadersMap != null )
-         {
-            reader = childReadersMap.get(aElementQName);
-         }
-         
-         // if a reader was installed, return it
-         // otherwise continue looking
-         if( reader != null )
-         {
-            return reader;
-         }
-      }
-   
-      // look in the generic QName -> reader map
-      return getGenericReadersMap().get(aElementQName);
-   }
+    /**
+     * Gets the registry's inner map for the given Class.  If the map does not already
+     * exist, this method will create and add it.
+     *
+     * @param aClass
+     */
+    protected Map<QName, IAeDefReader> getOrCreateInnerRegistryMap(Class<?> aClass) {
+        Map<QName, IAeDefReader> innerMap = getParentRegistry().get(aClass);
+        if (innerMap == null) {
+            innerMap = new HashMap<>();
+            getParentRegistry().put(aClass, innerMap);
+        }
+        return innerMap;
+    }
 
-   /**
-    * @return the defaultNamespace
-    */
-   protected String getDefaultNamespace()
-   {
-      return mDefaultNamespace;
-   }
+    /**
+     * Adds the readers to the map with the specified qname, allowing for our extensions
+     * not assuming that they're in the model's namespace.
+     *
+     * @param aClass
+     * @param aElementQName
+     * @param aReader
+     */
+    protected void registerReader(Class<?> aClass, QName aElementQName, IAeDefReader aReader) {
+        Map<QName, IAeDefReader> innerMap = getOrCreateInnerRegistryMap(aClass);
+        innerMap.put(aElementQName, aReader);
+    }
 
-   /**
-    * @param aDefaultNamespace the defaultNamespace to set
-    */
-   protected void setDefaultNamespace(String aDefaultNamespace)
-   {
-      mDefaultNamespace = aDefaultNamespace;
-   }
+    /**
+     * Return the appropriate IAeDefReader impl for this
+     * parent def and QName mapping.
+     *
+     * @param aParentDef    parent AeBaseXmlDef in the object model
+     * @param aElementQName the child element QName
+     * @return IAeReader impl for deserializing this element or null if not found
+     * @see org.activebpel.rt.xml.def.io.readers.IAeDefReaderRegistry#getReader(org.activebpel.rt.xml.def.AeBaseXmlDef, javax.xml.namespace.QName)
+     */
+    public IAeDefReader getReader(AeBaseXmlDef aParentDef, QName aElementQName) throws UnsupportedOperationException {
+        // look for any specific parent/qname reader mappings
+        IAeDefReader reader = null;
+        if (aParentDef != null) {
+            Map<QName, IAeDefReader> childReadersMap = getParentRegistry().get(aParentDef.getClass());
 
-   /**
-    * Convenience method for QName creation based on default 
-    * namespace.
-    * 
-    * @param aElementName
-    * @return QName
-    */
-   protected QName makeDefaultQName(String aElementName)
-   {
-      return new QName( getDefaultNamespace(), aElementName );
-   }
+            if (childReadersMap != null) {
+                reader = childReadersMap.get(aElementQName);
+            }
 
-   /**
-    * Convenience method for adding readers to the <code>mRegistryMap</code>.
-    * <br />
-    * <code>mRegistryMap</code> is a map of maps where the inner map contains
-    * the QName to IAeDefReader mappings.  The top level map contains the
-    * AeDefXmlBase class to inner map mappings.
-    * 
-    * @param aClass the parent AeBaseXmlDef class
-    * @param aElementName child element for this parent
-    * @param aReader IAeDefReader impl
-    */
-   protected void registerReader(Class<?> aClass, String aElementName, IAeDefReader aReader)
-   {
-      registerReader(aClass, makeDefaultQName(aElementName), aReader);
-   }
+            // if a reader was installed, return it
+            // otherwise continue looking
+            if (reader != null) {
+                return reader;
+            }
+        }
 
-   /**
-    * Creates a dispatch reader for the given def class.
-    * 
-    * @param aClass
-    */
-   protected IAeDefReader createReader(Class<?> aClass)
-   {
-      return new AeDelegatingDefReader(aClass, getReaderFactory());
-   }
+        // look in the generic QName -> reader map
+        return getGenericReadersMap().get(aElementQName);
+    }
+
+    /**
+     * @return the defaultNamespace
+     */
+    protected String getDefaultNamespace() {
+        return mDefaultNamespace;
+    }
+
+    /**
+     * @param aDefaultNamespace the defaultNamespace to set
+     */
+    protected void setDefaultNamespace(String aDefaultNamespace) {
+        mDefaultNamespace = aDefaultNamespace;
+    }
+
+    /**
+     * Convenience method for QName creation based on default
+     * namespace.
+     *
+     * @param aElementName
+     * @return QName
+     */
+    protected QName makeDefaultQName(String aElementName) {
+        return new QName(getDefaultNamespace(), aElementName);
+    }
+
+    /**
+     * Convenience method for adding readers to the <code>mRegistryMap</code>.
+     * <br />
+     * <code>mRegistryMap</code> is a map of maps where the inner map contains
+     * the QName to IAeDefReader mappings.  The top level map contains the
+     * AeDefXmlBase class to inner map mappings.
+     *
+     * @param aClass       the parent AeBaseXmlDef class
+     * @param aElementName child element for this parent
+     * @param aReader      IAeDefReader impl
+     */
+    protected void registerReader(Class<?> aClass, String aElementName, IAeDefReader aReader) {
+        registerReader(aClass, makeDefaultQName(aElementName), aReader);
+    }
+
+    /**
+     * Creates a dispatch reader for the given def class.
+     *
+     * @param aClass
+     */
+    protected IAeDefReader createReader(Class<?> aClass) {
+        return new AeDelegatingDefReader(aClass, getReaderFactory());
+    }
 }
  

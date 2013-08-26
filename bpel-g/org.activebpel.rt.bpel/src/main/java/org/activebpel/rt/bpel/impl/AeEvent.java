@@ -17,34 +17,32 @@ import org.activebpel.rt.bpel.IAeEvent;
 /**
  * A base class for all AE Events.
  */
-public abstract class AeEvent implements IAeEvent
-{
-   /** The event's timestamp. */
-   private final Date mTimestamp;
-   
-   /**
-    * Default c'tor.
-    */
-   public AeEvent()
-   {
-      this(new Date());
-   }
-   
-   /**
-    * Creates the event with the given event timestamp.
-    * 
-    * @param aTimestamp
-    */
-   public AeEvent(Date aTimestamp)
-   {
-      mTimestamp = aTimestamp;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.IAeEvent#getTimestamp()
-    */
-   public Date getTimestamp()
-   {
-      return mTimestamp;
-   }
+public abstract class AeEvent implements IAeEvent {
+    /**
+     * The event's timestamp.
+     */
+    private final Date mTimestamp;
+
+    /**
+     * Default c'tor.
+     */
+    public AeEvent() {
+        this(new Date());
+    }
+
+    /**
+     * Creates the event with the given event timestamp.
+     *
+     * @param aTimestamp
+     */
+    public AeEvent(Date aTimestamp) {
+        mTimestamp = aTimestamp;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.IAeEvent#getTimestamp()
+     */
+    public Date getTimestamp() {
+        return mTimestamp;
+    }
 }

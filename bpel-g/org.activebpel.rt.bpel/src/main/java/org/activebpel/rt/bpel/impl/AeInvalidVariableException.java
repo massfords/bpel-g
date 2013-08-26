@@ -7,43 +7,42 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl; 
+package org.activebpel.rt.bpel.impl;
 
 import org.activebpel.rt.bpel.AeMessages;
 
 /**
  * Thrown when data is read from a variable that has not been initialized
  */
-public class AeInvalidVariableException extends AeBpelException
-{
-   /**
-     * 
+public class AeInvalidVariableException extends AeBpelException {
+    /**
+     *
      */
     private static final long serialVersionUID = 471094875394420239L;
 
-/**
-    * Ctor
-    * @param aNamespace
-    * @param aVariableName
-    * @param aMessage
-    * @param aCause
-    */
-   public static AeInvalidVariableException createException(String aNamespace, String aVariableName, String aMessage, Throwable aCause)
-   {
-      Object[] args = {aVariableName, aMessage};
-      String message = AeMessages.format("AeInvalidVariableException.Error", args); //$NON-NLS-1$
-      return new AeInvalidVariableException(aNamespace, message, aCause);
-   }
-   
-   /**
-    * Creates the exception with the proper namespace
-    * @param aNamespace
-    * @param aMessage
-    * @param aCause
-    */
-   public AeInvalidVariableException(String aNamespace, String aMessage, Throwable aCause)
-   {
-      super(aMessage, AeFaultFactory.getFactory(aNamespace).getInvalidVariables(aMessage), aCause);
-   }
+    /**
+     * Ctor
+     *
+     * @param aNamespace
+     * @param aVariableName
+     * @param aMessage
+     * @param aCause
+     */
+    public static AeInvalidVariableException createException(String aNamespace, String aVariableName, String aMessage, Throwable aCause) {
+        Object[] args = {aVariableName, aMessage};
+        String message = AeMessages.format("AeInvalidVariableException.Error", args); //$NON-NLS-1$
+        return new AeInvalidVariableException(aNamespace, message, aCause);
+    }
+
+    /**
+     * Creates the exception with the proper namespace
+     *
+     * @param aNamespace
+     * @param aMessage
+     * @param aCause
+     */
+    public AeInvalidVariableException(String aNamespace, String aMessage, Throwable aCause) {
+        super(aMessage, AeFaultFactory.getFactory(aNamespace).getInvalidVariables(aMessage), aCause);
+    }
 }
  

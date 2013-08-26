@@ -17,44 +17,42 @@ import org.apache.axis.handlers.BasicHandler;
  * with the services context classloader by
  * <code>org.activebpel.rt.tomcat.AeSetClassLoader</code>.
  */
-public class AeRestoreClassLoaderHandler extends BasicHandler
-{
-   /**
-     * 
+public class AeRestoreClassLoaderHandler extends BasicHandler {
+    /**
+     *
      */
     private static final long serialVersionUID = -3946009249291402L;
 
-/**
-    * Restore original classloader.
-    * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
-    */
-   public void invoke(MessageContext aMessageContext)
-   {
-      restoreClassLoader(aMessageContext);
-   }
+    /**
+     * Restore original classloader.
+     *
+     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
+     */
+    public void invoke(MessageContext aMessageContext) {
+        restoreClassLoader(aMessageContext);
+    }
 
-   /**
-    * Restore original classloader.
-    * @see org.apache.axis.Handler#onFault(org.apache.axis.MessageContext)
-    */
-   public void onFault(MessageContext aMessageContext)
-   {
-      restoreClassLoader(aMessageContext);
-   }
-   
-   /** 
-    * Puts the original classloader context back in place from the one
-    * saved in the passed message context.
-    * @param aMessageContext the message context to restore the classloader for.
-    */
-   protected void restoreClassLoader(MessageContext aMessageContext)
-   {
-      ClassLoader loader = 
-         (ClassLoader) aMessageContext.getProperty(AeSetClassLoaderHandler.SAVED_CLASSLOADER_PROPERTY);
-      if (loader != null)
-      {
-         aMessageContext.setProperty(AeSetClassLoaderHandler.SAVED_CLASSLOADER_PROPERTY, null);
-         Thread.currentThread().setContextClassLoader(loader);
-      }
-   }
+    /**
+     * Restore original classloader.
+     *
+     * @see org.apache.axis.Handler#onFault(org.apache.axis.MessageContext)
+     */
+    public void onFault(MessageContext aMessageContext) {
+        restoreClassLoader(aMessageContext);
+    }
+
+    /**
+     * Puts the original classloader context back in place from the one
+     * saved in the passed message context.
+     *
+     * @param aMessageContext the message context to restore the classloader for.
+     */
+    protected void restoreClassLoader(MessageContext aMessageContext) {
+        ClassLoader loader =
+                (ClassLoader) aMessageContext.getProperty(AeSetClassLoaderHandler.SAVED_CLASSLOADER_PROPERTY);
+        if (loader != null) {
+            aMessageContext.setProperty(AeSetClassLoaderHandler.SAVED_CLASSLOADER_PROPERTY, null);
+            Thread.currentThread().setContextClassLoader(loader);
+        }
+    }
 }

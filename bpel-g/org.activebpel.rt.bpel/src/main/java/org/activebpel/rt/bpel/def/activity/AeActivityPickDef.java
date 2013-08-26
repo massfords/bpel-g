@@ -23,93 +23,88 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel pick activity.
  */
-public class AeActivityPickDef extends AeActivityDef implements IAeMessageContainerDef, IAeActivityCreateInstanceDef
-{
-   /**
-     * 
+public class AeActivityPickDef extends AeActivityDef implements IAeMessageContainerDef, IAeActivityCreateInstanceDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 8177057775951556549L;
 
-/**
-    * createInstance attribute.
-    */
-   private boolean mCreateInstance;
-   
-   /** The list of onMessage children. */
-   private final List<AeOnMessageDef> mOnMessageList = new ArrayList<>();  // Will always be at least one
-   /** The list of onAlarm children. */
-   private List<AeOnAlarmDef> mOnAlarmList;                      // May have zero or more elements
+    /**
+     * createInstance attribute.
+     */
+    private boolean mCreateInstance;
 
-   /**
-    * Default constructor
-    */
-   public AeActivityPickDef()
-   {
-      super();
-   }
+    /**
+     * The list of onMessage children.
+     */
+    private final List<AeOnMessageDef> mOnMessageList = new ArrayList<>();  // Will always be at least one
+    /**
+     * The list of onAlarm children.
+     */
+    private List<AeOnAlarmDef> mOnAlarmList;                      // May have zero or more elements
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageContainerDef#addOnMessageDef(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
-    */
-   public void addOnMessageDef(AeOnMessageDef aMessage)
-   {
-      mOnMessageList.add(aMessage);
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityPickDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageContainerDef#getOnMessageDefs()
-    */
-   public Iterator<AeOnMessageDef> getOnMessageDefs()
-   {
-      return mOnMessageList.iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageContainerDef#addOnMessageDef(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
+     */
+    public void addOnMessageDef(AeOnMessageDef aMessage) {
+        mOnMessageList.add(aMessage);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#addAlarmDef(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
-    */
-   public void addAlarmDef(AeOnAlarmDef aAlarm)
-   {
-      if (mOnAlarmList == null)
-         mOnAlarmList = new ArrayList<>();
-         
-      mOnAlarmList.add(aAlarm);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageContainerDef#getOnMessageDefs()
+     */
+    public Iterator<AeOnMessageDef> getOnMessageDefs() {
+        return mOnMessageList.iterator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#getAlarmDefs()
-    */
-   public Iterator<AeOnAlarmDef> getAlarmDefs()
-   {
-      if (mOnAlarmList == null || mOnAlarmList.size() == 0)
-         return Collections.<AeOnAlarmDef>emptyList().iterator();
-      else
-         return mOnAlarmList.iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#addAlarmDef(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
+     */
+    public void addAlarmDef(AeOnAlarmDef aAlarm) {
+        if (mOnAlarmList == null)
+            mOnAlarmList = new ArrayList<>();
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+        mOnAlarmList.add(aAlarm);
+    }
 
-   /**
-    * Accessor method to obtain the create instance flag.
-    */
-   public final boolean isCreateInstance()
-   {
-      return mCreateInstance;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#getAlarmDefs()
+     */
+    public Iterator<AeOnAlarmDef> getAlarmDefs() {
+        if (mOnAlarmList == null || mOnAlarmList.size() == 0)
+            return Collections.<AeOnAlarmDef>emptyList().iterator();
+        else
+            return mOnAlarmList.iterator();
+    }
 
-   /**
-    * Mutator method to set the create instance flag for the activity.
-    * 
-    * @param aCreateInstance boolean flag indicating if instance should be 
-    *        created for activity
-    */
-   public final void setCreateInstance(boolean aCreateInstance)
-   {
-      mCreateInstance = aCreateInstance;
-   }   
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * Accessor method to obtain the create instance flag.
+     */
+    public final boolean isCreateInstance() {
+        return mCreateInstance;
+    }
+
+    /**
+     * Mutator method to set the create instance flag for the activity.
+     *
+     * @param aCreateInstance boolean flag indicating if instance should be
+     *                        created for activity
+     */
+    public final void setCreateInstance(boolean aCreateInstance) {
+        mCreateInstance = aCreateInstance;
+    }
 }

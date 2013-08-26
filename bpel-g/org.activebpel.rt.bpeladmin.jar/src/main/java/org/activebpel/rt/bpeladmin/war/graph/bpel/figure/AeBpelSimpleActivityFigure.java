@@ -14,31 +14,30 @@ import java.awt.Image;
 /**
  * Figure for displaying simple acitvities.
  */
-public class AeBpelSimpleActivityFigure extends AeBpelFigureBase
-{
+public class AeBpelSimpleActivityFigure extends AeBpelFigureBase {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 6050039160609272955L;
 
-/**
-    * Constructs the figure with the given name.
-    * @param aBpelName
-    */
-   public AeBpelSimpleActivityFigure(String aBpelName)
-   {
-      super(aBpelName);
-   }
-   
-   /**
-    * Constructs the figure with the given name and icon image.
-    * @param aBpelName
-    * @param aIconImage activity icon image.
-    */   
-   public AeBpelSimpleActivityFigure(String aBpelName, Image aIconImage)
-   {   
-      super(aBpelName, aIconImage);     
-   }
+    /**
+     * Constructs the figure with the given name.
+     *
+     * @param aBpelName
+     */
+    public AeBpelSimpleActivityFigure(String aBpelName) {
+        super(aBpelName);
+    }
+
+    /**
+     * Constructs the figure with the given name and icon image.
+     *
+     * @param aBpelName
+     * @param aIconImage activity icon image.
+     */
+    public AeBpelSimpleActivityFigure(String aBpelName, Image aIconImage) {
+        super(aBpelName, aIconImage);
+    }
 
 }

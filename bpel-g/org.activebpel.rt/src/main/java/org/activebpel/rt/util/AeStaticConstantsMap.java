@@ -21,73 +21,75 @@ import java.util.Map;
  * Implements a map between the names and values of the static fields in a Java
  * class or interface.
  */
-public class AeStaticConstantsMap
-{
-   /** The class or interface whose static fields will be mapped. */
-   private final Class mClass;
+public class AeStaticConstantsMap {
+    /**
+     * The class or interface whose static fields will be mapped.
+     */
+    private final Class mClass;
 
-   /** Whether {@link #init()} called yet. */
-   private boolean mInited = false;
+    /**
+     * Whether {@link #init()} called yet.
+     */
+    private boolean mInited = false;
 
-   /** Map from the names of the class's static fields to their values. */
-   private Map<String, Object> mNamesToValuesMap;
+    /**
+     * Map from the names of the class's static fields to their values.
+     */
+    private Map<String, Object> mNamesToValuesMap;
 
-   /** Map from the values of the class's static fields to their names. */
-   private Map<Object, String> mValuesToNamesMap;
+    /**
+     * Map from the values of the class's static fields to their names.
+     */
+    private Map<Object, String> mValuesToNamesMap;
 
-   /**
-    * Constructs a map between the names and values of the static fields in the
-    * specified class or interface.
-    */
-   public AeStaticConstantsMap(Class aClass)
-   {
-      mClass = aClass;
-   }
+    /**
+     * Constructs a map between the names and values of the static fields in the
+     * specified class or interface.
+     */
+    public AeStaticConstantsMap(Class aClass) {
+        mClass = aClass;
+    }
 
-   /**
-    * Makes sure that the internal maps are initialized.
-    */
-   protected void init()
-   {
-      if (!mInited)
-      {
-         mInited = true;
+    /**
+     * Makes sure that the internal maps are initialized.
+     */
+    protected void init() {
+        if (!mInited) {
+            mInited = true;
 
-         Field[] fields = mClass.getDeclaredFields();
-         mNamesToValuesMap = new HashMap<>();
-         mValuesToNamesMap = new HashMap<>();
+            Field[] fields = mClass.getDeclaredFields();
+            mNamesToValuesMap = new HashMap<>();
+            mValuesToNamesMap = new HashMap<>();
 
-          for (Field field : fields) {
-              if (Modifier.isStatic(field.getModifiers())) {
-                  try {
-                      String name = field.getName();
-                      Object value = field.get(null);
+            for (Field field : fields) {
+                if (Modifier.isStatic(field.getModifiers())) {
+                    try {
+                        String name = field.getName();
+                        Object value = field.get(null);
 
-                      mNamesToValuesMap.put(name, value);
-                      mValuesToNamesMap.put(value, name);
-                  } catch (IllegalArgumentException | IllegalAccessException e) {
-                      AeException.logError(e, AeMessages.getString("AeStaticConstantsMap.ERROR_0") + field); //$NON-NLS-1$
-                  }
-              }
-          }
-      }
-   }
+                        mNamesToValuesMap.put(name, value);
+                        mValuesToNamesMap.put(value, name);
+                    } catch (IllegalArgumentException | IllegalAccessException e) {
+                        AeException.logError(e, AeMessages.getString("AeStaticConstantsMap.ERROR_0") + field); //$NON-NLS-1$
+                    }
+                }
+            }
+        }
+    }
 
-   /**
-    * Returns the name of the static field with the specified value.
-    */
-   public String getName(Object aValue)
-   {
-      init();
-      return mValuesToNamesMap.get(aValue);
-   }
+    /**
+     * Returns the name of the static field with the specified value.
+     */
+    public String getName(Object aValue) {
+        init();
+        return mValuesToNamesMap.get(aValue);
+    }
 
-   /**
-    * Returns the value of the static field with the specified name.
-    */
-   public Object getValue(Object aName)
-   {
-      init();
-      return mNamesToValuesMap.get(aName);
-   }
+    /**
+     * Returns the value of the static field with the specified name.
+     */
+    public Object getValue(Object aName) {
+        init();
+        return mNamesToValuesMap.get(aName);
+    }
 }

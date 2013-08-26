@@ -24,100 +24,96 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 /**
  * A base implementation for XPath parse results.
  */
-public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionParseResult
-{
-   /** The AST representation of the parsed XPath. */
-   private AeXPathAST mXPathAST;
-   /** Cached list of functions. */
-   private Set<AeScriptFuncDef> mFunctions;
-   /** Cached list of variables. */
-   private Set<AeScriptVarDef> mVariableReferences;
+public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionParseResult {
+    /**
+     * The AST representation of the parsed XPath.
+     */
+    private AeXPathAST mXPathAST;
+    /**
+     * Cached list of functions.
+     */
+    private Set<AeScriptFuncDef> mFunctions;
+    /**
+     * Cached list of variables.
+     */
+    private Set<AeScriptVarDef> mVariableReferences;
 
-   /**
-    * Creates the xpath parse result.
-    * 
-    * @param aExpression
-    * @param aXPathAST
-    * @param aErrors
-    * @param aParserContext
-    */
-   public AeAbstractXPathParseResult(String aExpression, AeXPathAST aXPathAST, List<String> aErrors,
-         IAeExpressionParserContext aParserContext)
-   {
-      super(aExpression, aParserContext);
-      setXPathAST(aXPathAST);
-      setErrors(aErrors);
-   }
+    /**
+     * Creates the xpath parse result.
+     *
+     * @param aExpression
+     * @param aXPathAST
+     * @param aErrors
+     * @param aParserContext
+     */
+    public AeAbstractXPathParseResult(String aExpression, AeXPathAST aXPathAST, List<String> aErrors,
+                                      IAeExpressionParserContext aParserContext) {
+        super(aExpression, aParserContext);
+        setXPathAST(aXPathAST);
+        setErrors(aErrors);
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getFunctions()
-    */
-   public Set<AeScriptFuncDef> getFunctions()
-   {
-      if (mFunctions == null)
-         setFunctions(findFunctions());
-      return mFunctions;
-   }
-   
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVariableReferences()
-    */
-   public Set<AeScriptVarDef> getVariableReferences()
-   {
-      if (mVariableReferences == null)
-         setVariableReferences(findVariableReferences());
-      return mVariableReferences;
-   }
-   
-   /**
-    * Visits the xpath AST in order to find the functions.
-    */
-   protected Set<AeScriptFuncDef> findFunctions()
-   {
-      AeXPathFunctionNodeVisitor visitor = new AeXPathFunctionNodeVisitor();
-      getXPathAST().visitAll(visitor);
-      return visitor.getFunctions();
-   }
-   
-   /**
-    * Visits the xpath AST in order to find the variable references.
-    */
-   protected Set<AeScriptVarDef> findVariableReferences()
-   {
-      AeXPathVariableNodeVisitor visitor = new AeXPathVariableNodeVisitor();
-      getXPathAST().visitAll(visitor);
-      return visitor.getVariableReferences();
-   }
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getFunctions()
+     */
+    public Set<AeScriptFuncDef> getFunctions() {
+        if (mFunctions == null)
+            setFunctions(findFunctions());
+        return mFunctions;
+    }
 
-   /**
-    * @return Returns the xPathAST.
-    */
-   public AeXPathAST getXPathAST()
-   {
-      return mXPathAST;
-   }
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVariableReferences()
+     */
+    public Set<AeScriptVarDef> getVariableReferences() {
+        if (mVariableReferences == null)
+            setVariableReferences(findVariableReferences());
+        return mVariableReferences;
+    }
 
-   /**
-    * @param aPathAST The xPathAST to set.
-    */
-   protected void setXPathAST(AeXPathAST aPathAST)
-   {
-      mXPathAST = aPathAST;
-   }
+    /**
+     * Visits the xpath AST in order to find the functions.
+     */
+    protected Set<AeScriptFuncDef> findFunctions() {
+        AeXPathFunctionNodeVisitor visitor = new AeXPathFunctionNodeVisitor();
+        getXPathAST().visitAll(visitor);
+        return visitor.getFunctions();
+    }
 
-   /**
-    * @param aVariableReferences The variableReferences to set.
-    */
-   protected void setVariableReferences(Set<AeScriptVarDef> aVariableReferences)
-   {
-      mVariableReferences = aVariableReferences;
-   }
+    /**
+     * Visits the xpath AST in order to find the variable references.
+     */
+    protected Set<AeScriptVarDef> findVariableReferences() {
+        AeXPathVariableNodeVisitor visitor = new AeXPathVariableNodeVisitor();
+        getXPathAST().visitAll(visitor);
+        return visitor.getVariableReferences();
+    }
 
-   /**
-    * @param aFunctions The functions to set.
-    */
-   protected void setFunctions(Set<AeScriptFuncDef> aFunctions)
-   {
-      mFunctions = aFunctions;
-   }
+    /**
+     * @return Returns the xPathAST.
+     */
+    public AeXPathAST getXPathAST() {
+        return mXPathAST;
+    }
+
+    /**
+     * @param aPathAST The xPathAST to set.
+     */
+    protected void setXPathAST(AeXPathAST aPathAST) {
+        mXPathAST = aPathAST;
+    }
+
+    /**
+     * @param aVariableReferences The variableReferences to set.
+     */
+    protected void setVariableReferences(Set<AeScriptVarDef> aVariableReferences) {
+        mVariableReferences = aVariableReferences;
+    }
+
+    /**
+     * @param aFunctions The functions to set.
+     */
+    protected void setFunctions(Set<AeScriptFuncDef> aFunctions) {
+        mFunctions = aFunctions;
+    }
 }

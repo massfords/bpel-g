@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expr.functions; 
+package org.activebpel.rt.bpel.def.validation.expr.functions;
 
 import org.activebpel.rt.expr.def.AeScriptFuncDef;
 import org.activebpel.rt.expr.validation.AeExpressionValidationResult;
@@ -16,48 +16,46 @@ import org.activebpel.rt.expr.validation.functions.IAeFunctionValidator;
 
 /**
  * Delegating function validator. Passes validate call through to a delegate
- * validator. 
+ * validator.
  */
-public class AeDelegatingFunctionValidator extends AeAbstractFunctionValidator
-{
-   /** delegate that does actual validation */
-   private IAeFunctionValidator mDelegate;
-   
-   /**
-    * Ctor
-    * @param aDelegate
-    */
-   public AeDelegatingFunctionValidator(IAeFunctionValidator aDelegate)
-   {
-      setDelegate(aDelegate);
-   }
+public class AeDelegatingFunctionValidator extends AeAbstractFunctionValidator {
+    /**
+     * delegate that does actual validation
+     */
+    private IAeFunctionValidator mDelegate;
 
-   /**
-    * Pass through to delegate
-    * 
-    * @see org.activebpel.rt.expr.validation.functions.IAeFunctionValidator#validate(org.activebpel.rt.expr.def.AeScriptFuncDef, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   public void validate(AeScriptFuncDef aScriptFunction,
-         AeExpressionValidationResult aResult, IAeExpressionValidationContext aContext)
-   {
-      getDelegate().validate(aScriptFunction, aResult, aContext);
-   }
+    /**
+     * Ctor
+     *
+     * @param aDelegate
+     */
+    public AeDelegatingFunctionValidator(IAeFunctionValidator aDelegate) {
+        setDelegate(aDelegate);
+    }
 
-   /**
-    * @return the delegate
-    */
-   public IAeFunctionValidator getDelegate()
-   {
-      return mDelegate;
-   }
+    /**
+     * Pass through to delegate
+     *
+     * @see org.activebpel.rt.expr.validation.functions.IAeFunctionValidator#validate(org.activebpel.rt.expr.def.AeScriptFuncDef, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    public void validate(AeScriptFuncDef aScriptFunction,
+                         AeExpressionValidationResult aResult, IAeExpressionValidationContext aContext) {
+        getDelegate().validate(aScriptFunction, aResult, aContext);
+    }
 
-   /**
-    * @param aDelegate the delegate to set
-    */
-   public void setDelegate(IAeFunctionValidator aDelegate)
-   {
-      mDelegate = aDelegate;
-   }
+    /**
+     * @return the delegate
+     */
+    public IAeFunctionValidator getDelegate() {
+        return mDelegate;
+    }
+
+    /**
+     * @param aDelegate the delegate to set
+     */
+    public void setDelegate(IAeFunctionValidator aDelegate) {
+        mDelegate = aDelegate;
+    }
 
 }
  

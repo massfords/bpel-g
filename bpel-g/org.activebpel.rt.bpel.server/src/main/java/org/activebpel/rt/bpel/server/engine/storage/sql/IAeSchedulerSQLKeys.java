@@ -12,21 +12,20 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 /**
  * Scheduler SQL query keys.
  */
-public interface IAeSchedulerSQLKeys
-{
-   public static final String INSERT_SCHEDULE           = "InsertSchedule"; //$NON-NLS-1$
-   public static final String UPDATE_SCHEDULE           = "UpdateSchedule"; //$NON-NLS-1$
-   public static final String GET_ENTRY                 = "GetEntry"; //$NON-NLS-1$
-   public static final String GET_ENABLED_ENTRY         = "GetEnabledEntry"; //$NON-NLS-1$
-   public static final String LIST_ENABLED_ENTRIES      = "ListEnabledEntries"; //$NON-NLS-1$
-   public static final String LIST_UNSCHEDULED_ENTRIES  = "ListUnscheduledEntries"; //$NON-NLS-1$
-   public static final String LIST_LOCKED_ENTRIES       = "ListLockedEntries"; //$NON-NLS-1$
-   public static final String UPDATE_DEADLINE           = "UpdateDeadline"; //$NON-NLS-1$
-   public static final String UPDATE_ENDDATE            = "UpdateEnddate"; //$NON-NLS-1$
-   public static final String CANCEL_ENTRY              = "CancelEntry"; //$NON-NLS-1$
-   public static final String LOCK_ENTRY                = "LockEntry"; //$NON-NLS-1$
-   public static final String UNLOCK_ENTRY              = "UnLockEntry"; //$NON-NLS-1$
-   public static final String LOCK_ENTRY_FOR_SCHEDULED_EXECUTION  = "LockEntryForScheduledExecution"; //$NON-NLS-1$
-   public static final String TRANSFER_LOCK             = "TransferLock"; //$NON-NLS-1$   
-   public static final String LIST_LOCKED_ENTRIES_BY_ENGINE = "ListLockedEntriesByEngineId"; //$NON-NLS-1$   
+public interface IAeSchedulerSQLKeys {
+    public static final String INSERT_SCHEDULE = "InsertSchedule"; //$NON-NLS-1$
+    public static final String UPDATE_SCHEDULE = "UpdateSchedule"; //$NON-NLS-1$
+    public static final String GET_ENTRY = "GetEntry"; //$NON-NLS-1$
+    public static final String GET_ENABLED_ENTRY = "GetEnabledEntry"; //$NON-NLS-1$
+    public static final String LIST_ENABLED_ENTRIES = "ListEnabledEntries"; //$NON-NLS-1$
+    public static final String LIST_UNSCHEDULED_ENTRIES = "ListUnscheduledEntries"; //$NON-NLS-1$
+    public static final String LIST_LOCKED_ENTRIES = "ListLockedEntries"; //$NON-NLS-1$
+    public static final String UPDATE_DEADLINE = "UpdateDeadline"; //$NON-NLS-1$
+    public static final String UPDATE_ENDDATE = "UpdateEnddate"; //$NON-NLS-1$
+    public static final String CANCEL_ENTRY = "CancelEntry"; //$NON-NLS-1$
+    public static final String LOCK_ENTRY = "LockEntry"; //$NON-NLS-1$
+    public static final String UNLOCK_ENTRY = "UnLockEntry"; //$NON-NLS-1$
+    public static final String LOCK_ENTRY_FOR_SCHEDULED_EXECUTION = "LockEntryForScheduledExecution"; //$NON-NLS-1$
+    public static final String TRANSFER_LOCK = "TransferLock"; //$NON-NLS-1$
+    public static final String LIST_LOCKED_ENTRIES_BY_ENGINE = "ListLockedEntriesByEngineId"; //$NON-NLS-1$
 }

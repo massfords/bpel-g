@@ -19,42 +19,37 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider
 /**
  * An abstract storage provider implementation for SQL.
  */
-public abstract class AeAbstractSQLStorageProvider extends AeAbstractSQLStorage implements IAeStorageProvider
-{
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider#getDBConnection()
-    */
-   public IAeStorageConnection getDBConnection() throws AeStorageException
-   {
-      return new AeSQLStorageConnection(getNewConnection());
-   }
+public abstract class AeAbstractSQLStorageProvider extends AeAbstractSQLStorage implements IAeStorageProvider {
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider#getDBConnection()
+     */
+    public IAeStorageConnection getDBConnection() throws AeStorageException {
+        return new AeSQLStorageConnection(getNewConnection());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider#getCommitControlDBConnection()
-    */
-   public IAeStorageConnection getCommitControlDBConnection() throws AeStorageException
-   {
-      // Note: AeSQLStorageConnection is NOT wrapped around a TransactionManager connection
-      // (always returns a new commit control connection
-      return new AeSQLStorageConnection( getCommitControlConnection() );
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider#getTxCommitControlDBConnection()
-    */
-   public IAeStorageConnection getTxCommitControlDBConnection() throws AeStorageException
-   {
-      // Fall back to a commit control connection if no active TX.
-      return new AeSQLStorageConnection(getTransactionConnection(true, false));
-   }
-   
-   /**
-    * Convenience method to get the SQL connection from the IAeDBConnection.
-    * 
-    * @param aConnection
-    */
-   protected Connection getSQLConnection(IAeStorageConnection aConnection)
-   {
-      return ((AeSQLStorageConnection) aConnection).getConnection();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider#getCommitControlDBConnection()
+     */
+    public IAeStorageConnection getCommitControlDBConnection() throws AeStorageException {
+        // Note: AeSQLStorageConnection is NOT wrapped around a TransactionManager connection
+        // (always returns a new commit control connection
+        return new AeSQLStorageConnection(getCommitControlConnection());
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider#getTxCommitControlDBConnection()
+     */
+    public IAeStorageConnection getTxCommitControlDBConnection() throws AeStorageException {
+        // Fall back to a commit control connection if no active TX.
+        return new AeSQLStorageConnection(getTransactionConnection(true, false));
+    }
+
+    /**
+     * Convenience method to get the SQL connection from the IAeDBConnection.
+     *
+     * @param aConnection
+     */
+    protected Connection getSQLConnection(IAeStorageConnection aConnection) {
+        return ((AeSQLStorageConnection) aConnection).getConnection();
+    }
 }

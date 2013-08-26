@@ -17,13 +17,11 @@ import org.activebpel.rt.bpel.def.visitors.AeTraversalVisitor;
 /**
  * A base class for all BPWS --> WS-BPEL 2.0 visitors.
  */
-public abstract class AeAbstractBPWSToWSBPELVisitor extends AeAbstractDefVisitor
-{
-   /**
-    * Constructor.
-    */
-   public AeAbstractBPWSToWSBPELVisitor()
-   {
-      setTraversalVisitor( new AeTraversalVisitor( new AeDefTraverser(), this ) );
-   }
+public abstract class AeAbstractBPWSToWSBPELVisitor extends AeAbstractDefVisitor {
+    /**
+     * Constructor.
+     */
+    public AeAbstractBPWSToWSBPELVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 }

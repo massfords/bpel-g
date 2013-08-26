@@ -21,68 +21,62 @@ import java.util.Iterator;
 
 /**
  * Visit the objects creating unique ids from process ids and their paths.  This
- * is neccesary during restore state when the state has not included a path in the 
+ * is neccesary during restore state when the state has not included a path in the
  * document and the path itself has custom locations.
  */
-public class AeRegisterLocationVisitor extends AeImplTraversingVisitor
-{
-   private final AeBusinessProcess mProcess;
+public class AeRegisterLocationVisitor extends AeImplTraversingVisitor {
+    private final AeBusinessProcess mProcess;
 
-   /**
-    * Construct the register location visitr with the associated business process.
-    */
-   public AeRegisterLocationVisitor(AeBusinessProcess aProcess)
-   {
-      super();
-      mProcess = aProcess;
-   }
-   
-   /**
-    * Extends the method to assign a unique id and register the path with the process.
-    *  
-    * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visitBase(org.activebpel.rt.bpel.impl.AeAbstractBpelObject)
-    */
-   protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException
-   {
-      // assign a unique id
-      int locationId = getProcess().getMaxLocationId() + 1;
-      aImpl.setLocationId(locationId);
-      getProcess().setMaxLocationId(locationId);
-      
-      // add the bpel object to the process
-      getProcess().addBpelObject(aImpl.getLocationPath(), aImpl);
-      
-      // continue traverse
-      super.visitBase(aImpl);
-   }
-   
-   /**
-    * Extends the method to assign a unique id to variables and partner links and register the variable 
-    * paths with the process. 
-    * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitScope(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
-    */
-   protected void visitScope(AeActivityScopeImpl aImpl) throws AeBusinessProcessException
-   {
-      if (aImpl.getVariableContainer() != null)
-      {
-         for(Iterator iter = aImpl.getVariableContainer().iterator(); iter.hasNext(); )
-         {
-            AeVariable variable = (AeVariable)iter.next();
-            getProcess().addVariableMapping(variable);
-         }
-      }
-       for (IAePartnerLink iAePartnerLink : aImpl.getPartnerLinks().values()) {
-           AePartnerLink plink = (AePartnerLink) iAePartnerLink;
-           getProcess().addPartnerLinkMapping(plink);
-       }
-      super.visitScope(aImpl);
-   }
-   
-   /**
-    * @return Returns the process.
-    */
-   public AeBusinessProcess getProcess()
-   {
-      return mProcess;
-   }
+    /**
+     * Construct the register location visitr with the associated business process.
+     */
+    public AeRegisterLocationVisitor(AeBusinessProcess aProcess) {
+        super();
+        mProcess = aProcess;
+    }
+
+    /**
+     * Extends the method to assign a unique id and register the path with the process.
+     *
+     * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visitBase(org.activebpel.rt.bpel.impl.AeAbstractBpelObject)
+     */
+    protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException {
+        // assign a unique id
+        int locationId = getProcess().getMaxLocationId() + 1;
+        aImpl.setLocationId(locationId);
+        getProcess().setMaxLocationId(locationId);
+
+        // add the bpel object to the process
+        getProcess().addBpelObject(aImpl.getLocationPath(), aImpl);
+
+        // continue traverse
+        super.visitBase(aImpl);
+    }
+
+    /**
+     * Extends the method to assign a unique id to variables and partner links and register the variable
+     * paths with the process.
+     *
+     * @see org.activebpel.rt.bpel.impl.visitors.AeAbstractImplVisitor#visitScope(org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl)
+     */
+    protected void visitScope(AeActivityScopeImpl aImpl) throws AeBusinessProcessException {
+        if (aImpl.getVariableContainer() != null) {
+            for (Iterator iter = aImpl.getVariableContainer().iterator(); iter.hasNext(); ) {
+                AeVariable variable = (AeVariable) iter.next();
+                getProcess().addVariableMapping(variable);
+            }
+        }
+        for (IAePartnerLink iAePartnerLink : aImpl.getPartnerLinks().values()) {
+            AePartnerLink plink = (AePartnerLink) iAePartnerLink;
+            getProcess().addPartnerLinkMapping(plink);
+        }
+        super.visitScope(aImpl);
+    }
+
+    /**
+     * @return Returns the process.
+     */
+    public AeBusinessProcess getProcess() {
+        return mProcess;
+    }
 }

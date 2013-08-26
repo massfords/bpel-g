@@ -18,37 +18,37 @@ import org.w3c.dom.Element;
  * Subclasses provide behavior for creating AeDef object impls
  * and configuring them appropriately.
  */
-abstract public class AeBaseDefReader implements IAeDefReader
-{
-   /**
-    * @see org.activebpel.rt.xml.def.io.readers.IAeDefReader#read(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
-    */
-   public AeBaseXmlDef read(AeBaseXmlDef aParent, Element aElement) throws AeException
-   {
-      AeBaseXmlDef childDef = createChild( aParent, aElement );
-      if (configureChild( aParent, childDef, aElement ))
-         return childDef;
-      return null;
-   }
-   
-   /**
-    * Create the new AeBaseDef object.
-    * @param aParent provided in the case of containers.
-    * @param aElement the Element being read
-    * @return appropriate AeBaseDef type
-    * @throws AeException
-    */
-   protected abstract AeBaseXmlDef createChild(AeBaseXmlDef aParent, Element aElement) throws AeException;
-   
-   /**
-    * It is expected that reader impls will extract attribute
-    * (and possibly other) data from element to set properties
-    * on the new def object and then add it to its parent in
-    * the appropriate manner.
-    * @param aParentDef
-    * @param aNewDef
-    * @param aElement
-    * @throws AeException
-    */
-   protected abstract boolean configureChild( AeBaseXmlDef aParentDef, AeBaseXmlDef aNewDef, Element aElement ) throws AeException;
+abstract public class AeBaseDefReader implements IAeDefReader {
+    /**
+     * @see org.activebpel.rt.xml.def.io.readers.IAeDefReader#read(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
+     */
+    public AeBaseXmlDef read(AeBaseXmlDef aParent, Element aElement) throws AeException {
+        AeBaseXmlDef childDef = createChild(aParent, aElement);
+        if (configureChild(aParent, childDef, aElement))
+            return childDef;
+        return null;
+    }
+
+    /**
+     * Create the new AeBaseDef object.
+     *
+     * @param aParent  provided in the case of containers.
+     * @param aElement the Element being read
+     * @return appropriate AeBaseDef type
+     * @throws AeException
+     */
+    protected abstract AeBaseXmlDef createChild(AeBaseXmlDef aParent, Element aElement) throws AeException;
+
+    /**
+     * It is expected that reader impls will extract attribute
+     * (and possibly other) data from element to set properties
+     * on the new def object and then add it to its parent in
+     * the appropriate manner.
+     *
+     * @param aParentDef
+     * @param aNewDef
+     * @param aElement
+     * @throws AeException
+     */
+    protected abstract boolean configureChild(AeBaseXmlDef aParentDef, AeBaseXmlDef aNewDef, Element aElement) throws AeException;
 }

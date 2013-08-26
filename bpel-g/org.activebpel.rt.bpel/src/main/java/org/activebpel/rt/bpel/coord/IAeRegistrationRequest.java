@@ -10,47 +10,51 @@
 package org.activebpel.rt.bpel.coord;
 
 /**
- * Interface for a WS-Coordination registation request. 
- * 
+ * Interface for a WS-Coordination registation request.
+ * <p/>
  * Note: This is an internal implementation tailored to be used with requirement 111
- * i.e. the interface provides a simple property getter and setter. 
- * 
+ * i.e. the interface provides a simple property getter and setter.
+ * <p/>
  * The final implementation should follow something close to the Register definition
  * as per http://schemas.xmlsoap.org/ws/2004/10/wsoor.
- * Maybe refactor this interface to wsio.IWebServiceCoordRegistrationRequest. 
+ * Maybe refactor this interface to wsio.IWebServiceCoordRegistrationRequest.
  */
-public interface IAeRegistrationRequest
-{   
-   /**
-    * Returns the coordination context.
-    * @return coordination context. 
-    */
-   public IAeCoordinationContext getCoordinationContext();
-   
-   /**
-    * Returns the protocol identifier string.
-    * @return protocol id.
-    */
-   public String getProtocolIdentifier();
-   
-   /**
-    * Sets the protocol identifier string.
-    * @param aProtocolId protocol type to be used for coordination.
-    */
-   public void setProtocolIdentifier(String aProtocolId);
-   
-   /**
-    * Sets a property. 
-    * @param aName
-    * @param aValue
-    */
-   public void setProperty(String aName, String aValue);
-   
-   /**
-    * Returns a named property. 
-    * @param aName
-    * @return property value.
-    */
-   public String getProperty(String aName);
-   
+public interface IAeRegistrationRequest {
+    /**
+     * Returns the coordination context.
+     *
+     * @return coordination context.
+     */
+    public IAeCoordinationContext getCoordinationContext();
+
+    /**
+     * Returns the protocol identifier string.
+     *
+     * @return protocol id.
+     */
+    public String getProtocolIdentifier();
+
+    /**
+     * Sets the protocol identifier string.
+     *
+     * @param aProtocolId protocol type to be used for coordination.
+     */
+    public void setProtocolIdentifier(String aProtocolId);
+
+    /**
+     * Sets a property.
+     *
+     * @param aName
+     * @param aValue
+     */
+    public void setProperty(String aName, String aValue);
+
+    /**
+     * Returns a named property.
+     *
+     * @param aName
+     * @return property value.
+     */
+    public String getProperty(String aName);
+
 }

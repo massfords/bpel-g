@@ -17,29 +17,23 @@ import org.mozilla.javascript.Scriptable;
 /**
  * A BPEL 2.0 implementation of a JavaScript expression runner.
  */
-public class AeWSBPELJavaScriptExpressionRunner extends AeAbstractJavaScriptExpressionRunner
-{
-   /**
-    * Default c'tor.
-    */
-   public AeWSBPELJavaScriptExpressionRunner()
-   {
-      super();
-   }
+public class AeWSBPELJavaScriptExpressionRunner extends AeAbstractJavaScriptExpressionRunner {
+    /**
+     * Default c'tor.
+     */
+    public AeWSBPELJavaScriptExpressionRunner() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.impl.javascript.AeAbstractJavaScriptExpressionRunner#createFunctionContainer(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.mozilla.javascript.Scriptable, java.lang.String)
-    */
-   protected AeJavaScriptFunctionContainer createFunctionContainer(
-         IAeFunctionExecutionContext aFuncExecContext, Scriptable aScope, String aFunctionNamespace)
-   {
-      if (!IAeBPELConstants.BPWS_NAMESPACE_URI.equals(aFunctionNamespace))
-      {
-         return new AeWSBPELJavaScriptFunctionContainer(aFunctionNamespace, aScope, aFuncExecContext);
-      }
-      else
-      {
-         return super.createFunctionContainer(aFuncExecContext, aScope, aFunctionNamespace);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.impl.javascript.AeAbstractJavaScriptExpressionRunner#createFunctionContainer(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.mozilla.javascript.Scriptable, java.lang.String)
+     */
+    protected AeJavaScriptFunctionContainer createFunctionContainer(
+            IAeFunctionExecutionContext aFuncExecContext, Scriptable aScope, String aFunctionNamespace) {
+        if (!IAeBPELConstants.BPWS_NAMESPACE_URI.equals(aFunctionNamespace)) {
+            return new AeWSBPELJavaScriptFunctionContainer(aFunctionNamespace, aScope, aFuncExecContext);
+        } else {
+            return super.createFunctionContainer(aFuncExecContext, aScope, aFunctionNamespace);
+        }
+    }
 }

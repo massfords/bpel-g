@@ -7,34 +7,31 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity.support; 
+package org.activebpel.rt.bpel.def.activity.support;
 
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 /**
  * Models the start expression for a forEach
  */
-public class AeForEachStartDef extends AeExpressionBaseDef
-{
-   /**
-     * 
+public class AeForEachStartDef extends AeExpressionBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 3678303064324426120L;
 
-/**
-    * Default c'tor.
-    */
-   public AeForEachStartDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeForEachStartDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }
  

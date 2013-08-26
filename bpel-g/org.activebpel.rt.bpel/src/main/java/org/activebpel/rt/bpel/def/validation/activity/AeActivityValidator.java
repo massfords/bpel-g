@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.IAeMultipleActivityContainerDef;
@@ -17,44 +17,39 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * Base model for all activity subclasses
  */
-public class AeActivityValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   protected AeActivityValidator(AeBaseDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      validateNCName(false);
+public class AeActivityValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    protected AeActivityValidator(AeBaseDef aDef) {
+        super(aDef);
+    }
 
-      checkForMissingChildActivity();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-   /**
-    * checks for a missing child activity
-    */
-   protected void checkForMissingChildActivity()
-   {
-      if (getDefinition() instanceof IAeSingleActivityContainerDef || getDefinition() instanceof IAeMultipleActivityContainerDef)
-      {
-         if (getChildren(AeActivityValidator.class).isEmpty())
-         {
-               getReporter().reportProblem( BPEL_ACTIVITY_MISSING_CODE, 
-                                    ERROR_ACTIVITY_MISSING,
-                                    new String[] { getDefinition().getLocationPath() },
-                                    getDefinition() );
-         }
-      }
-   }
+        validateNCName(false);
+
+        checkForMissingChildActivity();
+    }
+
+    /**
+     * checks for a missing child activity
+     */
+    protected void checkForMissingChildActivity() {
+        if (getDefinition() instanceof IAeSingleActivityContainerDef || getDefinition() instanceof IAeMultipleActivityContainerDef) {
+            if (getChildren(AeActivityValidator.class).isEmpty()) {
+                getReporter().reportProblem(BPEL_ACTIVITY_MISSING_CODE,
+                        ERROR_ACTIVITY_MISSING,
+                        new String[]{getDefinition().getLocationPath()},
+                        getDefinition());
+            }
+        }
+    }
 }
  

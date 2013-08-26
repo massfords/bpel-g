@@ -30,53 +30,45 @@ import org.w3c.dom.Document;
  * org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry}
  * instances.
  */
-public class AeJournalEntriesResultSetHandler implements ResultSetHandler<List<IAeJournalEntry>>
-{
-   /**
-    * Default constructor that is visible to classes derived from
-    * <code>AeSQLProcessStateStorage</code>.
-    */
-   public AeJournalEntriesResultSetHandler()
-   {
-      super();
-   }
+public class AeJournalEntriesResultSetHandler implements ResultSetHandler<List<IAeJournalEntry>> {
+    /**
+     * Default constructor that is visible to classes derived from
+     * <code>AeSQLProcessStateStorage</code>.
+     */
+    public AeJournalEntriesResultSetHandler() {
+        super();
+    }
 
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public List<IAeJournalEntry> handle(ResultSet rs) throws SQLException
-   {
-      IAeJournalEntryFactory factory = AeJournalEntryFactory.getInstance();
-      List<IAeJournalEntry> result = new LinkedList<>();
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public List<IAeJournalEntry> handle(ResultSet rs) throws SQLException {
+        IAeJournalEntryFactory factory = AeJournalEntryFactory.getInstance();
+        List<IAeJournalEntry> result = new LinkedList<>();
 
-      while (rs.next())
-      {
-         long journalId = rs.getLong(1);
-         int entryType = rs.getInt(2);
-         int locationId = rs.getInt(3);
-         Clob clob = rs.getClob(4);
+        while (rs.next()) {
+            long journalId = rs.getLong(1);
+            int entryType = rs.getInt(2);
+            int locationId = rs.getInt(3);
+            Clob clob = rs.getClob(4);
 
-         if (rs.wasNull())
-         {
-            clob = null;
-         }
+            if (rs.wasNull()) {
+                clob = null;
+            }
 
-         Document document = (clob == null) ? null : AeDbUtils.getDocument(clob);
-         IAeJournalEntry item; 
+            Document document = (clob == null) ? null : AeDbUtils.getDocument(clob);
+            IAeJournalEntry item;
 
-         try
-         {
-            item = factory.newJournalEntry(entryType, locationId, journalId, document); 
-         }
-         catch (AeException e)
-         {
-            e.logError();
-            continue;
-         }
+            try {
+                item = factory.newJournalEntry(entryType, locationId, journalId, document);
+            } catch (AeException e) {
+                e.logError();
+                continue;
+            }
 
-         result.add(item);
-      }
+            result.add(item);
+        }
 
-      return result;
-   }
+        return result;
+    }
 }

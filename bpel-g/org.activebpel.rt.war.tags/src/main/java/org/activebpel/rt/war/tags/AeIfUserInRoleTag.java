@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.war.tags; 
+package org.activebpel.rt.war.tags;
 
 import java.security.Principal;
 
@@ -22,65 +22,56 @@ import javax.servlet.jsp.tagext.TagSupport;
  * in cases where there are a few elements on a page to hide. If this tag is used
  * a lot on a page then it's probably better to have a separate JSP for each role.
  */
-public class AeIfUserInRoleTag extends TagSupport
-{
-   /**
-     * 
+public class AeIfUserInRoleTag extends TagSupport {
+    /**
+     *
      */
     private static final long serialVersionUID = 5030292784894102478L;
-/** name of the role to check for */
-   private String mRole;
-   
-   /**
-    * Will evaluate the body contents if the user is in the specified role or
-    * if there is no principal available.
-    * 
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      if( isUserInRole() )
-      {
-         return EVAL_BODY_INCLUDE;
-      }
-      else
-      {
-         return SKIP_BODY;
-      }
-   }
-   
-   /**
-    * Returns true if the user is in the specified role or if there is no principal
-    * available
-    */
-   protected boolean isUserInRole()
-   {
-      HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
-      Principal p = req.getUserPrincipal();
-      if (p == null)
-      {
-         return true;
-      }
-      else
-      {
-         return req.isUserInRole(getRole());
-      }
-   }
+    /**
+     * name of the role to check for
+     */
+    private String mRole;
 
-   /**
-    * @return Returns the role.
-    */
-   public String getRole()
-   {
-      return mRole;
-   }
-   
-   /**
-    * @param aRole The role to set.
-    */
-   public void setRole(String aRole)
-   {
-      mRole = aRole;
-   }
+    /**
+     * Will evaluate the body contents if the user is in the specified role or
+     * if there is no principal available.
+     *
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        if (isUserInRole()) {
+            return EVAL_BODY_INCLUDE;
+        } else {
+            return SKIP_BODY;
+        }
+    }
+
+    /**
+     * Returns true if the user is in the specified role or if there is no principal
+     * available
+     */
+    protected boolean isUserInRole() {
+        HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
+        Principal p = req.getUserPrincipal();
+        if (p == null) {
+            return true;
+        } else {
+            return req.isUserInRole(getRole());
+        }
+    }
+
+    /**
+     * @return Returns the role.
+     */
+    public String getRole() {
+        return mRole;
+    }
+
+    /**
+     * @param aRole The role to set.
+     */
+    public void setRole(String aRole) {
+        mRole = aRole;
+    }
 }
  

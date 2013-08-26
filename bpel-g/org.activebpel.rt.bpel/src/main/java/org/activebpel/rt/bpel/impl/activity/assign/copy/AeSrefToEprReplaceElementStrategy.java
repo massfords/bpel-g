@@ -17,20 +17,19 @@ import org.w3c.dom.Element;
 /**
  * Handles copying the source's first child element to the target (e.g. service-ref element to wsa:epr element).
  */
-public class AeSrefToEprReplaceElementStrategy extends AeReplaceElementStrategy
-{
+public class AeSrefToEprReplaceElementStrategy extends AeReplaceElementStrategy {
 
-   /** 
-    * Overrides method to copy the first child element of the source element to the target.
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy#copy(org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation, java.lang.Object, java.lang.Object)
-    */
-   public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException
-   {
-      Element src = (Element)aFromData;
-      // get first child element.
-      // E.g. unwrap service-ref: <sref:service-ref><wsa:EndpointReference/></sref:service-ref> to get <wsa:EndpointReference/>
-      src = AeXmlUtil.getFirstSubElement(src);
-      super.copy(aCopyOperation, src, aToData);
-   }
+    /**
+     * Overrides method to copy the first child element of the source element to the target.
+     *
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy#copy(org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation, java.lang.Object, java.lang.Object)
+     */
+    public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException {
+        Element src = (Element) aFromData;
+        // get first child element.
+        // E.g. unwrap service-ref: <sref:service-ref><wsa:EndpointReference/></sref:service-ref> to get <wsa:EndpointReference/>
+        src = AeXmlUtil.getFirstSubElement(src);
+        super.copy(aCopyOperation, src, aToData);
+    }
 
 }

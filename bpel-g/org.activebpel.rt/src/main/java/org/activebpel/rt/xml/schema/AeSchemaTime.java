@@ -19,194 +19,181 @@ import java.util.regex.Pattern;
 import org.activebpel.rt.util.AeUtil;
 
 /**
- * This class represents a time as defined by the xsd:time datatype. An object of this type can be 
+ * This class represents a time as defined by the xsd:time datatype. An object of this type can be
  * constructed from an xsd:time formatted string, or from a Date or Calendar java object.
  */
-public class AeSchemaTime extends AeSchemaDateTime
-{
-   /**
-     * 
+public class AeSchemaTime extends AeSchemaDateTime {
+    /**
+     *
      */
     private static final long serialVersionUID = 3381227709828723146L;
-/** A regular expression for matching schema dateTime strings. */
-   private static final Pattern INPUT_PATTERN = Pattern.compile("([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.([0-9]*))?(Z|(([\\+\\-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
-   /** The output format to use for toString(). */
-   private static final String OUTPUT_PATTERN = "{0,number,00}:{1,number,00}:{2,number,00}{3,choice,0#|0<.{3,number,000}}Z"; //$NON-NLS-1$
+    /**
+     * A regular expression for matching schema dateTime strings.
+     */
+    private static final Pattern INPUT_PATTERN = Pattern.compile("([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.([0-9]*))?(Z|(([\\+\\-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
+    /**
+     * The output format to use for toString().
+     */
+    private static final String OUTPUT_PATTERN = "{0,number,00}:{1,number,00}:{2,number,00}{3,choice,0#|0<.{3,number,000}}Z"; //$NON-NLS-1$
 
-   /**
-    * Creates a schema time object given a xsd:time formatted String.  This string is 
-    * typically gotten from a value found in an XML document.
-    * 
-    * @param aSchemaTimeStr A time formatted in XSD format (subset of ISO 8601).
-    */
-   public AeSchemaTime(String aSchemaTimeStr)
-   {
-      super(aSchemaTimeStr);
-   }
+    /**
+     * Creates a schema time object given a xsd:time formatted String.  This string is
+     * typically gotten from a value found in an XML document.
+     *
+     * @param aSchemaTimeStr A time formatted in XSD format (subset of ISO 8601).
+     */
+    public AeSchemaTime(String aSchemaTimeStr) {
+        super(aSchemaTimeStr);
+    }
 
-   /**
-    * Creates a schema time object from a java Date object.
-    * 
-    * @param aDate
-    */
-   public AeSchemaTime(Date aDate)
-   {
-      super(aDate);
-      // This causes the internal time structures to be re-computed
-      getCalendar().getTimeInMillis();
-      // Now normalize all of the date fields
-      getCalendar().set(Calendar.YEAR, 2004);
-      getCalendar().set(Calendar.MONTH, 0);
-      getCalendar().set(Calendar.DAY_OF_MONTH, 1);
-   }
+    /**
+     * Creates a schema time object from a java Date object.
+     *
+     * @param aDate
+     */
+    public AeSchemaTime(Date aDate) {
+        super(aDate);
+        // This causes the internal time structures to be re-computed
+        getCalendar().getTimeInMillis();
+        // Now normalize all of the date fields
+        getCalendar().set(Calendar.YEAR, 2004);
+        getCalendar().set(Calendar.MONTH, 0);
+        getCalendar().set(Calendar.DAY_OF_MONTH, 1);
+    }
 
-   /**
-    * Creates a schema date object from a java Calendar object.
-    * 
-    * @param aCalendar
-    */
-   public AeSchemaTime(Calendar aCalendar)
-   {
-      super(aCalendar);
-      // This causes the internal time structures to be re-computed
-      getCalendar().getTimeInMillis();
-      // Now normalize all of the date fields
-      getCalendar().set(Calendar.YEAR, 2004);
-      getCalendar().set(Calendar.MONTH, 0);
-      getCalendar().set(Calendar.DAY_OF_MONTH, 1);
-   }
+    /**
+     * Creates a schema date object from a java Calendar object.
+     *
+     * @param aCalendar
+     */
+    public AeSchemaTime(Calendar aCalendar) {
+        super(aCalendar);
+        // This causes the internal time structures to be re-computed
+        getCalendar().getTimeInMillis();
+        // Now normalize all of the date fields
+        getCalendar().set(Calendar.YEAR, 2004);
+        getCalendar().set(Calendar.MONTH, 0);
+        getCalendar().set(Calendar.DAY_OF_MONTH, 1);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getInputPattern()
-    */
-   protected Pattern getInputPattern()
-   {
-      return INPUT_PATTERN;
-   }
-   
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#processMatcher(java.util.regex.Matcher)
-    */
-   protected void processMatcher(Matcher aMatcher)
-   {
-      String hourStr = aMatcher.group(1);
-      String minuteStr = aMatcher.group(2);
-      String secondStr = aMatcher.group(3);
-      String fracSecondStr = aMatcher.group(5);
-      if (AeUtil.isNullOrEmpty(fracSecondStr))
-         fracSecondStr = "0"; //$NON-NLS-1$
-      String tzStr = aMatcher.group(6);
-      boolean isUTC = (AeUtil.isNullOrEmpty(tzStr)) || ("Z".equals(tzStr)); //$NON-NLS-1$
-      String tzHr = null;
-      String tzMin = null;
-      char tzDir = '+';
-      if (!isUTC)
-      {
-         tzDir = aMatcher.group(8).charAt(0);
-         tzHr = aMatcher.group(9);
-         tzMin = aMatcher.group(10);
-      }
-      int millis = 0;
-      if (fracSecondStr != null)
-      {
-         millis = (int) (1000F * new Float("0." + fracSecondStr)); //$NON-NLS-1$
-      }
-      TimeZone tz = createTimeZone(tzHr, tzMin, tzDir);
-      setTimeZone(tz);
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getInputPattern()
+     */
+    protected Pattern getInputPattern() {
+        return INPUT_PATTERN;
+    }
 
-      setCalendar(new GregorianCalendar());
-      getCalendar().setTimeZone(tz);
-      getCalendar().set(Calendar.HOUR_OF_DAY, new Integer(hourStr));
-      getCalendar().set(Calendar.MINUTE, new Integer(minuteStr));
-      getCalendar().set(Calendar.SECOND, new Integer(secondStr));
-      getCalendar().set(Calendar.MILLISECOND, millis);
-      // Need to update the internal Calendar data structures by asking for the time in millis
-      // because they are not updated until some internal data is queried.
-      long time = getCalendar().getTimeInMillis();
-      // Now set the time zone to UTC - the next time someone asks for any calendar field, the 
-      // internal data structures will be updated.
-      getCalendar().setTimeZone(sUTCTimeZone);
-      setTimeZone(sUTCTimeZone);
-      // Work around a GNU Classpath bug: the GNU Calendar implementation
-      // doesn't recalcuate its fields after setting the time zone, so always
-      // set the time after the time zone.
-      getCalendar().setTimeInMillis(time);
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#processMatcher(java.util.regex.Matcher)
+     */
+    protected void processMatcher(Matcher aMatcher) {
+        String hourStr = aMatcher.group(1);
+        String minuteStr = aMatcher.group(2);
+        String secondStr = aMatcher.group(3);
+        String fracSecondStr = aMatcher.group(5);
+        if (AeUtil.isNullOrEmpty(fracSecondStr))
+            fracSecondStr = "0"; //$NON-NLS-1$
+        String tzStr = aMatcher.group(6);
+        boolean isUTC = (AeUtil.isNullOrEmpty(tzStr)) || ("Z".equals(tzStr)); //$NON-NLS-1$
+        String tzHr = null;
+        String tzMin = null;
+        char tzDir = '+';
+        if (!isUTC) {
+            tzDir = aMatcher.group(8).charAt(0);
+            tzHr = aMatcher.group(9);
+            tzMin = aMatcher.group(10);
+        }
+        int millis = 0;
+        if (fracSecondStr != null) {
+            millis = (int) (1000F * new Float("0." + fracSecondStr)); //$NON-NLS-1$
+        }
+        TimeZone tz = createTimeZone(tzHr, tzMin, tzDir);
+        setTimeZone(tz);
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getOutputPattern()
-    */
-   protected String getOutputPattern()
-   {
-      return OUTPUT_PATTERN;
-   }
-   
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getOutputPatternArguments()
-    */
-   protected Object[] getOutputPatternArguments()
-   {
-      return new Object [] {
-              getCalendar().get(Calendar.HOUR_OF_DAY),
-              getCalendar().get(Calendar.MINUTE),
-              getCalendar().get(Calendar.SECOND),
-              getCalendar().get(Calendar.MILLISECOND)
-      };
-   }
+        setCalendar(new GregorianCalendar());
+        getCalendar().setTimeZone(tz);
+        getCalendar().set(Calendar.HOUR_OF_DAY, new Integer(hourStr));
+        getCalendar().set(Calendar.MINUTE, new Integer(minuteStr));
+        getCalendar().set(Calendar.SECOND, new Integer(secondStr));
+        getCalendar().set(Calendar.MILLISECOND, millis);
+        // Need to update the internal Calendar data structures by asking for the time in millis
+        // because they are not updated until some internal data is queried.
+        long time = getCalendar().getTimeInMillis();
+        // Now set the time zone to UTC - the next time someone asks for any calendar field, the
+        // internal data structures will be updated.
+        getCalendar().setTimeZone(sUTCTimeZone);
+        setTimeZone(sUTCTimeZone);
+        // Work around a GNU Classpath bug: the GNU Calendar implementation
+        // doesn't recalcuate its fields after setting the time zone, so always
+        // set the time after the time zone.
+        getCalendar().setTimeInMillis(time);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getYear()
-    */
-   public int getYear()
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getOutputPattern()
+     */
+    protected String getOutputPattern() {
+        return OUTPUT_PATTERN;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#setYear(int)
-    */
-   public void setYear(int aYear)
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getOutputPatternArguments()
+     */
+    protected Object[] getOutputPatternArguments() {
+        return new Object[]{
+                getCalendar().get(Calendar.HOUR_OF_DAY),
+                getCalendar().get(Calendar.MINUTE),
+                getCalendar().get(Calendar.SECOND),
+                getCalendar().get(Calendar.MILLISECOND)
+        };
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getMonth()
-    */
-   public int getMonth()
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getYear()
+     */
+    public int getYear() {
+        throw new UnsupportedOperationException();
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#setMonth(int)
-    */
-   public void setMonth(int aMonth)
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#setYear(int)
+     */
+    public void setYear(int aYear) {
+        throw new UnsupportedOperationException();
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getDay()
-    */
-   public int getDay()
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getMonth()
+     */
+    public int getMonth() {
+        throw new UnsupportedOperationException();
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#setDay(int)
-    */
-   public void setDay(int aDay)
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#setMonth(int)
+     */
+    public void setMonth(int aMonth) {
+        throw new UnsupportedOperationException();
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.IAeSchemaType#accept(org.activebpel.rt.xml.schema.IAeSchemaTypeVisitor)
-    */
-   public void accept(IAeSchemaTypeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#getDay()
+     */
+    public int getDay() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.schema.AeSchemaDateTime#setDay(int)
+     */
+    public void setDay(int aDay) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.schema.IAeSchemaType#accept(org.activebpel.rt.xml.schema.IAeSchemaTypeVisitor)
+     */
+    public void accept(IAeSchemaTypeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

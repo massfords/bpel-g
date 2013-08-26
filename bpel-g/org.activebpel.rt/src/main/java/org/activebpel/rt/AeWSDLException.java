@@ -12,47 +12,45 @@ package org.activebpel.rt;
 /**
  * Ae WSDL Related Exception class.
  */
-public class AeWSDLException extends AeException
-{
-  /**
-     * 
+public class AeWSDLException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = -2004986787387364838L;
 
-/**
-   * Constructor for AeWSDLExcepton.
-   */
-  public AeWSDLException()
-  {
-     super();
-  }
+    /**
+     * Constructor for AeWSDLExcepton.
+     */
+    public AeWSDLException() {
+        super();
+    }
 
-  /**
-   * Constructor for AeWSDLExcepton.
-   * @param aInfo
-   */
-  public AeWSDLException(String aInfo)
-  {
-     super(aInfo);
-  }
+    /**
+     * Constructor for AeWSDLExcepton.
+     *
+     * @param aInfo
+     */
+    public AeWSDLException(String aInfo) {
+        super(aInfo);
+    }
 
-  /**
-   * Constructor for AevWSDLException.
-   * @param aRootCause
-   */
-  public AeWSDLException(Throwable aRootCause)
-  {
-     super(aRootCause);
-  }
-  
-  /**
-   * Constructor for AeWSDLExcepton.
-   * @param aInfo
-   * @param aRootCause
-   */
-  public AeWSDLException(String aInfo, Throwable aRootCause)
-  {
-     super(aInfo, aRootCause);
-  }
+    /**
+     * Constructor for AevWSDLException.
+     *
+     * @param aRootCause
+     */
+    public AeWSDLException(Throwable aRootCause) {
+        super(aRootCause);
+    }
+
+    /**
+     * Constructor for AeWSDLExcepton.
+     *
+     * @param aInfo
+     * @param aRootCause
+     */
+    public AeWSDLException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
 }

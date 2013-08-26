@@ -15,26 +15,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'transitionCondition' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeTransitionConditionDef extends AeExpressionBaseDef
-{
-   /**
-     * 
+public class AeTransitionConditionDef extends AeExpressionBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -7386427645309542200L;
 
-/**
-    * Default c'tor.
-    */
-   public AeTransitionConditionDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeTransitionConditionDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

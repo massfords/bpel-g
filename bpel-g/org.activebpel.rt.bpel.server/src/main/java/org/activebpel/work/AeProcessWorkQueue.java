@@ -21,101 +21,96 @@ import org.activebpel.rt.bpel.server.AeMessages;
  * Holds the queue of <code>Work</code> objects waiting to be scheduled for
  * a process and the count of <code>Work</code> objects currently scheduled.
  */
-public class AeProcessWorkQueue
-{
-   /** Process id for logging purposes. */
-   private final long mProcessId;
+public class AeProcessWorkQueue {
+    /**
+     * Process id for logging purposes.
+     */
+    private final long mProcessId;
 
-   /** <code>Work</code> objects waiting to be scheduled with the "real" work manager. */
-   private final Collection<Work>  mWaitingQueue = new LinkedList<>();
+    /**
+     * <code>Work</code> objects waiting to be scheduled with the "real" work manager.
+     */
+    private final Collection<Work> mWaitingQueue = new LinkedList<>();
 
-   /** The number of <code>Work</code> objects currently scheduled for the process. */
-   private int mScheduledCount = 0;
+    /**
+     * The number of <code>Work</code> objects currently scheduled for the process.
+     */
+    private int mScheduledCount = 0;
 
-   /**
-    * Constructor.
-    *
-    * @param aProcessId
-    */
-   public AeProcessWorkQueue(long aProcessId)
-   {
-      mProcessId = aProcessId;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aProcessId
+     */
+    public AeProcessWorkQueue(long aProcessId) {
+        mProcessId = aProcessId;
+    }
 
-   /**
-    * Adds a <code>Work</code> object to the queue.
-    *
-    * @param aWork
-    */
-   public void addWaiting(Work aWork)
-   {
-      getWaitingQueue().add(aWork);
-   }
+    /**
+     * Adds a <code>Work</code> object to the queue.
+     *
+     * @param aWork
+     */
+    public void addWaiting(Work aWork) {
+        getWaitingQueue().add(aWork);
+    }
 
-   /**
-    * Decrements the count of <code>Work</code> objects currently scheduled
-    * for the process.
-    */
-   public void decrementScheduledCount()
-   {
-      if (--mScheduledCount < 0)
-      {
-         // Reset it to a sane value.
-         mScheduledCount = 0;
+    /**
+     * Decrements the count of <code>Work</code> objects currently scheduled
+     * for the process.
+     */
+    public void decrementScheduledCount() {
+        if (--mScheduledCount < 0) {
+            // Reset it to a sane value.
+            mScheduledCount = 0;
 
-         throw new IllegalStateException(AeMessages.format("AeProcessWorkManager.ERROR_NegativeScheduledCount", getProcessId())); //$NON-NLS-1$
-      }
-   }
+            throw new IllegalStateException(AeMessages.format("AeProcessWorkManager.ERROR_NegativeScheduledCount", getProcessId())); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * Returns the associated process id.
-    */
-   public long getProcessId()
-   {
-      return mProcessId;
-   }
+    /**
+     * Returns the associated process id.
+     */
+    public long getProcessId() {
+        return mProcessId;
+    }
 
-   /**
-    * Returns the count of <code>Work</code> objects currently scheduled for
-    * the process.
-    */
-   public int getScheduledCount()
-   {
-      return mScheduledCount;
-   }
+    /**
+     * Returns the count of <code>Work</code> objects currently scheduled for
+     * the process.
+     */
+    public int getScheduledCount() {
+        return mScheduledCount;
+    }
 
-   /**
-    * Returns the <code>Work</code> objects waiting to be scheduled.
-    */
-   protected Collection<Work> getWaitingQueue()
-   {
-      return mWaitingQueue;
-   }
+    /**
+     * Returns the <code>Work</code> objects waiting to be scheduled.
+     */
+    protected Collection<Work> getWaitingQueue() {
+        return mWaitingQueue;
+    }
 
-   /**
-    * Increments the count of <code>Work</code> objects currently scheduled
-    * for the process.
-    */
-   public void incrementScheduledCount()
-   {
-      ++mScheduledCount;
-   }
+    /**
+     * Increments the count of <code>Work</code> objects currently scheduled
+     * for the process.
+     */
+    public void incrementScheduledCount() {
+        ++mScheduledCount;
+    }
 
-   /**
-    * Returns <code>true</code> if and only if the queue is empty and
-    * nothing is scheduled.
-    */
-   public boolean isEmpty()
-   {
-      return getWaitingQueue().isEmpty() && (getScheduledCount() == 0);
-   }
+    /**
+     * Returns <code>true</code> if and only if the queue is empty and
+     * nothing is scheduled.
+     */
+    public boolean isEmpty() {
+        return getWaitingQueue().isEmpty() && (getScheduledCount() == 0);
+    }
 
-   /**
-    * Returns an <code>Iterator</code> over the <code>Work</code> objects
-    * waiting to be scheduled.
-    */
-   public Iterator waitingIterator()
-   {
-      return getWaitingQueue().iterator();
-   }
+    /**
+     * Returns an <code>Iterator</code> over the <code>Work</code> objects
+     * waiting to be scheduled.
+     */
+    public Iterator waitingIterator() {
+        return getWaitingQueue().iterator();
+    }
 }

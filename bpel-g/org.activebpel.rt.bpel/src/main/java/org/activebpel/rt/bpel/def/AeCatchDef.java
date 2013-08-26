@@ -17,149 +17,143 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Definition for bpel fault handler element.
  */
-public class AeCatchDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef, IAeVariableParentDef, IAeFCTHandlerDef
-{
-   /**
-     * 
+public class AeCatchDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef, IAeVariableParentDef, IAeFCTHandlerDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 2154097406120719205L;
-/** The 'faultName' attribute. */
-   private QName mFaultName;
-   /** The 'faultVariable' attribute. */
-   private String mFaultVariable;
-   /** The 'faultMessageType' attribute. */
-   private QName mFaultMessageType;
-   /** The 'faultElement' attribute. */
-   private QName mFaultElement;
-   /** The variable def for the fault (only applies to BPEL 2.0) */
-   private AeVariableDef mFaultVariableDef;
-   
-   /**
-    * Default constructor
-    */
-   public AeCatchDef()
-   {
-      super();
-   }
+    /**
+     * The 'faultName' attribute.
+     */
+    private QName mFaultName;
+    /**
+     * The 'faultVariable' attribute.
+     */
+    private String mFaultVariable;
+    /**
+     * The 'faultMessageType' attribute.
+     */
+    private QName mFaultMessageType;
+    /**
+     * The 'faultElement' attribute.
+     */
+    private QName mFaultElement;
+    /**
+     * The variable def for the fault (only applies to BPEL 2.0)
+     */
+    private AeVariableDef mFaultVariableDef;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.faults.IAeCatch#hasFaultVariable()
-    */
-   public boolean hasFaultVariable()
-   {
-      return AeUtil.notNullOrEmpty(getFaultVariable());
-   }
+    /**
+     * Default constructor
+     */
+    public AeCatchDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain fault name of this object.
-    * 
-    * @return the fault name of the object
-    */
-   public QName getFaultName()
-   {
-      return mFaultName;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.faults.IAeCatch#hasFaultVariable()
+     */
+    public boolean hasFaultVariable() {
+        return AeUtil.notNullOrEmpty(getFaultVariable());
+    }
 
-   /**
-    * Mutator method to set the fault name of this object.
-    * 
-    * @param aFaultName the fault name for the object
-    */
-   public void setFaultName(QName aFaultName)
-   {
-      mFaultName = aFaultName;
-   }
+    /**
+     * Accessor method to obtain fault name of this object.
+     *
+     * @return the fault name of the object
+     */
+    public QName getFaultName() {
+        return mFaultName;
+    }
 
-   /**
-    * Accessor method to obtain fault variable of this object.
-    * 
-    * @return the fault variable of the object
-    */
-   public String getFaultVariable()
-   {
-      return mFaultVariable;
-   }
+    /**
+     * Mutator method to set the fault name of this object.
+     *
+     * @param aFaultName the fault name for the object
+     */
+    public void setFaultName(QName aFaultName) {
+        mFaultName = aFaultName;
+    }
 
-   /**
-    * Mutator method to set the fault variable of this object.
-    * 
-    * @param aFaultVariable the fault variable for the object
-    */
-   public void setFaultVariable(String aFaultVariable)
-   {
-      mFaultVariable = aFaultVariable;
-   }
+    /**
+     * Accessor method to obtain fault variable of this object.
+     *
+     * @return the fault variable of the object
+     */
+    public String getFaultVariable() {
+        return mFaultVariable;
+    }
 
-   /**
-    * @return Returns the faultElement.
-    */
-   public QName getFaultElementName()
-   {
-      return mFaultElement;
-   }
+    /**
+     * Mutator method to set the fault variable of this object.
+     *
+     * @param aFaultVariable the fault variable for the object
+     */
+    public void setFaultVariable(String aFaultVariable) {
+        mFaultVariable = aFaultVariable;
+    }
 
-   /**
-    * @param aFaultElement The faultElement to set.
-    */
-   public void setFaultElementName(QName aFaultElement)
-   {
-      mFaultElement = aFaultElement;
-   }
+    /**
+     * @return Returns the faultElement.
+     */
+    public QName getFaultElementName() {
+        return mFaultElement;
+    }
 
-   /**
-    * @return Returns the faultMessageType.
-    */
-   public QName getFaultMessageType()
-   {
-      return mFaultMessageType;
-   }
+    /**
+     * @param aFaultElement The faultElement to set.
+     */
+    public void setFaultElementName(QName aFaultElement) {
+        mFaultElement = aFaultElement;
+    }
 
-   /**
-    * @param aFaultMessageType The faultMessageType to set.
-    */
-   public void setFaultMessageType(QName aFaultMessageType)
-   {
-      mFaultMessageType = aFaultMessageType;
-   }
+    /**
+     * @return Returns the faultMessageType.
+     */
+    public QName getFaultMessageType() {
+        return mFaultMessageType;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @param aFaultMessageType The faultMessageType to set.
+     */
+    public void setFaultMessageType(QName aFaultMessageType) {
+        mFaultMessageType = aFaultMessageType;
+    }
 
-   /**
-    * Setter for the fault variable def
-    * @param aVarDef
-    */
-   public void setFaultVariableDef(AeVariableDef aVarDef)
-   {
-      mFaultVariableDef = aVarDef;
-      if (mFaultVariableDef != null)
-      {
-         mFaultVariableDef.setImplicit(true);
-      }
-   }
-   
-   /**
-    * Getter for the fault variable def
-    */
-   public AeVariableDef getFaultVariableDef()
-   {
-      return mFaultVariableDef; 
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeVariableParentDef#getVariableDef(java.lang.String)
-    */
-   public AeVariableDef getVariableDef(String aVariableName)
-   {
-      if (getFaultVariableDef() != null && getFaultVariableDef().getName().equals(aVariableName))
-      {
-         return getFaultVariableDef();
-      }
-      return null;
-   }
+    /**
+     * Setter for the fault variable def
+     *
+     * @param aVarDef
+     */
+    public void setFaultVariableDef(AeVariableDef aVarDef) {
+        mFaultVariableDef = aVarDef;
+        if (mFaultVariableDef != null) {
+            mFaultVariableDef.setImplicit(true);
+        }
+    }
+
+    /**
+     * Getter for the fault variable def
+     */
+    public AeVariableDef getFaultVariableDef() {
+        return mFaultVariableDef;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeVariableParentDef#getVariableDef(java.lang.String)
+     */
+    public AeVariableDef getVariableDef(String aVariableName) {
+        if (getFaultVariableDef() != null && getFaultVariableDef().getName().equals(aVariableName)) {
+            return getFaultVariableDef();
+        }
+        return null;
+    }
 }

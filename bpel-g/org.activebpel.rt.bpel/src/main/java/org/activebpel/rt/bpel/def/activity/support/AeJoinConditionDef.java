@@ -15,26 +15,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'joinCondition' construct introduced in WS-BPEL 2.0.
  */
-public class AeJoinConditionDef extends AeExpressionBaseDef
-{
-   /**
-     * 
+public class AeJoinConditionDef extends AeExpressionBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 302879326220303423L;
 
-/**
-    * Default c'tor.
-    */
-   public AeJoinConditionDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeJoinConditionDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

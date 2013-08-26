@@ -20,94 +20,89 @@ import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptor;
 /**
  * Factory to create a process deployment from a deployment source.
  */
-public class AeProcessDeploymentFactory
-{
-   /** Singleton factory instance. */
-   private static final AeProcessDeploymentFactory INSTANCE = new AeProcessDeploymentFactory();
-   
-   /**
-    * Accessor for singleton instance.
-    */
-   public static AeProcessDeploymentFactory getInstance()
-   {
-      return INSTANCE;
-   }
+public class AeProcessDeploymentFactory {
+    /**
+     * Singleton factory instance.
+     */
+    private static final AeProcessDeploymentFactory INSTANCE = new AeProcessDeploymentFactory();
 
-   /**
-    * Create a new IAeProcessDeployment from the deployment source.
-    * @param aSource
-    * @throws AeDeploymentException
-    */
-   public IAeProcessDeployment newInstance( String containerId, IAeDeploymentSource aSource, IAeExpressionLanguageFactory aFactory )
-   throws AeDeploymentException
-   {
-      AeProcessDeployment deployment = new AeProcessDeployment(containerId, aSource);
-      deployment.setExpressionLanguageFactory(aFactory);
-      initProcessDef(aSource, deployment);
-      initPartnerLinks(aSource, deployment);
+    /**
+     * Accessor for singleton instance.
+     */
+    public static AeProcessDeploymentFactory getInstance() {
+        return INSTANCE;
+    }
 
-      preprocessProcessDef( aSource.getPdd().getLocation(), deployment );      
-      return deployment;
-   }
-   
-   /**
-    * Add AeProcessDef to the deployment.
-    * @param aSource deployment source
-    * @param deployment deployment target
-    * @throws AeDeploymentException
-    */
-   protected void initProcessDef( IAeDeploymentSource aSource, 
-                  AeProcessDeployment deployment) throws AeDeploymentException
-   {
-      AeProcessDef processDef = aSource.getProcessDef();
-      if( processDef == null )
-      {
-         throw new AeDeploymentException(AeMessages.getString("AeProcessDeploymentFactory.ERROR_0") + aSource.getPdd().getLocation() ); //$NON-NLS-1$
-      }
-      deployment.setProcess( processDef );
-   }
+    /**
+     * Create a new IAeProcessDeployment from the deployment source.
+     *
+     * @param aSource
+     * @throws AeDeploymentException
+     */
+    public IAeProcessDeployment newInstance(String containerId, IAeDeploymentSource aSource, IAeExpressionLanguageFactory aFactory)
+            throws AeDeploymentException {
+        AeProcessDeployment deployment = new AeProcessDeployment(containerId, aSource);
+        deployment.setExpressionLanguageFactory(aFactory);
+        initProcessDef(aSource, deployment);
+        initPartnerLinks(aSource, deployment);
 
-   /**
-    * Add all of the partner link types to the deployment
-    * @param aSource deployment source
-    * @param deployment deployment target
-    */
-   protected void initPartnerLinks(IAeDeploymentSource aSource, AeProcessDeployment deployment)
-   {
-       for (AePartnerLinkDescriptor pld : aSource.getPartnerLinkDescriptors()) {
-           deployment.addPartnerLinkDescriptor(pld);
-       }
-   }
+        preprocessProcessDef(aSource.getPdd().getLocation(), deployment);
+        return deployment;
+    }
 
-   /**
-    * Preprocess the deployments AeProcessDef.
-    * @param aLocationHint provided for error reporting purposes if something goes wrong in preprocessing
-    * @param aDeployment contains the AeProcessDef to preprocess
-    * @throws AeDeploymentException
-    */
-   protected void preprocessProcessDef( String aLocationHint, IAeProcessDeployment aDeployment )
-   throws AeDeploymentException
-   {
-      try
-      {
-         aDeployment.preProcessDefinition();
-      }
-      catch (AeBusinessProcessException e)
-      {
-         throw new AeDeploymentException(AeMessages.getString("AeProcessDeploymentFactory.ERROR_1") +  //$NON-NLS-1$
-                                    aLocationHint, e );
-      }
-   }
-   
-   /**
-    * Gets the deployment info for the given plan.  
-    * 
-    * @param aPlan
-    */
-   public static IAeProcessDeployment getDeploymentForPlan(IAeProcessPlan aPlan)
-   {
-      // This method exists to provide a single point where we cast the plan to
-      // its deployment interface. 
-      return (IAeProcessDeployment) aPlan;
-   }
+    /**
+     * Add AeProcessDef to the deployment.
+     *
+     * @param aSource    deployment source
+     * @param deployment deployment target
+     * @throws AeDeploymentException
+     */
+    protected void initProcessDef(IAeDeploymentSource aSource,
+                                  AeProcessDeployment deployment) throws AeDeploymentException {
+        AeProcessDef processDef = aSource.getProcessDef();
+        if (processDef == null) {
+            throw new AeDeploymentException(AeMessages.getString("AeProcessDeploymentFactory.ERROR_0") + aSource.getPdd().getLocation()); //$NON-NLS-1$
+        }
+        deployment.setProcess(processDef);
+    }
+
+    /**
+     * Add all of the partner link types to the deployment
+     *
+     * @param aSource    deployment source
+     * @param deployment deployment target
+     */
+    protected void initPartnerLinks(IAeDeploymentSource aSource, AeProcessDeployment deployment) {
+        for (AePartnerLinkDescriptor pld : aSource.getPartnerLinkDescriptors()) {
+            deployment.addPartnerLinkDescriptor(pld);
+        }
+    }
+
+    /**
+     * Preprocess the deployments AeProcessDef.
+     *
+     * @param aLocationHint provided for error reporting purposes if something goes wrong in preprocessing
+     * @param aDeployment   contains the AeProcessDef to preprocess
+     * @throws AeDeploymentException
+     */
+    protected void preprocessProcessDef(String aLocationHint, IAeProcessDeployment aDeployment)
+            throws AeDeploymentException {
+        try {
+            aDeployment.preProcessDefinition();
+        } catch (AeBusinessProcessException e) {
+            throw new AeDeploymentException(AeMessages.getString("AeProcessDeploymentFactory.ERROR_1") +  //$NON-NLS-1$
+                    aLocationHint, e);
+        }
+    }
+
+    /**
+     * Gets the deployment info for the given plan.
+     *
+     * @param aPlan
+     */
+    public static IAeProcessDeployment getDeploymentForPlan(IAeProcessPlan aPlan) {
+        // This method exists to provide a single point where we cast the plan to
+        // its deployment interface.
+        return (IAeProcessDeployment) aPlan;
+    }
 }

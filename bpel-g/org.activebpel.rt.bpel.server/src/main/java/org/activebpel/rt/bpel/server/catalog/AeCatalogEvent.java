@@ -10,49 +10,50 @@
 package org.activebpel.rt.bpel.server.catalog;
 
 /**
- *  Provides catalog resource notification information.
+ * Provides catalog resource notification information.
  */
-public class AeCatalogEvent
-{
-   /** the location hint */
-   private final String mLocationHint;
-   /** the replace boolean value */
-   private final boolean mReplacementFlag;
-   
-   /**
-    * Factory create method.
-    * @param aLocationHint
-    * @param aIsReplacement
-    */
-   public static AeCatalogEvent create( String aLocationHint, boolean aIsReplacement )
-   {
-      return new AeCatalogEvent( aLocationHint, aIsReplacement );
-   }
+public class AeCatalogEvent {
+    /**
+     * the location hint
+     */
+    private final String mLocationHint;
+    /**
+     * the replace boolean value
+     */
+    private final boolean mReplacementFlag;
 
-   /**
-    * Constructor.
-    * @param aLocationHint
-    * @param aIsReplacement
-    */
-   protected AeCatalogEvent( String aLocationHint, boolean aIsReplacement )
-   {
-      mLocationHint = aLocationHint;
-      mReplacementFlag = aIsReplacement;
-   }
-   
-   /**
-    * Accessor for location hint.
-    */
-   public String getLocationHint()
-   {
-      return mLocationHint;
-   }
-   
-   /**
-    * @return Returns true if this is a wsdl replacement.
-    */
-   public boolean isReplacement()
-   {
-      return mReplacementFlag;
-   }
+    /**
+     * Factory create method.
+     *
+     * @param aLocationHint
+     * @param aIsReplacement
+     */
+    public static AeCatalogEvent create(String aLocationHint, boolean aIsReplacement) {
+        return new AeCatalogEvent(aLocationHint, aIsReplacement);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param aLocationHint
+     * @param aIsReplacement
+     */
+    protected AeCatalogEvent(String aLocationHint, boolean aIsReplacement) {
+        mLocationHint = aLocationHint;
+        mReplacementFlag = aIsReplacement;
+    }
+
+    /**
+     * Accessor for location hint.
+     */
+    public String getLocationHint() {
+        return mLocationHint;
+    }
+
+    /**
+     * @return Returns true if this is a wsdl replacement.
+     */
+    public boolean isReplacement() {
+        return mReplacementFlag;
+    }
 }

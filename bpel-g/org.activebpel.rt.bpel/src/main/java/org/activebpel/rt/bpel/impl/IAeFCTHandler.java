@@ -7,13 +7,12 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl; 
+package org.activebpel.rt.bpel.impl;
 
 /**
- * Marker interface for Fault, Compensation, and Termination Handlers 
+ * Marker interface for Fault, Compensation, and Termination Handlers
  */
-public interface IAeFCTHandler
-{
+public interface IAeFCTHandler {
 
 }
  

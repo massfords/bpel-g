@@ -17,44 +17,49 @@ import java.util.Iterator;
  * This interface represents a Partner Link Type element.  It contains
  * information about operations associated with this Partner Link Type.
  */
-public interface IAePartnerLinkType extends Serializable
-{
-   /**
-    * Add a Role element to this Partner Link Type.
-    * @param aRole
-    */
-   public void addRole(IAeRole aRole);
+public interface IAePartnerLinkType extends Serializable {
+    /**
+     * Add a Role element to this Partner Link Type.
+     *
+     * @param aRole
+     */
+    public void addRole(IAeRole aRole);
 
-   /**
-    * Find a specific Role element given its Role name.
-    * @param aName
-    * @return IAeRole
-    */
-   public IAeRole findRole(String aName);
+    /**
+     * Find a specific Role element given its Role name.
+     *
+     * @param aName
+     * @return IAeRole
+     */
+    public IAeRole findRole(String aName);
 
-   /**
-    * Get all the Roles defined for this Partner Link Type.
-    * @return Iterator
-    */
-   public Iterator<IAeRole> getRoleList();
-   
-   /**
-    * Remove a Role that is associated with this Partner Link Type. 
-    * @param aName
-    * @return IAeRole
-    */
-   public IAeRole removeRole(String aName);
+    /**
+     * Get all the Roles defined for this Partner Link Type.
+     *
+     * @return Iterator
+     */
+    public Iterator<IAeRole> getRoleList();
 
-   /**
-    * Get the name of this Partner Link Type.
-    * @return String
-    */
-   public String getName();
+    /**
+     * Remove a Role that is associated with this Partner Link Type.
+     *
+     * @param aName
+     * @return IAeRole
+     */
+    public IAeRole removeRole(String aName);
 
-   /**
-    * Set the name for Partner Link Type.
-    * @param aName
-    */
-   public void setName(String aName);
+    /**
+     * Get the name of this Partner Link Type.
+     *
+     * @return String
+     */
+    public String getName();
+
+    /**
+     * Set the name for Partner Link Type.
+     *
+     * @param aName
+     */
+    public void setName(String aName);
 
 }

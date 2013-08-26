@@ -30,138 +30,127 @@ import java.util.List;
  * This class wraps a generic ActiveBPEL expression function into something that the Saxon XQuery processor
  * can use.
  */
-public class AeXQueryFunction extends FunctionCall
-{
-   /**
-     * 
+public class AeXQueryFunction extends FunctionCall {
+    /**
+     *
      */
     private static final long serialVersionUID = -7195582690516514793L;
-/** The generic function to delegate work to. */
-   private IAeFunction mFunction;
-   /** The expression context to use during function execution. */
-   private IAeFunctionExecutionContext mFunctionExecutionContext;
+    /**
+     * The generic function to delegate work to.
+     */
+    private IAeFunction mFunction;
+    /**
+     * The expression context to use during function execution.
+     */
+    private IAeFunctionExecutionContext mFunctionExecutionContext;
 
-   /**
-    * Constructs an xquery function from a generic expression function.
-    * 
-    * @param aFunction
-    * @param aFunctionExecutionContext
-    */
-   public AeXQueryFunction(IAeFunction aFunction, IAeFunctionExecutionContext aFunctionExecutionContext)
-   {
-      setFunction(aFunction);
-      setFunctionExecutionContext(aFunctionExecutionContext);
-   }
+    /**
+     * Constructs an xquery function from a generic expression function.
+     *
+     * @param aFunction
+     * @param aFunctionExecutionContext
+     */
+    public AeXQueryFunction(IAeFunction aFunction, IAeFunctionExecutionContext aFunctionExecutionContext) {
+        setFunction(aFunction);
+        setFunctionExecutionContext(aFunctionExecutionContext);
+    }
 
-   /**
-    * @see net.sf.saxon.expr.FunctionCall#checkArguments(net.sf.saxon.expr.StaticContext)
-    */
-   protected void checkArguments(StaticContext aEnv) throws XPathException
-   {
-   }
-   
-   /**
-    * @see net.sf.saxon.expr.ComputedExpression#computeCardinality()
-    */
-   protected int computeCardinality()
-   {
-      return StaticProperty.ALLOWS_ONE;
-   }
+    /**
+     * @see net.sf.saxon.expr.FunctionCall#checkArguments(net.sf.saxon.expr.StaticContext)
+     */
+    protected void checkArguments(StaticContext aEnv) throws XPathException {
+    }
 
-   /**
-    * @see net.sf.saxon.expr.Expression#getItemType(net.sf.saxon.type.TypeHierarchy)
-    */
-   public ItemType getItemType(TypeHierarchy arg0)
-   {
-      return AnyItemType.getInstance();
-   }
-   
-   /**
-    * Overrides method to prevent pre-evaluation.
-    * 
-    * @see net.sf.saxon.expr.FunctionCall#preEvaluate(net.sf.saxon.expr.StaticContext)
-    */
-   public Expression preEvaluate(StaticContext env) throws XPathException
-   {
-      return this;
-   }
+    /**
+     * @see net.sf.saxon.expr.ComputedExpression#computeCardinality()
+     */
+    protected int computeCardinality() {
+        return StaticProperty.ALLOWS_ONE;
+    }
 
-   /**
-    * Overrides method to delegate the work to the generic ActiveBPEL function.
-    * 
-    * @see net.sf.saxon.expr.Expression#evaluateItem(net.sf.saxon.expr.XPathContext)
-    */
-   public Item evaluateItem(XPathContext aContext) throws XPathException
-   {
-      try
-      {
-         List<Object> args = new ArrayList<>();
-          for (Expression arg : argument) {
-              ValueRepresentation valRep = ExpressionTool.eagerEvaluate(arg, aContext);
-              Item item = Value.asItem(valRep);
-              Object val = getFunctionExecutionContext().getTypeConverter().convertToEngineType(item);
-              args.add(val);
-          }
+    /**
+     * @see net.sf.saxon.expr.Expression#getItemType(net.sf.saxon.type.TypeHierarchy)
+     */
+    public ItemType getItemType(TypeHierarchy arg0) {
+        return AnyItemType.getInstance();
+    }
 
-         // Call the function and convert the result to something Saxon will like.
-         Object obj = getFunction().call(getFunctionExecutionContext(), args);
-         obj = getFunctionExecutionContext().getTypeConverter().convertToExpressionType(obj);
-         if (obj == null)
-            return null;
+    /**
+     * Overrides method to prevent pre-evaluation.
+     *
+     * @see net.sf.saxon.expr.FunctionCall#preEvaluate(net.sf.saxon.expr.StaticContext)
+     */
+    public Expression preEvaluate(StaticContext env) throws XPathException {
+        return this;
+    }
 
-         // Note: if all simple types were represented internally by instances of IAeSchemaType, then this 
-         // step would not be necessary.
-         Value actual = Value.convertJavaObjectToXPath(obj, SequenceType.ANY_SEQUENCE, aContext.getController().getConfiguration());
-         // If the 'actual' is null, then just return the String value of the raw data.
-         if (actual == null)
-            return new StringValue(obj.toString());
+    /**
+     * Overrides method to delegate the work to the generic ActiveBPEL function.
+     *
+     * @see net.sf.saxon.expr.Expression#evaluateItem(net.sf.saxon.expr.XPathContext)
+     */
+    public Item evaluateItem(XPathContext aContext) throws XPathException {
+        try {
+            List<Object> args = new ArrayList<>();
+            for (Expression arg : argument) {
+                ValueRepresentation valRep = ExpressionTool.eagerEvaluate(arg, aContext);
+                Item item = Value.asItem(valRep);
+                Object val = getFunctionExecutionContext().getTypeConverter().convertToEngineType(item);
+                args.add(val);
+            }
 
-         return actual.itemAt(0);
-      }
-      catch (AeExpressionException ee)
-      {
-         throw ee;
-      }
-      catch (Throwable fe)
-      {
-         throw new XPathException(fe.getLocalizedMessage(), fe) {
+            // Call the function and convert the result to something Saxon will like.
+            Object obj = getFunction().call(getFunctionExecutionContext(), args);
+            obj = getFunctionExecutionContext().getTypeConverter().convertToExpressionType(obj);
+            if (obj == null)
+                return null;
 
-            /**
-             * 
-             */
-            private static final long serialVersionUID = 4427507312359055336L;};
-      }
-   }
+            // Note: if all simple types were represented internally by instances of IAeSchemaType, then this
+            // step would not be necessary.
+            Value actual = Value.convertJavaObjectToXPath(obj, SequenceType.ANY_SEQUENCE, aContext.getController().getConfiguration());
+            // If the 'actual' is null, then just return the String value of the raw data.
+            if (actual == null)
+                return new StringValue(obj.toString());
 
-   /**
-    * @return Returns the function.
-    */
-   protected IAeFunction getFunction()
-   {
-      return mFunction;
-   }
+            return actual.itemAt(0);
+        } catch (AeExpressionException ee) {
+            throw ee;
+        } catch (Throwable fe) {
+            throw new XPathException(fe.getLocalizedMessage(), fe) {
 
-   /**
-    * @param aFunction The function to set.
-    */
-   protected void setFunction(IAeFunction aFunction)
-   {
-      mFunction = aFunction;
-   }
+                /**
+                 *
+                 */
+                private static final long serialVersionUID = 4427507312359055336L;
+            };
+        }
+    }
 
-   /**
-    * @return Returns the functionExecutionContext.
-    */
-   protected IAeFunctionExecutionContext getFunctionExecutionContext()
-   {
-      return mFunctionExecutionContext;
-   }
+    /**
+     * @return Returns the function.
+     */
+    protected IAeFunction getFunction() {
+        return mFunction;
+    }
 
-   /**
-    * @param aFunctionExecutionContext The functionExecutionContext to set.
-    */
-   protected void setFunctionExecutionContext(IAeFunctionExecutionContext aFunctionExecutionContext)
-   {
-      mFunctionExecutionContext = aFunctionExecutionContext;
-   }
+    /**
+     * @param aFunction The function to set.
+     */
+    protected void setFunction(IAeFunction aFunction) {
+        mFunction = aFunction;
+    }
+
+    /**
+     * @return Returns the functionExecutionContext.
+     */
+    protected IAeFunctionExecutionContext getFunctionExecutionContext() {
+        return mFunctionExecutionContext;
+    }
+
+    /**
+     * @param aFunctionExecutionContext The functionExecutionContext to set.
+     */
+    protected void setFunctionExecutionContext(IAeFunctionExecutionContext aFunctionExecutionContext) {
+        mFunctionExecutionContext = aFunctionExecutionContext;
+    }
 }

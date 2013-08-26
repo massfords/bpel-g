@@ -19,28 +19,28 @@ import org.activebpel.wsio.invoke.IAeInvokeHandler;
  * Factory for the default axis invoke handler.
  */
 public class AeAxisInvokeHandlerFactory implements IAeInvokeHandlerFactory {
-	private IAeInvokeHandler mHandler;
+    private IAeInvokeHandler mHandler;
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
-	 */
-	public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
-			throws AeBusinessProcessException {
-		return mHandler;
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
+     */
+    public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
+            throws AeBusinessProcessException {
+        return mHandler;
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
-	 */
-	public String getQueryData(IAeInvoke aInvoke) {
-		return AeInvokeHandlerUri.getInvokerString(aInvoke.getInvokeHandler());
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
+     */
+    public String getQueryData(IAeInvoke aInvoke) {
+        return AeInvokeHandlerUri.getInvokerString(aInvoke.getInvokeHandler());
+    }
 
-	public IAeInvokeHandler getHandler() {
-		return mHandler;
-	}
+    public IAeInvokeHandler getHandler() {
+        return mHandler;
+    }
 
-	public void setHandler(IAeInvokeHandler aHandler) {
-		mHandler = aHandler;
-	}
+    public void setHandler(IAeInvokeHandler aHandler) {
+        mHandler = aHandler;
+    }
 }

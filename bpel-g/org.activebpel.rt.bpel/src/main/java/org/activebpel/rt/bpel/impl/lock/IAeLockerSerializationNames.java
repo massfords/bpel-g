@@ -13,16 +13,15 @@ package org.activebpel.rt.bpel.impl.lock;
  * Defines constants for <code>AeLockerSerializer</code> and
  * <code>AeLockerDeserializer</code>.
  */
-interface IAeLockerSerializationNames
-{
-   public static final String TAG_LOCK          = "lock"; //$NON-NLS-1$
-   public static final String TAG_LOCKS         = "locks"; //$NON-NLS-1$
-   public static final String TAG_OWNER         = "owner"; //$NON-NLS-1$
-   public static final String TAG_REQUEST       = "request"; //$NON-NLS-1$
-   public static final String TAG_REQUESTS      = "requests"; //$NON-NLS-1$
-   public static final String TAG_ROOT          = "variableLocker"; //$NON-NLS-1$
-   public static final String TAG_VARIABLE      = "variable"; //$NON-NLS-1$
-   public static final String ATTR_EXCLUSIVE    = "exclusive"; //$NON-NLS-1$
-   public static final String ATTR_OWNERPATH    = "ownerPath"; //$NON-NLS-1$
-   public static final String ATTR_VARIABLEPATH = "variablePath"; //$NON-NLS-1$
+interface IAeLockerSerializationNames {
+    public static final String TAG_LOCK = "lock"; //$NON-NLS-1$
+    public static final String TAG_LOCKS = "locks"; //$NON-NLS-1$
+    public static final String TAG_OWNER = "owner"; //$NON-NLS-1$
+    public static final String TAG_REQUEST = "request"; //$NON-NLS-1$
+    public static final String TAG_REQUESTS = "requests"; //$NON-NLS-1$
+    public static final String TAG_ROOT = "variableLocker"; //$NON-NLS-1$
+    public static final String TAG_VARIABLE = "variable"; //$NON-NLS-1$
+    public static final String ATTR_EXCLUSIVE = "exclusive"; //$NON-NLS-1$
+    public static final String ATTR_OWNERPATH = "ownerPath"; //$NON-NLS-1$
+    public static final String ATTR_VARIABLEPATH = "variablePath"; //$NON-NLS-1$
 }

@@ -20,43 +20,41 @@ import org.xml.sax.InputSource;
 /**
  * Interacts with the catalog for mappings to resolve resource references.
  */
-public class AeCatalogResourceResolver implements IAeResourceResolver
-{
-   /**
-    * Constructor.
-    */
-   public AeCatalogResourceResolver()
-   {
-   }
-   
-   /**
-    * Convenienve method for formatting keys.
-    * @param aLocationHint
-    */
-   protected String formatKey( String aLocationHint )
-   {
-      return AeCatalogMappings.makeKey( aLocationHint );
-   }
-   
-   /**
-    * Implements method by calling catalog to resolve mapping. 
-    * @see org.activebpel.rt.bpel.server.wsdl.IAeResourceResolver#getInputSource(java.lang.String)
-    */
-   public InputSource getInputSource( String aLocationHint ) throws IOException
-   {
-      IAeCatalogMapping mapping = AeEngineFactory.getBean(IAeCatalog.class).getMappingForLocation(aLocationHint); 
-      if(mapping != null)
-         return mapping.getInputSource();
-      return null;
-   }
-   
-   /**
-    * Implements method by calling catalog to see if it has the mapping for this location.
-    * @see org.activebpel.rt.bpel.server.wsdl.IAeResourceResolver#hasMapping(java.lang.String)
-    */
-   public boolean hasMapping( String aLocationHint )
-   {
-      IAeCatalogMapping mapping = AeEngineFactory.getBean(IAeCatalog.class).getMappingForLocation(aLocationHint); 
-      return mapping != null;
-   }
+public class AeCatalogResourceResolver implements IAeResourceResolver {
+    /**
+     * Constructor.
+     */
+    public AeCatalogResourceResolver() {
+    }
+
+    /**
+     * Convenienve method for formatting keys.
+     *
+     * @param aLocationHint
+     */
+    protected String formatKey(String aLocationHint) {
+        return AeCatalogMappings.makeKey(aLocationHint);
+    }
+
+    /**
+     * Implements method by calling catalog to resolve mapping.
+     *
+     * @see org.activebpel.rt.bpel.server.wsdl.IAeResourceResolver#getInputSource(java.lang.String)
+     */
+    public InputSource getInputSource(String aLocationHint) throws IOException {
+        IAeCatalogMapping mapping = AeEngineFactory.getBean(IAeCatalog.class).getMappingForLocation(aLocationHint);
+        if (mapping != null)
+            return mapping.getInputSource();
+        return null;
+    }
+
+    /**
+     * Implements method by calling catalog to see if it has the mapping for this location.
+     *
+     * @see org.activebpel.rt.bpel.server.wsdl.IAeResourceResolver#hasMapping(java.lang.String)
+     */
+    public boolean hasMapping(String aLocationHint) {
+        IAeCatalogMapping mapping = AeEngineFactory.getBean(IAeCatalog.class).getMappingForLocation(aLocationHint);
+        return mapping != null;
+    }
 }

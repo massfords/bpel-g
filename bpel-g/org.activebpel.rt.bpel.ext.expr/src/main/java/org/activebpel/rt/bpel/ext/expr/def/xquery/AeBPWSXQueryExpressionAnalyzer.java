@@ -15,26 +15,23 @@ import org.activebpel.rt.expr.def.IAeExpressionParser;
 import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 
 /**
- * A concrete implementation of the expression util interface for XQuery 1.0.  This class helps the 
+ * A concrete implementation of the expression util interface for XQuery 1.0.  This class helps the
  * Designer perform analysis and manipulation of expressions written in XQuery 1.0.
  */
-public class AeBPWSXQueryExpressionAnalyzer extends AePrefixedExpressionAnalyzer
-{
-   /**
-    * Overrides method to supply an xquery impl for the expression parser.
-    * 
-    * @see org.activebpel.rt.expr.def.AeAbstractExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)
-   {
-      return new AeBPWSXQueryExpressionParser(aContext);
-   }
-   
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#parseExpressionToSpec(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
-    */
-   public AeExpressionToSpecDetails parseExpressionToSpec(IAeExpressionAnalyzerContext aContext, String aExpression)
-   {
-      throw new UnsupportedOperationException();
-   }
+public class AeBPWSXQueryExpressionAnalyzer extends AePrefixedExpressionAnalyzer {
+    /**
+     * Overrides method to supply an xquery impl for the expression parser.
+     *
+     * @see org.activebpel.rt.expr.def.AeAbstractExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext) {
+        return new AeBPWSXQueryExpressionParser(aContext);
+    }
+
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#parseExpressionToSpec(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
+     */
+    public AeExpressionToSpecDetails parseExpressionToSpec(IAeExpressionAnalyzerContext aContext, String aExpression) {
+        throw new UnsupportedOperationException();
+    }
 }

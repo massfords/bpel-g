@@ -15,22 +15,20 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 /**
  * Defines a context that is passed to the expression validator when an expression is being validated.
  */
-public interface IAeExpressionValidationContext
-{
-   /**
-    * Returns the base def object.
-    */
-   public AeBaseXmlDef getBaseDef();
-   
-   /**
-    * @return the functionFactory
-    */
-   public IAeFunctionValidatorFactory getFunctionFactory();
-   
-   /**
-    * Returns the namespace of the bpel process.
-    * 
-    */
-   public String getBpelNamespace();
-   
+public interface IAeExpressionValidationContext {
+    /**
+     * Returns the base def object.
+     */
+    public AeBaseXmlDef getBaseDef();
+
+    /**
+     * @return the functionFactory
+     */
+    public IAeFunctionValidatorFactory getFunctionFactory();
+
+    /**
+     * Returns the namespace of the bpel process.
+     */
+    public String getBpelNamespace();
+
 }

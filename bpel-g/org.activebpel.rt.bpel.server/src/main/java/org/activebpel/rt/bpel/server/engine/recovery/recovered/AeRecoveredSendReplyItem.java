@@ -20,66 +20,65 @@ import org.activebpel.rt.message.IAeMessageData;
 /**
  * Implements a recovered item to send a reply.
  */
-public class AeRecoveredSendReplyItem extends AeRecoveredReplyItem
-{
-   /** The message data to send. */
-   private final IAeMessageData mMessageData;
+public class AeRecoveredSendReplyItem extends AeRecoveredReplyItem {
+    /**
+     * The message data to send.
+     */
+    private final IAeMessageData mMessageData;
 
-   /** The fault to send. */
-   private final IAeFault mFault;
+    /**
+     * The fault to send.
+     */
+    private final IAeFault mFault;
 
-   /** The associated process properties. */
-   private final Map<String,String> mProcessProperties;
+    /**
+     * The associated process properties.
+     */
+    private final Map<String, String> mProcessProperties;
 
-   /**
-    * Constructs a recovered item to send a reply.
-    */
-   public AeRecoveredSendReplyItem(AeReply aReply, IAeMessageData aMessageData, IAeFault aFault, Map<String,String> aProcessProperties)
-   {
-      super(aReply);
+    /**
+     * Constructs a recovered item to send a reply.
+     */
+    public AeRecoveredSendReplyItem(AeReply aReply, IAeMessageData aMessageData, IAeFault aFault, Map<String, String> aProcessProperties) {
+        super(aReply);
 
-      mMessageData = aMessageData;
-      mFault = aFault;
-      mProcessProperties = aProcessProperties;
-   }
+        mMessageData = aMessageData;
+        mFault = aFault;
+        mProcessProperties = aProcessProperties;
+    }
 
-   /**
-    * Returns the fault to send.
-    */
-   protected IAeFault getFault()
-   {
-      return mFault;
-   }
+    /**
+     * Returns the fault to send.
+     */
+    protected IAeFault getFault() {
+        return mFault;
+    }
 
-   /**
-    * Returns the message data to send.
-    */
-   protected IAeMessageData getMessageData()
-   {
-      return mMessageData;
-   }
+    /**
+     * Returns the message data to send.
+     */
+    protected IAeMessageData getMessageData() {
+        return mMessageData;
+    }
 
-   /**
-    * Returns the associated process properties.
-    */
-   protected Map<String,String> getProcessProperties()
-   {
-      return mProcessProperties;
-   }
+    /**
+     * Returns the associated process properties.
+     */
+    protected Map<String, String> getProcessProperties() {
+        return mProcessProperties;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException
-   {
-      aTargetEngine.getQueueManager().sendReply(getReply(), getMessageData(), getFault(), getProcessProperties());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException {
+        aTargetEngine.getQueueManager().sendReply(getReply(), getMessageData(), getFault(), getProcessProperties());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
-    */
-   public boolean isRemoval()
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
+     */
+    public boolean isRemoval() {
+        return false;
+    }
 }

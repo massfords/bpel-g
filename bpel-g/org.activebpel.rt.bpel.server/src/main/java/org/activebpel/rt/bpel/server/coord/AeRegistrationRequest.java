@@ -16,61 +16,59 @@ import org.activebpel.rt.bpel.coord.IAeRegistrationRequest;
 /**
  * Simple implementation of the registration request.
  */
-public class AeRegistrationRequest extends AeContextBase implements IAeRegistrationRequest
-{
+public class AeRegistrationRequest extends AeContextBase implements IAeRegistrationRequest {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 1707517379541038951L;
-/**
-    * Coordination context.
-    */
-   private IAeCoordinationContext mCoordinationContext;
-   
-   /**
-    * Default constructor.
-    */
-   public AeRegistrationRequest()
-   {
-      super();
-   }
+    /**
+     * Coordination context.
+     */
+    private IAeCoordinationContext mCoordinationContext;
 
-   /** 
-    * Overrides method to 
-    * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#getCoordinationContext()
-    */
-   public IAeCoordinationContext getCoordinationContext()
-   {
-      return mCoordinationContext;
-   }
-   
-   /**
-    * Sets the coordination context.
-    * @param aCoordinationContext
-    */
-   public void setCoordinationContext(IAeCoordinationContext aCoordinationContext)
-   {
-      mCoordinationContext = aCoordinationContext;
-   }
-   
-   
-   /**
-    * Overrides method to 
-    * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#getProtocolIdentifier()
-    */
-   public String getProtocolIdentifier()
-   {
-      return getProperty(IAeCoordinating.WSCOORD_PROTOCOL);
-   }
+    /**
+     * Default constructor.
+     */
+    public AeRegistrationRequest() {
+        super();
+    }
 
-   /**
-    * Overrides method to 
-    * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#setProtocolIdentifier(java.lang.String)
-    */
-   public void setProtocolIdentifier(String aProtocolId)
-   {
-      setProperty(IAeCoordinating.WSCOORD_PROTOCOL, aProtocolId);
-   }
+    /**
+     * Overrides method to
+     *
+     * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#getCoordinationContext()
+     */
+    public IAeCoordinationContext getCoordinationContext() {
+        return mCoordinationContext;
+    }
+
+    /**
+     * Sets the coordination context.
+     *
+     * @param aCoordinationContext
+     */
+    public void setCoordinationContext(IAeCoordinationContext aCoordinationContext) {
+        mCoordinationContext = aCoordinationContext;
+    }
+
+
+    /**
+     * Overrides method to
+     *
+     * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#getProtocolIdentifier()
+     */
+    public String getProtocolIdentifier() {
+        return getProperty(IAeCoordinating.WSCOORD_PROTOCOL);
+    }
+
+    /**
+     * Overrides method to
+     *
+     * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#setProtocolIdentifier(java.lang.String)
+     */
+    public void setProtocolIdentifier(String aProtocolId) {
+        setProperty(IAeCoordinating.WSCOORD_PROTOCOL, aProtocolId);
+    }
 
 }

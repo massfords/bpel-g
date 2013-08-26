@@ -24,76 +24,70 @@ import org.activebpel.rt.bpel.server.deploy.IAeDeploymentId;
  * the validators are primarily concerned with getResourceAsStream
  * (which is wrapped inside the AeBprFile).
  */
-public class AeStandaloneDeploymentContext implements IAeDeploymentContext
-{
-   /** URL class loader */
-   private URLClassLoader mContext;
-   
-   /**
-    * Constructor.
-    * @param aBprFile The file to be validated.
-    * @throws MalformedURLException
-    */
-   public AeStandaloneDeploymentContext( File aBprFile ) 
-   throws MalformedURLException
-   {
-      URL url = aBprFile.toURI().toURL();
-      mContext = new URLClassLoader(new URL[] {url});
-   }
+public class AeStandaloneDeploymentContext implements IAeDeploymentContext {
+    /**
+     * URL class loader
+     */
+    private URLClassLoader mContext;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentId()
-    */
-   public IAeDeploymentId getDeploymentId()
-   {
-      return null;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aBprFile The file to be validated.
+     * @throws MalformedURLException
+     */
+    public AeStandaloneDeploymentContext(File aBprFile)
+            throws MalformedURLException {
+        URL url = aBprFile.toURI().toURL();
+        mContext = new URLClassLoader(new URL[]{url});
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentLocation()
-    */
-   public URL getDeploymentLocation()
-   {
-      return mContext.getURLs()[0];
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentId()
+     */
+    public IAeDeploymentId getDeploymentId() {
+        return null;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceAsStream(java.lang.String)
-    */
-   public InputStream getResourceAsStream(String aResourceName)
-   {
-      return mContext.getResourceAsStream(aResourceName);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentLocation()
+     */
+    public URL getDeploymentLocation() {
+        return mContext.getURLs()[0];
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceURL(java.lang.String)
-    */
-   public URL getResourceURL(String aResourceName)
-   {
-      return mContext.getResource(aResourceName);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceAsStream(java.lang.String)
+     */
+    public InputStream getResourceAsStream(String aResourceName) {
+        return mContext.getResourceAsStream(aResourceName);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getShortName()
-    */
-   public String getShortName()
-   {
-      return null;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceURL(java.lang.String)
+     */
+    public URL getResourceURL(String aResourceName) {
+        return mContext.getResource(aResourceName);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getTempDeploymentLocation()
-    */
-   public URL getTempDeploymentLocation()
-   {
-      return null;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceClassLoader()
-    */
-   public ClassLoader getResourceClassLoader()
-   {
-      return mContext;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getShortName()
+     */
+    public String getShortName() {
+        return null;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getTempDeploymentLocation()
+     */
+    public URL getTempDeploymentLocation() {
+        return null;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceClassLoader()
+     */
+    public ClassLoader getResourceClassLoader() {
+        return mContext;
+    }
 }

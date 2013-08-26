@@ -14,14 +14,13 @@ import org.activebpel.rt.bpel.IAeActivity;
 /**
  * Describes objects that can be a parent of an activity.
  */
-public interface IAeActivityParent extends IAeBpelObject
-{
-   /**
-    * Adds the activity to this parent. The method implies that
-    * there may be more than 1 activity as a child of this parent.
-    * This is a side effect of deciding to have a single interface
-    * to handle cases with a single child and those with multiple
-    * children.
-    */
-   public void addActivity(IAeActivity aActivity);
+public interface IAeActivityParent extends IAeBpelObject {
+    /**
+     * Adds the activity to this parent. The method implies that
+     * there may be more than 1 activity as a child of this parent.
+     * This is a side effect of deciding to have a single interface
+     * to handle cases with a single child and those with multiple
+     * children.
+     */
+    public void addActivity(IAeActivity aActivity);
 }

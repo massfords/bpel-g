@@ -16,54 +16,53 @@ import org.w3c.dom.Node;
  * This interface defines methods that will be called by a validator when it is
  * validating a resource (PDD, PDEF, etc...) file/document.
  */
-public interface IAeResourceValidationErrorHandler
-{
-   /**
-    * Called when the validator finds a fatal error and cannot continue.
-    * 
-    * @param aMessage
-    */
-   public void fatalError(String aMessage);
-   
-   /**
-    * Called when a warning is found while parsing the resource.
-    * 
-    * @param aMessage
-    * @param aLineNumber
-    */
-   public void parseWarning(String aMessage, int aLineNumber);
+public interface IAeResourceValidationErrorHandler {
+    /**
+     * Called when the validator finds a fatal error and cannot continue.
+     *
+     * @param aMessage
+     */
+    public void fatalError(String aMessage);
 
-   /**
-    * Called when an error is found while parsing the resource.
-    * 
-    * @param aMessage
-    * @param aLineNumber
-    */
-   public void parseError(String aMessage, int aLineNumber);
+    /**
+     * Called when a warning is found while parsing the resource.
+     *
+     * @param aMessage
+     * @param aLineNumber
+     */
+    public void parseWarning(String aMessage, int aLineNumber);
 
-   /**
-    * Called when a fatal error is found while parsing the resource.
-    * 
-    * @param aMessage
-    * @param aLineNumber
-    */
-   public void parseFatalError(String aMessage, int aLineNumber);
+    /**
+     * Called when an error is found while parsing the resource.
+     *
+     * @param aMessage
+     * @param aLineNumber
+     */
+    public void parseError(String aMessage, int aLineNumber);
 
-   /**
-    * Called when the validator discovers an error when performing "additional validation".  This
-    * additional validation tries to find problems that cannot be caught by the resource's schema.
-    * 
-    * @param aMessage
-    * @param aNode
-    */
-   public void contentError(String aMessage, Node aNode);
-   
-   /**
-    * Called when the validator discovers a warning when performing "additional validation".  This
-    * additional validation tries to find problems that cannot be caught by the resource's schema.
-    * 
-    * @param aMessage
-    * @param aNode
-    */
-   public void contentWarning(String aMessage, Node aNode);
+    /**
+     * Called when a fatal error is found while parsing the resource.
+     *
+     * @param aMessage
+     * @param aLineNumber
+     */
+    public void parseFatalError(String aMessage, int aLineNumber);
+
+    /**
+     * Called when the validator discovers an error when performing "additional validation".  This
+     * additional validation tries to find problems that cannot be caught by the resource's schema.
+     *
+     * @param aMessage
+     * @param aNode
+     */
+    public void contentError(String aMessage, Node aNode);
+
+    /**
+     * Called when the validator discovers a warning when performing "additional validation".  This
+     * additional validation tries to find problems that cannot be caught by the resource's schema.
+     *
+     * @param aMessage
+     * @param aNode
+     */
+    public void contentWarning(String aMessage, Node aNode);
 }

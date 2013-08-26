@@ -13,7 +13,6 @@ package org.activebpel.rt.bpel.server.engine.storage;
 /**
  * Base interface for all storage interfaces.
  */
-public interface IAeStorage
-{
+public interface IAeStorage {
 
 }

@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.axis.ser; 
+package org.activebpel.rt.axis.ser;
 
 
 /**
@@ -18,22 +18,21 @@ package org.activebpel.rt.axis.ser;
  * directly to the rpc param then it'll be serialized as an xsd:int. The use of this
  * wrapper class enables our custom serializer to get called and handle it properly.
  */
-public class AeSimpleValueWrapper
-{
-   /** The type that we're wrapping */
-   private final Object mDelegate;
+public class AeSimpleValueWrapper {
+    /**
+     * The type that we're wrapping
+     */
+    private final Object mDelegate;
 
-   public AeSimpleValueWrapper(Object aSimpleType)
-   {
-      mDelegate = aSimpleType;
-   }
-   
-   /**
-    * Getter for the delegate.
-    */
-   public Object getDelegate()
-   {
-      return mDelegate;
-   }
+    public AeSimpleValueWrapper(Object aSimpleType) {
+        mDelegate = aSimpleType;
+    }
+
+    /**
+     * Getter for the delegate.
+     */
+    public Object getDelegate() {
+        return mDelegate;
+    }
 }
  

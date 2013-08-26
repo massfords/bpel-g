@@ -49,11 +49,11 @@ public class CorrelationIntegrationTest extends Assert {
     public static List<Object[]> params() throws Exception {
         List<Object[]> p = new ArrayList<>();
         // no sleep, process stays in memory
-        p.add(new Object[] {TimeUnit.SECONDS.toMillis(10), 0});
+        p.add(new Object[]{TimeUnit.SECONDS.toMillis(10), 0});
         // some sleep, process stays in memory
-        p.add(new Object[] {TimeUnit.SECONDS.toMillis(10), TimeUnit.SECONDS.toMillis(1)});
+        p.add(new Object[]{TimeUnit.SECONDS.toMillis(10), TimeUnit.SECONDS.toMillis(1)});
         // sleep past the persistence time to force a write to disk
-        p.add(new Object[] {TimeUnit.SECONDS.toMillis(1), TimeUnit.SECONDS.toMillis(5)});
+        p.add(new Object[]{TimeUnit.SECONDS.toMillis(1), TimeUnit.SECONDS.toMillis(5)});
         return p;
     }
 
@@ -77,10 +77,10 @@ public class CorrelationIntegrationTest extends Assert {
 
         String request =
                 "<requestForQuote xmlns='http://www.example.org/correlation/'>" +
-                "    <customerId>junit</customerId>" +
-                "    <productId>100</productId>" +
-                "    <quantity>5</quantity>" +
-                "</requestForQuote>";
+                        "    <customerId>junit</customerId>" +
+                        "    <productId>100</productId>" +
+                        "    <quantity>5</quantity>" +
+                        "</requestForQuote>";
 
         // invoke the service and get our quote back
         Document quote = pfix.invoke(new StreamSource(new StringReader(request)),
@@ -94,9 +94,9 @@ public class CorrelationIntegrationTest extends Assert {
                 Collections.singletonMap("q", "http://www.example.org/correlation/"));
 
         String xml = "<customerResponseToQuote xmlns='http://www.example.org/correlation/'>" +
-                        "<quoteId>" + quoteId + "</quoteId>" +
-                        "<accept>true</accept>" +
-                     "</customerResponseToQuote>";
+                "<quoteId>" + quoteId + "</quoteId>" +
+                "<accept>true</accept>" +
+                "</customerResponseToQuote>";
 
         Document confirmed = pfix.invoke(new StreamSource(new StringReader(xml)),
                 "http://localhost:8080/bpel-g/services/quoteService");

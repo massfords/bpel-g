@@ -12,25 +12,24 @@ package org.activebpel.rt.bpel.server.engine.transaction;
 /**
  * Defines interface for a transaction on the current thread.
  */
-public interface IAeTransaction
-{
-   /**
-    * Begins a new transaction.
-    */
-   public void begin() throws AeTransactionException;
+public interface IAeTransaction {
+    /**
+     * Begins a new transaction.
+     */
+    public void begin() throws AeTransactionException;
 
-   /**
-    * Commits the current transaction.
-    */
-   public void commit() throws AeTransactionException;
+    /**
+     * Commits the current transaction.
+     */
+    public void commit() throws AeTransactionException;
 
-   /**
-    * Returns <code>true</code> if and only if a transaction is active.
-    */
-   public boolean isActive();
+    /**
+     * Returns <code>true</code> if and only if a transaction is active.
+     */
+    public boolean isActive();
 
-   /**
-    * Rolls back the current transaction.
-    */
-   public void rollback() throws AeTransactionException;
+    /**
+     * Rolls back the current transaction.
+     */
+    public void rollback() throws AeTransactionException;
 }

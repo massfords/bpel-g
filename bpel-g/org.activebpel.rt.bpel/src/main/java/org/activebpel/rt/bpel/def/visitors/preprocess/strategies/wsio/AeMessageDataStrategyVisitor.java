@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.visitors.preprocess.strategies.wsio; 
+package org.activebpel.rt.bpel.def.visitors.preprocess.strategies.wsio;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
@@ -24,131 +24,121 @@ import org.activebpel.rt.bpel.def.visitors.AeTraversalVisitor;
 /**
  * Visits each invoke and reply in order to set the strategy hint on the def
  */
-public class AeMessageDataStrategyVisitor extends AeAbstractDefVisitor
-{
-   /** matcher determines if the invoke/reply conform to one of the prescribed patterns */
-   private IAeMessageDataStrategyMatcher mMatcher;
-   
-   /**
-    * Ctor accepts the matcher
-    * @param aMatcher
-    */
-   public AeMessageDataStrategyVisitor(IAeMessageDataStrategyMatcher aMatcher)
-   {
-      setMatcher(aMatcher);
-      setTraversalVisitor( new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
+public class AeMessageDataStrategyVisitor extends AeAbstractDefVisitor {
+    /**
+     * matcher determines if the invoke/reply conform to one of the prescribed patterns
+     */
+    private IAeMessageDataStrategyMatcher mMatcher;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
-    */
-   public void visit(AeActivityInvokeDef def)
-   {
-      determineProducerStrategy(def);
-      determineConsumerStrategy(def);
-      super.visit(def);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
-    */
-   public void visit(AeActivityReplyDef def)
-   {
-      determineProducerStrategy(def);
-      super.visit(def);
-   }
+    /**
+     * Ctor accepts the matcher
+     *
+     * @param aMatcher
+     */
+    public AeMessageDataStrategyVisitor(IAeMessageDataStrategyMatcher aMatcher) {
+        setMatcher(aMatcher);
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
-    */
-   public void visit(AeActivityReceiveDef def)
-   {
-      determineConsumerStrategy(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
+     */
+    public void visit(AeActivityInvokeDef def) {
+        determineProducerStrategy(def);
+        determineConsumerStrategy(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void visit(AeOnEventDef def)
-   {
-      determineConsumerStrategy(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
+     */
+    public void visit(AeActivityReplyDef def) {
+        determineProducerStrategy(def);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
-    */
-   public void visit(AeOnMessageDef def)
-   {
-      determineConsumerStrategy(def);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
+     */
+    public void visit(AeActivityReceiveDef def) {
+        determineConsumerStrategy(def);
+        super.visit(def);
+    }
 
-   /**
-    * Determines the strategy for the message data producer and sets it 
-    * on the def
-    * @param aDef
-    */
-   protected void determineProducerStrategy(IAeMessageDataProducerDef aDef)
-   {
-      // pass the def to the strategy matcher (as an interface)
-      // set the strategy from the matcher on the def
-      String strategy = getMatcher().getProducerStrategy(aDef);
-      aDef.setMessageDataProducerStrategy(strategy);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        determineConsumerStrategy(def);
+        super.visit(def);
+    }
 
-   /**
-    * Determines the strategy for the message data producer and sets it 
-    * on the def
-    * @param aDef
-    */
-   protected void determineConsumerStrategy(IAeMessageDataConsumerDef aDef)
-   {
-      // pass the def to the strategy matcher (as an interface)
-      // set the strategy from the matcher on the def
-      String strategy = getMatcher().getConsumerStrategy(aDef);
-      aDef.setMessageDataConsumerStrategy(strategy);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
+     */
+    public void visit(AeOnMessageDef def) {
+        determineConsumerStrategy(def);
+        super.visit(def);
+    }
 
-   /**
-    * @return Returns the matcher.
-    */
-   public IAeMessageDataStrategyMatcher getMatcher()
-   {
-      return mMatcher;
-   }
+    /**
+     * Determines the strategy for the message data producer and sets it
+     * on the def
+     *
+     * @param aDef
+     */
+    protected void determineProducerStrategy(IAeMessageDataProducerDef aDef) {
+        // pass the def to the strategy matcher (as an interface)
+        // set the strategy from the matcher on the def
+        String strategy = getMatcher().getProducerStrategy(aDef);
+        aDef.setMessageDataProducerStrategy(strategy);
+    }
 
-   /**
-    * @param aMatcher The matcher to set.
-    */
-   public void setMatcher(IAeMessageDataStrategyMatcher aMatcher)
-   {
-      mMatcher = aMatcher;
-   }
+    /**
+     * Determines the strategy for the message data producer and sets it
+     * on the def
+     *
+     * @param aDef
+     */
+    protected void determineConsumerStrategy(IAeMessageDataConsumerDef aDef) {
+        // pass the def to the strategy matcher (as an interface)
+        // set the strategy from the matcher on the def
+        String strategy = getMatcher().getConsumerStrategy(aDef);
+        aDef.setMessageDataConsumerStrategy(strategy);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
-    */
-   public void visit(AeChildExtensionActivityDef def)
-   {
-      if (def.getExtensionObject() != null)
-      {
-         // producer 
-         IAeMessageDataProducerDef producerDef = (IAeMessageDataProducerDef) def.getExtensionObject().getAdapter(IAeMessageDataProducerDef.class);
-         if (producerDef != null)
-         {
-            determineProducerStrategy(producerDef);
-         }
-         
-         // consumer
-         IAeMessageDataConsumerDef consumerDef = (IAeMessageDataConsumerDef) def.getExtensionObject().getAdapter(IAeMessageDataConsumerDef.class);
-         if (consumerDef != null)
-         {
-            determineConsumerStrategy(consumerDef);
-         }
-      }
-      super.visit(def);
-   }
+    /**
+     * @return Returns the matcher.
+     */
+    public IAeMessageDataStrategyMatcher getMatcher() {
+        return mMatcher;
+    }
+
+    /**
+     * @param aMatcher The matcher to set.
+     */
+    public void setMatcher(IAeMessageDataStrategyMatcher aMatcher) {
+        mMatcher = aMatcher;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
+     */
+    public void visit(AeChildExtensionActivityDef def) {
+        if (def.getExtensionObject() != null) {
+            // producer
+            IAeMessageDataProducerDef producerDef = (IAeMessageDataProducerDef) def.getExtensionObject().getAdapter(IAeMessageDataProducerDef.class);
+            if (producerDef != null) {
+                determineProducerStrategy(producerDef);
+            }
+
+            // consumer
+            IAeMessageDataConsumerDef consumerDef = (IAeMessageDataConsumerDef) def.getExtensionObject().getAdapter(IAeMessageDataConsumerDef.class);
+            if (consumerDef != null) {
+                determineConsumerStrategy(consumerDef);
+            }
+        }
+        super.visit(def);
+    }
 }
  

@@ -7,21 +7,20 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.def; 
+package org.activebpel.rt.xml.def;
 
 /**
  * Interface for a def with a name.
  */
-public interface IAeNamedDef
-{
-   /**
-    * Getter for the name
-    */
-   public String getName();
-   
-   /**
-    * Setter for the name
-    */
-   public void setName(String aName);
+public interface IAeNamedDef {
+    /**
+     * Getter for the name
+     */
+    public String getName();
+
+    /**
+     * Setter for the name
+     */
+    public void setName(String aName);
 }
  

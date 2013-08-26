@@ -16,49 +16,44 @@ import org.activebpel.rt.bpel.server.AeMessages;
 /**
  * An exception thrown when a database encounters a deadlock.
  */
-public class AeDeadlockException extends AeStorageException
-{
-   /**
-     * 
+public class AeDeadlockException extends AeStorageException {
+    /**
+     *
      */
     private static final long serialVersionUID = 6509220201733882617L;
 
-/**
-    * Construct a new runtime exception.
-    */
-   public AeDeadlockException()
-   {
-      super(AeMessages.getString("AeDeadlockException.DEFAULT_DEALOCK_EXCEPTION_MESSAGE")); //$NON-NLS-1$
-   }
+    /**
+     * Construct a new runtime exception.
+     */
+    public AeDeadlockException() {
+        super(AeMessages.getString("AeDeadlockException.DEFAULT_DEALOCK_EXCEPTION_MESSAGE")); //$NON-NLS-1$
+    }
 
-   /**
-    * Construct a new runtime exception with the passed info string.
-    * 
-    * @see java.lang.Throwable#Throwable(String)
-    */
-   public AeDeadlockException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Construct a new runtime exception with the passed info string.
+     *
+     * @see java.lang.Throwable#Throwable(String)
+     */
+    public AeDeadlockException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Construct with a root exception (used primarily for rethrowing an underlying exception).
-    * 
-    * @param aRootCause
-    */
-   public AeDeadlockException(Throwable aRootCause)
-   {
-      super(aRootCause);
-   }
+    /**
+     * Construct with a root exception (used primarily for rethrowing an underlying exception).
+     *
+     * @param aRootCause
+     */
+    public AeDeadlockException(Throwable aRootCause) {
+        super(aRootCause);
+    }
 
-   /**
-    * Construct with a root exception (used prinarily for rethrowing an underlying exception).
-    * 
-    * @param aInfo Informational message for the exception
-    * @param aRootCause Root cause of the exception
-    */
-   public AeDeadlockException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Construct with a root exception (used prinarily for rethrowing an underlying exception).
+     *
+     * @param aInfo      Informational message for the exception
+     * @param aRootCause Root cause of the exception
+     */
+    public AeDeadlockException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 }

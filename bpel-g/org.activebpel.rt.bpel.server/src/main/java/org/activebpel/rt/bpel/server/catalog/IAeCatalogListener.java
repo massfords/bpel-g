@@ -13,23 +13,25 @@ package org.activebpel.rt.bpel.server.catalog;
  * Provides notification for catalog deployment events.
  * TODO (cck) check that updates are dispatched to listeners
  */
-public interface IAeCatalogListener
-{
-   /**
-    * Notification of successful catalog deployment.
-    * @param aEvent
-    */
-   public void onDeployment( AeCatalogEvent aEvent );
-   
-   /**
-    * Notification of duplicate deployment attempt.
-    * @param aEvent
-    */
-   public void onDuplicateDeployment( AeCatalogEvent aEvent );
-   
-   /**
-    * Notification of catalog deployment removal.
-    * @param aEvent
-    */
-   public void onRemoval( AeCatalogEvent aEvent );
+public interface IAeCatalogListener {
+    /**
+     * Notification of successful catalog deployment.
+     *
+     * @param aEvent
+     */
+    public void onDeployment(AeCatalogEvent aEvent);
+
+    /**
+     * Notification of duplicate deployment attempt.
+     *
+     * @param aEvent
+     */
+    public void onDuplicateDeployment(AeCatalogEvent aEvent);
+
+    /**
+     * Notification of catalog deployment removal.
+     *
+     * @param aEvent
+     */
+    public void onRemoval(AeCatalogEvent aEvent);
 }

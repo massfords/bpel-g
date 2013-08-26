@@ -25,7 +25,7 @@ import org.w3c.dom.Element;
 
 /**
  * Contains informations related to a schema.
- *  
+ *
  * @author gnodet
  */
 public class BgSchema {
@@ -34,9 +34,10 @@ public class BgSchema {
     private String namespace;
     private List<String> imports;
     private URI sourceUri;
-    
+
     /**
      * Add a reference to an imported namespace.
+     *
      * @param namespace the namespace to reference
      */
     public void addImport(String namespace) {
@@ -45,7 +46,7 @@ public class BgSchema {
         }
         imports.add(namespace);
     }
-    
+
     /**
      * @return Returns the imports.
      */

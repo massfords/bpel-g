@@ -7,7 +7,7 @@
 // Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 // is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.war.tags; 
+package org.activebpel.rt.war.tags;
 
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -24,74 +24,61 @@ import org.activebpel.rt.war.AeMessages;
 /**
  * Formats a Number value to be displayed.
  */
-public class AePropertyNumberFormatterTag extends AeAbstractPropertyFormatterTag
-{   
+public class AePropertyNumberFormatterTag extends AeAbstractPropertyFormatterTag {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -2948974141535788112L;
 
-private Object getNumberBean()
-   {
-      Object rObject = null;
-      try
-      {
-         rObject = getPropertyFromBean();
-      }
-      catch(Exception e)
-      {
-      }
-      return rObject;
-   }
-   
-   /**
-    * Returns the formatted number to be displayed.
-    * 
-    * @return formatted number string to be displayed.
-    * @throws AeException if error occur during text formatting.
-    */
-   protected String getFormattedText() throws AeException, JspException
-   {
-      // Get the appropriate number formatter
-      NumberFormat nf = (NumberFormat) getResolvedFormatter();
-      
-      // Get the property value
-      Object obj = getNumberBean();
+    private Object getNumberBean() {
+        Object rObject = null;
+        try {
+            rObject = getPropertyFromBean();
+        } catch (Exception e) {
+        }
+        return rObject;
+    }
 
-      return AeHTMLFormatter.formatNumber(obj, nf);
-   }
+    /**
+     * Returns the formatted number to be displayed.
+     *
+     * @return formatted number string to be displayed.
+     * @throws AeException if error occur during text formatting.
+     */
+    protected String getFormattedText() throws AeException, JspException {
+        // Get the appropriate number formatter
+        NumberFormat nf = (NumberFormat) getResolvedFormatter();
 
-   /**
-    * Creates and returns the concrete DecimalFormat object.
-    * 
-    * @param aPattern
-    * @return DecimalFormat object.
-    * @throws AeException if unable to create and return a DecimalFormat object. 
-    */
-   protected Format createFormatter(String aPattern) throws AeException
-   {
-      try
-      {
-         if (!AeUtil.isNullOrEmpty(aPattern))
-         {
-            return new DecimalFormat(aPattern);
-         }
-         else
-         {
-            // returns default format based on default locale.
-            return new DecimalFormat();
-         }
-      }
-      catch(Exception e)
-      {
-         // Catch:
-         // NullPointerException - if the given pattern is null 
-         // IllegalArgumentException - if the given pattern is invalid
-         String err = MessageFormat.format(AeMessages.getString("AePropertyNumberFormatterTag.2"), //$NON-NLS-1$
-                 e.getMessage());
-         throw new AeException(err);                  
-      }
-   }   
+        // Get the property value
+        Object obj = getNumberBean();
+
+        return AeHTMLFormatter.formatNumber(obj, nf);
+    }
+
+    /**
+     * Creates and returns the concrete DecimalFormat object.
+     *
+     * @param aPattern
+     * @return DecimalFormat object.
+     * @throws AeException if unable to create and return a DecimalFormat object.
+     */
+    protected Format createFormatter(String aPattern) throws AeException {
+        try {
+            if (!AeUtil.isNullOrEmpty(aPattern)) {
+                return new DecimalFormat(aPattern);
+            } else {
+                // returns default format based on default locale.
+                return new DecimalFormat();
+            }
+        } catch (Exception e) {
+            // Catch:
+            // NullPointerException - if the given pattern is null
+            // IllegalArgumentException - if the given pattern is invalid
+            String err = MessageFormat.format(AeMessages.getString("AePropertyNumberFormatterTag.2"), //$NON-NLS-1$
+                    e.getMessage());
+            throw new AeException(err);
+        }
+    }
 }
  

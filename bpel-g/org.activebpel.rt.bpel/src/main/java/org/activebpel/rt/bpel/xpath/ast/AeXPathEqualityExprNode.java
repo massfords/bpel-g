@@ -13,29 +13,25 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for an equality expression.
  */
-public class AeXPathEqualityExprNode extends AeAbstractXPathOperatorNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathEqualityExprNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_EQUALITY_EXPR);
-   }
+public class AeXPathEqualityExprNode extends AeAbstractXPathOperatorNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathEqualityExprNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_EQUALITY_EXPR);
+    }
 
-   /**
-    * @return Returns the equalityOperator.
-    */
-   public int getEqualityOperator()
-   {
-      return getOperator();
-   }
+    /**
+     * @return Returns the equalityOperator.
+     */
+    public int getEqualityOperator() {
+        return getOperator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

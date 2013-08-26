@@ -43,7 +43,9 @@ import bpelg.services.deploy.types.pdd.ReferenceType;
  * if not in config, is 50.
  */
 public class AeResourceCache implements IAeResourceCache, PreferenceChangeListener {
-    /** Default max value. Default value is 50. */
+    /**
+     * Default max value. Default value is 50.
+     */
     public static final int DEFAULT_MAX_VALUE = 50;
     protected final Cache mCache;
 
@@ -51,8 +53,8 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
      * Default contructor.
      */
     public AeResourceCache(String aName) {
-    	int cacheSize = AePreferences.getResourceCacheSize();
-    	AePreferences.catalog().addPreferenceChangeListener(this);
+        int cacheSize = AePreferences.getResourceCacheSize();
+        AePreferences.catalog().addPreferenceChangeListener(this);
         CacheManager singletonManager = CacheManager.create();
         mCache = new Cache(aName, cacheSize, false, true, 0, 0);
         singletonManager.addCache(mCache);
@@ -75,16 +77,16 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
         // locations we need a factory?
         return getInputSourceForLocation(aKey);
     }
-    
+
     private Object toKey(ReferenceType aKey) {
-    	return aKey.getTypeURI() + aKey.getNamespace() + aKey.getLocation();
+        return aKey.getTypeURI() + aKey.getNamespace() + aKey.getLocation();
     }
 
     /**
      * Utility method to locate def. First check is via the LRU cache and if the
      * def is not there, it is reloaded using the wsdl locator and then cached
      * again.
-     * 
+     *
      * @param aKey
      */
     protected AeBPELExtendedWSDLDef getDefFromCache(ReferenceType aKey) throws AeResourceException {
@@ -105,7 +107,7 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
      * Utility method to locate def. First check is via the LRU cache and if the
      * def is not there, it is reloaded using the wsdl locator and then cached
      * again.
-     * 
+     *
      * @param aKey
      */
     protected Schema getSchemaDefFromCache(ReferenceType aKey) throws AeResourceException {
@@ -123,7 +125,7 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
 
     /**
      * Access the def via the catalog aware locator object.
-     * 
+     *
      * @param aKey
      */
     protected Schema getSchemaDefForLocation(ReferenceType aKey) throws AeResourceException {
@@ -145,7 +147,7 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
 
     /**
      * Access the def via the cached wsdl locator object.
-     * 
+     *
      * @param aKey
      */
     protected AeBPELExtendedWSDLDef getDefForLocation(ReferenceType aKey)
@@ -163,7 +165,7 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
 
     /**
      * Returns an input source for the passed key
-     * 
+     *
      * @param aKey
      */
     protected InputSource getInputSourceForLocation(ReferenceType aKey) throws AeResourceException {
@@ -253,7 +255,7 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
 
     /**
      * Implements method by calling catalog to resolve mapping.
-     * 
+     *
      * @see org.activebpel.rt.bpel.server.wsdl.IAeResourceResolver#getInputSource(java.lang.String)
      */
     public InputSource getInputSource(String aLocationHint) throws Exception {
@@ -297,8 +299,8 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
         return mCache.getStatistics();
     }
 
-	@Override
-	public void preferenceChange(PreferenceChangeEvent aEvt) {
-		setMaxCacheSize(AePreferences.getResourceCacheSize());
-	}
+    @Override
+    public void preferenceChange(PreferenceChangeEvent aEvt) {
+        setMaxCacheSize(AePreferences.getResourceCacheSize());
+    }
 }

@@ -21,84 +21,75 @@ import java.util.StringTokenizer;
 /**
  * Utility class for reading and writing correlationSet properties.
  */
-public class AeCorrelationSetUtil
-{
-   /**
-    * Default c'tor.
-    */
-   private AeCorrelationSetUtil()
-   {
-      super();
-   }
-   
-   /**
-    * Parses and sets the properties of this object.
-    *
-    * @param aDef
-    * @param aProperties
-    * @param aElement
-    */
-   public static void addProperties(AeCorrelationSetDef aDef, String aProperties, Element aElement)
-   {
-      if (aProperties != null)
-      {
-         StringTokenizer tok = new StringTokenizer(aProperties, " "); //$NON-NLS-1$
+public class AeCorrelationSetUtil {
+    /**
+     * Default c'tor.
+     */
+    private AeCorrelationSetUtil() {
+        super();
+    }
 
-         // Loop through all correlation properties. If property is qualified by
-         // a namespace use different constructor for property
-         for (int i = 0; tok.hasMoreTokens(); i++)
-         {
-            String corr = tok.nextToken();
-            if (!AeXmlUtil.hasColon(corr))
-            {
-               // no prefix specified, use null namespace.
-               aDef.addProperty(new QName(null, corr));
+    /**
+     * Parses and sets the properties of this object.
+     *
+     * @param aDef
+     * @param aProperties
+     * @param aElement
+     */
+    public static void addProperties(AeCorrelationSetDef aDef, String aProperties, Element aElement) {
+        if (aProperties != null) {
+            StringTokenizer tok = new StringTokenizer(aProperties, " "); //$NON-NLS-1$
+
+            // Loop through all correlation properties. If property is qualified by
+            // a namespace use different constructor for property
+            for (int i = 0; tok.hasMoreTokens(); i++) {
+                String corr = tok.nextToken();
+                if (!AeXmlUtil.hasColon(corr)) {
+                    // no prefix specified, use null namespace.
+                    aDef.addProperty(new QName(null, corr));
+                } else {
+                    String prefix = AeXmlUtil.extractPrefix(corr);
+                    String localPart = AeXmlUtil.extractLocalPart(corr);
+                    aDef.addProperty(new QName(
+                            AeXmlUtil.getNamespaceForPrefix(aElement, prefix), localPart));
+                }
             }
-            else
-            {
-               String prefix     = AeXmlUtil.extractPrefix(corr);
-               String localPart  = AeXmlUtil.extractLocalPart(corr);
-               aDef.addProperty( new QName(
-                  AeXmlUtil.getNamespaceForPrefix(aElement, prefix), localPart) );
-            }
-         }
-      }
-   }
+        }
+    }
 
-   /**
-    * Formats and returns the properties attribute value.
-    * @return String the properties.
-    */
-   public static String formatProperties(AeCorrelationSetDef aDef, Element aElement)
-   {
-      boolean first = true;
-      StringBuilder props = new StringBuilder();
-      for (Iterator it=aDef.getPropertiesList(); it.hasNext(); )
-      {
-         QName qname = (QName)it.next();
-         if (!first)
-            props.append(" "); //$NON-NLS-1$
-         first = false;
-         props.append(getStringForQName(aElement, qname));
-      }
-      return props.toString();
-   }
+    /**
+     * Formats and returns the properties attribute value.
+     *
+     * @return String the properties.
+     */
+    public static String formatProperties(AeCorrelationSetDef aDef, Element aElement) {
+        boolean first = true;
+        StringBuilder props = new StringBuilder();
+        for (Iterator it = aDef.getPropertiesList(); it.hasNext(); ) {
+            QName qname = (QName) it.next();
+            if (!first)
+                props.append(" "); //$NON-NLS-1$
+            first = false;
+            props.append(getStringForQName(aElement, qname));
+        }
+        return props.toString();
+    }
 
-   /**
-    * A helper method which converts the given QName object to a QName string of
-    * the format "prefix:localPart". The prefix is determined by walking the given
-    * element ancestors looking for the declared namespace.
-    * @param aElement
-    * @param aQName the QName object
-    * @return String the QName string.
-    */
-   private static String getStringForQName(Element aElement, QName aQName)
-   {
-      String prop = aQName.getLocalPart();
-      String prefix = AeXmlUtil.getPrefixForNamespace(aElement, aQName.getNamespaceURI());
-      if (! AeUtil.isNullOrEmpty(prefix))
-         prop = prefix + ":" + prop; //$NON-NLS-1$
-      
-      return prop;
-   }
+    /**
+     * A helper method which converts the given QName object to a QName string of
+     * the format "prefix:localPart". The prefix is determined by walking the given
+     * element ancestors looking for the declared namespace.
+     *
+     * @param aElement
+     * @param aQName   the QName object
+     * @return String the QName string.
+     */
+    private static String getStringForQName(Element aElement, QName aQName) {
+        String prop = aQName.getLocalPart();
+        String prefix = AeXmlUtil.getPrefixForNamespace(aElement, aQName.getNamespaceURI());
+        if (!AeUtil.isNullOrEmpty(prefix))
+            prop = prefix + ":" + prop; //$NON-NLS-1$
+
+        return prop;
+    }
 }

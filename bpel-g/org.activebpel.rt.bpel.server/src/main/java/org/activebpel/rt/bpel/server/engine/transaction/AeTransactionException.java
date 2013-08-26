@@ -14,28 +14,30 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 /**
  * Standard exception for the transaction package.
  */
-public class AeTransactionException extends AeBusinessProcessException
-{
-   /**
-     * 
+public class AeTransactionException extends AeBusinessProcessException {
+    /**
+     *
      */
     private static final long serialVersionUID = -3696331826902299504L;
 
-/** Constructor. */
-   public AeTransactionException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Constructor.
+     */
+    public AeTransactionException(String aInfo) {
+        super(aInfo);
+    }
 
-   /** Constructor. */
-   public AeTransactionException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Constructor.
+     */
+    public AeTransactionException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
-   /** Constructor. */
-   public AeTransactionException(Throwable aRootCause)
-   {
-      super(aRootCause.getLocalizedMessage(), aRootCause);
-   }
+    /**
+     * Constructor.
+     */
+    public AeTransactionException(Throwable aRootCause) {
+        super(aRootCause.getLocalizedMessage(), aRootCause);
+    }
 }

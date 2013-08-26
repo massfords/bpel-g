@@ -15,16 +15,15 @@ import org.w3c.dom.Document;
 /**
  * Defines factory interface for creating journal entries from storage.
  */
-public interface IAeJournalEntryFactory
-{
-   /**
-    * Returns new journal entry constructed with the given type, location id,
-    * and storage document.
-    *
-    * @param aEntryType
-    * @param aLocationId
-    * @param aJournalId
-    * @param aStorageDocument
-    */
-   public IAeJournalEntry newJournalEntry(int aEntryType, int aLocationId, long aJournalId, Document aStorageDocument) throws AeException;
+public interface IAeJournalEntryFactory {
+    /**
+     * Returns new journal entry constructed with the given type, location id,
+     * and storage document.
+     *
+     * @param aEntryType
+     * @param aLocationId
+     * @param aJournalId
+     * @param aStorageDocument
+     */
+    public IAeJournalEntry newJournalEntry(int aEntryType, int aLocationId, long aJournalId, Document aStorageDocument) throws AeException;
 }

@@ -15,20 +15,19 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 /**
  * Defines a Def Writer Registry.
  */
-public interface IAeDefWriterRegistry
-{
-   /**
-    * Retrieve the writer class for the AeDef object.
-    * 
-    * @param aParentClass the parent class
-    * @param aDef the base def object to be serialized
-    * @return the appropriate writer
-    */
-   public IAeDefWriter getWriter(Class<?> aParentClass, AeBaseXmlDef aDef);
-   
-   /**
-    * @param aDef
-    * @return true if the aDef passed is supported by the registry
-    */
-   public boolean isSupported(AeBaseXmlDef aDef);
+public interface IAeDefWriterRegistry {
+    /**
+     * Retrieve the writer class for the AeDef object.
+     *
+     * @param aParentClass the parent class
+     * @param aDef         the base def object to be serialized
+     * @return the appropriate writer
+     */
+    public IAeDefWriter getWriter(Class<?> aParentClass, AeBaseXmlDef aDef);
+
+    /**
+     * @param aDef
+     * @return true if the aDef passed is supported by the registry
+     */
+    public boolean isSupported(AeBaseXmlDef aDef);
 }

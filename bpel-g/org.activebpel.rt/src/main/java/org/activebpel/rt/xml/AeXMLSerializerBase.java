@@ -19,96 +19,93 @@ import org.w3c.dom.Element;
 /**
  * Base class used to serialize Java objects to xml elements.
  */
-public abstract class AeXMLSerializerBase
-{
+public abstract class AeXMLSerializerBase {
 
-   /**
-    * Serializes data and returns serialized element.
-    * @return serialized element
-    * @throws AeException
-    */
-   public Element serialize() throws AeException
-   {
-      return serialize(null);
-   }
+    /**
+     * Serializes data and returns serialized element.
+     *
+     * @return serialized element
+     * @throws AeException
+     */
+    public Element serialize() throws AeException {
+        return serialize(null);
+    }
 
-   /**
-    * Serializes data and returns serialized element.
-    * @param aParentElement optional container (parent) element.
-    * @return serialized element
-    * @throws AeException
-    */
-   public abstract Element serialize(Element aParentElement) throws AeException;   
-   
-   /**
-    * Creates a new document with the identity service name ns element.
-    * @param aDocumentElementName
-    * @return document
-    */
-   protected Document createDocumentWithElement(String aNameSpace, String aPrefix, String aDocumentElementName)
-   {
-      Document doc = AeXmlUtil.newDocument();
-      Element docEle = doc.createElementNS(aNameSpace, aPrefix + ":" + aDocumentElementName); //$NON-NLS-1$
-      docEle.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + aPrefix, aNameSpace); //$NON-NLS-1$
-      doc.appendChild(docEle);
-      return doc;
-   }
+    /**
+     * Serializes data and returns serialized element.
+     *
+     * @param aParentElement optional container (parent) element.
+     * @return serialized element
+     * @throws AeException
+     */
+    public abstract Element serialize(Element aParentElement) throws AeException;
 
-   /**
-    * Creates a NS element and adds it to the parent element.
-    * @param aParentEle
-    * @param aNameSpace
-    * @param aPrefix
-    * @param aElementName
-    * @return element
-    */
-   protected Element createElement(Element aParentEle, String aNameSpace, String aPrefix,
-         String aElementName)
-   {
-      return createElementWithText(aParentEle, aNameSpace, aPrefix, aElementName, null);
-   }  
-   
-   /**
-    * Creates a NS element and adds it to the parent element.
-    * @param aParentEle
-    * @param aNameSpace
-    * @param aPrefix
-    * @param aElementName
-    * @param aText
-    * @return element
-    */
-   protected Element createElementWithText(Element aParentEle, String aNameSpace, String aPrefix,
-         String aElementName, String aText)
-   {
+    /**
+     * Creates a new document with the identity service name ns element.
+     *
+     * @param aDocumentElementName
+     * @return document
+     */
+    protected Document createDocumentWithElement(String aNameSpace, String aPrefix, String aDocumentElementName) {
+        Document doc = AeXmlUtil.newDocument();
+        Element docEle = doc.createElementNS(aNameSpace, aPrefix + ":" + aDocumentElementName); //$NON-NLS-1$
+        docEle.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + aPrefix, aNameSpace); //$NON-NLS-1$
+        doc.appendChild(docEle);
+        return doc;
+    }
 
-      Element ele = AeXmlUtil.addElementNS(aParentEle, aNameSpace,
-            aPrefix + ":" + aElementName, aText); //$NON-NLS-1$
-      ele.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + aPrefix, aNameSpace); //$NON-NLS-1$
-      return ele;
-   }
+    /**
+     * Creates a NS element and adds it to the parent element.
+     *
+     * @param aParentEle
+     * @param aNameSpace
+     * @param aPrefix
+     * @param aElementName
+     * @return element
+     */
+    protected Element createElement(Element aParentEle, String aNameSpace, String aPrefix,
+                                    String aElementName) {
+        return createElementWithText(aParentEle, aNameSpace, aPrefix, aElementName, null);
+    }
 
-   /**
-    * Convenience method for creating the root element for
-    * the serialized data.
-    * @param aParentElement optional container (parent) element.
-    * @param aNamespaceUri element namespace URI.
-    * @param aNamespacePrefix element name prefix.
-    * @param aLocalName element node name.
-    * @return serialized element
-    */
-   protected Element createRootElement(Element aParentElement, String aNamespaceUri, String aNamespacePrefix, String aLocalName)
-   {
-      Element rval = null;
-      if (aParentElement != null)
-      {
-         rval = createElement(aParentElement, aNamespaceUri, aNamespacePrefix, aLocalName);
-      }
-      else
-      {
-         Document doc = createDocumentWithElement(aNamespaceUri, aNamespacePrefix, aLocalName);
-         rval = doc.getDocumentElement();
-      }
-      return rval;
-   }
+    /**
+     * Creates a NS element and adds it to the parent element.
+     *
+     * @param aParentEle
+     * @param aNameSpace
+     * @param aPrefix
+     * @param aElementName
+     * @param aText
+     * @return element
+     */
+    protected Element createElementWithText(Element aParentEle, String aNameSpace, String aPrefix,
+                                            String aElementName, String aText) {
+
+        Element ele = AeXmlUtil.addElementNS(aParentEle, aNameSpace,
+                aPrefix + ":" + aElementName, aText); //$NON-NLS-1$
+        ele.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + aPrefix, aNameSpace); //$NON-NLS-1$
+        return ele;
+    }
+
+    /**
+     * Convenience method for creating the root element for
+     * the serialized data.
+     *
+     * @param aParentElement   optional container (parent) element.
+     * @param aNamespaceUri    element namespace URI.
+     * @param aNamespacePrefix element name prefix.
+     * @param aLocalName       element node name.
+     * @return serialized element
+     */
+    protected Element createRootElement(Element aParentElement, String aNamespaceUri, String aNamespacePrefix, String aLocalName) {
+        Element rval = null;
+        if (aParentElement != null) {
+            rval = createElement(aParentElement, aNamespaceUri, aNamespacePrefix, aLocalName);
+        } else {
+            Document doc = createDocumentWithElement(aNamespaceUri, aNamespacePrefix, aLocalName);
+            rval = doc.getDocumentElement();
+        }
+        return rval;
+    }
 
 }

@@ -21,175 +21,170 @@ import org.activebpel.rt.message.AeMessagePartsMap;
 /**
  * Class to hold partner link related information.
  */
-public class AePartnerLinkDelegate implements IAeCorrelationsParentDef, Serializable
-{
-   /**
-     * 
+public class AePartnerLinkDelegate implements IAeCorrelationsParentDef, Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = -3001253453202003787L;
-/** partner link */
-   private String mPartnerLink;
-   /** port type.*/
-   private QName mPortType;
-   /** operation */
-   private String mOperation;
-   /** correlation container */
-   private AeCorrelationsDef mCorrelationsDef;
-   /** message parts map for the message being consumed */
-   private AeMessagePartsMap mConsumerMessagePartsMap;
-   /** message parts map for the message being produced */
-   private AeMessagePartsMap mProducerMessagePartsMap;
+    /**
+     * partner link
+     */
+    private String mPartnerLink;
+    /**
+     * port type.
+     */
+    private QName mPortType;
+    /**
+     * operation
+     */
+    private String mOperation;
+    /**
+     * correlation container
+     */
+    private AeCorrelationsDef mCorrelationsDef;
+    /**
+     * message parts map for the message being consumed
+     */
+    private AeMessagePartsMap mConsumerMessagePartsMap;
+    /**
+     * message parts map for the message being produced
+     */
+    private AeMessagePartsMap mProducerMessagePartsMap;
 
-   /**
-    * Default ctor.
-    */
-   public AePartnerLinkDelegate()
-   {
-      super();
-   }
+    /**
+     * Default ctor.
+     */
+    public AePartnerLinkDelegate() {
+        super();
+    }
 
-   /**
-    * Provides the ability to add a correlation element to the correlation list.
-    * 
-    * @param aCorrelation the correlation to be added
-    */
-   public void addCorrelation(AeCorrelationDef aCorrelation)
-   {
-      AeCorrelationsDef correlationsDef = getCorrelationsDef();
-      if (correlationsDef == null)
-      {
-         correlationsDef = new AeCorrelationsDef();
-         setCorrelationsDef(correlationsDef);
-      }
-      correlationsDef.addCorrelationDef(aCorrelation);
-   }
+    /**
+     * Provides the ability to add a correlation element to the correlation list.
+     *
+     * @param aCorrelation the correlation to be added
+     */
+    public void addCorrelation(AeCorrelationDef aCorrelation) {
+        AeCorrelationsDef correlationsDef = getCorrelationsDef();
+        if (correlationsDef == null) {
+            correlationsDef = new AeCorrelationsDef();
+            setCorrelationsDef(correlationsDef);
+        }
+        correlationsDef.addCorrelationDef(aCorrelation);
+    }
 
-   /**
-    * Provide a list of the Correlation objects for the user to iterate .
-    * 
-    * @return iterator of AeCorrelationDef object
-    */
-   public Iterator getCorrelationDefs()
-   {
-      if (mCorrelationsDef == null)
-         return Collections.EMPTY_LIST.iterator();
-      else
-         return mCorrelationsDef.getValues();
-   }
-   
-   /**
-    * Utility method to determine if a message has a correlation list 
-    * @return true if there are elements in the correlation list.
-    */
-   public boolean hasCorrelationList()
-   {
-      if (mCorrelationsDef == null)
-         return false;
-      else
-         return getCorrelationsDef().getSize() > 0;
-   }
-   
-   /**
-    * Returns the name of the partner link associated with this activity.
-    */
-   public String getPartnerLink()
-   {
-      return mPartnerLink;
-   }
+    /**
+     * Provide a list of the Correlation objects for the user to iterate .
+     *
+     * @return iterator of AeCorrelationDef object
+     */
+    public Iterator getCorrelationDefs() {
+        if (mCorrelationsDef == null)
+            return Collections.EMPTY_LIST.iterator();
+        else
+            return mCorrelationsDef.getValues();
+    }
 
-   /**
-    * Set the name of the partner link associated with this activity.
-    */
-   public void setPartnerLink(String aPartnerLink)
-   {
-      mPartnerLink = aPartnerLink;
-   }
+    /**
+     * Utility method to determine if a message has a correlation list
+     *
+     * @return true if there are elements in the correlation list.
+     */
+    public boolean hasCorrelationList() {
+        if (mCorrelationsDef == null)
+            return false;
+        else
+            return getCorrelationsDef().getSize() > 0;
+    }
 
-   /**
-    * Accessor method to obtain the port type for the object.
-    * 
-    * @return QName of the port type for the object
-    */
-   public QName getPortType()
-   {
-      return mPortType;
-   }
+    /**
+     * Returns the name of the partner link associated with this activity.
+     */
+    public String getPartnerLink() {
+        return mPartnerLink;
+    }
 
-   /**
-    * Mutator method to set the port type for the object.
-    * 
-    * @param aPortType the port type value to be set
-    */
-   public void setPortType(QName aPortType)
-   {
-      mPortType = aPortType;
-   }
+    /**
+     * Set the name of the partner link associated with this activity.
+     */
+    public void setPartnerLink(String aPartnerLink) {
+        mPartnerLink = aPartnerLink;
+    }
 
-   /**
-    * Accessor method to obtain the operation for the object.
-    * 
-    * @return name of the operation for the object
-    */
-   public String getOperation()
-   {
-      return mOperation;
-   }
+    /**
+     * Accessor method to obtain the port type for the object.
+     *
+     * @return QName of the port type for the object
+     */
+    public QName getPortType() {
+        return mPortType;
+    }
 
-   /**
-    * Mutator method to set the operation for the object.
-    * 
-    * @param aOperation the operation value to be set
-    */
-   public void setOperation(String aOperation)
-   {
-      mOperation = aOperation;
-   }
+    /**
+     * Mutator method to set the port type for the object.
+     *
+     * @param aPortType the port type value to be set
+     */
+    public void setPortType(QName aPortType) {
+        mPortType = aPortType;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#getCorrelationsDef()
-    */
-   public AeCorrelationsDef getCorrelationsDef()
-   {
-      return mCorrelationsDef;
-   }
+    /**
+     * Accessor method to obtain the operation for the object.
+     *
+     * @return name of the operation for the object
+     */
+    public String getOperation() {
+        return mOperation;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#setCorrelationsDef(org.activebpel.rt.bpel.def.AeCorrelationsDef)
-    */
-   public void setCorrelationsDef(AeCorrelationsDef aCorrelations)
-   {
-      mCorrelationsDef = aCorrelations;
-   }
+    /**
+     * Mutator method to set the operation for the object.
+     *
+     * @param aOperation the operation value to be set
+     */
+    public void setOperation(String aOperation) {
+        mOperation = aOperation;
+    }
 
-   /**
-    * Sets the message parts map for the input message.
-    */
-   public void setConsumerMessagePartsMap(AeMessagePartsMap aInputMessagePartsMap)
-   {
-      mConsumerMessagePartsMap = aInputMessagePartsMap;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#getCorrelationsDef()
+     */
+    public AeCorrelationsDef getCorrelationsDef() {
+        return mCorrelationsDef;
+    }
 
-   /**
-    * Returns the message parts map for the input message.
-    */
-   public AeMessagePartsMap getConsumerMessagePartsMap()
-   {
-      return mConsumerMessagePartsMap;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#setCorrelationsDef(org.activebpel.rt.bpel.def.AeCorrelationsDef)
+     */
+    public void setCorrelationsDef(AeCorrelationsDef aCorrelations) {
+        mCorrelationsDef = aCorrelations;
+    }
 
-   /**
-    * Sets the message parts map for the output message.
-    */
-   public void setProducerMessagePartsMap(AeMessagePartsMap aOutputMessagePartsMap)
-   {
-      mProducerMessagePartsMap = aOutputMessagePartsMap;
-   }
+    /**
+     * Sets the message parts map for the input message.
+     */
+    public void setConsumerMessagePartsMap(AeMessagePartsMap aInputMessagePartsMap) {
+        mConsumerMessagePartsMap = aInputMessagePartsMap;
+    }
 
-   /**
-    * Returns the message parts map for the output message.
-    */
-   public AeMessagePartsMap getProducerMessagePartsMap()
-   {
-      return mProducerMessagePartsMap;
-   }
+    /**
+     * Returns the message parts map for the input message.
+     */
+    public AeMessagePartsMap getConsumerMessagePartsMap() {
+        return mConsumerMessagePartsMap;
+    }
+
+    /**
+     * Sets the message parts map for the output message.
+     */
+    public void setProducerMessagePartsMap(AeMessagePartsMap aOutputMessagePartsMap) {
+        mProducerMessagePartsMap = aOutputMessagePartsMap;
+    }
+
+    /**
+     * Returns the message parts map for the output message.
+     */
+    public AeMessagePartsMap getProducerMessagePartsMap() {
+        return mProducerMessagePartsMap;
+    }
 }

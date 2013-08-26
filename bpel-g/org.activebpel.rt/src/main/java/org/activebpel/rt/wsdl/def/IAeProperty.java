@@ -15,45 +15,45 @@ import javax.xml.namespace.QName;
  * This interface represents a Message Property extention element.  It contains
  * information about operations associated with this Property element.
  */
-public interface IAeProperty
-{
-   /**
-    * Get the Message Property name.
-    * 
-    * @return QName
-    */
-   public QName getQName();
+public interface IAeProperty {
+    /**
+     * Get the Message Property name.
+     *
+     * @return QName
+     */
+    public QName getQName();
 
-   /**
-    * Set the Message Property name.
-    * 
-    * @param aName
-    */
-   public void setQName(QName aName);
+    /**
+     * Set the Message Property name.
+     *
+     * @param aName
+     */
+    public void setQName(QName aName);
 
-   /**
-    * Get the Message Property type QName.
-    * 
-    * @return QName
-    */
-   public QName getTypeName();
+    /**
+     * Get the Message Property type QName.
+     *
+     * @return QName
+     */
+    public QName getTypeName();
 
-   /**
-    * Set the Message Property type QName.
-    * 
-    * @param aType
-    */
-   public void setTypeName(QName aType);
-   
-   /**
-    * Getter for the element name or null if property is a type
-    */
-   public QName getElementName();
-   
-   /**
-    * Setter for the element name
-    * @param aQName
-    */
-   public void setElementName(QName aQName);
+    /**
+     * Set the Message Property type QName.
+     *
+     * @param aType
+     */
+    public void setTypeName(QName aType);
+
+    /**
+     * Getter for the element name or null if property is a type
+     */
+    public QName getElementName();
+
+    /**
+     * Setter for the element name
+     *
+     * @param aQName
+     */
+    public void setElementName(QName aQName);
 
 }

@@ -17,26 +17,24 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
 /**
  * The AeBpelSwitchActivityController creates figure to Switch type activities.
  */
-public class AeBpelSwitchActivityController extends AeBpelChoiceContainerController
-{
+public class AeBpelSwitchActivityController extends AeBpelChoiceContainerController {
 
-   /**
-    * Default constructor.
-    */
-   public AeBpelSwitchActivityController()
-   {
-      super();      
-   }
+    /**
+     * Default constructor.
+     */
+    public AeBpelSwitchActivityController() {
+        super();
+    }
 
-   /** 
-    * Overrides method to change the debug draw color of the figure. 
-    * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
-    */
-   protected AeGraphFigure createFigure()
-   {
-      AeBpelFigureBase fig = (AeBpelFigureBase) super.createFigure();
-      fig.getUiPrefs().setDebugActivityContainerColor(Color.ORANGE);
-      return fig;
-   }
+    /**
+     * Overrides method to change the debug draw color of the figure.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
+     */
+    protected AeGraphFigure createFigure() {
+        AeBpelFigureBase fig = (AeBpelFigureBase) super.createFigure();
+        fig.getUiPrefs().setDebugActivityContainerColor(Color.ORANGE);
+        return fig;
+    }
 
 }

@@ -10,58 +10,58 @@
 package org.activebpel.rt.bpel.impl;
 
 /**
- * Visitor interface for managers.  
+ * Visitor interface for managers.
  */
-public interface IAeManagerVisitor
-{
-   /** Visitor that calls the create method */
-   public static final IAeManagerVisitor CREATE = new IAeManagerVisitor()
-   {
-      public void visit(IAeManager aManager) throws Exception
-      {
-         aManager.create(); 
-      }
-   };
+public interface IAeManagerVisitor {
+    /**
+     * Visitor that calls the create method
+     */
+    public static final IAeManagerVisitor CREATE = new IAeManagerVisitor() {
+        public void visit(IAeManager aManager) throws Exception {
+            aManager.create();
+        }
+    };
 
-   /** Visitor that calls the prepareToStart method */
-   public static final IAeManagerVisitor PREPARE = new IAeManagerVisitor()
-   {
-      public void visit(IAeManager aManager) throws Exception
-      {
-         aManager.prepareToStart(); 
-      }
-   };
+    /**
+     * Visitor that calls the prepareToStart method
+     */
+    public static final IAeManagerVisitor PREPARE = new IAeManagerVisitor() {
+        public void visit(IAeManager aManager) throws Exception {
+            aManager.prepareToStart();
+        }
+    };
 
-   /** Visitor that calls the start method */
-   public static final IAeManagerVisitor START = new IAeManagerVisitor()
-   {
-      public void visit(IAeManager aManager) throws Exception
-      {
-         aManager.start(); 
-      }
-   };
-   
-   /** Visitor that calls the stop method */
-   public static final IAeManagerVisitor STOP = new IAeManagerVisitor()
-   {
-      public void visit(IAeManager aManager) throws Exception
-      {
-         aManager.stop(); 
-      }
-   };
-   
-   /** Visitor that calls the destroy method */
-   public static final IAeManagerVisitor DESTROY = new IAeManagerVisitor()
-   {
-      public void visit(IAeManager aManager) throws Exception
-      {
-         aManager.destroy(); 
-      }
-   };
+    /**
+     * Visitor that calls the start method
+     */
+    public static final IAeManagerVisitor START = new IAeManagerVisitor() {
+        public void visit(IAeManager aManager) throws Exception {
+            aManager.start();
+        }
+    };
 
-   /**
-    * Visitor method for managers.
-    * @param aManager
-    */
-   public void visit(IAeManager aManager) throws Exception;
+    /**
+     * Visitor that calls the stop method
+     */
+    public static final IAeManagerVisitor STOP = new IAeManagerVisitor() {
+        public void visit(IAeManager aManager) throws Exception {
+            aManager.stop();
+        }
+    };
+
+    /**
+     * Visitor that calls the destroy method
+     */
+    public static final IAeManagerVisitor DESTROY = new IAeManagerVisitor() {
+        public void visit(IAeManager aManager) throws Exception {
+            aManager.destroy();
+        }
+    };
+
+    /**
+     * Visitor method for managers.
+     *
+     * @param aManager
+     */
+    public void visit(IAeManager aManager) throws Exception;
 }

@@ -17,80 +17,77 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  * the value of the named http servlet request parameter
  * matches the expected value.
  */
-public class AeIfParamMatchesTag extends BodyTagSupport
-{
-   /**
-     * 
+public class AeIfParamMatchesTag extends BodyTagSupport {
+    /**
+     *
      */
     private static final long serialVersionUID = -4828679922476339069L;
-/** The key for the http request parameter */
-   protected String mProperty;
-   /** The value to match against. */
-   protected String mValue;
+    /**
+     * The key for the http request parameter
+     */
+    protected String mProperty;
+    /**
+     * The value to match against.
+     */
+    protected String mValue;
 
-   /**
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      if( shouldEvaluateBody() )
-      {
-         return EVAL_BODY_INCLUDE;
-      }
-      return SKIP_BODY;
-   }
-   
-   /**
-    * Returns true if the request parameter matches the 
-    * expected value.
-    */
-   protected boolean shouldEvaluateBody()
-   {
-      String paramValue = pageContext.getRequest().getParameter( getProperty() );
-      return getValue().equals( paramValue );
-   }
-   
-   /**
-    * Accessor for the request parameter key.
-    */
-   public String getProperty()
-   {
-      return mProperty;
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        if (shouldEvaluateBody()) {
+            return EVAL_BODY_INCLUDE;
+        }
+        return SKIP_BODY;
+    }
 
-   /**
-    * Accessor for the "expected" value to compare against.
-    */
-   public String getValue()
-   {
-      return mValue;
-   }
+    /**
+     * Returns true if the request parameter matches the
+     * expected value.
+     */
+    protected boolean shouldEvaluateBody() {
+        String paramValue = pageContext.getRequest().getParameter(getProperty());
+        return getValue().equals(paramValue);
+    }
 
-   /**
-    * Setter for the request parameter key value.
-    * @param aString
-    */
-   public void setProperty(String aString)
-   {
-      mProperty = aString;
-   }
+    /**
+     * Accessor for the request parameter key.
+     */
+    public String getProperty() {
+        return mProperty;
+    }
 
-   /**
-    * Setter for the "expected" value to compare against.
-    * @param aString
-    */
-   public void setValue(String aString)
-   {
-      mValue = aString;
-   }
+    /**
+     * Accessor for the "expected" value to compare against.
+     */
+    public String getValue() {
+        return mValue;
+    }
 
-   /**
-    * @see javax.servlet.jsp.tagext.Tag#release()
-    */
-   public void release()
-   {
-      super.release();
-      mProperty = null;
-      mValue = null;
-   }
+    /**
+     * Setter for the request parameter key value.
+     *
+     * @param aString
+     */
+    public void setProperty(String aString) {
+        mProperty = aString;
+    }
+
+    /**
+     * Setter for the "expected" value to compare against.
+     *
+     * @param aString
+     */
+    public void setValue(String aString) {
+        mValue = aString;
+    }
+
+    /**
+     * @see javax.servlet.jsp.tagext.Tag#release()
+     */
+    public void release() {
+        super.release();
+        mProperty = null;
+        mValue = null;
+    }
 }

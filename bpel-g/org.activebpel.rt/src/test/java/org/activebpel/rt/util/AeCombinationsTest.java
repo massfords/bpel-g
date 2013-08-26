@@ -13,17 +13,17 @@ public class AeCombinationsTest {
     @Test
     public void threeStrings() throws Exception {
         String[][] expected = {
-                {"a", "b", "c"}, 
-                {"a", "b"}, 
-                {"a", "c"}, 
-                {"b", "c"}, 
-                {"a"}, 
-                {"b"}, 
-                {"c"} 
+                {"a", "b", "c"},
+                {"a", "b"},
+                {"a", "c"},
+                {"b", "c"},
+                {"a"},
+                {"b"},
+                {"c"}
         };
         Iterator<List<String>> it = AeCombinations.createAllCombinations(Arrays.asList(expected[0]));
         int i = 0;
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             List<String> combo = it.next();
             assertEquals(Arrays.asList(expected[i++]), combo);
         }

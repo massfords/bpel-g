@@ -28,64 +28,56 @@ import org.w3c.dom.Document;
  * Implements a <code>ResultSetHandler</code> that converts the next row of
  * a <code>ResultSet</code> to an <code>IAeCoordinating</code>.
  */
-public class AeSQLCoordinatingResultSetHandler implements ResultSetHandler<IAeCoordinating>
-{
-   /** The coordination manager. */
-   private IAeCoordinationManager mManager = null;
-   
-   /**
-    * Simple constructor.
-    * 
-    * @param aManager
-    */
-   public AeSQLCoordinatingResultSetHandler(IAeCoordinationManager aManager)
-   {
-      mManager = aManager;
-   }
+public class AeSQLCoordinatingResultSetHandler implements ResultSetHandler<IAeCoordinating> {
+    /**
+     * The coordination manager.
+     */
+    private IAeCoordinationManager mManager = null;
 
-   /**
-    * Creates a coordinating object given the result set.
-    * 
-    * @param aResultSet
-    * @param aManager
-    * @throws SQLException
-    */
-   protected static IAeCoordinating createCoordinating(ResultSet aResultSet, IAeCoordinationManager aManager) throws SQLException
-   {
-      int coordRole = aResultSet.getInt(IAeCoordinationColumns.COORDINATION_ROLE);
-      String coordId = aResultSet.getString(IAeCoordinationColumns.COORDINATION_ID);
-      String state = aResultSet.getString(IAeCoordinationColumns.STATE);
-      long processId = aResultSet.getLong(IAeCoordinationColumns.PROCESS_ID);
-      Clob clob = aResultSet.getClob(IAeCoordinationColumns.COORDINATION_DOC);
-      
-      Document contextDocument = null;
-      if (!aResultSet.wasNull())
-      {
-         contextDocument = AeDbUtils.getDocument(clob);
-      }
-      else
-      {
-         SQLException sqe = new SQLException(AeMessages.getString("AeSQLCoordinationStorage.NULL_RESULTSET")); //$NON-NLS-1$);
-         throw sqe;
-      }
-      
-      try
-      {
-         return AeStorageUtil.createCoordinating(processId, coordId, state, coordRole, contextDocument, aManager);
-      }
-      catch (AeStorageException ex)
-      {
-         SQLException sqe = new SQLException();
-         sqe.initCause(ex);
-         throw sqe;
-      }
-   }
+    /**
+     * Simple constructor.
+     *
+     * @param aManager
+     */
+    public AeSQLCoordinatingResultSetHandler(IAeCoordinationManager aManager) {
+        mManager = aManager;
+    }
 
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public IAeCoordinating handle(ResultSet aResultSet) throws SQLException
-   {
-      return aResultSet.next() ? createCoordinating(aResultSet, mManager) : null;
-   }
+    /**
+     * Creates a coordinating object given the result set.
+     *
+     * @param aResultSet
+     * @param aManager
+     * @throws SQLException
+     */
+    protected static IAeCoordinating createCoordinating(ResultSet aResultSet, IAeCoordinationManager aManager) throws SQLException {
+        int coordRole = aResultSet.getInt(IAeCoordinationColumns.COORDINATION_ROLE);
+        String coordId = aResultSet.getString(IAeCoordinationColumns.COORDINATION_ID);
+        String state = aResultSet.getString(IAeCoordinationColumns.STATE);
+        long processId = aResultSet.getLong(IAeCoordinationColumns.PROCESS_ID);
+        Clob clob = aResultSet.getClob(IAeCoordinationColumns.COORDINATION_DOC);
+
+        Document contextDocument = null;
+        if (!aResultSet.wasNull()) {
+            contextDocument = AeDbUtils.getDocument(clob);
+        } else {
+            SQLException sqe = new SQLException(AeMessages.getString("AeSQLCoordinationStorage.NULL_RESULTSET")); //$NON-NLS-1$);
+            throw sqe;
+        }
+
+        try {
+            return AeStorageUtil.createCoordinating(processId, coordId, state, coordRole, contextDocument, aManager);
+        } catch (AeStorageException ex) {
+            SQLException sqe = new SQLException();
+            sqe.initCause(ex);
+            throw sqe;
+        }
+    }
+
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public IAeCoordinating handle(ResultSet aResultSet) throws SQLException {
+        return aResultSet.next() ? createCoordinating(aResultSet, mManager) : null;
+    }
 }

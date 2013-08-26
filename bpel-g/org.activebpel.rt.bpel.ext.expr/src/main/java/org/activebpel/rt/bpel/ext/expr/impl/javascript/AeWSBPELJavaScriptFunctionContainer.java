@@ -19,52 +19,43 @@ import org.activebpel.rt.bpel.impl.function.AeGetVariableDataFunction;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * This is an extension to the basic JavaScript function container specifically for the WSBPEL 
+ * This is an extension to the basic JavaScript function container specifically for the WSBPEL
  * namespace.  BPEL 2.0 removed getVariableData and getLinkStatus in favor of a shorter $varName
- * and $linkName syntax.  However, since BPEL variables cannot be manifested directly as 
+ * and $linkName syntax.  However, since BPEL variables cannot be manifested directly as
  * JavaScript variable, the getVariableData and getLinkStatus functions are still used for
  * JavaScript.  This class makes these two functions explicitely available, even though they
  * don't exist in the standard BPEL 2.0 function namespace.
  */
-public class AeWSBPELJavaScriptFunctionContainer extends AeJavaScriptFunctionContainer
-{
-   /**
-    * Constructs the WSBPEL function container with the given parent scope.
-    * 
-    * @param aNamespace
-    * @param aParentScope
-    * @param aFunctionExecutionContext
-    */
-   public AeWSBPELJavaScriptFunctionContainer(String aNamespace, Scriptable aParentScope,
-         IAeFunctionExecutionContext aFunctionExecutionContext)
-   {
-      super(aNamespace, aParentScope, aFunctionExecutionContext);
-   }
+public class AeWSBPELJavaScriptFunctionContainer extends AeJavaScriptFunctionContainer {
+    /**
+     * Constructs the WSBPEL function container with the given parent scope.
+     *
+     * @param aNamespace
+     * @param aParentScope
+     * @param aFunctionExecutionContext
+     */
+    public AeWSBPELJavaScriptFunctionContainer(String aNamespace, Scriptable aParentScope,
+                                               IAeFunctionExecutionContext aFunctionExecutionContext) {
+        super(aNamespace, aParentScope, aFunctionExecutionContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.impl.javascript.AeJavaScriptFunctionContainer#getClassName()
-    */
-   public String getClassName()
-   {
-      return AeWSBPELJavaScriptFunctionContainer.class.getName();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.impl.javascript.AeJavaScriptFunctionContainer#getClassName()
+     */
+    public String getClassName() {
+        return AeWSBPELJavaScriptFunctionContainer.class.getName();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.impl.javascript.AeJavaScriptFunctionContainer#findFunction(java.lang.String)
-    */
-   protected IAeFunction findFunction(String aName) throws AeUnresolvableException
-   {
-      if (AeExpressionLanguageUtil.VAR_DATA_FUNC_NAME.equals(aName))
-      {
-         return new AeGetVariableDataFunction();
-      }
-      else if (AeExpressionLanguageUtil.LINK_STATUS_FUNC_NAME.equals(aName))
-      {
-         return new AeGetLinkStatusFunction();
-      }
-      else
-      {
-         return super.findFunction(aName);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.impl.javascript.AeJavaScriptFunctionContainer#findFunction(java.lang.String)
+     */
+    protected IAeFunction findFunction(String aName) throws AeUnresolvableException {
+        if (AeExpressionLanguageUtil.VAR_DATA_FUNC_NAME.equals(aName)) {
+            return new AeGetVariableDataFunction();
+        } else if (AeExpressionLanguageUtil.LINK_STATUS_FUNC_NAME.equals(aName)) {
+            return new AeGetLinkStatusFunction();
+        } else {
+            return super.findFunction(aName);
+        }
+    }
 }

@@ -14,14 +14,13 @@ package org.activebpel.rt.bpel.def;
  * implemented directly, but you should use the derived interfaces
  * IAeMultipleActivityContainerDef or IAeSingleActivityContainerDef.
  */
-public interface IAeActivityContainerDef
-{
-   /**
-    * Replaces an old activity with a new one.
-    * 
-    * @param aOldActivityDef
-    * @param aNewActivityDef
-    */
-   public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef);
+public interface IAeActivityContainerDef {
+    /**
+     * Replaces an old activity with a new one.
+     *
+     * @param aOldActivityDef
+     * @param aNewActivityDef
+     */
+    public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef);
 
 }

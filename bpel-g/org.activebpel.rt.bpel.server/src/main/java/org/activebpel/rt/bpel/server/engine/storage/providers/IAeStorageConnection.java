@@ -18,24 +18,23 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
  * to their delegate that must all exist in the same transaction.  This connection object is what
  * is acquired and then used for that purpose.
  */
-public interface IAeStorageConnection
-{
-   /**
-    * Commits the transaction associated with this connection.
-    * 
-    * @throws AeStorageException
-    */
-   public void commit() throws AeStorageException;
+public interface IAeStorageConnection {
+    /**
+     * Commits the transaction associated with this connection.
+     *
+     * @throws AeStorageException
+     */
+    public void commit() throws AeStorageException;
 
-   /**
-    * Rolls back the transaction associated with this connection.
-    * 
-    * @throws AeStorageException
-    */
-   public void rollback() throws AeStorageException;
-   
-   /**
-    * Closes the connection.
-    */
-   public void close();
+    /**
+     * Rolls back the transaction associated with this connection.
+     *
+     * @throws AeStorageException
+     */
+    public void rollback() throws AeStorageException;
+
+    /**
+     * Closes the connection.
+     */
+    public void close();
 }

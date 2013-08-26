@@ -25,72 +25,64 @@ import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
 /**
  * Simple implementation of standard namespaces.
  */
-public class AeWSResourceStandardNamespaces implements IAeWSResourceStandardNamespaces
-{
-   private static final Map<String, String> sPrefixToNamespaceMap = new HashMap<>();
-   private static final Map<String, String> sNamespaceToPrefixMap = new HashMap<>();
+public class AeWSResourceStandardNamespaces implements IAeWSResourceStandardNamespaces {
+    private static final Map<String, String> sPrefixToNamespaceMap = new HashMap<>();
+    private static final Map<String, String> sNamespaceToPrefixMap = new HashMap<>();
 
-   /**
-    * Creates a prefix/namespace mapping in the maps.
-    *
-    * @param aPrefix
-    * @param aNamespace
-    */
-   private static void createMapping(String aPrefix, String aNamespace)
-   {
-      sPrefixToNamespaceMap.put(aPrefix, aNamespace);
-      sNamespaceToPrefixMap.put(aNamespace, aPrefix);
-   }
+    /**
+     * Creates a prefix/namespace mapping in the maps.
+     *
+     * @param aPrefix
+     * @param aNamespace
+     */
+    private static void createMapping(String aPrefix, String aNamespace) {
+        sPrefixToNamespaceMap.put(aPrefix, aNamespace);
+        sNamespaceToPrefixMap.put(aNamespace, aPrefix);
+    }
 
-   static
-   {
-      createMapping("wsdl", IAeConstants.WSDL_NAMESPACE); //$NON-NLS-1$
-      createMapping(IAeBPELConstants.BPWS_PREFIX, IAeBPELConstants.BPWS_NAMESPACE_URI);
-      createMapping(IAeBPELConstants.WSBPEL_2_0_PREFIX, IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
-      createMapping("xsd", XMLConstants.W3C_XML_SCHEMA_NS_URI); //$NON-NLS-1$
-      createMapping(IAeBPELExtendedWSDLConst.PARTNER_LINK_PREFIX, IAeBPELExtendedWSDLConst.PARTNER_LINK_NAMESPACE);
-      createMapping(IAeBPELExtendedWSDLConst.WSBPEL_PARTNER_LINK_PREFIX, IAeBPELExtendedWSDLConst.WSBPEL_PARTNER_LINK_NAMESPACE);
-      createMapping(IAeBPELExtendedWSDLConst.PROPERTY_2_0_PREFIX, IAeBPELExtendedWSDLConst.PROPERTY_2_0_NAMESPACE);
+    static {
+        createMapping("wsdl", IAeConstants.WSDL_NAMESPACE); //$NON-NLS-1$
+        createMapping(IAeBPELConstants.BPWS_PREFIX, IAeBPELConstants.BPWS_NAMESPACE_URI);
+        createMapping(IAeBPELConstants.WSBPEL_2_0_PREFIX, IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
+        createMapping("xsd", XMLConstants.W3C_XML_SCHEMA_NS_URI); //$NON-NLS-1$
+        createMapping(IAeBPELExtendedWSDLConst.PARTNER_LINK_PREFIX, IAeBPELExtendedWSDLConst.PARTNER_LINK_NAMESPACE);
+        createMapping(IAeBPELExtendedWSDLConst.WSBPEL_PARTNER_LINK_PREFIX, IAeBPELExtendedWSDLConst.WSBPEL_PARTNER_LINK_NAMESPACE);
+        createMapping(IAeBPELExtendedWSDLConst.PROPERTY_2_0_PREFIX, IAeBPELExtendedWSDLConst.PROPERTY_2_0_NAMESPACE);
 
-      // FIXMEQ (builders) add pdd, pdef namespace mappings here
-   }
+        // FIXMEQ (builders) add pdd, pdef namespace mappings here
+    }
 
-   /**
-    * C'tor.
-    */
-   public AeWSResourceStandardNamespaces()
-   {
-   }
-   
-   /**
-    * @see org.activebpel.rt.wsresource.validation.IAeWSResourceStandardNamespaces#resolveNamespaceToPrefix(java.lang.String)
-    */
-   public String resolveNamespaceToPrefix(String aNamespace)
-   {
-      return sNamespaceToPrefixMap.get(aNamespace);
-   }
-   
-   /**
-    * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
-    */
-   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
-   {
-      return Collections.singleton(resolveNamespaceToPrefix(aNamespace));
-   }
+    /**
+     * C'tor.
+     */
+    public AeWSResourceStandardNamespaces() {
+    }
 
-   /**
-    * @see org.activebpel.rt.wsresource.validation.IAeWSResourceStandardNamespaces#resolvePrefixToNamespace(java.lang.String)
-    */
-   public String resolvePrefixToNamespace(String aPrefix)
-   {
-      return sPrefixToNamespaceMap.get(aPrefix);
-   }
-   
-   /**
-    * @see org.activebpel.rt.wsresource.validation.IAeWSResourceStandardNamespaces#getAllNamespaces()
-    */
-   public Collection<String> getAllNamespaces()
-   {
-      return sNamespaceToPrefixMap.keySet();
-   }
+    /**
+     * @see org.activebpel.rt.wsresource.validation.IAeWSResourceStandardNamespaces#resolveNamespaceToPrefix(java.lang.String)
+     */
+    public String resolveNamespaceToPrefix(String aNamespace) {
+        return sNamespaceToPrefixMap.get(aNamespace);
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
+     */
+    public Set<String> resolveNamespaceToPrefixes(String aNamespace) {
+        return Collections.singleton(resolveNamespaceToPrefix(aNamespace));
+    }
+
+    /**
+     * @see org.activebpel.rt.wsresource.validation.IAeWSResourceStandardNamespaces#resolvePrefixToNamespace(java.lang.String)
+     */
+    public String resolvePrefixToNamespace(String aPrefix) {
+        return sPrefixToNamespaceMap.get(aPrefix);
+    }
+
+    /**
+     * @see org.activebpel.rt.wsresource.validation.IAeWSResourceStandardNamespaces#getAllNamespaces()
+     */
+    public Collection<String> getAllNamespaces() {
+        return sNamespaceToPrefixMap.keySet();
+    }
 }

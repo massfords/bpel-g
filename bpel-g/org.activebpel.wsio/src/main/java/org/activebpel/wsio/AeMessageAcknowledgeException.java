@@ -12,48 +12,46 @@ package org.activebpel.wsio;
 /**
  * Exception related to durable invoke and reply acknowledgement.
  */
-public class AeMessageAcknowledgeException extends Exception
-{
+public class AeMessageAcknowledgeException extends Exception {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -504113644111156524L;
 
-/**
-    * Constructs a exception.
-    */
-   public AeMessageAcknowledgeException()
-   {
-      super();
-   }
+    /**
+     * Constructs a exception.
+     */
+    public AeMessageAcknowledgeException() {
+        super();
+    }
 
-   /**
-    * Creates an exception given the exception message.
-    * @param aMessage
-    */
-   public AeMessageAcknowledgeException(String aMessage)
-   {
-      super(aMessage);
-   }
+    /**
+     * Creates an exception given the exception message.
+     *
+     * @param aMessage
+     */
+    public AeMessageAcknowledgeException(String aMessage) {
+        super(aMessage);
+    }
 
-   /**
-    * Creates an exception given the root cause.
-    * @param aCause
-    */
-   public AeMessageAcknowledgeException(Throwable aCause)
-   {
-      super(aCause);
-   }
+    /**
+     * Creates an exception given the root cause.
+     *
+     * @param aCause
+     */
+    public AeMessageAcknowledgeException(Throwable aCause) {
+        super(aCause);
+    }
 
-   /**
-    * Creates an exception given the root cause and the message.
-    * @param aMessage
-    * @param aCause
-    */
-   public AeMessageAcknowledgeException(String aMessage, Throwable aCause)
-   {
-      super(aMessage, aCause);
-   }
+    /**
+     * Creates an exception given the root cause and the message.
+     *
+     * @param aMessage
+     * @param aCause
+     */
+    public AeMessageAcknowledgeException(String aMessage, Throwable aCause) {
+        super(aMessage, aCause);
+    }
 
 }

@@ -18,72 +18,65 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'target' container bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeTargetsDef extends AeBaseContainer<AeTargetDef,AeTargetDef>
-{
-   private static final long serialVersionUID = -4301807529349695524L;
-   /** The optional joinCondition child. */
-   private AeJoinConditionDef mJoinCondition;
+public class AeTargetsDef extends AeBaseContainer<AeTargetDef, AeTargetDef> {
+    private static final long serialVersionUID = -4301807529349695524L;
+    /**
+     * The optional joinCondition child.
+     */
+    private AeJoinConditionDef mJoinCondition;
 
-   /**
-    * Default c'tor.
-    */
-   public AeTargetsDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeTargetsDef() {
+        super();
+    }
 
-   /**
-    * Adds a target def to the container.
-    * 
-    * @param aDef
-    */
-   public void addTargetDef(AeTargetDef aDef)
-   {
-      add(aDef);
-   }
-   
-   /**
-    * Gets an iterator over all of the target defs.
-    */
-   public Iterator<? extends AeTargetDef> getTargetDefs()
-   {
-      return getValues();
-   }
+    /**
+     * Adds a target def to the container.
+     *
+     * @param aDef
+     */
+    public void addTargetDef(AeTargetDef aDef) {
+        add(aDef);
+    }
 
-   /**
-    * @return Returns the joinCondition.
-    */
-   public AeJoinConditionDef getJoinConditionDef()
-   {
-      return mJoinCondition;
-   }
+    /**
+     * Gets an iterator over all of the target defs.
+     */
+    public Iterator<? extends AeTargetDef> getTargetDefs() {
+        return getValues();
+    }
 
-   /**
-    * @param aJoinCondition The joinCondition to set.
-    */
-   public void setJoinConditionDef(AeJoinConditionDef aJoinCondition)
-   {
-      mJoinCondition = aJoinCondition;
-   }
+    /**
+     * @return Returns the joinCondition.
+     */
+    public AeJoinConditionDef getJoinConditionDef() {
+        return mJoinCondition;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseContainer#isEmpty()
-    */
-   public boolean isEmpty()
-   {
-      boolean empty = super.isEmpty();
-      if (getJoinConditionDef() != null)
-      {
-         empty = false;
-      }
-      return empty;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @param aJoinCondition The joinCondition to set.
+     */
+    public void setJoinConditionDef(AeJoinConditionDef aJoinCondition) {
+        mJoinCondition = aJoinCondition;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseContainer#isEmpty()
+     */
+    public boolean isEmpty() {
+        boolean empty = super.isEmpty();
+        if (getJoinConditionDef() != null) {
+            empty = false;
+        }
+        return empty;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

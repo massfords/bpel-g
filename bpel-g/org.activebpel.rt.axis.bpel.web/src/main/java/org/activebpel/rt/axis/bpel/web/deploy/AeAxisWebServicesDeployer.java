@@ -15,16 +15,15 @@ import org.apache.axis.server.AxisServer;
 
 /**
  * WebServicesDeployer impl that deploys web services to Axis running
- * under a servlet. 
+ * under a servlet.
  */
-public class AeAxisWebServicesDeployer extends AeAxisWebServicesDeployerBase
-{
-   /**
-    * Implements method by returning the axis server associated with the process engine servlet. 
-    * @see org.activebpel.rt.axis.bpel.deploy.AeAxisWebServicesDeployerBase#getAxisServer()
-    */
-   protected AxisServer getAxisServer()
-   {
-      return AeProcessEngineServlet.getAxisServer();
-   }
+public class AeAxisWebServicesDeployer extends AeAxisWebServicesDeployerBase {
+    /**
+     * Implements method by returning the axis server associated with the process engine servlet.
+     *
+     * @see org.activebpel.rt.axis.bpel.deploy.AeAxisWebServicesDeployerBase#getAxisServer()
+     */
+    protected AxisServer getAxisServer() {
+        return AeProcessEngineServlet.getAxisServer();
+    }
 }

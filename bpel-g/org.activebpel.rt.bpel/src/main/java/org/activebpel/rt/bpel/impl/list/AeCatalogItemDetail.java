@@ -19,46 +19,46 @@ import java.beans.ConstructorProperties;
  * (as a string), and an array of <code>AeCatalogItemPlanReference</code>
  * objects that represent the process plans that utilize this resource.
  */
-public class AeCatalogItemDetail extends AeCatalogItem
-{
-   /** The catalog item resource as a string. */
-   private String mText;
-   /** Array of plans that point to this resource. */
-   private AeCatalogItemPlanReference[] mPlanReferences;
-   
-   public AeCatalogItemDetail() {
-   }
+public class AeCatalogItemDetail extends AeCatalogItem {
+    /**
+     * The catalog item resource as a string.
+     */
+    private String mText;
+    /**
+     * Array of plans that point to this resource.
+     */
+    private AeCatalogItemPlanReference[] mPlanReferences;
 
-   /**
-    * Constructor.
-    *
-    * @param aLocation
-    * @param aTypeURI
-    * @param aTargetNamespace
-    * @param aText
-    * @param aPlanListing
-    */
-   @ConstructorProperties({"location", "typeURI", "namespace", "text", "planReferences", "formattedName"})
-   public AeCatalogItemDetail(String aLocation, String aTypeURI, String aTargetNamespace, String aText, AeCatalogItemPlanReference[] aPlanListing, String aFormattedName)
-   {
-      super(aLocation, aTargetNamespace, aTypeURI, aFormattedName);
-      mText = aText;
-      mPlanReferences = aPlanListing;
-   }
+    public AeCatalogItemDetail() {
+    }
 
-   /**
-    * @return Returns the wsdl xml as a string.
-    */
-   public String getText()
-   {
-      return mText;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aLocation
+     * @param aTypeURI
+     * @param aTargetNamespace
+     * @param aText
+     * @param aPlanListing
+     */
+    @ConstructorProperties({"location", "typeURI", "namespace", "text", "planReferences", "formattedName"})
+    public AeCatalogItemDetail(String aLocation, String aTypeURI, String aTargetNamespace, String aText, AeCatalogItemPlanReference[] aPlanListing, String aFormattedName) {
+        super(aLocation, aTargetNamespace, aTypeURI, aFormattedName);
+        mText = aText;
+        mPlanReferences = aPlanListing;
+    }
 
-   /**
-    * @return Returns the array of <code>AeCatalogItemPlanReference</code> objects.
-    */
-   public AeCatalogItemPlanReference[] getPlanReferences()
-   {
-      return mPlanReferences;
-   }
+    /**
+     * @return Returns the wsdl xml as a string.
+     */
+    public String getText() {
+        return mText;
+    }
+
+    /**
+     * @return Returns the array of <code>AeCatalogItemPlanReference</code> objects.
+     */
+    public AeCatalogItemPlanReference[] getPlanReferences() {
+        return mPlanReferences;
+    }
 }

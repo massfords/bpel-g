@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.axis.bpel.invokers; 
+package org.activebpel.rt.axis.bpel.invokers;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.bpel.handlers.AeAttachmentUtil;
@@ -31,149 +31,132 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Base class for RPC and DOC invokers. 
+ * Base class for RPC and DOC invokers.
  */
-public abstract class AeSOAPInvoker implements IAeInvoker
-{
+public abstract class AeSOAPInvoker implements IAeInvoker {
     @Inject
-	private MessageFactory mMessageFactory;
-   
-   /**
-    * Extracts message parts from the output message 
-    * @param aContext
-    * @param outputMsg
-    * @throws AeException
-    */
-   protected void extractPartsFromHeader(AeAxisInvokeContext aContext, AeWebServiceMessageData outputMsg) throws AeException
-   {
-      try
-      {
-          for (String partName : aContext.getOutputHeaderParts()) {
-              Part part = aContext.getOperation().getOutput().getMessage().getPart(partName);
-              QName elementQName = part.getElementName();
-              if (elementQName != null) {
-                  for (@SuppressWarnings("unchecked")
-                       Iterator<SOAPHeaderElement> it = aContext.getCall().getResponseMessage().getSOAPHeader().examineAllHeaderElements(); it.hasNext(); ) {
-                      SOAPHeaderElement headerElement = it.next();
-                      if (headerElement.getQName().equals(elementQName)) {
-                          Document doc = headerElement.getAsDOM().getOwnerDocument();
-                          outputMsg.setData(part.getName(), doc);
-                          break;
-                      }
-                  }
-              }
-          }
-      }
-      catch (Exception e)
-      {
-         throw new AeException(e.getLocalizedMessage(), e);
-      }
-   }
-   
-   /**
-    * Creates the container for the response or null if it's a one-way
-    * @param aContext
-    */
-   protected AeWebServiceMessageData createOutputMessageData(AeAxisInvokeContext aContext)
-   {
-      if (!aContext.getInvoke().isOneWay())
-      {
-         QName outMsgQName = aContext.getOperation().getOutput().getMessage().getQName();
-         return new AeWebServiceMessageData(outMsgQName); 
-      }
-      return null;
-   }
-   
-   /**
-    * Returns the map of message parts
-    * 
-    * @param aContext
-    * @throws AeException
-    */
-   protected Map<String,Object> getMessageData(AeAxisInvokeContext aContext) throws AeException
-   {
-      return aContext.getInvoke().getInputMessageData().getMessageData();
-   }
-   
-   /**
-    * Adds attachments to the invoke context soap message for delivery
-    * 
-    * @param aInvokeContext
-    * @return List of attachments added
-    * @throws AeException
-    */
-   protected List<IAeWebServiceAttachment> addAttachments(AeAxisInvokeContext aInvokeContext) throws AeException
-   {
-      IAeWebServiceMessageData inputMessageData = aInvokeContext.getInvoke().getInputMessageData();
+    private MessageFactory mMessageFactory;
 
-      List<IAeWebServiceAttachment> attachments = inputMessageData.getAttachments();
-      
-      
-      if (attachments != null)
-      {
-         SOAPMessage msg;
-         try
-         {
-            msg = getMessageFactory().createMessage();
-         }
-         catch (SOAPException ex1)
-         {
-           throw new AeException(ex1);
-         }
+    /**
+     * Extracts message parts from the output message
+     *
+     * @param aContext
+     * @param outputMsg
+     * @throws AeException
+     */
+    protected void extractPartsFromHeader(AeAxisInvokeContext aContext, AeWebServiceMessageData outputMsg) throws AeException {
+        try {
+            for (String partName : aContext.getOutputHeaderParts()) {
+                Part part = aContext.getOperation().getOutput().getMessage().getPart(partName);
+                QName elementQName = part.getElementName();
+                if (elementQName != null) {
+                    for (@SuppressWarnings("unchecked")
+                         Iterator<SOAPHeaderElement> it = aContext.getCall().getResponseMessage().getSOAPHeader().examineAllHeaderElements(); it.hasNext(); ) {
+                        SOAPHeaderElement headerElement = it.next();
+                        if (headerElement.getQName().equals(elementQName)) {
+                            Document doc = headerElement.getAsDOM().getOwnerDocument();
+                            outputMsg.setData(part.getName(), doc);
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new AeException(e.getLocalizedMessage(), e);
+        }
+    }
 
-          for (IAeWebServiceAttachment attachment : attachments) {
-              DataHandler dh = new DataHandler(new AeAttachmentDataSource(attachment));
-              AttachmentPart ap = (AttachmentPart) msg.createAttachmentPart(dh);
-              ap.setContentId((attachment).getContentId());
-              aInvokeContext.getCall().addAttachmentPart(ap);
-          }
-      }
-      
-      return attachments;
-   }
-   
-   /**
-    * Close attachment streams
-    */
-   protected void closeAttachmentStreams(List<IAeWebServiceAttachment> aAttachments)
-   {
-      if(aAttachments != null)
-      {
-         // close attachment streams of the message sent.
-          for (IAeWebServiceAttachment aAttachment : aAttachments) {
-              AeCloser.close(aAttachment.getContent());
-          }
-      }
-   }
-   
-   /**
-    * Populates the response message with attachments received in the response soap message
-    * 
-    * @param aInvokeContext
-    * @param responseMessage
-    * @throws AeException
-    */
-   protected void receiveAttachments(AeAxisInvokeContext aInvokeContext, AeWebServiceMessageData responseMessage) throws AeException
-   {
-      try
-      {
-         if(responseMessage == null) return;
-         
-         // get the attachments of the response message
-         responseMessage.setAttachments(AeAttachmentUtil.soap2wsioAttachments(aInvokeContext.getCall().getResponseMessage()));
-      }
-      catch (Exception ex1)
-      {
-        throw new AeException(ex1);
-      }
-   }
+    /**
+     * Creates the container for the response or null if it's a one-way
+     *
+     * @param aContext
+     */
+    protected AeWebServiceMessageData createOutputMessageData(AeAxisInvokeContext aContext) {
+        if (!aContext.getInvoke().isOneWay()) {
+            QName outMsgQName = aContext.getOperation().getOutput().getMessage().getQName();
+            return new AeWebServiceMessageData(outMsgQName);
+        }
+        return null;
+    }
 
-public MessageFactory getMessageFactory() {
-	return mMessageFactory;
-}
+    /**
+     * Returns the map of message parts
+     *
+     * @param aContext
+     * @throws AeException
+     */
+    protected Map<String, Object> getMessageData(AeAxisInvokeContext aContext) throws AeException {
+        return aContext.getInvoke().getInputMessageData().getMessageData();
+    }
 
-public void setMessageFactory(MessageFactory aMessageFactory) {
-	mMessageFactory = aMessageFactory;
-}
+    /**
+     * Adds attachments to the invoke context soap message for delivery
+     *
+     * @param aInvokeContext
+     * @return List of attachments added
+     * @throws AeException
+     */
+    protected List<IAeWebServiceAttachment> addAttachments(AeAxisInvokeContext aInvokeContext) throws AeException {
+        IAeWebServiceMessageData inputMessageData = aInvokeContext.getInvoke().getInputMessageData();
+
+        List<IAeWebServiceAttachment> attachments = inputMessageData.getAttachments();
+
+
+        if (attachments != null) {
+            SOAPMessage msg;
+            try {
+                msg = getMessageFactory().createMessage();
+            } catch (SOAPException ex1) {
+                throw new AeException(ex1);
+            }
+
+            for (IAeWebServiceAttachment attachment : attachments) {
+                DataHandler dh = new DataHandler(new AeAttachmentDataSource(attachment));
+                AttachmentPart ap = (AttachmentPart) msg.createAttachmentPart(dh);
+                ap.setContentId((attachment).getContentId());
+                aInvokeContext.getCall().addAttachmentPart(ap);
+            }
+        }
+
+        return attachments;
+    }
+
+    /**
+     * Close attachment streams
+     */
+    protected void closeAttachmentStreams(List<IAeWebServiceAttachment> aAttachments) {
+        if (aAttachments != null) {
+            // close attachment streams of the message sent.
+            for (IAeWebServiceAttachment aAttachment : aAttachments) {
+                AeCloser.close(aAttachment.getContent());
+            }
+        }
+    }
+
+    /**
+     * Populates the response message with attachments received in the response soap message
+     *
+     * @param aInvokeContext
+     * @param responseMessage
+     * @throws AeException
+     */
+    protected void receiveAttachments(AeAxisInvokeContext aInvokeContext, AeWebServiceMessageData responseMessage) throws AeException {
+        try {
+            if (responseMessage == null) return;
+
+            // get the attachments of the response message
+            responseMessage.setAttachments(AeAttachmentUtil.soap2wsioAttachments(aInvokeContext.getCall().getResponseMessage()));
+        } catch (Exception ex1) {
+            throw new AeException(ex1);
+        }
+    }
+
+    public MessageFactory getMessageFactory() {
+        return mMessageFactory;
+    }
+
+    public void setMessageFactory(MessageFactory aMessageFactory) {
+        mMessageFactory = aMessageFactory;
+    }
 }
  

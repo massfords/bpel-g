@@ -15,11 +15,10 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
  * Callback interface for reporting that an object's request for locking
  * of one or more variables has been successful.
  */
-public interface IAeVariableLockCallback
-{
-   /**
-    * This method gets called by the AeVariableLocker once all of the variables
-    * have been locked on behalf of the requesting object.
-    */
-   public void variableLocksAcquired(String aOwnerPath) throws AeBusinessProcessException;
+public interface IAeVariableLockCallback {
+    /**
+     * This method gets called by the AeVariableLocker once all of the variables
+     * have been locked on behalf of the requesting object.
+     */
+    public void variableLocksAcquired(String aOwnerPath) throws AeBusinessProcessException;
 }

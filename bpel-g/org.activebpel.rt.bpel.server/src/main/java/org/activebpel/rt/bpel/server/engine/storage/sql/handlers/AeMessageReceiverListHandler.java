@@ -22,39 +22,34 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLQueueStorageProvide
  * Creates a result set handler that returns a list of matching AeMessageReceivers.
  * Has the ability to filter the selected receivers based on the filter criteria.
  */
-public class AeMessageReceiverListHandler extends AeListingResultSetHandler<List<AePersistedMessageReceiver>, AePersistedMessageReceiver>
-{
-   /**
-    * Default constructor - uses a null message receiver filter.
-    */
-   public AeMessageReceiverListHandler()
-   {
-      this(AeMessageReceiverFilter.NULL_FILTER);
-   }
-   
-   /**
-    * Constructor.
-    * 
-    * @param aFilter The selection criteria.
-    */
-   public AeMessageReceiverListHandler(AeMessageReceiverFilter aFilter)
-   {
-      super(aFilter.getMaxReturn(), aFilter.getListStart());
-   }
+public class AeMessageReceiverListHandler extends AeListingResultSetHandler<List<AePersistedMessageReceiver>, AePersistedMessageReceiver> {
+    /**
+     * Default constructor - uses a null message receiver filter.
+     */
+    public AeMessageReceiverListHandler() {
+        this(AeMessageReceiverFilter.NULL_FILTER);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
-    */
-   protected List<AePersistedMessageReceiver> convertToType(List<AePersistedMessageReceiver> aResults)
-   {
-      return aResults;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
-    */
-   protected AePersistedMessageReceiver readRow(ResultSet aResultSet) throws SQLException
-   {
-      return AeSQLQueueStorageProvider.readSQLMessageReceiver(aResultSet);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aFilter The selection criteria.
+     */
+    public AeMessageReceiverListHandler(AeMessageReceiverFilter aFilter) {
+        super(aFilter.getMaxReturn(), aFilter.getListStart());
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
+     */
+    protected List<AePersistedMessageReceiver> convertToType(List<AePersistedMessageReceiver> aResults) {
+        return aResults;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
+     */
+    protected AePersistedMessageReceiver readRow(ResultSet aResultSet) throws SQLException {
+        return AeSQLQueueStorageProvider.readSQLMessageReceiver(aResultSet);
+    }
 }

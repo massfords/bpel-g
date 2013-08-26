@@ -18,47 +18,44 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 /**
  * Visitor that locates child scopes.
  */
-public class AeChildScopesVisitor extends AeAbstractDefVisitor
-{
-   /** the set of child scopes */
-   private final Set<AeActivityScopeDef> mChildScopeDefs = new LinkedHashSet<>();
-   
-   /**
-    * ctor
-    */
-   protected AeChildScopesVisitor()
-   {
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this)); 
-   }
+public class AeChildScopesVisitor extends AeAbstractDefVisitor {
+    /**
+     * the set of child scopes
+     */
+    private final Set<AeActivityScopeDef> mChildScopeDefs = new LinkedHashSet<>();
 
-   /**
-    * Returns child scopes of the given scope.
-    *
-    * @param aRootScopeDef
-    */
-   public static Set<AeActivityScopeDef> findChildScopes(AeScopeDef aRootScopeDef)
-   {
-      AeChildScopesVisitor visitor = new AeChildScopesVisitor();
-      aRootScopeDef.getActivityDef().accept(visitor);
-      return visitor.getChildScopeDefs();
-   }
+    /**
+     * ctor
+     */
+    protected AeChildScopesVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * Returns the set of child scopes.
-    */
-   protected Set<AeActivityScopeDef> getChildScopeDefs()
-   {
-      return mChildScopeDefs;
-   }
+    /**
+     * Returns child scopes of the given scope.
+     *
+     * @param aRootScopeDef
+     */
+    public static Set<AeActivityScopeDef> findChildScopes(AeScopeDef aRootScopeDef) {
+        AeChildScopesVisitor visitor = new AeChildScopesVisitor();
+        aRootScopeDef.getActivityDef().accept(visitor);
+        return visitor.getChildScopeDefs();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
-    */
-   public void visit(AeActivityScopeDef def)
-   {
-      // Found a child scope.
-      getChildScopeDefs().add(def);
-      
-      // No traversing into the def since we can only reference scopes 1 level deep.
-   }
+    /**
+     * Returns the set of child scopes.
+     */
+    protected Set<AeActivityScopeDef> getChildScopeDefs() {
+        return mChildScopeDefs;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
+     */
+    public void visit(AeActivityScopeDef def) {
+        // Found a child scope.
+        getChildScopeDefs().add(def);
+
+        // No traversing into the def since we can only reference scopes 1 level deep.
+    }
 }

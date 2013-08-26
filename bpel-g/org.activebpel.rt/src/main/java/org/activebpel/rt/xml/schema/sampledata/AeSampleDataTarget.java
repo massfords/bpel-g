@@ -18,341 +18,327 @@ import org.exolab.castor.xml.schema.Schema;
 import java.util.*;
 
 /**
- *  Sample data target information for sample data generation.
+ * Sample data target information for sample data generation.
  */
-public class AeSampleDataTarget
-{
-   /** The target Schema Element for sample data generation. */
-   private ElementDecl mElement;
-   /** The target complex type for sample data generation. */
-   private ComplexType mComplexType;
-   /** List of available Schemas. */
-   private List mSchemas = new ArrayList();
-   /** Flag indicating if the target type is a simple type. */
-   private boolean mSimpleType;
-   /** list of elements to display */
-   private List mElementList;
-   /** list of complex types to display */
-   private List mComplexTypeList;
-   /** filter used to select elements */
-   private IAeElementFilter mElementFilter;
-   /** filter used to select types */
-   private IAeComplexTypeFilter mComplexTypeFilter;
-   /** The context used when generating sample data. */
-   private Object mContext;
-   /** Map of prefix->namespace that should be used for sample data generation. */
-   private Map<String, String> mNamespaces = new HashMap<>();
+public class AeSampleDataTarget {
+    /**
+     * The target Schema Element for sample data generation.
+     */
+    private ElementDecl mElement;
+    /**
+     * The target complex type for sample data generation.
+     */
+    private ComplexType mComplexType;
+    /**
+     * List of available Schemas.
+     */
+    private List mSchemas = new ArrayList();
+    /**
+     * Flag indicating if the target type is a simple type.
+     */
+    private boolean mSimpleType;
+    /**
+     * list of elements to display
+     */
+    private List mElementList;
+    /**
+     * list of complex types to display
+     */
+    private List mComplexTypeList;
+    /**
+     * filter used to select elements
+     */
+    private IAeElementFilter mElementFilter;
+    /**
+     * filter used to select types
+     */
+    private IAeComplexTypeFilter mComplexTypeFilter;
+    /**
+     * The context used when generating sample data.
+     */
+    private Object mContext;
+    /**
+     * Map of prefix->namespace that should be used for sample data generation.
+     */
+    private Map<String, String> mNamespaces = new HashMap<>();
 
-   /**
-    * C'tor.
-    */
-   public AeSampleDataTarget()
-   {
-   }
-   
-   /**
-    * Gets a list of available top-level element declarations.
-    *
-    * @return List list of compatible Element objects.
-    */
-   public List getElementList()
-   {
-      if (mElementList == null)
-      {
-         List compatibleElements = buildCompatibleElementsList();
-         setElementList(compatibleElements);
-      }
-      return mElementList;
-   }
+    /**
+     * C'tor.
+     */
+    public AeSampleDataTarget() {
+    }
 
-   /**
-    * Builds a list of available top-level element declarations.
-    *
-    * If the user provided a filter then the filter will determine what it means
-    * for an element to be compatible. If there was no filter defined then we'll
-    * create a default one to only include compatible elements. An element
-    * is deemed to be compatible if any of the following are true:
-    * - element is the same as the target's ElementDecl member data
-    * - element is an SG element for the target's ElementDecl
-    * - element's type is the same type as the target's ComplexType
-    * - element's type is derived from the target's ComplexType
-    *
-    * @return List list of compatible Element objects.
-    */
-   protected List<ElementDecl> buildCompatibleElementsList()
-   {
-      IAeElementFilter filter = getElementFilter();
+    /**
+     * Gets a list of available top-level element declarations.
+     *
+     * @return List list of compatible Element objects.
+     */
+    public List getElementList() {
+        if (mElementList == null) {
+            List compatibleElements = buildCompatibleElementsList();
+            setElementList(compatibleElements);
+        }
+        return mElementList;
+    }
 
-      List<ElementDecl> list = new ArrayList<>();
+    /**
+     * Builds a list of available top-level element declarations.
+     * <p/>
+     * If the user provided a filter then the filter will determine what it means
+     * for an element to be compatible. If there was no filter defined then we'll
+     * create a default one to only include compatible elements. An element
+     * is deemed to be compatible if any of the following are true:
+     * - element is the same as the target's ElementDecl member data
+     * - element is an SG element for the target's ElementDecl
+     * - element's type is the same type as the target's ComplexType
+     * - element's type is derived from the target's ComplexType
+     *
+     * @return List list of compatible Element objects.
+     */
+    protected List<ElementDecl> buildCompatibleElementsList() {
+        IAeElementFilter filter = getElementFilter();
 
-       for (Object o : getSchemas()) {
-           Schema schema = (Schema) o;
-           for (Enumeration enu = schema.getElementDecls(); enu.hasMoreElements(); ) {
-               ElementDecl e = (ElementDecl) enu.nextElement();
+        List<ElementDecl> list = new ArrayList<>();
 
-               if (filter.accept(e)) {
-                   list.add(e);
-               }
-           }
-       }
+        for (Object o : getSchemas()) {
+            Schema schema = (Schema) o;
+            for (Enumeration enu = schema.getElementDecls(); enu.hasMoreElements(); ) {
+                ElementDecl e = (ElementDecl) enu.nextElement();
 
-      return list;
-   }
+                if (filter.accept(e)) {
+                    list.add(e);
+                }
+            }
+        }
 
-   /**
-    * Gets a list of available top-level complex type declarations.
-    *
-    * @return List of compatible ComplexType objects.
-    */
-   public List getComplexTypeList()
-   {
-      if (mComplexTypeList == null)
-         setComplexTypeList(buildCompatibleComplexTypeList());
-      return mComplexTypeList;
-   }
+        return list;
+    }
 
-   /**
-    * Gets a list of available top-level complex type declarations. This list is
-    * filtered to only include compatible types. A type is deemed to be
-    * compatible if any of the following are true:
-    * - type is the same as the target's ComplexType member data
-    * - type is derived from the target's ComplexType
-    *
-    * @return List of compatible ComplexType objects.
-    */
-   protected List<ComplexType> buildCompatibleComplexTypeList()
-   {
-      if (isSimpleType())
-      {
-         return Collections.<ComplexType>emptyList();
-      }
+    /**
+     * Gets a list of available top-level complex type declarations.
+     *
+     * @return List of compatible ComplexType objects.
+     */
+    public List getComplexTypeList() {
+        if (mComplexTypeList == null)
+            setComplexTypeList(buildCompatibleComplexTypeList());
+        return mComplexTypeList;
+    }
 
-      IAeComplexTypeFilter filter = getComplexTypeFilter();
+    /**
+     * Gets a list of available top-level complex type declarations. This list is
+     * filtered to only include compatible types. A type is deemed to be
+     * compatible if any of the following are true:
+     * - type is the same as the target's ComplexType member data
+     * - type is derived from the target's ComplexType
+     *
+     * @return List of compatible ComplexType objects.
+     */
+    protected List<ComplexType> buildCompatibleComplexTypeList() {
+        if (isSimpleType()) {
+            return Collections.<ComplexType>emptyList();
+        }
 
-      List<ComplexType> list = new ArrayList<>();
+        IAeComplexTypeFilter filter = getComplexTypeFilter();
 
-       for (Object o : getSchemas()) {
-           Schema schema = (Schema) o;
-           for (Enumeration enu = schema.getComplexTypes(); enu.hasMoreElements(); ) {
-               ComplexType type = (ComplexType) enu.nextElement();
+        List<ComplexType> list = new ArrayList<>();
 
-               if (filter.accept(type)) {
-                   list.add(type);
-               }
-           }
-       }
+        for (Object o : getSchemas()) {
+            Schema schema = (Schema) o;
+            for (Enumeration enu = schema.getComplexTypes(); enu.hasMoreElements(); ) {
+                ComplexType type = (ComplexType) enu.nextElement();
 
-      return list;
-   }
+                if (filter.accept(type)) {
+                    list.add(type);
+                }
+            }
+        }
 
-   /**
-    * Sets the complexType target.
-    * @param aType
-    */
-   public void setComplexType(ComplexType aType)
-   {
-      mComplexType = aType;
-   }
+        return list;
+    }
 
-   /**
-    * Gets the complexType object.
-    *
-    * @return ComplexType
-    */
-   public ComplexType getComplexType()
-   {
-      return mComplexType;
-   }
+    /**
+     * Sets the complexType target.
+     *
+     * @param aType
+     */
+    public void setComplexType(ComplexType aType) {
+        mComplexType = aType;
+    }
 
-   /**
-    * Gets the Element.
-    *
-    * @return ElementDecl
-    */
-   public ElementDecl getElement()
-   {
-      return mElement;
-   }
+    /**
+     * Gets the complexType object.
+     *
+     * @return ComplexType
+     */
+    public ComplexType getComplexType() {
+        return mComplexType;
+    }
 
-   /**
-    * Sets the element.
-    *
-    * @param aElement
-    */
-   public void setElement(ElementDecl aElement)
-   {
-      mElement = aElement;
-   }
+    /**
+     * Gets the Element.
+     *
+     * @return ElementDecl
+     */
+    public ElementDecl getElement() {
+        return mElement;
+    }
 
-   /**
-    * @return boolean true if the target is a complexType.
-    */
-   public boolean isComplexType()
-   {
-      return getComplexType() != null;
-   }
+    /**
+     * Sets the element.
+     *
+     * @param aElement
+     */
+    public void setElement(ElementDecl aElement) {
+        mElement = aElement;
+    }
 
-   /**
-    * Indicates if the target type is a simple type.
-    * @return boolean
-    */
-   public boolean isSimpleType()
-   {
-      return mSimpleType;
-   }
+    /**
+     * @return boolean true if the target is a complexType.
+     */
+    public boolean isComplexType() {
+        return getComplexType() != null;
+    }
 
-   /**
-    * Sets the flag indicates if the target type is a simple type.
-    * @param aSimpleType
-    */
-   public void setSimpleType(boolean aSimpleType)
-   {
-      mSimpleType = aSimpleType;
-   }
+    /**
+     * Indicates if the target type is a simple type.
+     *
+     * @return boolean
+     */
+    public boolean isSimpleType() {
+        return mSimpleType;
+    }
 
-   /**
-    * @return boolean true if target is an Element.
-    */
-   public boolean isElement()
-   {
-      return mElement != null;
-   }
+    /**
+     * Sets the flag indicates if the target type is a simple type.
+     *
+     * @param aSimpleType
+     */
+    public void setSimpleType(boolean aSimpleType) {
+        mSimpleType = aSimpleType;
+    }
 
-   /**
-    * Gets the list of available Schemas.
-    *
-    * @return List
-    */
-   public List getSchemas()
-   {
-      return mSchemas;
-   }
+    /**
+     * @return boolean true if target is an Element.
+     */
+    public boolean isElement() {
+        return mElement != null;
+    }
 
-   /**
-    * Sets the list of Schemas.
-    *
-    * @param aSchemas
-    */
-   public void setSchemas(List aSchemas)
-   {
-      mSchemas = aSchemas;
-   }
+    /**
+     * Gets the list of available Schemas.
+     *
+     * @return List
+     */
+    public List getSchemas() {
+        return mSchemas;
+    }
 
-   /**
-    * @param aComplexTypeList the complexTypeList to set
-    */
-   protected void setComplexTypeList(List aComplexTypeList)
-   {
-      mComplexTypeList = aComplexTypeList;
-   }
+    /**
+     * Sets the list of Schemas.
+     *
+     * @param aSchemas
+     */
+    public void setSchemas(List aSchemas) {
+        mSchemas = aSchemas;
+    }
 
-   /**
-    * @param aElementList the elementList to set
-    */
-   protected void setElementList(List aElementList)
-   {
-      mElementList = aElementList;
-   }
+    /**
+     * @param aComplexTypeList the complexTypeList to set
+     */
+    protected void setComplexTypeList(List aComplexTypeList) {
+        mComplexTypeList = aComplexTypeList;
+    }
 
-   /**
-    * @return the complexTypeFilter
-    */
-   public IAeComplexTypeFilter getComplexTypeFilter()
-   {
-      if (mComplexTypeFilter == null)
-      {
-         if (getElement() == null && getComplexType() == null)
-         {
-            // user didn't provide a context so return all complex types
-            mComplexTypeFilter = new AeAcceptAllComplexTypes();
-         }
-         else
-         {
-            // user provided a context so use that to determine the compatible types
-            mComplexTypeFilter = new AeAcceptAllCompatibleComplexTypes(getComplexType());
-         }
-      }
-      return mComplexTypeFilter;
-   }
+    /**
+     * @param aElementList the elementList to set
+     */
+    protected void setElementList(List aElementList) {
+        mElementList = aElementList;
+    }
 
-   /**
-    * @param aComplexTypeFilter the complexTypeFilter to set
-    */
-   public void setComplexTypeFilter(IAeComplexTypeFilter aComplexTypeFilter)
-   {
-      mComplexTypeFilter = aComplexTypeFilter;
-   }
+    /**
+     * @return the complexTypeFilter
+     */
+    public IAeComplexTypeFilter getComplexTypeFilter() {
+        if (mComplexTypeFilter == null) {
+            if (getElement() == null && getComplexType() == null) {
+                // user didn't provide a context so return all complex types
+                mComplexTypeFilter = new AeAcceptAllComplexTypes();
+            } else {
+                // user provided a context so use that to determine the compatible types
+                mComplexTypeFilter = new AeAcceptAllCompatibleComplexTypes(getComplexType());
+            }
+        }
+        return mComplexTypeFilter;
+    }
 
-   /**
-    * @return the elementFilter
-    */
-   public IAeElementFilter getElementFilter()
-   {
-      if (mElementFilter == null)
-      {
-         if (getElement() == null && getComplexType() == null)
-         {
-            // user didn't provide any context so they'll get all of the global
-            // elements
-            mElementFilter = new AeAcceptAllGlobalElements();
-         }
-         else
-         {
-            // user provided a context so use that to determine what is compatible
-            mElementFilter = new AeAcceptAllCompatibleElements(getElement(), getComplexType());
-         }
-      }
-      return mElementFilter;
-   }
+    /**
+     * @param aComplexTypeFilter the complexTypeFilter to set
+     */
+    public void setComplexTypeFilter(IAeComplexTypeFilter aComplexTypeFilter) {
+        mComplexTypeFilter = aComplexTypeFilter;
+    }
 
-   /**
-    * @param aElementFilter the elementFilter to set
-    */
-   public void setElementFilter(IAeElementFilter aElementFilter)
-   {
-      mElementFilter = aElementFilter;
-   }
+    /**
+     * @return the elementFilter
+     */
+    public IAeElementFilter getElementFilter() {
+        if (mElementFilter == null) {
+            if (getElement() == null && getComplexType() == null) {
+                // user didn't provide any context so they'll get all of the global
+                // elements
+                mElementFilter = new AeAcceptAllGlobalElements();
+            } else {
+                // user provided a context so use that to determine what is compatible
+                mElementFilter = new AeAcceptAllCompatibleElements(getElement(), getComplexType());
+            }
+        }
+        return mElementFilter;
+    }
 
-   /**
-    * @return Returns the namespaces.
-    */
-   public Map<String, String> getNamespaces()
-   {
-      return mNamespaces;
-   }
+    /**
+     * @param aElementFilter the elementFilter to set
+     */
+    public void setElementFilter(IAeElementFilter aElementFilter) {
+        mElementFilter = aElementFilter;
+    }
 
-   /**
-    * @param aNamespaces the namespaces to set
-    */
-   public void setNamespaces(Map<String, String> aNamespaces)
-   {
-      mNamespaces = aNamespaces;
-   }
-   
-   /**
-    * Adds a namespace to the target.
-    * 
-    * @param aPrefix
-    * @param aNamespace
-    */
-   public void addNamespace(String aPrefix, String aNamespace)
-   {
-      getNamespaces().put(aPrefix, aNamespace);
-   }
+    /**
+     * @return Returns the namespaces.
+     */
+    public Map<String, String> getNamespaces() {
+        return mNamespaces;
+    }
 
-   /**
-    * @return Returns the context.
-    */
-   public Object getContext()
-   {
-      return mContext;
-   }
+    /**
+     * @param aNamespaces the namespaces to set
+     */
+    public void setNamespaces(Map<String, String> aNamespaces) {
+        mNamespaces = aNamespaces;
+    }
 
-   /**
-    * @param aContext the context to set
-    */
-   public void setContext(Object aContext)
-   {
-      mContext = aContext;
-   }
+    /**
+     * Adds a namespace to the target.
+     *
+     * @param aPrefix
+     * @param aNamespace
+     */
+    public void addNamespace(String aPrefix, String aNamespace) {
+        getNamespaces().put(aPrefix, aNamespace);
+    }
+
+    /**
+     * @return Returns the context.
+     */
+    public Object getContext() {
+        return mContext;
+    }
+
+    /**
+     * @param aContext the context to set
+     */
+    public void setContext(Object aContext) {
+        mContext = aContext;
+    }
 }

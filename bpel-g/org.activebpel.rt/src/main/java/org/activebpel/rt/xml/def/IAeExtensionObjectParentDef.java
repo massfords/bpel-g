@@ -7,22 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.def; 
+package org.activebpel.rt.xml.def;
 
 /**
  * Interface for def objects that may contain extension objects.
  */
-public interface IAeExtensionObjectParentDef
-{
-   /**
-    * @return the extensionObject
-    */
-   public IAeExtensionObject getExtensionObject();
+public interface IAeExtensionObjectParentDef {
+    /**
+     * @return the extensionObject
+     */
+    public IAeExtensionObject getExtensionObject();
 
-   /**
-    * @param aExtensionObject the extensionObject to set
-    */
-   public void setExtensionObject(IAeExtensionObject aExtensionObject);
+    /**
+     * @param aExtensionObject the extensionObject to set
+     */
+    public void setExtensionObject(IAeExtensionObject aExtensionObject);
 
 }
  

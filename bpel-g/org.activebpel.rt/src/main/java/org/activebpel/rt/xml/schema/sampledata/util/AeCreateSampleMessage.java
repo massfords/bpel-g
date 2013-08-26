@@ -31,84 +31,83 @@ import java.util.List;
  * is the WSDL Part and the value is a Document with the generated sample or
  * and "" if the part was not a complex type or element.
  */
-public class AeCreateSampleMessage
-{
-   /** simple type data producer */
-   private static final AeSimpleTypeSampleDataProducer sSimpleTypeDataProducer = new AeSimpleTypeSampleDataProducer();
+public class AeCreateSampleMessage {
+    /**
+     * simple type data producer
+     */
+    private static final AeSimpleTypeSampleDataProducer sSimpleTypeDataProducer = new AeSimpleTypeSampleDataProducer();
 
-   /** preferences used for generating samples */
-   private AeSampleDataPreferences mSampleDataPreferences;
+    /**
+     * preferences used for generating samples
+     */
+    private AeSampleDataPreferences mSampleDataPreferences;
 
-   /**
-    * No arg ctor
-    */
-   public AeCreateSampleMessage()
-   {
-   }
+    /**
+     * No arg ctor
+     */
+    public AeCreateSampleMessage() {
+    }
 
-   /**
-    * Creates a sample for the given message
-    * @param aMessage
-    */
-   public LinkedHashMap<Part,Object> create(AeBPELExtendedWSDLDef aDef, Message aMessage) throws AeException
-   {
-      LinkedHashMap<Part,Object> map = new LinkedHashMap<>();
+    /**
+     * Creates a sample for the given message
+     *
+     * @param aMessage
+     */
+    public LinkedHashMap<Part, Object> create(AeBPELExtendedWSDLDef aDef, Message aMessage) throws AeException {
+        LinkedHashMap<Part, Object> map = new LinkedHashMap<>();
 
-      List parts = aMessage.getOrderedParts(null);
+        List parts = aMessage.getOrderedParts(null);
 
-       for (Object part1 : parts) {
-           Part part = (Part) part1;
+        for (Object part1 : parts) {
+            Part part = (Part) part1;
 
-           if (!aDef.isComplexEncodedType(part)) {
-               map.put(part, sSimpleTypeDataProducer.getSampleData(part.getTypeName()));
-               continue;
-           }
+            if (!aDef.isComplexEncodedType(part)) {
+                map.put(part, sSimpleTypeDataProducer.getSampleData(part.getTypeName()));
+                continue;
+            }
 
-           Document doc = null;
+            Document doc = null;
 
-           if (part.getElementName() != null) {
-               ElementDecl elementDecl = aDef.findElement(part.getElementName());
-               if (elementDecl == null) {
-                   throw new AeException(AeMessages.format("AeCreateSampleMessage.ELEM_DECL_NOT_FOUND", new String[]{part.getElementName().toString(), part.getName()})); //$NON-NLS-1$
-               }
-               doc = AeCastorSampleDataGenerator.generateXML(elementDecl, getSampleDataPreferences());
-           } else {
-               XMLType type = aDef.findType(part.getTypeName());
-               if (type == null) {
-                   throw new AeException(AeMessages.format("AeCreateSampleMessage.PART_TYPE_NOT_FOUND", new String[]{part.getTypeName().toString(), part.getName()})); //$NON-NLS-1$
-               }
+            if (part.getElementName() != null) {
+                ElementDecl elementDecl = aDef.findElement(part.getElementName());
+                if (elementDecl == null) {
+                    throw new AeException(AeMessages.format("AeCreateSampleMessage.ELEM_DECL_NOT_FOUND", new String[]{part.getElementName().toString(), part.getName()})); //$NON-NLS-1$
+                }
+                doc = AeCastorSampleDataGenerator.generateXML(elementDecl, getSampleDataPreferences());
+            } else {
+                XMLType type = aDef.findType(part.getTypeName());
+                if (type == null) {
+                    throw new AeException(AeMessages.format("AeCreateSampleMessage.PART_TYPE_NOT_FOUND", new String[]{part.getTypeName().toString(), part.getName()})); //$NON-NLS-1$
+                }
 
-               if (type instanceof ComplexType) {
-                   doc = AeCastorSampleDataGenerator.generateXML((ComplexType) type, getSampleDataPreferences());
-               }
-           }
+                if (type instanceof ComplexType) {
+                    doc = AeCastorSampleDataGenerator.generateXML((ComplexType) type, getSampleDataPreferences());
+                }
+            }
 
-           if (doc != null) {
-               map.put(part, doc);
-           } else {
-               map.put(part, ""); //$NON-NLS-1$
-           }
-       }
-      return map;
-   }
+            if (doc != null) {
+                map.put(part, doc);
+            } else {
+                map.put(part, ""); //$NON-NLS-1$
+            }
+        }
+        return map;
+    }
 
-   /**
-    * @return the sampleDataPreferences
-    */
-   public AeSampleDataPreferences getSampleDataPreferences()
-   {
-      if (mSampleDataPreferences == null)
-      {
-         setSampleDataPreferences(new AeSampleDataPreferences());
-      }
-      return mSampleDataPreferences;
-   }
+    /**
+     * @return the sampleDataPreferences
+     */
+    public AeSampleDataPreferences getSampleDataPreferences() {
+        if (mSampleDataPreferences == null) {
+            setSampleDataPreferences(new AeSampleDataPreferences());
+        }
+        return mSampleDataPreferences;
+    }
 
-   /**
-    * @param aSampleDataPreferences the sampleDataPreferences to set
-    */
-   public void setSampleDataPreferences(AeSampleDataPreferences aSampleDataPreferences)
-   {
-      mSampleDataPreferences = aSampleDataPreferences;
-   }
+    /**
+     * @param aSampleDataPreferences the sampleDataPreferences to set
+     */
+    public void setSampleDataPreferences(AeSampleDataPreferences aSampleDataPreferences) {
+        mSampleDataPreferences = aSampleDataPreferences;
+    }
 }

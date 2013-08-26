@@ -13,15 +13,13 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 
 /**
  * Interface to define a visitable class.
- * 
  */
-public interface IAeVisitable
-{
-   /**
-    * Accept a visitor.
-    * This method should NOT traverse children.
-    * 
-    * @param aVisitor The visitor to accept.
-    */
-   public void accept( IAeImplVisitor aVisitor ) throws AeBusinessProcessException;
+public interface IAeVisitable {
+    /**
+     * Accept a visitor.
+     * This method should NOT traverse children.
+     *
+     * @param aVisitor The visitor to accept.
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException;
 }

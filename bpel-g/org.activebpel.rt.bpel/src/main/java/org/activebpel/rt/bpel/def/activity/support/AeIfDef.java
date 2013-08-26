@@ -16,26 +16,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * A wrapper class for the condition and activity child defs of the if activity.  This wrapper def
  * is used to make the modelling of bpel 1.1 and 2.0 processes a bit more unified.
  */
-public class AeIfDef extends AeElseIfDef
-{
-   /**
-     * 
+public class AeIfDef extends AeElseIfDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -8010026468350755663L;
 
-/**
-    * Default c'tor.
-    */
-   public AeIfDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeIfDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.support.AeElseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.support.AeElseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

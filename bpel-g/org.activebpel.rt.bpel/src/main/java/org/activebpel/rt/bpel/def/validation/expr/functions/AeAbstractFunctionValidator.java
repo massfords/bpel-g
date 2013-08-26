@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expr.functions; 
+package org.activebpel.rt.bpel.def.validation.expr.functions;
 
 import java.text.MessageFormat;
 
@@ -17,42 +17,38 @@ import org.activebpel.rt.expr.validation.functions.IAeFunctionValidator;
 /**
  * Base class for function validators
  */
-public abstract class AeAbstractFunctionValidator implements IAeFunctionValidator
-{
-   /**
-    * Adds an error to the validation result.
-    *
-    * @param aMessage
-    * @param aArgs
-    */
-   protected void addError(AeExpressionValidationResult aResult, String aMessage, Object [] aArgs)
-   {
-      String msg = MessageFormat.format(aMessage, aArgs);
-      aResult.addError(msg);
-   }
+public abstract class AeAbstractFunctionValidator implements IAeFunctionValidator {
+    /**
+     * Adds an error to the validation result.
+     *
+     * @param aMessage
+     * @param aArgs
+     */
+    protected void addError(AeExpressionValidationResult aResult, String aMessage, Object[] aArgs) {
+        String msg = MessageFormat.format(aMessage, aArgs);
+        aResult.addError(msg);
+    }
 
-   /**
-    * Adds a warning to the validation result.
-    *
-    * @param aMessage
-    * @param aArgs
-    */
-   protected void addWarning(AeExpressionValidationResult aResult, String aMessage, Object [] aArgs)
-   {
-      String msg = MessageFormat.format(aMessage, aArgs);
-      aResult.addWarning(msg);
-   }
+    /**
+     * Adds a warning to the validation result.
+     *
+     * @param aMessage
+     * @param aArgs
+     */
+    protected void addWarning(AeExpressionValidationResult aResult, String aMessage, Object[] aArgs) {
+        String msg = MessageFormat.format(aMessage, aArgs);
+        aResult.addWarning(msg);
+    }
 
-   /**
-    * Adds an info to the validation result.
-    *
-    * @param aMessage
-    * @param aArgs
-    */
-   protected void addInfo(AeExpressionValidationResult aResult, String aMessage, Object [] aArgs)
-   {
-      String msg = MessageFormat.format(aMessage, aArgs);
-      aResult.addInfo(msg);
-   }
+    /**
+     * Adds an info to the validation result.
+     *
+     * @param aMessage
+     * @param aArgs
+     */
+    protected void addInfo(AeExpressionValidationResult aResult, String aMessage, Object[] aArgs) {
+        String msg = MessageFormat.format(aMessage, aArgs);
+        aResult.addInfo(msg);
+    }
 }
  

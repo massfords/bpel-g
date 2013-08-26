@@ -15,13 +15,12 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
 /**
  * Interface for the business processes call back into the engine .
  */
-public interface IAeBusinessProcessEngineCallback
-{
+public interface IAeBusinessProcessEngineCallback {
 
-   /**
-    * Signals that the process has ended. The engine will remove the process from the ProcessManager.
-    *
-    * @param aProcess process
-    */
-   public void processEnded(IAeBusinessProcess aProcess) throws AeBusinessProcessException;
+    /**
+     * Signals that the process has ended. The engine will remove the process from the ProcessManager.
+     *
+     * @param aProcess process
+     */
+    public void processEnded(IAeBusinessProcess aProcess) throws AeBusinessProcessException;
 }

@@ -12,54 +12,56 @@ package org.activebpel.rt.bpel.def.util;
 /**
  * Helper class to package data from the bpws:getVariableData function.
  */
-public class AeVariableData
-{
-   /** The variable name parameter of the function call */
-   private final String mVarName;
+public class AeVariableData {
+    /**
+     * The variable name parameter of the function call
+     */
+    private final String mVarName;
 
-   /** The part name parameter of the function call (optional) */
-   private final String mPartName;
+    /**
+     * The part name parameter of the function call (optional)
+     */
+    private final String mPartName;
 
-   /** The query expression parameter of the function call (optional) */
-   private final String mQueryName;
-   
-   /**
-    * Constructor for variableData element which takes the parameter values as
-    * input. 
-    * @param aVarName the variable name we are requesting data for
-    * @param aPartName the part name we are referencing or null
-    * @param aQueryName the query expression or null
-    */
-   public AeVariableData(String aVarName, String aPartName, String aQueryName)
-   {
-      mVarName   = aVarName;
-      mPartName  = aPartName;
-      mQueryName = aQueryName;
-   }
-   
-   /**
-    * Returns the variable name part of the bpws:getVariableData function.
-    */
-   public String getVarName()
-   {
-      return mVarName;
-   }
+    /**
+     * The query expression parameter of the function call (optional)
+     */
+    private final String mQueryName;
 
-   /**
-    * Returns the part name part of the bpws:getVariableData function. Note that
-    * this value is not required to be set and may be null.
-    */
-   public String getPart()
-   {
-      return mPartName;
-   }
+    /**
+     * Constructor for variableData element which takes the parameter values as
+     * input.
+     *
+     * @param aVarName   the variable name we are requesting data for
+     * @param aPartName  the part name we are referencing or null
+     * @param aQueryName the query expression or null
+     */
+    public AeVariableData(String aVarName, String aPartName, String aQueryName) {
+        mVarName = aVarName;
+        mPartName = aPartName;
+        mQueryName = aQueryName;
+    }
 
-   /**
-    * Returns the part name part of the bpws:getVariableData function. Note that
-    * this value is not required to be set and may be null.
-    */
-   public String getQuery()
-   {
-      return mQueryName;
-   }
+    /**
+     * Returns the variable name part of the bpws:getVariableData function.
+     */
+    public String getVarName() {
+        return mVarName;
+    }
+
+    /**
+     * Returns the part name part of the bpws:getVariableData function. Note that
+     * this value is not required to be set and may be null.
+     */
+    public String getPart() {
+        return mPartName;
+    }
+
+    /**
+     * Returns the part name part of the bpws:getVariableData function. Note that
+     * this value is not required to be set and may be null.
+     */
+    public String getQuery() {
+        return mQueryName;
+    }
 }

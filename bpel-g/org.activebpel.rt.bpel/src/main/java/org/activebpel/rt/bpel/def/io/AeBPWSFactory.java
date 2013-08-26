@@ -19,38 +19,33 @@ import org.activebpel.rt.xml.def.io.IAeDefRegistry;
 /**
  * Default factory for BPEL4WS 1.1.
  */
-public class AeBPWSFactory extends AeAbstractBpelFactory
-{
-   /**
-    * Default c'tor.
-    */
-   protected AeBPWSFactory()
-   {
-      super();
-   }
+public class AeBPWSFactory extends AeAbstractBpelFactory {
+    /**
+     * Default c'tor.
+     */
+    protected AeBPWSFactory() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.io.IAeBpelFactory#createBpelReader()
-    */
-   public IAeBpelReader createBpelReader()
-   {
-      return new AeRegistryBasedBpelReader(getBpelRegistry());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.io.IAeBpelFactory#createBpelReader()
+     */
+    public IAeBpelReader createBpelReader() {
+        return new AeRegistryBasedBpelReader(getBpelRegistry());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.io.IAeBpelFactory#createBpelWriter()
-    */
-   public IAeBpelWriter createBpelWriter()
-   {
-      return new AeBPWSBpelWriter(getBpelRegistry());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.io.IAeBpelFactory#createBpelWriter()
+     */
+    public IAeBpelWriter createBpelWriter() {
+        return new AeBPWSBpelWriter(getBpelRegistry());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.io.AeAbstractBpelFactory#createBpelRegistry()
-    */
-   protected IAeDefRegistry createBpelRegistry()
-   {
-      return new AeDefIORegistry(new AeBPWSDefReaderRegistry(), new AeBPWSDefWriterRegistry());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.io.AeAbstractBpelFactory#createBpelRegistry()
+     */
+    protected IAeDefRegistry createBpelRegistry() {
+        return new AeDefIORegistry(new AeBPWSDefReaderRegistry(), new AeBPWSDefWriterRegistry());
+    }
 }
  

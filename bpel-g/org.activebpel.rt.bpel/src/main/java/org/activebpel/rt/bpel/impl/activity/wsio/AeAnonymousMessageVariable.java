@@ -17,26 +17,24 @@ import org.activebpel.rt.message.AeMessagePartsMap;
 /**
  * Implements an anonymous message variable.
  */
-public class AeAnonymousMessageVariable extends AeVariable
-{
-   /**
-    * Constructs an anonymous message variable with the given message parts map.
-    *
-    * @param aMessagePartsMap
-    */
-   public AeAnonymousMessageVariable(AeMessagePartsMap aMessagePartsMap) {
-      super(new AeAnonymousVariableContainer(), new AeVariableDef(aMessagePartsMap));
+public class AeAnonymousMessageVariable extends AeVariable {
+    /**
+     * Constructs an anonymous message variable with the given message parts map.
+     *
+     * @param aMessagePartsMap
+     */
+    public AeAnonymousMessageVariable(AeMessagePartsMap aMessagePartsMap) {
+        super(new AeAnonymousVariableContainer(), new AeVariableDef(aMessagePartsMap));
 
-      getParent().addVariable(this);
-   }
+        getParent().addVariable(this);
+    }
 
-   /**
-    * Overrides method to do nothing for anonymous variable.
-    *
-    * @see org.activebpel.rt.bpel.IAeVariable#incrementVersionNumber()
-    */
-   public void incrementVersionNumber()
-   {
-      // Do nothing for anonymous variable.
-   }
+    /**
+     * Overrides method to do nothing for anonymous variable.
+     *
+     * @see org.activebpel.rt.bpel.IAeVariable#incrementVersionNumber()
+     */
+    public void incrementVersionNumber() {
+        // Do nothing for anonymous variable.
+    }
 }

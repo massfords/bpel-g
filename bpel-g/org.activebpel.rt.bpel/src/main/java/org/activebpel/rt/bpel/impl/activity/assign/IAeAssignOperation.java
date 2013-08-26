@@ -7,19 +7,18 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign; 
+package org.activebpel.rt.bpel.impl.activity.assign;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 
 
 /**
- * Interface for a single operation nested within an &lt;assign&gt; 
+ * Interface for a single operation nested within an &lt;assign&gt;
  */
-public interface IAeAssignOperation
-{
-   /**
-    * The work of the assign operation is performed in its execute method.
-    */
-   public void execute() throws AeBusinessProcessException;
+public interface IAeAssignOperation {
+    /**
+     * The work of the assign operation is performed in its execute method.
+     */
+    public void execute() throws AeBusinessProcessException;
 }
  

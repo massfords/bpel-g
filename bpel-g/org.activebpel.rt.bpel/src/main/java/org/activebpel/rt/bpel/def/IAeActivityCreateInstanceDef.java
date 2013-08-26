@@ -12,11 +12,10 @@ package org.activebpel.rt.bpel.def;
 /**
  * Interface to define an activity which has a createInstance attribute.
  */
-public interface IAeActivityCreateInstanceDef
-{
+public interface IAeActivityCreateInstanceDef {
 
-   /**
-    * Returns true if the activity's createInstance attribute flag is yes.
-    */
-   public boolean isCreateInstance();
+    /**
+     * Returns true if the activity's createInstance attribute flag is yes.
+     */
+    public boolean isCreateInstance();
 }

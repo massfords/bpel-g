@@ -15,56 +15,48 @@ import java.util.logging.Logger;
 /**
  * Factory class for creating a logger
  */
-public class AeLoggerFactory
-{
-   /**
-    * Creates a logger with an initial level of warning. Adds a default console
-    * handler to the logger if the logger does not already have a handler.
-    *
-    * @param aName logger name
-    * @return logger
-    */
-   public static Logger createLogger(String aName)
-   {
-      Logger logger = Logger.getLogger(aName);
-      // fixme (MF) logger shouldn't set level
-      logger.setLevel(Level.WARNING);      
+public class AeLoggerFactory {
+    /**
+     * Creates a logger with an initial level of warning. Adds a default console
+     * handler to the logger if the logger does not already have a handler.
+     *
+     * @param aName logger name
+     * @return logger
+     */
+    public static Logger createLogger(String aName) {
+        Logger logger = Logger.getLogger(aName);
+        // fixme (MF) logger shouldn't set level
+        logger.setLevel(Level.WARNING);
 
-      synchronized (logger)
-      {
-         if (!hasHandler(logger))
-         {
-            logger.addHandler(new AeConsoleLogHandler());
-         }
-      }
+        synchronized (logger) {
+            if (!hasHandler(logger)) {
+                logger.addHandler(new AeConsoleLogHandler());
+            }
+        }
 
-      return logger;
-   }
+        return logger;
+    }
 
-   /**
-    * Returns <code>true</code> if and only if the given logger has at least one
-    * handler.
-    */
-   protected static boolean hasHandler(Logger aLogger)
-   {
-      if (aLogger.getHandlers().length > 0)
-      {
-         return true;
-      }
+    /**
+     * Returns <code>true</code> if and only if the given logger has at least one
+     * handler.
+     */
+    protected static boolean hasHandler(Logger aLogger) {
+        if (aLogger.getHandlers().length > 0) {
+            return true;
+        }
 
-      // If the logger is sending its output to its parent, then check the
-      // parent for handlers.
-      if (aLogger.getUseParentHandlers())
-      {
-         Logger parent = aLogger.getParent();
-         
-         if ((parent != null) && (parent != aLogger))
-         {
-            return hasHandler(parent);
-         }
-      }
+        // If the logger is sending its output to its parent, then check the
+        // parent for handlers.
+        if (aLogger.getUseParentHandlers()) {
+            Logger parent = aLogger.getParent();
 
-      // Couldn't find a handler.
-      return false;
-   }
+            if ((parent != null) && (parent != aLogger)) {
+                return hasHandler(parent);
+            }
+        }
+
+        // Couldn't find a handler.
+        return false;
+    }
 }

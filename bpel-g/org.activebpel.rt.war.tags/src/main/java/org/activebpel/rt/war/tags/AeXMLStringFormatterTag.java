@@ -21,40 +21,34 @@ import org.activebpel.rt.util.AeHTMLFormatter;
  * in a browser.  Basically this means converting &lt; and &gt; characters into their
  * respective HTML entities.
  */
-public class AeXMLStringFormatterTag extends AeAbstractPropertyFormatterTag
-{
-   /**
-     * 
+public class AeXMLStringFormatterTag extends AeAbstractPropertyFormatterTag {
+    /**
+     *
      */
     private static final long serialVersionUID = 2367477953561683325L;
 
-/**
-    * Overrides method to formats an XML string into one that will render
-    * properly in HTML. It does this by replacing &lt; and &gt; characters with
-    * their equivalent HTML entities.
-    *
-    * @see org.activebpel.rt.war.tags.AeAbstractPropertyFormatterTag#getFormattedText()
-    */
-   protected String getFormattedText() throws JspException
-   {
-      try
-      {
-         String value = (String) getPropertyFromBean();
-         return AeHTMLFormatter.formatXMLString(value);
-      }
-      catch (ClassCastException e)
-      {
-         throw new JspException(e);
-      }
-   }
+    /**
+     * Overrides method to formats an XML string into one that will render
+     * properly in HTML. It does this by replacing &lt; and &gt; characters with
+     * their equivalent HTML entities.
+     *
+     * @see org.activebpel.rt.war.tags.AeAbstractPropertyFormatterTag#getFormattedText()
+     */
+    protected String getFormattedText() throws JspException {
+        try {
+            String value = (String) getPropertyFromBean();
+            return AeHTMLFormatter.formatXMLString(value);
+        } catch (ClassCastException e) {
+            throw new JspException(e);
+        }
+    }
 
-   /**
-    * Overrides method to do nothing.
-    * 
-    * @see org.activebpel.rt.war.tags.AeAbstractPropertyFormatterTag#createFormatter(java.lang.String)
-    */
-   protected Format createFormatter(String aPattern) throws AeException
-   {
-      return null;
-   }
+    /**
+     * Overrides method to do nothing.
+     *
+     * @see org.activebpel.rt.war.tags.AeAbstractPropertyFormatterTag#createFormatter(java.lang.String)
+     */
+    protected Format createFormatter(String aPattern) throws AeException {
+        return null;
+    }
 }

@@ -20,59 +20,54 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
  * This value is used to populate the messageExchange value on the reply object
  * that we queue with the create message. This is required to select the correct
  * reply receiver when the reply activity executes.
- *
+ * <p/>
  * Also marks the root scopes (currently limited to AeProcessDef and child scopes
  * of parallel forEach) as implicitly declaring default message exchange values.
  */
-public class AeMessageExchangeVisitor extends AeAbstractDefVisitor
-{
-   /**
-    * Ctor
-    */
-   public AeMessageExchangeVisitor()
-   {
-      setTraversalVisitor( new AeTraversalVisitor( new AeDefTraverser(), this ) );
-   }
+public class AeMessageExchangeVisitor extends AeAbstractDefVisitor {
+    /**
+     * Ctor
+     */
+    public AeMessageExchangeVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * Marks the child scope as implicitly declaring a default message exchange value.
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
-    */
-   public void visit(AeActivityForEachDef def)
-   {
-      if (def.isParallel() && def.getActivityDef() instanceof AeActivityScopeDef)
-      {
-         AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(def.getChildScope().getScopeDef());
-         msgExsDef.setDefaultDeclared(true);
-      }
-      super.visit(def);
-   }
+    /**
+     * Marks the child scope as implicitly declaring a default message exchange value.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
+     */
+    public void visit(AeActivityForEachDef def) {
+        if (def.isParallel() && def.getActivityDef() instanceof AeActivityScopeDef) {
+            AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(def.getChildScope().getScopeDef());
+            msgExsDef.setDefaultDeclared(true);
+        }
+        super.visit(def);
+    }
 
-   /**
-    * Marks the process def as implicitly declaring a default message exchange value
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void visit(AeProcessDef def)
-   {
-      AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(def);
-      msgExsDef.setDefaultDeclared(true);
-      super.visit(def);
-   }
+    /**
+     * Marks the process def as implicitly declaring a default message exchange value
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void visit(AeProcessDef def) {
+        AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(def);
+        msgExsDef.setDefaultDeclared(true);
+        super.visit(def);
+    }
 
-   /**
-    * Gets or creates the messageExchanges def from the given def.
-    *
-    * @param aDef
-    */
-   protected AeMessageExchangesDef getOrCreateMessageExchangesDef(IAeMessageExchangesParentDef aDef)
-   {
-      AeMessageExchangesDef msgExsDef = aDef.getMessageExchangesDef();
-      if (msgExsDef == null)
-      {
-         msgExsDef = new AeMessageExchangesDef();
-         msgExsDef.setImplict(true);
-         aDef.setMessageExchangesDef(msgExsDef);
-      }
-      return msgExsDef;
-   }
+    /**
+     * Gets or creates the messageExchanges def from the given def.
+     *
+     * @param aDef
+     */
+    protected AeMessageExchangesDef getOrCreateMessageExchangesDef(IAeMessageExchangesParentDef aDef) {
+        AeMessageExchangesDef msgExsDef = aDef.getMessageExchangesDef();
+        if (msgExsDef == null) {
+            msgExsDef = new AeMessageExchangesDef();
+            msgExsDef.setImplict(true);
+            aDef.setMessageExchangesDef(msgExsDef);
+        }
+        return msgExsDef;
+    }
 }

@@ -19,37 +19,41 @@ import java.util.Map;
  * Utility class to convert between a java.util.Map containing name/value pairs and an AeFastDocument
  * Restrictions on the map: key and value are assumed to be Strings
  */
-public class AePairSerializer
-{
+public class AePairSerializer {
 
-   /** xml tag name for name pairs  */
-   protected static final String ROOT_ELEMENT = "pairs"; //$NON-NLS-1$
+    /**
+     * xml tag name for name pairs
+     */
+    protected static final String ROOT_ELEMENT = "pairs"; //$NON-NLS-1$
 
-   /** xml tag name for a single name pair */
-   protected static final String PAIR_ELEMENT = "pair"; //$NON-NLS-1$
+    /**
+     * xml tag name for a single name pair
+     */
+    protected static final String PAIR_ELEMENT = "pair"; //$NON-NLS-1$
 
-   /** Attribute name of a pair */
-   protected static final String NAME_ATTRIBUTE = "name"; //$NON-NLS-1$
+    /**
+     * Attribute name of a pair
+     */
+    protected static final String NAME_ATTRIBUTE = "name"; //$NON-NLS-1$
 
-   /**
-    * Convert a map of name pairs into a fast document xml representation
-    * @param aNamePair
-    *
-    */
-   public static AeFastDocument serialize(Map aNamePair)
-   {
-      AeFastElement root = new AeFastElement(ROOT_ELEMENT);
+    /**
+     * Convert a map of name pairs into a fast document xml representation
+     *
+     * @param aNamePair
+     */
+    public static AeFastDocument serialize(Map aNamePair) {
+        AeFastElement root = new AeFastElement(ROOT_ELEMENT);
 
-       for (Object o : aNamePair.entrySet()) {
-           Map.Entry pair = (Map.Entry) o;
-           AeFastElement pairElement = new AeFastElement(PAIR_ELEMENT);
-           pairElement.setAttribute(NAME_ATTRIBUTE, (String) pair.getKey());
-           AeFastText value = new AeFastText((String) pair.getValue());
-           pairElement.appendChild(value);
-           root.appendChild(pairElement);
-       }
-      AeFastDocument document = new AeFastDocument();
-      document.setRootElement(root);
-      return document;
-   }
+        for (Object o : aNamePair.entrySet()) {
+            Map.Entry pair = (Map.Entry) o;
+            AeFastElement pairElement = new AeFastElement(PAIR_ELEMENT);
+            pairElement.setAttribute(NAME_ATTRIBUTE, (String) pair.getKey());
+            AeFastText value = new AeFastText((String) pair.getValue());
+            pairElement.appendChild(value);
+            root.appendChild(pairElement);
+        }
+        AeFastDocument document = new AeFastDocument();
+        document.setRootElement(root);
+        return document;
+    }
 }

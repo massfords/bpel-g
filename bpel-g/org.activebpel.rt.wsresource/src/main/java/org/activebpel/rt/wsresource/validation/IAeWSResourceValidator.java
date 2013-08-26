@@ -14,15 +14,14 @@ package org.activebpel.rt.wsresource.validation;
 /**
  * Interface that must be implemented by web service resource validators.
  */
-public interface IAeWSResourceValidator
-{
-   /**
-    * Called to validate a web service resource.
-    * 
-    * @param aResourceModel
-    * @param aContext
-    * @param aErrorReporter
-    */
-   public void validate(Object aResourceModel, IAeWSResourceValidationContext aContext,
-         IAeWSResourceProblemReporter aErrorReporter);
+public interface IAeWSResourceValidator {
+    /**
+     * Called to validate a web service resource.
+     *
+     * @param aResourceModel
+     * @param aContext
+     * @param aErrorReporter
+     */
+    public void validate(Object aResourceModel, IAeWSResourceValidationContext aContext,
+                         IAeWSResourceProblemReporter aErrorReporter);
 }

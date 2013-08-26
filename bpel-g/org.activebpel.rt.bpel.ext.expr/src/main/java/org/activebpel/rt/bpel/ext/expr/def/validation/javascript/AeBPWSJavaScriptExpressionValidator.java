@@ -17,13 +17,11 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 /**
  * A BPEL 1.1 implementation of a JavaScript expression validator.
  */
-public class AeBPWSJavaScriptExpressionValidator extends AeAbstractJavaScriptExpressionValidator
-{
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeAbstractJavaScriptExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)
-   {
-      return new AeBPWSJavaScriptExpressionParser(aContext);
-   }
+public class AeBPWSJavaScriptExpressionValidator extends AeAbstractJavaScriptExpressionValidator {
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeAbstractJavaScriptExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext) {
+        return new AeBPWSJavaScriptExpressionParser(aContext);
+    }
 }

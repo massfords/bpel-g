@@ -17,20 +17,17 @@ import org.activebpel.wsio.IAeWebServiceResponse;
  * from handleInvoke().  Useful, for example, for handling one-way
  * invokes.
  */
-public class AeNullInvokeHandler implements IAeInvokeHandler
-{
-   /**
-    * C'tor.
-    */
-   public AeNullInvokeHandler()
-   {
-   }
+public class AeNullInvokeHandler implements IAeInvokeHandler {
+    /**
+     * C'tor.
+     */
+    public AeNullInvokeHandler() {
+    }
 
-   /**
-    * @see org.activebpel.wsio.invoke.IAeInvokeHandler#handleInvoke(org.activebpel.wsio.invoke.IAeInvoke, java.lang.String)
-    */
-   public IAeWebServiceResponse handleInvoke(IAeInvoke aInvoke, String aQueryData)
-   {
-      return null;
-   }
+    /**
+     * @see org.activebpel.wsio.invoke.IAeInvokeHandler#handleInvoke(org.activebpel.wsio.invoke.IAeInvoke, java.lang.String)
+     */
+    public IAeWebServiceResponse handleInvoke(IAeInvoke aInvoke, String aQueryData) {
+        return null;
+    }
 }

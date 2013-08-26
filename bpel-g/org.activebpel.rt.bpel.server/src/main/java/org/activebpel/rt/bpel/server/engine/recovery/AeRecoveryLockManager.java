@@ -18,41 +18,36 @@ import org.activebpel.rt.bpel.impl.IAeLockManager;
 /**
  * Implements a lock manager for recovery.
  */
-public class AeRecoveryLockManager extends AeManagerAdapter implements IAeLockManager
-{
-   /** Dummy "do nothing" lock. */
-   private final IAeLock mDummyLock = new IAeLock()
-   {
-      public QName getQName()
-      {
-         return null;
-      }
+public class AeRecoveryLockManager extends AeManagerAdapter implements IAeLockManager {
+    /**
+     * Dummy "do nothing" lock.
+     */
+    private final IAeLock mDummyLock = new IAeLock() {
+        public QName getQName() {
+            return null;
+        }
 
-      public int getLockId()
-      {
-         return 0;
-      }
-   };
+        public int getLockId() {
+            return 0;
+        }
+    };
 
-   /**
-    * Constructs a lock manager for recovery.
-    */
-   public AeRecoveryLockManager()
-   {
-   }
+    /**
+     * Constructs a lock manager for recovery.
+     */
+    public AeRecoveryLockManager() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeLockManager#acquireLock(javax.xml.namespace.QName, int, int)
-    */
-   public IAeLock acquireLock(QName aQName, int aLockId, int aTimeout) throws AeBusinessProcessException
-   {
-      return mDummyLock;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeLockManager#acquireLock(javax.xml.namespace.QName, int, int)
+     */
+    public IAeLock acquireLock(QName aQName, int aLockId, int aTimeout) throws AeBusinessProcessException {
+        return mDummyLock;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeLockManager#releaseLock(org.activebpel.rt.bpel.impl.IAeLockManager.IAeLock)
-    */
-   public void releaseLock(IAeLock aLock)
-   {
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeLockManager#releaseLock(org.activebpel.rt.bpel.impl.IAeLockManager.IAeLock)
+     */
+    public void releaseLock(IAeLock aLock) {
+    }
 }

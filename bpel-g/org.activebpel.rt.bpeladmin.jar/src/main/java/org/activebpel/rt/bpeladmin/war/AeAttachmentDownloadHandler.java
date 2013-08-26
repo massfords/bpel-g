@@ -24,42 +24,35 @@ import org.activebpel.rt.util.AeUtil;
  * Implements the default attachment download handler for
  * {@link AeAttachmentDownloadServlet}.
  */
-public class AeAttachmentDownloadHandler implements IAeAttachmentDownloadHandler
-{
-   /**
-    * Default constructor.
-    */
-   public AeAttachmentDownloadHandler()
-   {
-   }
+public class AeAttachmentDownloadHandler implements IAeAttachmentDownloadHandler {
+    /**
+     * Default constructor.
+     */
+    public AeAttachmentDownloadHandler() {
+    }
 
-   /**
-    * Overrides method to copy the attachment contents to the HTTP response
-    * stream.
-    *
-    * @see org.activebpel.rt.bpeladmin.war.IAeAttachmentDownloadHandler#handleAttachment(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.io.InputStream, java.lang.String, java.lang.String, int)
-    */
-   public void handleAttachment(HttpServletRequest aRequest, HttpServletResponse aResponse,
-      InputStream aAttachmentContent, String aMimeType, String aFileName, int aAttachmentSize) throws IOException
-   {
-      aResponse.setContentType(AeUtil.isNullOrEmpty(aMimeType) ? AeAttachmentDownloadServlet.DEFAULT_CONTENT_TYPE : aMimeType);
-      aResponse.setHeader("Content-disposition", "attachment;filename=" + aFileName); //$NON-NLS-1$ //$NON-NLS-2$
+    /**
+     * Overrides method to copy the attachment contents to the HTTP response
+     * stream.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.IAeAttachmentDownloadHandler#handleAttachment(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.io.InputStream, java.lang.String, java.lang.String, int)
+     */
+    public void handleAttachment(HttpServletRequest aRequest, HttpServletResponse aResponse,
+                                 InputStream aAttachmentContent, String aMimeType, String aFileName, int aAttachmentSize) throws IOException {
+        aResponse.setContentType(AeUtil.isNullOrEmpty(aMimeType) ? AeAttachmentDownloadServlet.DEFAULT_CONTENT_TYPE : aMimeType);
+        aResponse.setHeader("Content-disposition", "attachment;filename=" + aFileName); //$NON-NLS-1$ //$NON-NLS-2$
 
-      if (aAttachmentSize > 0)
-      {
-         aResponse.setContentLength(aAttachmentSize);
-      }
+        if (aAttachmentSize > 0) {
+            aResponse.setContentLength(aAttachmentSize);
+        }
 
-      OutputStream out = aResponse.getOutputStream();
+        OutputStream out = aResponse.getOutputStream();
 
-      try
-      {
-         AeFileUtil.copy(aAttachmentContent, out);
-         out.flush();
-      }
-      finally
-      {
-         AeCloser.close(out);
-      }
-   }
+        try {
+            AeFileUtil.copy(aAttachmentContent, out);
+            out.flush();
+        } finally {
+            AeCloser.close(out);
+        }
+    }
 }

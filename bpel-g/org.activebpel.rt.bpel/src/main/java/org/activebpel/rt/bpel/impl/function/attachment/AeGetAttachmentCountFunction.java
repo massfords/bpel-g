@@ -29,36 +29,36 @@ import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
  * <em>Return:</em> Integer which contains the count of attachments.
  * </p>
  */
-public class AeGetAttachmentCountFunction extends AeAbstractAttachmentFunction
-{
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "getAttachmentCount"; //$NON-NLS-1$
+public class AeGetAttachmentCountFunction extends AeAbstractAttachmentFunction {
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "getAttachmentCount"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeGetAttachmentCountFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+    /**
+     * Constructor.
+     */
+    public AeGetAttachmentCountFunction() {
+        super(FUNCTION_NAME);
+    }
 
-   /**
-    * Execution of XPath function.
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      Object result = null;
+    /**
+     * Execution of XPath function.
+     *
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        Object result = null;
 
-      // Validate that we have the proper number of arguments
-      int numArgs = aArgs.size();
-      if ( numArgs < 1 || numArgs > 1 )
-         throwFunctionException(INVALID_PARAMS, getFunctionName());
-      
-      // Get the variable name from the first function argument
-      IAeVariable variable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs,0));
-     
-      result = variable.getAttachmentData().size();
-      return result;
-   }
+        // Validate that we have the proper number of arguments
+        int numArgs = aArgs.size();
+        if (numArgs < 1 || numArgs > 1)
+            throwFunctionException(INVALID_PARAMS, getFunctionName());
+
+        // Get the variable name from the first function argument
+        IAeVariable variable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs, 0));
+
+        result = variable.getAttachmentData().size();
+        return result;
+    }
 }

@@ -18,49 +18,49 @@ import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 
 /**
  * Class representing the function used by expression evaluators to handle the BPEL -
- * copyAttachment(fromVarname, fromItemNumber, toVarname) 
+ * copyAttachment(fromVarname, fromItemNumber, toVarname)
  * <p>
  * <ul>
  * <li>fromVarname string containing the name of the source variable.</li>
  * <li>fromItemNumber item number of the source attachment.</li>
- *  <li>toVarname string containing the name of the target variable.</li>
+ * <li>toVarname string containing the name of the target variable.</li>
  * </ul>
  * </p>
  * <em>Throws:</em> attachmentFault if there was a problem with passed attachment.
  */
-public class AeCopyAttachmentFunction extends AeAbstractAttachmentFunction
-{
+public class AeCopyAttachmentFunction extends AeAbstractAttachmentFunction {
 
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "copyAttachment"; //$NON-NLS-1$
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "copyAttachment"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeCopyAttachmentFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+    /**
+     * Constructor.
+     */
+    public AeCopyAttachmentFunction() {
+        super(FUNCTION_NAME);
+    }
 
-   /**
-    * Execution of XPath function.
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      Object result = false;
-      
-      // Validate that we have the proper number of arguments
-      int numArgs = aArgs.size();
-      if (numArgs != 3)
-         throwFunctionException(INVALID_PARAMS, getFunctionName());
+    /**
+     * Execution of XPath function.
+     *
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        Object result = false;
 
-      // Get the from variable name from the first function argument
-      // Get the from item number from the second function argument
-      // Get the to variable name from the third function argument
-      IAeAttachmentItem fromItem = getAttachment(aContext, getStringArg(aArgs,0), getPositiveIntArg(aArgs,1));
-      IAeVariable toVariable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs,2));
-      result = toVariable.getAttachmentData().add(fromItem);
-      return result;
-   }
+        // Validate that we have the proper number of arguments
+        int numArgs = aArgs.size();
+        if (numArgs != 3)
+            throwFunctionException(INVALID_PARAMS, getFunctionName());
+
+        // Get the from variable name from the first function argument
+        // Get the from item number from the second function argument
+        // Get the to variable name from the third function argument
+        IAeAttachmentItem fromItem = getAttachment(aContext, getStringArg(aArgs, 0), getPositiveIntArg(aArgs, 1));
+        IAeVariable toVariable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs, 2));
+        result = toVariable.getAttachmentData().add(fromItem);
+        return result;
+    }
 }

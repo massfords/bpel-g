@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl; 
+package org.activebpel.rt.bpel.impl;
 
 import java.util.List;
 
@@ -20,36 +20,36 @@ import org.activebpel.rt.bpel.impl.visitors.IAeVisitable;
  * the execution of an enclosing activity. In each case, the parent will create
  * zero or more scope instances during its normal execution. The parallel forEach
  * will create the proper number of scope instances in order to execute its loop.
- * The onEvent in WS-BPEL will create one instance each time its message arrives. 
+ * The onEvent in WS-BPEL will create one instance each time its message arrives.
  * The onAlarm will create one instance each time a repeatEvery expression causes
  * the onAlarm to execute.
  */
-public interface IAeDynamicScopeParent extends IAeActivityParent, IAeVisitable
-{
-   /**
-    * Gets the list of children. 
-    */
-   public List<IAeActivity> getChildren();
-   
-   /**
-    * Gets the child scope def. This is the def that is visited to produce the
-    * dynamic scope instance.
-    */
-   public AeActivityScopeDef getChildScopeDef();
-   
-   /**
-    * Gets the list of compensatable children. 
-    */
-   public List<IAeActivity> getCompensatableChildren();
-   
-   /**
-    * Setter for the instance value
-    * @param aInstanceValue
-    */
-   public void setInstanceValue(int aInstanceValue);
-   
-   /**
-    * Getter for the instance value
-    */
-   public int getInstanceValue();
+public interface IAeDynamicScopeParent extends IAeActivityParent, IAeVisitable {
+    /**
+     * Gets the list of children.
+     */
+    public List<IAeActivity> getChildren();
+
+    /**
+     * Gets the child scope def. This is the def that is visited to produce the
+     * dynamic scope instance.
+     */
+    public AeActivityScopeDef getChildScopeDef();
+
+    /**
+     * Gets the list of compensatable children.
+     */
+    public List<IAeActivity> getCompensatableChildren();
+
+    /**
+     * Setter for the instance value
+     *
+     * @param aInstanceValue
+     */
+    public void setInstanceValue(int aInstanceValue);
+
+    /**
+     * Getter for the instance value
+     */
+    public int getInstanceValue();
 }

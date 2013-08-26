@@ -7,28 +7,27 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl; 
+package org.activebpel.rt.bpel.impl;
 
 import org.activebpel.rt.bpel.AeMessages;
 
 /**
  * Thrown when data is read from a variable that has not been initialized
  */
-public class AeUninitializedVariableException extends AeBpelException
-{
-   /**
-     * 
+public class AeUninitializedVariableException extends AeBpelException {
+    /**
+     *
      */
     private static final long serialVersionUID = 1760137133999924473L;
 
-/**
-    * Creates the exception with the proper namespace
-    * @param aNamespace
-    */
-   public AeUninitializedVariableException(String aNamespace)
-   {
-      super(AeMessages.getString("AeUninitializedVariableException.Error"), AeFaultFactory.getFactory(aNamespace).getUninitializedVariable()); //$NON-NLS-1$
-   }
+    /**
+     * Creates the exception with the proper namespace
+     *
+     * @param aNamespace
+     */
+    public AeUninitializedVariableException(String aNamespace) {
+        super(AeMessages.getString("AeUninitializedVariableException.Error"), AeFaultFactory.getFactory(aNamespace).getUninitializedVariable()); //$NON-NLS-1$
+    }
 
 }
  

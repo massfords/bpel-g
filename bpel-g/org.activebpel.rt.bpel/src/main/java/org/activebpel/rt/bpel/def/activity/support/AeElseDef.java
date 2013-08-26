@@ -15,29 +15,26 @@ import org.activebpel.rt.bpel.def.IAeSingleActivityContainerDef;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 /**
- * Models the 'else' construct in WS-BPEL 2.0 in addition to the 'otherwise' construct in 
+ * Models the 'else' construct in WS-BPEL 2.0 in addition to the 'otherwise' construct in
  * BPEL4WS 1.1.
  */
-public class AeElseDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef
-{
-   /**
-     * 
+public class AeElseDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 7832275213501521226L;
 
-/**
-    * No-arg ctor. 
-    */
-   public AeElseDef()
-   {
-      super();
-   }
+    /**
+     * No-arg ctor.
+     */
+    public AeElseDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

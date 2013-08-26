@@ -23,185 +23,170 @@ import java.util.*;
  * Policy mapper that calls each configured mapper in turn to provide a complete set of Handlers for policy
  * assertions
  */
-public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
-{
-   private static final String WSA_HEADER_HANDLER = "proc:org.activebpel.rt.axis.bpel.handlers.AeWsaHeaderHandler"; //$NON-NLS-1$
-   
-   private List<IAePolicyMapper> mMappers;
+public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants {
+    private static final String WSA_HEADER_HANDLER = "proc:org.activebpel.rt.axis.bpel.handlers.AeWsaHeaderHandler"; //$NON-NLS-1$
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
-    */
-   public List<Element> getServerRequestHandlers(List<Element> aPolicyList) throws AeException
-   {
-      List<Element> handlers = new ArrayList<>();
+    private List<IAePolicyMapper> mMappers;
 
-      if (AeUtil.notNullOrEmpty(aPolicyList))
-      {
-          for (IAePolicyMapper policyMapper : mMappers) {
-              try {
-                  handlers.addAll(policyMapper.getServerRequestHandlers(aPolicyList));
-              } catch (Exception e) {
-                  throw new AeException(
-                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-              }
-          }
-      }
-      
-      // Add the WSA Must-understand handler to all bpel processes
-      Document doc = AeXmlUtil.newDocument();
-      Element handler = doc.createElementNS( WSDD_NAMESPACE_URI, TAG_HANDLER );
-      handler.setAttribute(IAePolicyConstants.TAG_TYPE_ATTR, WSA_HEADER_HANDLER);
-      handlers.add(handler);
-            
-      return handlers;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
+     */
+    public List<Element> getServerRequestHandlers(List<Element> aPolicyList) throws AeException {
+        List<Element> handlers = new ArrayList<>();
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
-    */
-   public List<Element> getServerResponseHandlers(List<Element> aPolicyList) throws AeException
-   {
-      List<Element> handlers = new ArrayList<>();
+        if (AeUtil.notNullOrEmpty(aPolicyList)) {
+            for (IAePolicyMapper policyMapper : mMappers) {
+                try {
+                    handlers.addAll(policyMapper.getServerRequestHandlers(aPolicyList));
+                } catch (Exception e) {
+                    throw new AeException(
+                            AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+                }
+            }
+        }
 
-      if (AeUtil.notNullOrEmpty(aPolicyList))
-      {
-          for (IAePolicyMapper policyMapper : mMappers) {
-              try {
-                  handlers.addAll(policyMapper.getServerResponseHandlers(aPolicyList));
-              } catch (Exception e) {
-                  throw new AeException(
-                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-              }
-          }
-      }
+        // Add the WSA Must-understand handler to all bpel processes
+        Document doc = AeXmlUtil.newDocument();
+        Element handler = doc.createElementNS(WSDD_NAMESPACE_URI, TAG_HANDLER);
+        handler.setAttribute(IAePolicyConstants.TAG_TYPE_ATTR, WSA_HEADER_HANDLER);
+        handlers.add(handler);
 
-      return handlers;
-   }
+        return handlers;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
-    */
-   public List<Element> getClientRequestHandlers(List<Element> aPolicyList) throws AeException
-   {
-      List<Element> handlers = new ArrayList<>();
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
+     */
+    public List<Element> getServerResponseHandlers(List<Element> aPolicyList) throws AeException {
+        List<Element> handlers = new ArrayList<>();
 
-      if (AeUtil.notNullOrEmpty(aPolicyList))
-      {
-          for (IAePolicyMapper policyMapper : mMappers) {
-              try {
-                  handlers.addAll(policyMapper.getClientRequestHandlers(aPolicyList));
-              } catch (Exception e) {
-                  throw new AeException(
-                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-              }
-          }
-      }
+        if (AeUtil.notNullOrEmpty(aPolicyList)) {
+            for (IAePolicyMapper policyMapper : mMappers) {
+                try {
+                    handlers.addAll(policyMapper.getServerResponseHandlers(aPolicyList));
+                } catch (Exception e) {
+                    throw new AeException(
+                            AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+                }
+            }
+        }
 
-      return handlers;
-   }
+        return handlers;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientResponseHandlers(java.util.List)
-    */
-   public List<Element> getClientResponseHandlers(List<Element> aPolicyList) throws AeException
-   {
-      List<Element> handlers = new ArrayList<>();
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
+     */
+    public List<Element> getClientRequestHandlers(List<Element> aPolicyList) throws AeException {
+        List<Element> handlers = new ArrayList<>();
 
-      if (AeUtil.notNullOrEmpty(aPolicyList))
-      {
-          for (IAePolicyMapper policyMapper : mMappers) {
-              try {
-                  handlers.addAll(policyMapper.getClientResponseHandlers(aPolicyList));
-              } catch (Exception e) {
-                  throw new AeException(
-                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-              }
-          }
-      }
-      return handlers;
-   }
+        if (AeUtil.notNullOrEmpty(aPolicyList)) {
+            for (IAePolicyMapper policyMapper : mMappers) {
+                try {
+                    handlers.addAll(policyMapper.getClientRequestHandlers(aPolicyList));
+                } catch (Exception e) {
+                    throw new AeException(
+                            AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+                }
+            }
+        }
 
-   /**
-    * 
-    * Overrides method to get service parameters from policy 
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServiceParameters(java.util.List)
-    */
-   public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
-   {
-      List<Element> handlers = new ArrayList<>();
+        return handlers;
+    }
 
-      if (AeUtil.notNullOrEmpty(aPolicyList))
-      {
-          for (IAePolicyMapper policyMapper : mMappers) {
-              try {
-                  handlers.addAll(policyMapper.getServiceParameters(aPolicyList));
-              } catch (Exception e) {
-                  throw new AeException(
-                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-              }
-          }
-      }
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientResponseHandlers(java.util.List)
+     */
+    public List<Element> getClientResponseHandlers(List<Element> aPolicyList) throws AeException {
+        List<Element> handlers = new ArrayList<>();
 
-      return handlers;
-   }
+        if (AeUtil.notNullOrEmpty(aPolicyList)) {
+            for (IAePolicyMapper policyMapper : mMappers) {
+                try {
+                    handlers.addAll(policyMapper.getClientResponseHandlers(aPolicyList));
+                } catch (Exception e) {
+                    throw new AeException(
+                            AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+                }
+            }
+        }
+        return handlers;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
-    */
-   public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
-   {
-      Map<String, Object> map = new HashMap<>();
-      
-      if (AeUtil.notNullOrEmpty(aPolicyList))
-      {
-          for (IAePolicyMapper policyMapper : mMappers) {
-              try {
-                  Map<String, Object> policyMap = policyMapper.getCallProperties(aPolicyList);
-                  if (policyMap != null)
-                      map.putAll(policyMap);
-              } catch (Exception e) {
-                  throw new AeException(
-                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-              }
-          }
-      }
-      return map;
-   }
+    /**
+     * Overrides method to get service parameters from policy
+     *
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServiceParameters(java.util.List)
+     */
+    public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException {
+        List<Element> handlers = new ArrayList<>();
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getDeploymentHandler(java.util.List)
-    */
-   public String getDeploymentHandler(List<Element> aPolicyList) throws AeException
-   {
-      String handler = null;
-      if (AeUtil.notNullOrEmpty(aPolicyList))
-      {
-          for (IAePolicyMapper policyMapper : mMappers) {
-              try {
-                  String newhandler = policyMapper.getDeploymentHandler(aPolicyList);
-                  if (!AeUtil.isNullOrEmpty(newhandler)) {
-                      if (!AeUtil.isNullOrEmpty(handler) && !newhandler.equals(handler)) {
-                          // throw an exception if more than one comes back
-                          String[] args = new String[]{handler, newhandler};
-                          throw new AeException(AeMessages.format("AeMasterPolicyMapper.0", args)); //$NON-NLS-1$
-                      } else {
-                          handler = newhandler;
-                      }
-                  }
-              } catch (Exception e) {
-                  throw new AeException(
-                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-              }
-          }
-      }
-      return handler;
-   }
-   
-   /**
-    * @param aMapper
- 	*/
-   public void setMappers(List<IAePolicyMapper> aMapper) {
-	   mMappers = aMapper;
-   }
+        if (AeUtil.notNullOrEmpty(aPolicyList)) {
+            for (IAePolicyMapper policyMapper : mMappers) {
+                try {
+                    handlers.addAll(policyMapper.getServiceParameters(aPolicyList));
+                } catch (Exception e) {
+                    throw new AeException(
+                            AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+                }
+            }
+        }
+
+        return handlers;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
+     */
+    public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException {
+        Map<String, Object> map = new HashMap<>();
+
+        if (AeUtil.notNullOrEmpty(aPolicyList)) {
+            for (IAePolicyMapper policyMapper : mMappers) {
+                try {
+                    Map<String, Object> policyMap = policyMapper.getCallProperties(aPolicyList);
+                    if (policyMap != null)
+                        map.putAll(policyMap);
+                } catch (Exception e) {
+                    throw new AeException(
+                            AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+                }
+            }
+        }
+        return map;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getDeploymentHandler(java.util.List)
+     */
+    public String getDeploymentHandler(List<Element> aPolicyList) throws AeException {
+        String handler = null;
+        if (AeUtil.notNullOrEmpty(aPolicyList)) {
+            for (IAePolicyMapper policyMapper : mMappers) {
+                try {
+                    String newhandler = policyMapper.getDeploymentHandler(aPolicyList);
+                    if (!AeUtil.isNullOrEmpty(newhandler)) {
+                        if (!AeUtil.isNullOrEmpty(handler) && !newhandler.equals(handler)) {
+                            // throw an exception if more than one comes back
+                            String[] args = new String[]{handler, newhandler};
+                            throw new AeException(AeMessages.format("AeMasterPolicyMapper.0", args)); //$NON-NLS-1$
+                        } else {
+                            handler = newhandler;
+                        }
+                    }
+                } catch (Exception e) {
+                    throw new AeException(
+                            AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+                }
+            }
+        }
+        return handler;
+    }
+
+    /**
+     * @param aMapper
+     */
+    public void setMappers(List<IAePolicyMapper> aMapper) {
+        mMappers = aMapper;
+    }
 }

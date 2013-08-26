@@ -16,44 +16,41 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * Models a WS-BPEL 2.0 messageExchange construct (as well as the BPEL4WS 1.1 Active Endpoints
  * extension construct aex:messageExchange).
  */
-public class AeMessageExchangeDef extends AeBaseDef
-{
-   /**
-     * 
+public class AeMessageExchangeDef extends AeBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -6632540620542542L;
-/** The message exchange's 'name' attribute. */
-   private String mName;
+    /**
+     * The message exchange's 'name' attribute.
+     */
+    private String mName;
 
-   /**
-    * Default c'tor.
-    */
-   public AeMessageExchangeDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeMessageExchangeDef() {
+        super();
+    }
 
-   /**
-    * @return Returns the name.
-    */
-   public String getName()
-   {
-      return mName;
-   }
+    /**
+     * @return Returns the name.
+     */
+    public String getName() {
+        return mName;
+    }
 
-   /**
-    * @param aName The name to set.
-    */
-   public void setName(String aName)
-   {
-      mName = aName;
-   }
+    /**
+     * @param aName The name to set.
+     */
+    public void setName(String aName) {
+        mName = aName;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

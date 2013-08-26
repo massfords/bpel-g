@@ -8,7 +8,7 @@
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 ////////////////////////////////////////////////////////////////////////////
 
-package org.activebpel.rt.xml.schema.sampledata.structure; 
+package org.activebpel.rt.xml.schema.sampledata.structure;
 
 import java.util.List;
 
@@ -19,172 +19,162 @@ import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 /**
  * Model class for a Schema Simple Type.
  */
-public class AeSimpleElement extends AeBaseElement
-{
-   /** The data type of this element. */
-   private QName mDataType;
-   
-   // Note that a simpleType's "default" and "fixed" attributes are optional and mutually exclusive. 
-   
-   /** The default value for this element. */
-   private String mDefaultValue;
+public class AeSimpleElement extends AeBaseElement {
+    /**
+     * The data type of this element.
+     */
+    private QName mDataType;
 
-   /** The  fixed value for this element. **/
-   private String mFixed;
+    // Note that a simpleType's "default" and "fixed" attributes are optional and mutually exclusive.
 
-   /** List of enumerated restrictions. (String objects). */
-   private List mEnumRestrictions;
-   
-   private String mMinExclusive;
-   private String mMaxExclusive;
-   private String mMinInclusive;
-   private String mMaxInclusive;
+    /**
+     * The default value for this element.
+     */
+    private String mDefaultValue;
 
-   /**
-    * Constructor.
-    */
-   public AeSimpleElement()
-   {
-   }
+    /**
+     * The  fixed value for this element. *
+     */
+    private String mFixed;
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
-    */
-   public void accept(IAeSampleDataVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * List of enumerated restrictions. (String objects).
+     */
+    private List mEnumRestrictions;
 
-   /**
-    * @return QName
-    */
-   public QName getDataType()
-   {
-      return mDataType;
-   }
+    private String mMinExclusive;
+    private String mMaxExclusive;
+    private String mMinInclusive;
+    private String mMaxInclusive;
 
-   /**
-    * @param aDataType
-    */
-   public void setDataType(QName aDataType)
-   {
-      mDataType = aDataType;
-   }
+    /**
+     * Constructor.
+     */
+    public AeSimpleElement() {
+    }
 
-   /**
-    * @return String
-    */
-   public String getDefaultValue()
-   {
-      return mDefaultValue;
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
+     */
+    public void accept(IAeSampleDataVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @param aDefaultValue
-    */
-   public void setDefaultValue(String aDefaultValue)
-   {
-      mDefaultValue = aDefaultValue;
-   }
-   /**
-    * Gets the fixed value for this element. 
-    * 
-    * @return String.
-    */
-   public String getFixedValue()
-   {
-      return mFixed;
-   }
+    /**
+     * @return QName
+     */
+    public QName getDataType() {
+        return mDataType;
+    }
 
-   /**
-    * Sets the fixed value for this element.
-    * 
-    * @param aFixed
-    */
-   public void setFixedValue(String aFixed)
-   {
-      mFixed = aFixed;
-   }
+    /**
+     * @param aDataType
+     */
+    public void setDataType(QName aDataType) {
+        mDataType = aDataType;
+    }
 
-   /**
-    * @return List
-    */
-   public List getEnumRestrictions()
-   {
-      return mEnumRestrictions;
-   }
+    /**
+     * @return String
+     */
+    public String getDefaultValue() {
+        return mDefaultValue;
+    }
 
-   /**
-    * @param aEnumRestrictions
-    */
-   public void setEnumRestrictions(List aEnumRestrictions)
-   {
-      mEnumRestrictions = aEnumRestrictions;
-   }
+    /**
+     * @param aDefaultValue
+     */
+    public void setDefaultValue(String aDefaultValue) {
+        mDefaultValue = aDefaultValue;
+    }
 
-   /**
-    * @return the minExclusive
-    */
-   public String getMinExclusive()
-   {
-      return mMinExclusive;
-   }
+    /**
+     * Gets the fixed value for this element.
+     *
+     * @return String.
+     */
+    public String getFixedValue() {
+        return mFixed;
+    }
 
-   /**
-    * @param aMinExclusive the minExclusive to set
-    */
-   public void setMinExclusive(String aMinExclusive)
-   {
-      mMinExclusive = aMinExclusive;
-   }
+    /**
+     * Sets the fixed value for this element.
+     *
+     * @param aFixed
+     */
+    public void setFixedValue(String aFixed) {
+        mFixed = aFixed;
+    }
 
-   /**
-    * @return the maxExclusive
-    */
-   public String getMaxExclusive()
-   {
-      return mMaxExclusive;
-   }
+    /**
+     * @return List
+     */
+    public List getEnumRestrictions() {
+        return mEnumRestrictions;
+    }
 
-   /**
-    * @param aMaxExclusive the maxExclusive to set
-    */
-   public void setMaxExclusive(String aMaxExclusive)
-   {
-      mMaxExclusive = aMaxExclusive;
-   }
+    /**
+     * @param aEnumRestrictions
+     */
+    public void setEnumRestrictions(List aEnumRestrictions) {
+        mEnumRestrictions = aEnumRestrictions;
+    }
 
-   /**
-    * @return the minInclusive
-    */
-   public String getMinInclusive()
-   {
-      return mMinInclusive;
-   }
+    /**
+     * @return the minExclusive
+     */
+    public String getMinExclusive() {
+        return mMinExclusive;
+    }
 
-   /**
-    * @param aMinInclusive the minInclusive to set
-    */
-   public void setMinInclusive(String aMinInclusive)
-   {
-      mMinInclusive = aMinInclusive;
-   }
+    /**
+     * @param aMinExclusive the minExclusive to set
+     */
+    public void setMinExclusive(String aMinExclusive) {
+        mMinExclusive = aMinExclusive;
+    }
 
-   /**
-    * @return the maxInclusive
-    */
-   public String getMaxInclusive()
-   {
-      return mMaxInclusive;
-   }
+    /**
+     * @return the maxExclusive
+     */
+    public String getMaxExclusive() {
+        return mMaxExclusive;
+    }
 
-   /**
-    * @param aMaxInclusive the maxInclusive to set
-    */
-   public void setMaxInclusive(String aMaxInclusive)
-   {
-      mMaxInclusive = aMaxInclusive;
-   }
+    /**
+     * @param aMaxExclusive the maxExclusive to set
+     */
+    public void setMaxExclusive(String aMaxExclusive) {
+        mMaxExclusive = aMaxExclusive;
+    }
+
+    /**
+     * @return the minInclusive
+     */
+    public String getMinInclusive() {
+        return mMinInclusive;
+    }
+
+    /**
+     * @param aMinInclusive the minInclusive to set
+     */
+    public void setMinInclusive(String aMinInclusive) {
+        mMinInclusive = aMinInclusive;
+    }
+
+    /**
+     * @return the maxInclusive
+     */
+    public String getMaxInclusive() {
+        return mMaxInclusive;
+    }
+
+    /**
+     * @param aMaxInclusive the maxInclusive to set
+     */
+    public void setMaxInclusive(String aMaxInclusive) {
+        mMaxInclusive = aMaxInclusive;
+    }
 
 }
  

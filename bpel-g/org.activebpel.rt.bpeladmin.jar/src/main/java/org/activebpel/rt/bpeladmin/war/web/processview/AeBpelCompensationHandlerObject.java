@@ -14,15 +14,14 @@ import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
 /**
  * BPEL model for the root level compensationHandler.
  */
-public class AeBpelCompensationHandlerObject extends AeBpelObjectContainer
-{
+public class AeBpelCompensationHandlerObject extends AeBpelObjectContainer {
 
-   /**
-    * Ctor
-    * @param aDef activity definition.
-    */
-   public AeBpelCompensationHandlerObject(AeCompensationHandlerDef aDef)
-   {
-      super(AeCompensationHandlerDef.TAG_COMPENSATION_HANDLER, aDef);
-   }   
+    /**
+     * Ctor
+     *
+     * @param aDef activity definition.
+     */
+    public AeBpelCompensationHandlerObject(AeCompensationHandlerDef aDef) {
+        super(AeCompensationHandlerDef.TAG_COMPENSATION_HANDLER, aDef);
+    }
 }

@@ -22,30 +22,30 @@ import org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory;
  */
 public class AeAxisReceiveHandlerFactory implements IAeReceiveHandlerFactory {
 
-	private Map<String, IAeReceiveHandler> mReceiveHandlers;
+    private Map<String, IAeReceiveHandler> mReceiveHandlers;
 
-	/**
-	 * Returns the appropriate receive handler for binding type.
-	 * 
-	 * @see org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory#createReceiveHandler(java.lang.String)
-	 */
-	public IAeReceiveHandler createReceiveHandler(String aProtocol)
-			throws AeBusinessProcessException {
-		String binding = AeInvokeHandlerUri.getInvokerString(aProtocol);
-		IAeReceiveHandler rh = getReceiveHandlers().get(binding);
-		if (rh == null) {
-			throw new AeBusinessProcessException(AeMessages.format(
-					"AeAxisReceiveHandlerFactory.0", binding)); //$NON-NLS-1$
-		}
-		return rh;
-	}
+    /**
+     * Returns the appropriate receive handler for binding type.
+     *
+     * @see org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory#createReceiveHandler(java.lang.String)
+     */
+    public IAeReceiveHandler createReceiveHandler(String aProtocol)
+            throws AeBusinessProcessException {
+        String binding = AeInvokeHandlerUri.getInvokerString(aProtocol);
+        IAeReceiveHandler rh = getReceiveHandlers().get(binding);
+        if (rh == null) {
+            throw new AeBusinessProcessException(AeMessages.format(
+                    "AeAxisReceiveHandlerFactory.0", binding)); //$NON-NLS-1$
+        }
+        return rh;
+    }
 
-	public Map<String, IAeReceiveHandler> getReceiveHandlers() {
-		return mReceiveHandlers;
-	}
+    public Map<String, IAeReceiveHandler> getReceiveHandlers() {
+        return mReceiveHandlers;
+    }
 
-	public void setReceiveHandlers(
-			Map<String, IAeReceiveHandler> aReceiveHandlers) {
-		mReceiveHandlers = aReceiveHandlers;
-	}
+    public void setReceiveHandlers(
+            Map<String, IAeReceiveHandler> aReceiveHandlers) {
+        mReceiveHandlers = aReceiveHandlers;
+    }
 }

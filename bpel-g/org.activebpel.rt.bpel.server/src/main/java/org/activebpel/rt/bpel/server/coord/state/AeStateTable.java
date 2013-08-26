@@ -17,37 +17,35 @@ import org.activebpel.rt.bpel.coord.IAeProtocolState;
 /**
  * Class which implements state lookup table.
  */
-public class AeStateTable
-{
-   /**
-    * Map containing table row entry for a given state.
-    */
-   private final Map<String, AeStateTableEntry> mStateMap = new Hashtable<>();
-   
-   /**
-    * Default constructor.
-    */
-   public AeStateTable()
-   {     
-   }
-   
-   /**
-    * Adds the given table entry and associates it with the state.
-    * @param aState
-    * @param aEntry
-    */
-   public void add(IAeProtocolState aState, AeStateTableEntry aEntry)
-   {
-      mStateMap.put(aState.getState(), aEntry);
-   }
-   
-   /**
-    * Returns the table entry for the given state.
-    * @param aState
-    */
-   public AeStateTableEntry get(IAeProtocolState aState)
-   {
-     return mStateMap.get(aState.getState());  
-   }   
+public class AeStateTable {
+    /**
+     * Map containing table row entry for a given state.
+     */
+    private final Map<String, AeStateTableEntry> mStateMap = new Hashtable<>();
+
+    /**
+     * Default constructor.
+     */
+    public AeStateTable() {
+    }
+
+    /**
+     * Adds the given table entry and associates it with the state.
+     *
+     * @param aState
+     * @param aEntry
+     */
+    public void add(IAeProtocolState aState, AeStateTableEntry aEntry) {
+        mStateMap.put(aState.getState(), aEntry);
+    }
+
+    /**
+     * Returns the table entry for the given state.
+     *
+     * @param aState
+     */
+    public AeStateTableEntry get(IAeProtocolState aState) {
+        return mStateMap.get(aState.getState());
+    }
 
 }

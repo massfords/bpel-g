@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.schema; 
+package org.activebpel.rt.xml.schema;
 
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.util.AeUtil;
@@ -15,76 +15,67 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Wrapper object for xsd:hexBinary simple data type. This ensures that Axis serializes the data correctly.
  */
-public class AeSchemaHexBinary extends AeSchemaWrappedStringType
-{
-   /** Parsed-out binary data. */
-   private byte [] mBinaryData;
-   
-   /**
-    * Ctor accepts the hex binary value.
-    * 
-    * @param aHexBinaryString
-    */
-   public AeSchemaHexBinary(String aHexBinaryString)
-   {
-      super(aHexBinaryString);
-      
-      parseHexString(aHexBinaryString);
-   }
+public class AeSchemaHexBinary extends AeSchemaWrappedStringType {
+    /**
+     * Parsed-out binary data.
+     */
+    private byte[] mBinaryData;
 
-   /**
-    * Parses the hex data string into its binary form.
-    * 
-    * @param aHexBinaryString
-    */
-   protected void parseHexString(String aHexBinaryString)
-   {
-      if (AeUtil.isNullOrEmpty(aHexBinaryString) || (aHexBinaryString.length() % 2) == 1)
-      {
-         throw new AeSchemaTypeParseException(AeMessages.getString("AeSchemaHexBinary.ParseFailureError")); //$NON-NLS-1$
-      }
+    /**
+     * Ctor accepts the hex binary value.
+     *
+     * @param aHexBinaryString
+     */
+    public AeSchemaHexBinary(String aHexBinaryString) {
+        super(aHexBinaryString);
 
-      try
-      {
-         byte [] data = new byte[aHexBinaryString.length() * 2];
-         for (int i = 0; i < aHexBinaryString.length(); i+=2)
-         {
-            char hexDigit1 = aHexBinaryString.charAt(i);
-            char hexDigit2 = aHexBinaryString.charAt(i + 1);
-            String hexNumber = String.valueOf(hexDigit1) + String.valueOf(hexDigit2);
-            byte hexValue = (byte) Integer.parseInt(hexNumber, 16);
-            data[i / 2] = hexValue;
-         }
-         setBinaryData(data);
-      }
-      catch (NumberFormatException ex)
-      {
-         throw new AeSchemaTypeParseException(AeMessages.getString("AeSchemaHexBinary.ParseFailureError")); //$NON-NLS-1$
-      }
-   }
+        parseHexString(aHexBinaryString);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.IAeSchemaType#accept(org.activebpel.rt.xml.schema.IAeSchemaTypeVisitor)
-    */
-   public void accept(IAeSchemaTypeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Parses the hex data string into its binary form.
+     *
+     * @param aHexBinaryString
+     */
+    protected void parseHexString(String aHexBinaryString) {
+        if (AeUtil.isNullOrEmpty(aHexBinaryString) || (aHexBinaryString.length() % 2) == 1) {
+            throw new AeSchemaTypeParseException(AeMessages.getString("AeSchemaHexBinary.ParseFailureError")); //$NON-NLS-1$
+        }
 
-   /**
-    * @return Returns the binaryData.
-    */
-   public byte[] getBinaryData()
-   {
-      return mBinaryData;
-   }
+        try {
+            byte[] data = new byte[aHexBinaryString.length() * 2];
+            for (int i = 0; i < aHexBinaryString.length(); i += 2) {
+                char hexDigit1 = aHexBinaryString.charAt(i);
+                char hexDigit2 = aHexBinaryString.charAt(i + 1);
+                String hexNumber = String.valueOf(hexDigit1) + String.valueOf(hexDigit2);
+                byte hexValue = (byte) Integer.parseInt(hexNumber, 16);
+                data[i / 2] = hexValue;
+            }
+            setBinaryData(data);
+        } catch (NumberFormatException ex) {
+            throw new AeSchemaTypeParseException(AeMessages.getString("AeSchemaHexBinary.ParseFailureError")); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * @param aBinaryData The binaryData to set.
-    */
-   protected void setBinaryData(byte[] aBinaryData)
-   {
-      mBinaryData = aBinaryData;
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.IAeSchemaType#accept(org.activebpel.rt.xml.schema.IAeSchemaTypeVisitor)
+     */
+    public void accept(IAeSchemaTypeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * @return Returns the binaryData.
+     */
+    public byte[] getBinaryData() {
+        return mBinaryData;
+    }
+
+    /**
+     * @param aBinaryData The binaryData to set.
+     */
+    protected void setBinaryData(byte[] aBinaryData) {
+        mBinaryData = aBinaryData;
+    }
 }
  

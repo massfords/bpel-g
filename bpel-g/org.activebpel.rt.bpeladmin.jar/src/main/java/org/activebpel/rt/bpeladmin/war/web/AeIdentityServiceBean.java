@@ -15,21 +15,26 @@ import org.activebpel.rt.AeException;
  * Bean for accessing and updating identity service
  * configuration settings.
  */
-public class AeIdentityServiceBean extends AeAbstractAdminBean
-{
-   /** ldif provider type. */
-   public static final String LDIF_TYPE = "ldif"; //$NON-NLS-1$
-   /** xml file provider type. */
-   public static final String TOMCAT_TYPE = "tomcat"; //$NON-NLS-1$
-   /** file config map. */
+public class AeIdentityServiceBean extends AeAbstractAdminBean {
+    /**
+     * ldif provider type.
+     */
+    public static final String LDIF_TYPE = "ldif"; //$NON-NLS-1$
+    /**
+     * xml file provider type.
+     */
+    public static final String TOMCAT_TYPE = "tomcat"; //$NON-NLS-1$
+    /** file config map. */
     //   protected AeIdentityFileConfig mFileConfig;
-   /** Username or principal name to test the configuration. */
-   private final String mTestPrincipalName = ""; //$NON-NLS-1$
+    /**
+     * Username or principal name to test the configuration.
+     */
+    private final String mTestPrincipalName = ""; //$NON-NLS-1$
 
 
-   /**
-    * @return Config wrapper for identity service File settings.
-    */
+    /**
+     * @return Config wrapper for identity service File settings.
+     */
    /*
     protected AeIdentityFileConfig getFileConfig()
    {
@@ -41,11 +46,12 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
       return mFileConfig;
    }
    */
-   /**
-    * Saves the current config settings to the database.
-    */
+
+    /**
+     * Saves the current config settings to the database.
+     */
     protected void saveChanges() {
-	/*
+    /*
     AeDefaultEngineConfiguration config = getRawConfig();
         AeIdentityConfig.setOnConfig(getFileConfig(), config);
         StringWriter sw = new StringWriter();
@@ -56,13 +62,12 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
             // FIXME Auto-generated catch block
             e.printStackTrace();
 	    }*/
-	}
+    }
 
-   /**
-    * Tests the current configuration.
-    */
-   protected void testConfiguration(String aPrincipalName)
-   {/*
+    /**
+     * Tests the current configuration.
+     */
+    protected void testConfiguration(String aPrincipalName) {/*
       try
       {
          internalTestConfiguration(aPrincipalName);
@@ -74,77 +79,74 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
          addStatusDetail(aex.getInfo());
          setErrorDetail(true);
 	 }*/
-   }
-   
-   /**
-    * Internal test method which throws on failure.
-    * @param aPrincipalName
-    * @throws AeException
-    */
-   protected void internalTestConfiguration(String aPrincipalName) throws AeException
-   {
-       //AeIdentityConfig.testConfiguration(getFileConfig(), aPrincipalName);
-   }   
-   
-   
-   /**
-    * Returns the enabled flag.
-    */
-   public boolean isEnabled()
-   {
-       return false; //getFileConfig().isEnabled();
-   }
-   
-   /**
-    * Returns true if configured for ldif.
-    */
-   public boolean isLdif()
-   {
-       return false; //getFileConfig().isLdif();
-   }
+    }
 
-   /**
-    * Returns true if configured for tomcat.
-    */
-   public boolean isTomcat()
-   {
-       return true; //getFileConfig().isTomcat();
-   }
-
-   /**
-    * Setter for enabled flag.
-    * @param aEnabled
-    */
-   public void setEnabled(boolean aEnabled)
-   {
-       //getFileConfig().setEnabled(aEnabled);
-   }
-
-   /**
-    * Returns File server FileName name.
-    * @return File FileName name
-    */
-   public String getFileName()
-   {
-       return null; //getFileConfig().getFileName();
-   }
-
-   /**
-    * Sets the File server FileName name.
-    * @param aFileName FileNamename.
-    */
-   public void setFileName(String aFileName)
-   {
-       //getFileConfig().setFileName( AeUtil.getSafeString(aFileName).trim() );
-   }
+    /**
+     * Internal test method which throws on failure.
+     *
+     * @param aPrincipalName
+     * @throws AeException
+     */
+    protected void internalTestConfiguration(String aPrincipalName) throws AeException {
+        //AeIdentityConfig.testConfiguration(getFileConfig(), aPrincipalName);
+    }
 
 
-   /**
-    * Sets the current provider type based on the passed string.
-    * @param aProviderType
-    */
-   public void setProviderType( String aProviderType )
-   {
+    /**
+     * Returns the enabled flag.
+     */
+    public boolean isEnabled() {
+        return false; //getFileConfig().isEnabled();
+    }
+
+    /**
+     * Returns true if configured for ldif.
+     */
+    public boolean isLdif() {
+        return false; //getFileConfig().isLdif();
+    }
+
+    /**
+     * Returns true if configured for tomcat.
+     */
+    public boolean isTomcat() {
+        return true; //getFileConfig().isTomcat();
+    }
+
+    /**
+     * Setter for enabled flag.
+     *
+     * @param aEnabled
+     */
+    public void setEnabled(boolean aEnabled) {
+        //getFileConfig().setEnabled(aEnabled);
+    }
+
+    /**
+     * Returns File server FileName name.
+     *
+     * @return File FileName name
+     */
+    public String getFileName() {
+        return null; //getFileConfig().getFileName();
+    }
+
+    /**
+     * Sets the File server FileName name.
+     *
+     * @param aFileName FileNamename.
+     */
+    public void setFileName(String aFileName) {
+        //getFileConfig().setFileName( AeUtil.getSafeString(aFileName).trim() );
+    }
+
+
+    /**
+     * Sets the current provider type based on the passed string.
+     *
+     * @param aProviderType
+     */
+    public void setProviderType(String aProviderType) {
        /*
       String provider = null;
       if(LDIF_TYPE.equals(aProviderType))
@@ -157,33 +159,32 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
          getFileConfig().setProvider(provider);
       }
        */
-   }
+    }
 
 
-   /**
-    * @return Username or principal name to test configuration.
-    */
-   public String getTestPrincipalName()
-   {
-      return mTestPrincipalName;
-   }
+    /**
+     * @return Username or principal name to test configuration.
+     */
+    public String getTestPrincipalName() {
+        return mTestPrincipalName;
+    }
 
-   /**
-    * Sets the username or principal to test the configuration.
-    * @param aTestPrincipalName
-    */
-   public void setTestPrincipalName(String aTestPrincipalName)
-   {
-       //mTestPrincipalName = aTestPrincipalName;
-   }
+    /**
+     * Sets the username or principal to test the configuration.
+     *
+     * @param aTestPrincipalName
+     */
+    public void setTestPrincipalName(String aTestPrincipalName) {
+        //mTestPrincipalName = aTestPrincipalName;
+    }
 
-   /**
-    * Indicates the update button has been pressed and all changes will be persisted
-    * to the database.
-    * @param aValue
-    */
-   public void setUpdate( String aValue )
-   {
+    /**
+     * Indicates the update button has been pressed and all changes will be persisted
+     * to the database.
+     *
+     * @param aValue
+     */
+    public void setUpdate(String aValue) {
        /*
       if (AeUtil.isNullOrEmpty(aValue))
       {
@@ -195,14 +196,14 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
          saveChanges();
       }
        */
-   }
+    }
 
-   /**
-    * Invoked by the JSP when the test configuration submit button is pressed.
-    * @param aValue
-    */
-   public void setTestConfiguration( String aValue )
-   {
+    /**
+     * Invoked by the JSP when the test configuration submit button is pressed.
+     *
+     * @param aValue
+     */
+    public void setTestConfiguration(String aValue) {
        /*
       if (AeUtil.isNullOrEmpty(aValue))
       {
@@ -223,14 +224,14 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
          testConfiguration(getTestPrincipalName());
       }
        */
-   }
+    }
 
-   /**
-    * Processes and validates the form data.
-    * @param aForTesting true if the test button was pressed.
-    */
-   protected void processFormData(boolean aForTesting)
-   {
+    /**
+     * Processes and validates the form data.
+     *
+     * @param aForTesting true if the test button was pressed.
+     */
+    protected void processFormData(boolean aForTesting) {
        /*
       if( isEnabled())
       {
@@ -246,17 +247,17 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
          }
       }
        */
-   }
+    }
 
 
-   /**
-    * Checks to see if the file identified by the location path exists.
-    * @param aFileLocationPath
-    * @return true if file exists.
-    */
-   protected boolean validateFileLocation(String aFileLocationPath)
-   {
-       return false;
+    /**
+     * Checks to see if the file identified by the location path exists.
+     *
+     * @param aFileLocationPath
+     * @return true if file exists.
+     */
+    protected boolean validateFileLocation(String aFileLocationPath) {
+        return false;
        /*
       String fileLocationPath = AeUtil.replaceAntStyleParams(aFileLocationPath, null);
       
@@ -271,5 +272,5 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
          return false;
       }
        */
-   }
+    }
 }

@@ -13,14 +13,14 @@ package org.activebpel.rt.bpeladmin.war.graph.ui.controller;
  * Interface that defines the factory which is responsible for creating
  * the model-view-controller hierarchy.
  */
-public interface IAeGraphControllerFactory
-{
-   /**
-    * Creates and returns an implementation of IAeGraphController.
-    * @param aContext context
-    * @param model model to be assoicated with the controller.
-    * @return controller.
-    */
-   public IAeGraphController createController(IAeGraphController aContext, Object model);
-   
+public interface IAeGraphControllerFactory {
+    /**
+     * Creates and returns an implementation of IAeGraphController.
+     *
+     * @param aContext context
+     * @param model    model to be assoicated with the controller.
+     * @return controller.
+     */
+    public IAeGraphController createController(IAeGraphController aContext, Object model);
+
 }

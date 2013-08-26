@@ -14,36 +14,38 @@ import commonj.work.Work;
 /**
  * Base class to help create a Work instance.
  */
-abstract public class AeAbstractWork implements Work
-{
-   /** true if this work */
-   boolean mDaemon = false;
+abstract public class AeAbstractWork implements Work {
+    /**
+     * true if this work
+     */
+    boolean mDaemon = false;
 
-   /** no-arg constructor */   
-   public AeAbstractWork()
-   {
-   }
-   
-   /** accepts the daemon flag */
-   public AeAbstractWork(boolean aDaemon)
-   {
-      mDaemon = aDaemon;
-   }
+    /**
+     * no-arg constructor
+     */
+    public AeAbstractWork() {
+    }
 
-   /**
-    * @see commonj.work.Work#release()
-    */
-   public void release()
-   {
-   }
+    /**
+     * accepts the daemon flag
+     */
+    public AeAbstractWork(boolean aDaemon) {
+        mDaemon = aDaemon;
+    }
 
-   /**
-    * A hint to the work manager as to whether the thread for this Work should
-    * come from a pool or not.
-    * @see commonj.work.Work#isDaemon()
-    */
-   public boolean isDaemon()
-   {
-      return mDaemon;
-   }
+    /**
+     * @see commonj.work.Work#release()
+     */
+    public void release() {
+    }
+
+    /**
+     * A hint to the work manager as to whether the thread for this Work should
+     * come from a pool or not.
+     *
+     * @see commonj.work.Work#isDaemon()
+     */
+    public boolean isDaemon() {
+        return mDaemon;
+    }
 }

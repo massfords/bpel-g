@@ -25,221 +25,204 @@ import org.activebpel.rt.bpel.def.activity.support.AeTargetsDef;
 /**
  * Definition for bpel base activity definition.
  */
-public abstract class AeActivityDef extends AeNamedDef
-{
-   private static final long serialVersionUID = -901433654960778972L;
-   /** The 'suppressFailure' attribute. */
-   private Boolean mSuppressFailure;
-   /** The 'sources' def. */
-   private AeSourcesDef mSourcesDef;
-   /** The 'targets' def. */
-   private AeTargetsDef mTargetsDef;
-   /** The list of link names (cached). */
-   private List<String> mTargetLinkNames;
-   /** Set of resources that this activity uses. Used in conjunction with serializable scopes and variable/partner link locking. */
-   private Set<String> mResourcesUsed;
+public abstract class AeActivityDef extends AeNamedDef {
+    private static final long serialVersionUID = -901433654960778972L;
+    /**
+     * The 'suppressFailure' attribute.
+     */
+    private Boolean mSuppressFailure;
+    /**
+     * The 'sources' def.
+     */
+    private AeSourcesDef mSourcesDef;
+    /**
+     * The 'targets' def.
+     */
+    private AeTargetsDef mTargetsDef;
+    /**
+     * The list of link names (cached).
+     */
+    private List<String> mTargetLinkNames;
+    /**
+     * Set of resources that this activity uses. Used in conjunction with serializable scopes and variable/partner link locking.
+     */
+    private Set<String> mResourcesUsed;
 
-   /**
-    * The isolated scope that encloses this activity, or <code>null</code> if
-    * an isolated scope does not enclose this activity.
-    */
-   private AeActivityScopeDef mIsolatedScope;
+    /**
+     * The isolated scope that encloses this activity, or <code>null</code> if
+     * an isolated scope does not enclose this activity.
+     */
+    private AeActivityScopeDef mIsolatedScope;
 
-   /**
-    * Default constructor
-    */
-   public AeActivityDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityDef() {
+        super();
+    }
 
-   /**
-    * Gets the join condition as a string.
-    */
-   public String getJoinCondition()
-   {
-      String joinCondition = null;
-      
-      AeJoinConditionDef joinConditionDef = getJoinConditionDef();
-      if (joinConditionDef != null)
-      {
-         joinCondition = joinConditionDef.getExpression();
-      }
+    /**
+     * Gets the join condition as a string.
+     */
+    public String getJoinCondition() {
+        String joinCondition = null;
 
-      return joinCondition;
-   }
+        AeJoinConditionDef joinConditionDef = getJoinConditionDef();
+        if (joinConditionDef != null) {
+            joinCondition = joinConditionDef.getExpression();
+        }
 
-   /**
-    * Gets the join condition for this activity.
-    */
-   public AeJoinConditionDef getJoinConditionDef()
-   {
-      AeJoinConditionDef joinConditionDef = null;
+        return joinCondition;
+    }
 
-      if (getTargetsDef() != null)
-      {
-         joinConditionDef = getTargetsDef().getJoinConditionDef();
-      }
+    /**
+     * Gets the join condition for this activity.
+     */
+    public AeJoinConditionDef getJoinConditionDef() {
+        AeJoinConditionDef joinConditionDef = null;
 
-      return joinConditionDef;
-   }
-   
-   /**
-    * Gets a list of the targets.
-    */
-   public List<String> getTargetLinkNames()
-   {
-      if (mTargetLinkNames == null)
-      {
-         List<String> list = new ArrayList<>();
-         if (getTargetsDef() != null)
-         {
-            for (Iterator<? extends AeTargetDef> titer = getTargetsDef().getTargetDefs(); titer.hasNext(); )
-            {
-               AeTargetDef target = titer.next();
-               list.add(target.getLinkName());
+        if (getTargetsDef() != null) {
+            joinConditionDef = getTargetsDef().getJoinConditionDef();
+        }
+
+        return joinConditionDef;
+    }
+
+    /**
+     * Gets a list of the targets.
+     */
+    public List<String> getTargetLinkNames() {
+        if (mTargetLinkNames == null) {
+            List<String> list = new ArrayList<>();
+            if (getTargetsDef() != null) {
+                for (Iterator<? extends AeTargetDef> titer = getTargetsDef().getTargetDefs(); titer.hasNext(); ) {
+                    AeTargetDef target = titer.next();
+                    list.add(target.getLinkName());
+                }
             }
-         }
-         mTargetLinkNames = list;
-      }
-      return mTargetLinkNames;
-   }
+            mTargetLinkNames = list;
+        }
+        return mTargetLinkNames;
+    }
 
-   /**
-    * Accessor method to obtain suppressFailure property of this object.
-    * 
-    * @return suppressFailure flag (true="yes", false="no)
-    */
-   public Boolean getSuppressFailure()
-   {
-      return mSuppressFailure;
-   }
+    /**
+     * Accessor method to obtain suppressFailure property of this object.
+     *
+     * @return suppressFailure flag (true="yes", false="no)
+     */
+    public Boolean getSuppressFailure() {
+        return mSuppressFailure;
+    }
 
-   /**
-    * Mutator method to set the suppressFailure property of this object.
-    * 
-    * @param aSuppressFailure (true="yes", false="no)
-    */
-   public void setSuppressFailure(Boolean aSuppressFailure)
-   {
-      mSuppressFailure = aSuppressFailure;
-   }
+    /**
+     * Mutator method to set the suppressFailure property of this object.
+     *
+     * @param aSuppressFailure (true="yes", false="no)
+     */
+    public void setSuppressFailure(Boolean aSuppressFailure) {
+        mSuppressFailure = aSuppressFailure;
+    }
 
-   /**
-    * Getter for the resources used by this activity that need to be locked.
-    */
-   public Set<String> getResourcesUsed()
-   {
-      return mResourcesUsed;
-   }
+    /**
+     * Getter for the resources used by this activity that need to be locked.
+     */
+    public Set<String> getResourcesUsed() {
+        return mResourcesUsed;
+    }
 
-   /**
-    * Setter for the resources used that need to be locked. 
-    * @param aSet
-    */
-   public void setResourcesUsed(Set<String> aSet)
-   {
-      mResourcesUsed = aSet;
-   }
+    /**
+     * Setter for the resources used that need to be locked.
+     *
+     * @param aSet
+     */
+    public void setResourcesUsed(Set<String> aSet) {
+        mResourcesUsed = aSet;
+    }
 
-   /**
-    * @return Returns the sourcesDef.
-    */
-   public AeSourcesDef getSourcesDef()
-   {
-      return mSourcesDef;
-   }
+    /**
+     * @return Returns the sourcesDef.
+     */
+    public AeSourcesDef getSourcesDef() {
+        return mSourcesDef;
+    }
 
-   /**
-    * @param aSourcesDef The sourcesDef to set.
-    */
-   public void setSourcesDef(AeSourcesDef aSourcesDef)
-   {
-      mSourcesDef = aSourcesDef;
-   }
+    /**
+     * @param aSourcesDef The sourcesDef to set.
+     */
+    public void setSourcesDef(AeSourcesDef aSourcesDef) {
+        mSourcesDef = aSourcesDef;
+    }
 
-   /**
-    * @return Returns the targetsDef.
-    */
-   public AeTargetsDef getTargetsDef()
-   {
-      return mTargetsDef;
-   }
+    /**
+     * @return Returns the targetsDef.
+     */
+    public AeTargetsDef getTargetsDef() {
+        return mTargetsDef;
+    }
 
-   /**
-    * @param aTargetsDef The targetsDef to set.
-    */
-   public void setTargetsDef(AeTargetsDef aTargetsDef)
-   {
-      mTargetsDef = aTargetsDef;
-   }
+    /**
+     * @param aTargetsDef The targetsDef to set.
+     */
+    public void setTargetsDef(AeTargetsDef aTargetsDef) {
+        mTargetsDef = aTargetsDef;
+    }
 
-   /**
-    * Returns true if the activity has at least one target.
-    */
-   public boolean hasTargets()
-   {
-      boolean rval = false;
-      if (getTargetsDef() != null)
-      {
-         rval = getTargetsDef().getSize() > 0;
-      }
-      return rval;
-   }
-   
-   /**
-    * Returns true if the activity has at least one source.
-    */
-   public boolean hasSources()
-   {
-      boolean rval = false;
-      if (getSourcesDef() != null)
-      {
-         rval = getSourcesDef().getSize() > 0;
-      }
-      return rval;
-   }
+    /**
+     * Returns true if the activity has at least one target.
+     */
+    public boolean hasTargets() {
+        boolean rval = false;
+        if (getTargetsDef() != null) {
+            rval = getTargetsDef().getSize() > 0;
+        }
+        return rval;
+    }
 
-   /**
-    * Gets an iterator over the target defs in the activity.
-    */
-   public Iterator<? extends AeTargetDef> getTargetDefs()
-   {
-      Iterator<? extends AeTargetDef> iter = Collections.<AeTargetDef>emptyList().iterator();
-      if (getTargetsDef() != null)
-      {
-         iter = getTargetsDef().getTargetDefs();
-      }
-      return iter;
-   }
+    /**
+     * Returns true if the activity has at least one source.
+     */
+    public boolean hasSources() {
+        boolean rval = false;
+        if (getSourcesDef() != null) {
+            rval = getSourcesDef().getSize() > 0;
+        }
+        return rval;
+    }
 
-   /**
-    * Gets an iterator over the source defs in the activity.
-    */
-   public Iterator<? extends AeSourceDef> getSourceDefs()
-   {
-      Iterator<? extends AeSourceDef> iter = Collections.<AeSourceDef>emptyList().iterator();
-      if (getSourcesDef() != null)
-      {
-         iter = getSourcesDef().getSourceDefs();
-      }
-      return iter;
-   }
+    /**
+     * Gets an iterator over the target defs in the activity.
+     */
+    public Iterator<? extends AeTargetDef> getTargetDefs() {
+        Iterator<? extends AeTargetDef> iter = Collections.<AeTargetDef>emptyList().iterator();
+        if (getTargetsDef() != null) {
+            iter = getTargetsDef().getTargetDefs();
+        }
+        return iter;
+    }
 
-   /**
-    * Sets the isolated scope that encloses this activity.
-    */
-   public void setIsolatedScope(AeActivityScopeDef isolatedScope)
-   {
-      mIsolatedScope = isolatedScope;
-   }
+    /**
+     * Gets an iterator over the source defs in the activity.
+     */
+    public Iterator<? extends AeSourceDef> getSourceDefs() {
+        Iterator<? extends AeSourceDef> iter = Collections.<AeSourceDef>emptyList().iterator();
+        if (getSourcesDef() != null) {
+            iter = getSourcesDef().getSourceDefs();
+        }
+        return iter;
+    }
 
-   /**
-    * Returns the isolated scope that encloses this activity or
-    * <code>null</code> if an isolated scope does not enclose this activity.
-    */
-   public AeActivityScopeDef getIsolatedScope()
-   {
-      return mIsolatedScope;
-   }
+    /**
+     * Sets the isolated scope that encloses this activity.
+     */
+    public void setIsolatedScope(AeActivityScopeDef isolatedScope) {
+        mIsolatedScope = isolatedScope;
+    }
+
+    /**
+     * Returns the isolated scope that encloses this activity or
+     * <code>null</code> if an isolated scope does not enclose this activity.
+     */
+    public AeActivityScopeDef getIsolatedScope() {
+        return mIsolatedScope;
+    }
 }

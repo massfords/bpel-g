@@ -17,66 +17,57 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Basic implementation of the create context request.
  */
-public class AeCreateContextRequest extends AeContextBase implements IAeCreateContextRequest
-{
-   /**
-     * 
+public class AeCreateContextRequest extends AeContextBase implements IAeCreateContextRequest {
+    /**
+     *
      */
     private static final long serialVersionUID = -7292870861555678823L;
 
-/**
-    * Default constructor.
-    */
-   public AeCreateContextRequest()
-   {
-      super();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeCreateContextRequest() {
+        super();
+    }
 
-   /**
-    * @return coordination type.
-    */
-   public String getCoordinationType()
-   {
-      return getProperty(IAeCoordinating.WSCOORD_TYPE);
-   }
-   
-   /**
-    * Sets the type of coordination.
-    * @param aCoordinationType the type of coordination.
-    */
-   public void setCoordinationType(String aCoordinationType)
-   {
-      setProperty(IAeCoordinating.WSCOORD_TYPE, aCoordinationType);
-   }
-   
-   /** 
-    * @return returns the location path
-    */
-   public String getLocationPath()
-   {
-      return getProperty(IAeCoordinating.AE_COORD_LOCATION_PATH);
-   }
-   
-   /** 
-    * @return the process id or -1 if not available.
-    */
-   public long getProcessId()
-   {
-      long pid = -1;
-      if (AeUtil.notNullOrEmpty( getProperty(IAeCoordinating.AE_COORD_PID) ))
-      {
-         try
-         {
-            pid = Long.parseLong( getProperty(IAeCoordinating.AE_COORD_PID) );
-         }
-         catch (Exception e)
-         {
-            //ignore
-            pid = -1;
-            AeException.logError(e,e.getMessage());
-         }
-      }       
-      return pid;
-   }
-   
+    /**
+     * @return coordination type.
+     */
+    public String getCoordinationType() {
+        return getProperty(IAeCoordinating.WSCOORD_TYPE);
+    }
+
+    /**
+     * Sets the type of coordination.
+     *
+     * @param aCoordinationType the type of coordination.
+     */
+    public void setCoordinationType(String aCoordinationType) {
+        setProperty(IAeCoordinating.WSCOORD_TYPE, aCoordinationType);
+    }
+
+    /**
+     * @return returns the location path
+     */
+    public String getLocationPath() {
+        return getProperty(IAeCoordinating.AE_COORD_LOCATION_PATH);
+    }
+
+    /**
+     * @return the process id or -1 if not available.
+     */
+    public long getProcessId() {
+        long pid = -1;
+        if (AeUtil.notNullOrEmpty(getProperty(IAeCoordinating.AE_COORD_PID))) {
+            try {
+                pid = Long.parseLong(getProperty(IAeCoordinating.AE_COORD_PID));
+            } catch (Exception e) {
+                //ignore
+                pid = -1;
+                AeException.logError(e, e.getMessage());
+            }
+        }
+        return pid;
+    }
+
 }

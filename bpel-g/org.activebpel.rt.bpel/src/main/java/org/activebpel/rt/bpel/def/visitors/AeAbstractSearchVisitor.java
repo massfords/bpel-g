@@ -7,43 +7,39 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.visitors; 
+package org.activebpel.rt.bpel.def.visitors;
 
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
 
 /**
  * Base class for visitors that are searching for a particular def and want to
- * stop traversing after its found. 
+ * stop traversing after its found.
  */
-public abstract class AeAbstractSearchVisitor extends AeAbstractDefVisitor
-{
-   /**
-    * No arg ctor 
-    */
-   public AeAbstractSearchVisitor()
-   {
-      setTraversalVisitor(new AeTraversalVisitor(new AeTraverseWhileNotFound(), this)); 
-   }
-   
-   /**
-    * Return true to stop searching
-    */
-   public abstract boolean isFound();
+public abstract class AeAbstractSearchVisitor extends AeAbstractDefVisitor {
+    /**
+     * No arg ctor
+     */
+    public AeAbstractSearchVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeTraverseWhileNotFound(), this));
+    }
 
-   /**
-    * keeps traversing the def until we find what we're looking for.
-    */
-   protected class AeTraverseWhileNotFound extends AeDefTraverser
-   {
-      /**
-       * @see org.activebpel.rt.bpel.def.visitors.AeDefTraverser#callAccept(org.activebpel.rt.xml.def.AeBaseXmlDef, org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor)
-       */
-      protected void callAccept(AeBaseXmlDef aDef, IAeBaseXmlDefVisitor aVisitor)
-      {
-         if (!isFound())
-            super.callAccept(aDef, aVisitor);
-      }
-   }
+    /**
+     * Return true to stop searching
+     */
+    public abstract boolean isFound();
+
+    /**
+     * keeps traversing the def until we find what we're looking for.
+     */
+    protected class AeTraverseWhileNotFound extends AeDefTraverser {
+        /**
+         * @see org.activebpel.rt.bpel.def.visitors.AeDefTraverser#callAccept(org.activebpel.rt.xml.def.AeBaseXmlDef, org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor)
+         */
+        protected void callAccept(AeBaseXmlDef aDef, IAeBaseXmlDefVisitor aVisitor) {
+            if (!isFound())
+                super.callAccept(aDef, aVisitor);
+        }
+    }
 }
  

@@ -18,174 +18,179 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Base class for the attachment JSP beans.
  */
-public abstract class AeAttachmentBeanBase extends AeAbstractAdminBean
-{
-   /**
-    * Request or command was successful.
-    */
-   public static final int SUCCESS = 0;
+public abstract class AeAttachmentBeanBase extends AeAbstractAdminBean {
+    /**
+     * Request or command was successful.
+     */
+    public static final int SUCCESS = 0;
 
-   /** Command failed. */
-   public static final int FAILURE = 1;
+    /**
+     * Command failed.
+     */
+    public static final int FAILURE = 1;
 
-   /** Error */
-   public static final int ERROR = 2;
+    /**
+     * Error
+     */
+    public static final int ERROR = 2;
 
-   /** Command ignored */
-   public static final int IGNORE = 3;
+    /**
+     * Command ignored
+     */
+    public static final int IGNORE = 3;
 
-   /** The process id. */
-   private String mPid;
+    /**
+     * The process id.
+     */
+    private String mPid;
 
-   /** The (server compatible) location path. */
-   private String mPath;
+    /**
+     * The (server compatible) location path.
+     */
+    private String mPath;
 
-   /** Response status code */
-   private int mStatusCode = SUCCESS;
+    /**
+     * Response status code
+     */
+    private int mStatusCode = SUCCESS;
 
-   /** Http servlet request. */
-   private HttpServletRequest mRequest;
+    /**
+     * Http servlet request.
+     */
+    private HttpServletRequest mRequest;
 
-   /** Http servlet response. */
-   private HttpServletResponse mResponse;
+    /**
+     * Http servlet response.
+     */
+    private HttpServletResponse mResponse;
 
-   /**
-    * Set the process id
-    * @param aPid
-    */
-   public void setPid(String aPid)
-   {
-      mPid = aPid;
-   }
+    /**
+     * Set the process id
+     *
+     * @param aPid
+     */
+    public void setPid(String aPid) {
+        mPid = aPid;
+    }
 
-   /**
-    * Return the pid as a long.
-    */
-   public long getPidAsLong()
-   {
-      return Long.parseLong(getPid());
-   }
+    /**
+     * Return the pid as a long.
+     */
+    public long getPidAsLong() {
+        return Long.parseLong(getPid());
+    }
 
-   /**
-    * @return Returns the pid.
-    */
-   public String getPid()
-   {
-      return mPid;
-   }
+    /**
+     * @return Returns the pid.
+     */
+    public String getPid() {
+        return mPid;
+    }
 
-   /**
-    * Set the variable locator path
-    * @param aPath
-    */
-   public void setPath(String aPath)
-   {
-      mPath = aPath;
-   }
+    /**
+     * Set the variable locator path
+     *
+     * @param aPath
+     */
+    public void setPath(String aPath) {
+        mPath = aPath;
+    }
 
-   /**
-    * @return Returns the locationPath.
-    */
-   public String getPath()
-   {
-      return mPath;
-   }
+    /**
+     * @return Returns the locationPath.
+     */
+    public String getPath() {
+        return mPath;
+    }
 
-   /**
-    * @return Returns the status code.
-    */
-   public int getStatusCode()
-   {
-      return mStatusCode;
-   }
+    /**
+     * @return Returns the status code.
+     */
+    public int getStatusCode() {
+        return mStatusCode;
+    }
 
-   /**
-    * Sets the response status code.
-    * @param aStatusCode
-    */
-   public void setStatusCode(int aStatusCode)
-   {
-      mStatusCode = aStatusCode;
-   }
+    /**
+     * Sets the response status code.
+     *
+     * @param aStatusCode
+     */
+    public void setStatusCode(int aStatusCode) {
+        mStatusCode = aStatusCode;
+    }
 
-   /**
-    * @return the error
-    */
-   public boolean isError()
-   {
-      return getStatusCode() == ERROR;
-   }
+    /**
+     * @return the error
+     */
+    public boolean isError() {
+        return getStatusCode() == ERROR;
+    }
 
-   /**
-    * Sets the error message from the throwable.
-    * @param aError
-    */
-   public void setError(Throwable aError)
-   {
-      setStatusCode(ERROR);
-      setStatusDetail(aError);
-      setErrorDetail(true);
-   }
+    /**
+     * Sets the error message from the throwable.
+     *
+     * @param aError
+     */
+    public void setError(Throwable aError) {
+        setStatusCode(ERROR);
+        setStatusDetail(aError);
+        setErrorDetail(true);
+    }
 
-   /**
-    * Convenience method to return the message from the root cause of the error.
-    * @param aError
-    * @return root cause message.
-    */
-   protected String createExceptionMessage(Throwable aError)
-   {
-      if ( aError.getCause() != null && AeUtil.notNullOrEmpty(aError.getCause().getMessage()) )
-      {
-         return aError.getCause().getMessage();
-      }
-      else
-      {
-         return aError.getMessage();
-      }
-   }
+    /**
+     * Convenience method to return the message from the root cause of the error.
+     *
+     * @param aError
+     * @return root cause message.
+     */
+    protected String createExceptionMessage(Throwable aError) {
+        if (aError.getCause() != null && AeUtil.notNullOrEmpty(aError.getCause().getMessage())) {
+            return aError.getCause().getMessage();
+        } else {
+            return aError.getMessage();
+        }
+    }
 
-   /**
-    * Sets the message from the throwable.
-    * @param aError
-    */
-   public void setStatusDetail(Throwable aError)
-   {
-      setStatusDetail(createExceptionMessage(aError));
-   }
+    /**
+     * Sets the message from the throwable.
+     *
+     * @param aError
+     */
+    public void setStatusDetail(Throwable aError) {
+        setStatusDetail(createExceptionMessage(aError));
+    }
 
-   /**
-    * Called by the JSP set the reques object.
-    * @param aRequest
-    * @throws Exception
-    */
-   public void setRequest(HttpServletRequest aRequest) throws Exception
-   {
-      mRequest = aRequest;
-   }
+    /**
+     * Called by the JSP set the reques object.
+     *
+     * @param aRequest
+     * @throws Exception
+     */
+    public void setRequest(HttpServletRequest aRequest) throws Exception {
+        mRequest = aRequest;
+    }
 
-   /**
-    * Called by the JSP set the response object.
-    * @param aResponse
-    */
-   public void setResponse(HttpServletResponse aResponse)
-   {
-      mResponse = aResponse;
-   }
+    /**
+     * Called by the JSP set the response object.
+     *
+     * @param aResponse
+     */
+    public void setResponse(HttpServletResponse aResponse) {
+        mResponse = aResponse;
+    }
 
-   /**
-    * @return Http servlet request if set or <code>null</code> otherwise.
-    */
-   protected HttpServletRequest getRequest()
-   {
-      return mRequest;
-   }
+    /**
+     * @return Http servlet request if set or <code>null</code> otherwise.
+     */
+    protected HttpServletRequest getRequest() {
+        return mRequest;
+    }
 
-   /**
-    * @return Http servlet response if set or <code>null</code> otherwise.
-    */
-   protected HttpServletResponse getResponse()
-   {
-      return mResponse;
-   }
+    /**
+     * @return Http servlet response if set or <code>null</code> otherwise.
+     */
+    protected HttpServletResponse getResponse() {
+        return mResponse;
+    }
 
 }

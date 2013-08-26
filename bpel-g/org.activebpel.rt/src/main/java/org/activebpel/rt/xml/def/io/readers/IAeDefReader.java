@@ -19,15 +19,14 @@ import org.w3c.dom.Element;
  * setting the properties on def object based on element attributes
  * and adding the def to its parent object (via the IAeReaderContext).
  */
-public interface IAeDefReader
-{
-   /**
-    * Deserialize the current element to it def type and add it to the parent def.
-    * 
-    * @param aParent add child to this def
-    * @param aElement to be deserialized
-    * @return newly created AeDef object
-    * @throws AeException
-    */
-   public AeBaseXmlDef read(AeBaseXmlDef aParent, Element aElement) throws AeException;
+public interface IAeDefReader {
+    /**
+     * Deserialize the current element to it def type and add it to the parent def.
+     *
+     * @param aParent  add child to this def
+     * @param aElement to be deserialized
+     * @return newly created AeDef object
+     * @throws AeException
+     */
+    public AeBaseXmlDef read(AeBaseXmlDef aParent, Element aElement) throws AeException;
 }

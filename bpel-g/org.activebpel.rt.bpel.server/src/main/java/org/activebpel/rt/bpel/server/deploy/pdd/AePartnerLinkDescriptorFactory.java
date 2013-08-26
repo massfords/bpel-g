@@ -22,47 +22,49 @@ import bpelg.services.deploy.types.pdd.PartnerLinkType;
  * Factory class for creating <code>AePartnerLinkDescriptor</code> objects.
  */
 public class AePartnerLinkDescriptorFactory {
-	/** Singleton instance. */
-	private static final AePartnerLinkDescriptorFactory INSTANCE = new AePartnerLinkDescriptorFactory();
+    /**
+     * Singleton instance.
+     */
+    private static final AePartnerLinkDescriptorFactory INSTANCE = new AePartnerLinkDescriptorFactory();
 
-	/**
-	 * Accessor for factory.
-	 */
-	public static AePartnerLinkDescriptorFactory getInstance() {
-		return INSTANCE;
-	}
+    /**
+     * Accessor for factory.
+     */
+    public static AePartnerLinkDescriptorFactory getInstance() {
+        return INSTANCE;
+    }
 
-	/**
-	 * Create the <code>AePartnerLinkDescriptor</code> object.
-	 * 
-	 * @param aPartnerLinkElement
-	 * @param aDef
-	 * @throws AeDeploymentException
-	 */
-	public AePartnerLinkDescriptor createPartnerLinkDesc(
-			PartnerLinkType aPartnerLinkType, AeProcessDef aDef)
-			throws AeDeploymentException {
-		String partnerLinkName = aPartnerLinkType.getName();
-		String partnerLinkLoc = aPartnerLinkType.getLocation();
-		AePartnerLinkDef plDef = null;
-		if (AeUtil.notNullOrEmpty(partnerLinkLoc))
-			plDef = aDef.findPartnerLink(partnerLinkLoc);
-		else
-			plDef = aDef.findPartnerLink(partnerLinkName);
+    /**
+     * Create the <code>AePartnerLinkDescriptor</code> object.
+     *
+     * @param aPartnerLinkElement
+     * @param aDef
+     * @throws AeDeploymentException
+     */
+    public AePartnerLinkDescriptor createPartnerLinkDesc(
+            PartnerLinkType aPartnerLinkType, AeProcessDef aDef)
+            throws AeDeploymentException {
+        String partnerLinkName = aPartnerLinkType.getName();
+        String partnerLinkLoc = aPartnerLinkType.getLocation();
+        AePartnerLinkDef plDef = null;
+        if (AeUtil.notNullOrEmpty(partnerLinkLoc))
+            plDef = aDef.findPartnerLink(partnerLinkLoc);
+        else
+            plDef = aDef.findPartnerLink(partnerLinkName);
 
-		if (plDef == null)
-			throw new AeDeploymentException(
-					AeMessages
-							.getString("AePartnerLinkDescriptorFactory.PARTNER_LINK_NOT_FOUND_ERROR") + partnerLinkName); //$NON-NLS-1$
+        if (plDef == null)
+            throw new AeDeploymentException(
+                    AeMessages
+                            .getString("AePartnerLinkDescriptorFactory.PARTNER_LINK_NOT_FOUND_ERROR") + partnerLinkName); //$NON-NLS-1$
 
-		AePartnerLinkDescriptor partnerLinkDesc = null;
-		try {
-			partnerLinkDesc = new AePartnerLinkDescriptor(aPartnerLinkType, plDef.getLocationId());
-		} catch (AeBusinessProcessException abe) {
-			// caused by some problem parsing the WSA endpoint ref if
-			// the type is static
-			throw new AeDeploymentException(abe.getLocalizedMessage(), abe);
-		}
-		return partnerLinkDesc;
-	}
+        AePartnerLinkDescriptor partnerLinkDesc = null;
+        try {
+            partnerLinkDesc = new AePartnerLinkDescriptor(aPartnerLinkType, plDef.getLocationId());
+        } catch (AeBusinessProcessException abe) {
+            // caused by some problem parsing the WSA endpoint ref if
+            // the type is static
+            throw new AeDeploymentException(abe.getLocalizedMessage(), abe);
+        }
+        return partnerLinkDesc;
+    }
 }

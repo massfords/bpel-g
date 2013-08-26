@@ -7,22 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityContinueDef;
 
 /**
  * model for valdiating the continue activity.
  */
-public class AeActivityContinueValidator extends AeActivityLoopControlValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityContinueValidator(AeActivityContinueDef aDef)
-   {
-      super(aDef);
-   }
+public class AeActivityContinueValidator extends AeActivityLoopControlValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityContinueValidator(AeActivityContinueDef aDef) {
+        super(aDef);
+    }
 }
  

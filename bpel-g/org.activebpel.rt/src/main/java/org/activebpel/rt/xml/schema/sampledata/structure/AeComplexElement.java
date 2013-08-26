@@ -8,7 +8,7 @@
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 ////////////////////////////////////////////////////////////////////////////
 
-package org.activebpel.rt.xml.schema.sampledata.structure; 
+package org.activebpel.rt.xml.schema.sampledata.structure;
 
 import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 
@@ -17,138 +17,136 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *  Model of a Schema complexType definition.
+ * Model of a Schema complexType definition.
  */
-public class AeComplexElement extends AeBaseElement
-{
-   /** List of Attributes for this complexType. */
-   private final List<AeBaseAttribute> mAttributes = new LinkedList<>();
+public class AeComplexElement extends AeBaseElement {
+    /**
+     * List of Attributes for this complexType.
+     */
+    private final List<AeBaseAttribute> mAttributes = new LinkedList<>();
 
-   /** QName for the xsi:type attribute. If set, then we should output the type with the element */
-   private QName mXsiType;
-   
-   /** The mixed flag for this complexType. */
-   private boolean mMixed;
+    /**
+     * QName for the xsi:type attribute. If set, then we should output the type with the element
+     */
+    private QName mXsiType;
 
-   /** Flag indicating if this complexType has simpleContent of simple type. */
-   private boolean mSimpleContentType;
-   
-   /** The data type if simpleContent. */
-   private QName mDataType;
+    /**
+     * The mixed flag for this complexType.
+     */
+    private boolean mMixed;
 
-   
-   /**
-    * Constructor.
-    */
-   public AeComplexElement()
-   {
-   }
+    /**
+     * Flag indicating if this complexType has simpleContent of simple type.
+     */
+    private boolean mSimpleContentType;
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
-    */
-   public void accept(IAeSampleDataVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * The data type if simpleContent.
+     */
+    private QName mDataType;
 
-   /**
-    * @return List
-    */
-   public List<AeBaseAttribute> getAttributes()
-   {
-      return mAttributes;
-   }
 
-   /**
-    * @param aAttributes
-    */
-   public void setAttributes(List aAttributes)
-   {
-      mAttributes.clear();
+    /**
+     * Constructor.
+     */
+    public AeComplexElement() {
+    }
 
-       for (Object a : aAttributes) {
-           AeBaseAttribute attrib = (AeBaseAttribute) a;
-           addAttribute(attrib);
-       }
-   }
-   
-   /**
-    * Adds the attribute to the element
-    * @param aAttribute
-    */
-   public void addAttribute(AeBaseAttribute aAttribute)
-   {
-      aAttribute.setParent(this);
-      getAttributes().add(aAttribute);
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
+     */
+    public void accept(IAeSampleDataVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @return boolean
-    */
-   public boolean isMixed()
-   {
-      return mMixed;
-   }
+    /**
+     * @return List
+     */
+    public List<AeBaseAttribute> getAttributes() {
+        return mAttributes;
+    }
 
-   /**
-    * @param aIsMixed
-    */
-   public void setMixed(boolean aIsMixed)
-   {
-      mMixed = aIsMixed;
-   }
+    /**
+     * @param aAttributes
+     */
+    public void setAttributes(List aAttributes) {
+        mAttributes.clear();
 
-   /**
-    * @return the type
-    */
-   public QName getXsiType()
-   {
-      return mXsiType;
-   }
+        for (Object a : aAttributes) {
+            AeBaseAttribute attrib = (AeBaseAttribute) a;
+            addAttribute(attrib);
+        }
+    }
 
-   /**
-    * @param aType the type to set
-    */
-   public void setXsiType(QName aType)
-   {
-      mXsiType = aType;
-   }
+    /**
+     * Adds the attribute to the element
+     *
+     * @param aAttribute
+     */
+    public void addAttribute(AeBaseAttribute aAttribute) {
+        aAttribute.setParent(this);
+        getAttributes().add(aAttribute);
+    }
 
-   /**
-    * Gets the flag indicating if this complexType has simpleContents of simple type.
-    * 
-    * @return boolean
-    */
-   public boolean isSimpleContentType()
-   {
-      return mSimpleContentType;
-   }
+    /**
+     * @return boolean
+     */
+    public boolean isMixed() {
+        return mMixed;
+    }
 
-   /**
-    * Sets the flag indicating if this complexType has simpleContents of simple type. 
-    *
-    * @param aSimpleContextType
-    */
-   public void setSimpleContentType(boolean aSimpleContextType)
-   {
-      mSimpleContentType = aSimpleContextType;
-   }
+    /**
+     * @param aIsMixed
+     */
+    public void setMixed(boolean aIsMixed) {
+        mMixed = aIsMixed;
+    }
 
-   /**
-    * Gets the data type if simpleContents
-    */
-   public QName getDataType()
-   {
-      return mDataType;
-   }
+    /**
+     * @return the type
+     */
+    public QName getXsiType() {
+        return mXsiType;
+    }
 
-   /**
-    * Sets the data type if simpleContents
-    * @param aDataType
-    */
-   public void setDataType(QName aDataType)
-   {
-      mDataType = aDataType;
-   }
+    /**
+     * @param aType the type to set
+     */
+    public void setXsiType(QName aType) {
+        mXsiType = aType;
+    }
+
+    /**
+     * Gets the flag indicating if this complexType has simpleContents of simple type.
+     *
+     * @return boolean
+     */
+    public boolean isSimpleContentType() {
+        return mSimpleContentType;
+    }
+
+    /**
+     * Sets the flag indicating if this complexType has simpleContents of simple type.
+     *
+     * @param aSimpleContextType
+     */
+    public void setSimpleContentType(boolean aSimpleContextType) {
+        mSimpleContentType = aSimpleContextType;
+    }
+
+    /**
+     * Gets the data type if simpleContents
+     */
+    public QName getDataType() {
+        return mDataType;
+    }
+
+    /**
+     * Sets the data type if simpleContents
+     *
+     * @param aDataType
+     */
+    public void setDataType(QName aDataType) {
+        mDataType = aDataType;
+    }
 }

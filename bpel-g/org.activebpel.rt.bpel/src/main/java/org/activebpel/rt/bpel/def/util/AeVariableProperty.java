@@ -14,39 +14,40 @@ import javax.xml.namespace.QName;
 /**
  * Helper class to package data from the bpws:getVariableProperty function.
  */
-public class AeVariableProperty
-{
-   /** The variable name parameter of the function call */
-   private final String mVarName;
-   /** The variable property parameter of the function call */
-   private final QName mProperty;
+public class AeVariableProperty {
+    /**
+     * The variable name parameter of the function call
+     */
+    private final String mVarName;
+    /**
+     * The variable property parameter of the function call
+     */
+    private final QName mProperty;
 
-   /**
-    * Constructor for variableProperty element which takes the parameter values
-    * as input.
-    * @param aVarName the variable name we are requesting data for
-    * @param aPropertyName the property name we wish to access
-    */
-   public AeVariableProperty(String aVarName, QName aPropertyName)
-   {
-      mVarName = aVarName;
-      mProperty = aPropertyName;
-   }
+    /**
+     * Constructor for variableProperty element which takes the parameter values
+     * as input.
+     *
+     * @param aVarName      the variable name we are requesting data for
+     * @param aPropertyName the property name we wish to access
+     */
+    public AeVariableProperty(String aVarName, QName aPropertyName) {
+        mVarName = aVarName;
+        mProperty = aPropertyName;
+    }
 
-   /**
-    * Returns the variable name part of the bpws:getVariableProperty function.
-    */
-   public String getVarName()
-   {
-      return mVarName;
-   }
+    /**
+     * Returns the variable name part of the bpws:getVariableProperty function.
+     */
+    public String getVarName() {
+        return mVarName;
+    }
 
-   /**
-    * Returns the property name part of the bpws:getVariableProperty function.
-    */
-   public QName getProperty()
-   {
-      return mProperty;
-   }
+    /**
+     * Returns the property name part of the bpws:getVariableProperty function.
+     */
+    public QName getProperty() {
+        return mProperty;
+    }
 }
 
