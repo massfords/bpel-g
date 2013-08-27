@@ -11,7 +11,6 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.dbutils.ResultSetHandler;
 
@@ -63,12 +62,10 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject {
      * @throws AeStorageException
      */
     protected int update(String aQueryName, Object... aParams) throws AeStorageException {
-        Connection conn = null;
-        try {
-            conn = getConnection();
+        try (Connection conn = getConnection()) {
             return update(conn, aQueryName, aParams);
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 
@@ -99,12 +96,10 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject {
      * @throws AeStorageException
      */
     protected <T> T query(String aQueryName, ResultSetHandler<T> aHandler, Object... aParams) throws AeStorageException {
-        Connection conn = null;
-        try {
-            conn = getConnection();
+        try (Connection conn = getConnection()) {
             return query(conn, aQueryName, aHandler, aParams);
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 

@@ -12,7 +12,6 @@ import org.activebpel.rt.bpel.server.deploy.*;
 import org.activebpel.rt.bpel.server.deploy.bpr.AeBprDeploymentSource;
 import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.slf4j.Logger;
@@ -22,6 +21,7 @@ import org.w3c.dom.Element;
 
 import javax.xml.namespace.QName;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -198,13 +198,11 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
 
     @Override
     public Document getResourceAsDocument(String resourceName) throws AeException {
-        InputStream in = getResourceAsStream(resourceName);
         AeXMLParserBase parser = new AeXMLParserBase(true, false);
-        try {
-            in = getResourceAsStream(resourceName);
+        try (InputStream in = getResourceAsStream(resourceName)) {
             return parser.loadDocument(in, null);
-        } finally {
-            AeCloser.close(in);
+        } catch (IOException e) {
+            throw new AeException(e);
         }
     }
 }

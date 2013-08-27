@@ -9,14 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.graph;
 
-import java.awt.Color;
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.util.AeUtil;
+
+import java.awt.*;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.StringTokenizer;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeUtil;
 
 /**
  * Reads the graph color and layout properties from graph.properties resource.
@@ -156,15 +155,11 @@ public class AeGraphProperties extends Properties {
     private AeGraphProperties() {
         super();
 
-        InputStream inputStream = null;
-        try {
-            inputStream = getClass().getResourceAsStream(mResourceName);
+        try (InputStream inputStream = getClass().getResourceAsStream(mResourceName)) {
             super.load(inputStream);
         } catch (Exception e) {
             AeException.logError(e, e.getMessage());
-        } finally {
-            AeCloser.close(inputStream);
-        }// finally
+        }
     }
 
     /**

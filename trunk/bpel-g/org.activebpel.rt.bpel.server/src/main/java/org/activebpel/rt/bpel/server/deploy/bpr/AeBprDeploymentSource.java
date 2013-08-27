@@ -22,9 +22,9 @@ import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptor;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptorFactory;
-import org.activebpel.rt.util.AeCloser;
 import org.xml.sax.InputSource;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -102,9 +102,7 @@ public class AeBprDeploymentSource implements IAeDeploymentSource {
      */
     protected void initProcessDef() throws AeDeploymentException {
         String location = getPdd().getLocation();
-        InputStream in = null;
-        try {
-            in = getContext().getResourceAsStream(location);
+        try (InputStream in = getContext().getResourceAsStream(location)) {
             mProcessDef = AeBpelIO.deserialize(new InputSource(in));
         } catch (AeBusinessProcessException e) {
             String rootMsg = ""; //$NON-NLS-1$
@@ -113,8 +111,8 @@ public class AeBprDeploymentSource implements IAeDeploymentSource {
             Object[] args = {location, getPdd().getName().getLocalPart(), rootMsg};
             throw new AeDeploymentException(MessageFormat.format(CONSOLE_ERROR,
                     args), e);
-        } finally {
-            AeCloser.close(in);
+        } catch (IOException e) {
+            throw new AeDeploymentException(e.getMessage(), e);
         }
     }
 

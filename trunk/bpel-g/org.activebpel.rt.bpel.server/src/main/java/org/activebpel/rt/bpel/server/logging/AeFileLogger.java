@@ -12,9 +12,9 @@ package org.activebpel.rt.bpel.server.logging;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUnsynchronizedCharArrayWriter;
 import org.activebpel.rt.util.AeUtil;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 
@@ -89,9 +89,7 @@ public class AeFileLogger extends AeInMemoryProcessLogger {
      */
     private String readAbbreviatedLog(File aFile) throws IOException {
         AeUnsynchronizedCharArrayWriter writer = new AeUnsynchronizedCharArrayWriter();
-        RandomAccessFile raf = null;
-        try {
-            raf = new RandomAccessFile(aFile, "r"); //$NON-NLS-1$
+        try (RandomAccessFile raf = new RandomAccessFile(aFile, "r")) {
             int headLimit = AePreferences.getLoggingLinesHead();
             int tailLimit = AePreferences.getLoggingLinesTail();
 
@@ -109,8 +107,6 @@ public class AeFileLogger extends AeInMemoryProcessLogger {
             // read the tail
             read(raf, writer, Integer.MAX_VALUE);
 
-        } finally {
-            AeCloser.close(raf);
         }
 
         return writer.toString();
@@ -171,7 +167,7 @@ public class AeFileLogger extends AeInMemoryProcessLogger {
             while ((read = reader.read(buff)) != -1)
                 writer.write(buff, 0, read);
         } catch (IOException e) {
-            AeCloser.close(reader);
+            IOUtils.closeQuietly(reader);
         }
         return writer.toString();
     }
@@ -195,15 +191,9 @@ public class AeFileLogger extends AeInMemoryProcessLogger {
     protected void writeToFile(long aProcessId) throws IOException {
         StringBuffer sb = getBuffer(aProcessId, false);
         if (sb != null) {
-            synchronized (sb) {
-                Writer w = null;
-                try {
-                    w = new FileWriter(getFile(aProcessId), true);
-                    w.write(sb.toString());
-                    sb.setLength(0);
-                } finally {
-                    AeCloser.close(w);
-                }
+            try (Writer w = new FileWriter(getFile(aProcessId), true)) {
+                w.write(sb.toString());
+                sb.setLength(0);
             }
         }
     }

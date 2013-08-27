@@ -9,16 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.activebpel.rt.util.AeFileUtil;
+import org.activebpel.rt.util.AeUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeFileUtil;
-import org.activebpel.rt.util.AeUtil;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Implements the default attachment download handler for
@@ -46,13 +44,9 @@ public class AeAttachmentDownloadHandler implements IAeAttachmentDownloadHandler
             aResponse.setContentLength(aAttachmentSize);
         }
 
-        OutputStream out = aResponse.getOutputStream();
-
-        try {
+        try (OutputStream out = aResponse.getOutputStream()) {
             AeFileUtil.copy(aAttachmentContent, out);
             out.flush();
-        } finally {
-            AeCloser.close(out);
         }
     }
 }

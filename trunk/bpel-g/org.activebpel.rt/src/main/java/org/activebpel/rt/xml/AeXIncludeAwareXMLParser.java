@@ -10,15 +10,15 @@
 
 package org.activebpel.rt.xml;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.util.Iterator;
-
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.util.AeCloser;
+import org.apache.commons.io.IOUtils;
 import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+
+import java.io.InputStream;
+import java.io.Reader;
+import java.util.Iterator;
 
 /**
  * This class will setup an XInclude aware parser.
@@ -99,7 +99,7 @@ public class AeXIncludeAwareXMLParser {
             source.setSystemId(aResourceURI);
             return loadDocument(source, aSchemas);
         } finally {
-            AeCloser.close(aInput);
+            IOUtils.closeQuietly(aInput);
         }
     }
 
@@ -119,7 +119,7 @@ public class AeXIncludeAwareXMLParser {
             source.setSystemId(aResourceURI);
             return loadDocument(source, aSchemas);
         } finally {
-            AeCloser.close(aInput);
+            IOUtils.closeQuietly(aInput);
         }
     }
 

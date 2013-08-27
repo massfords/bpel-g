@@ -13,11 +13,11 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.schemas.AeStandardSchemas;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUTF8Util;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.schema.AeSchemaUtil;
+import org.apache.commons.io.IOUtils;
 import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -245,7 +245,7 @@ public class AeXMLParserBase {
         try {
             return loadDocument(new InputSource(aInput), aSchemas);
         } finally {
-            AeCloser.close(aInput);
+            IOUtils.closeQuietly(aInput);
         }
     }
 
@@ -265,7 +265,7 @@ public class AeXMLParserBase {
         try {
             return loadDocument(new InputSource(aInput), aSchemas);
         } finally {
-            AeCloser.close(aInput);
+            IOUtils.closeQuietly(aInput);
         }
     }
 

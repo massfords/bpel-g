@@ -17,11 +17,11 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeCounter;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.xml.schema.AeTypeMapping;
 
 import javax.inject.Singleton;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * A SQL journal storage.  Used to write journal entries to a SQL database.
@@ -79,12 +79,11 @@ public class AeSQLJournalStorage extends AeAbstractSQLStorage {
      */
     public long saveJournalEntry(long aProcessId, IAeJournalEntry aJournalEntry, AeTypeMapping aTypeMapping)
             throws AeStorageException {
-        Connection connection = getConnection();
 
-        try {
+        try (Connection connection = getConnection()) {
             return saveJournalEntry(aProcessId, aJournalEntry, aTypeMapping, connection);
-        } finally {
-            AeCloser.close(connection);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 

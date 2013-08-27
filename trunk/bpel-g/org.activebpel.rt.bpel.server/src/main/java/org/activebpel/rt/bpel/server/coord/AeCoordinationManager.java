@@ -65,7 +65,7 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
                 // fixme (MF-journaling) add some code to do a quick purge of the completed journal ids
                 process = getEngine().getProcessManager().getProcess(aProcessId);
                 getEngine().getProcessManager().journalEntryDone(aProcessId, aJournalId);
-            } catch (AeBusinessProcessException e) {
+            } catch (AeBusinessProcessException ignored) {
             } finally {
                 if (process != null)
                     getEngine().getProcessManager().releaseProcess(process);

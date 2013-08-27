@@ -10,10 +10,6 @@
 
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.sql.Connection;
-import java.util.Date;
-import java.util.List;
-
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
@@ -25,8 +21,12 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeCoordinationSto
 import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeCoordinationDetailListResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeSQLCoordinatingListResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeSQLCoordinatingResultSetHandler;
-import org.activebpel.rt.util.AeCloser;
 import org.apache.commons.dbutils.ResultSetHandler;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A SQL version of a coordination storage provider.
@@ -85,12 +85,10 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
                 new Date()  // modified date
         };
         // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-        Connection conn = null;
-        try {
-            conn = getTransactionConnection();
+        try (Connection conn = getTransactionConnection()) {
             update(conn, IAeCoordinationSQLKeys.INSERT_CONTEXT, params);
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 
@@ -102,12 +100,10 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
         ResultSetHandler<IAeCoordinating> handler = getCoordinatingResultSetHandler();
         // Run the query.
         // note: when calling query, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-        Connection conn = null;
-        try {
-            conn = getTransactionConnection();
+        try (Connection conn = getTransactionConnection()) {
             return query(conn, IAeCoordinationSQLKeys.LOOKUP_COORDINATION, handler, aCoordinationId, aProcessId);
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 
@@ -117,12 +113,10 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
     public List<? extends IAeCoordinating> getCoordinationsByProcessId(long aProcessId) throws AeStorageException {
         ResultSetHandler<List<IAeCoordinating>> handler = getCoordinatingListResultSetHandler();
         // note: when calling query, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-        Connection conn = null;
-        try {
-            conn = getTransactionConnection();
+        try (Connection conn = getTransactionConnection()) {
             return query(conn, IAeCoordinationSQLKeys.LIST_BY_PROCESS_ID, handler, aProcessId);
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 
@@ -132,12 +126,10 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
     public List<IAeCoordinating> getCoordinations(String aCoordinationId) throws AeStorageException {
         ResultSetHandler<List<IAeCoordinating>> handler = createCoordinatingListResultSetHandler();
         // note: when calling query, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-        Connection conn = null;
-        try {
-            conn = getTransactionConnection();
+        try (Connection conn = getTransactionConnection()) {
             return query(conn, IAeCoordinationSQLKeys.LIST_BY_COORDINATION_ID, handler, Long.valueOf(aCoordinationId));
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 
@@ -152,12 +144,10 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
                 aCoordinationId.getProcessId()
         };
         // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-        Connection conn = null;
-        try {
-            conn = getTransactionConnection();
+        try (Connection conn = getTransactionConnection()) {
             update(conn, IAeCoordinationSQLKeys.UPDATE_STATE, params);
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
 
     }
@@ -174,12 +164,10 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
                 aCoordinationId.getProcessId()
         };
         // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-        Connection conn = null;
-        try {
-            conn = getTransactionConnection();
+        try (Connection conn = getTransactionConnection()) {
             update(conn, IAeCoordinationSQLKeys.UPDATE_CONTEXT, params);
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 

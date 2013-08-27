@@ -9,18 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.io.CharArrayReader;
-import java.io.CharArrayWriter;
-import java.io.Reader;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.impl.fastdom.AeXMLFormatter;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUnsynchronizedCharArrayWriter;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
+
+import java.io.CharArrayReader;
+import java.io.CharArrayWriter;
+import java.io.Reader;
 
 /**
  * Delivers an <code>AeFastDocument</code> or standard XML
@@ -79,13 +78,9 @@ public class AeCharArrayDocumentReader extends AeDocumentReader {
      * @param aDocument The <code>AeFastDocument</code>.
      */
     protected char[] toCharArray(AeFastDocument aDocument) {
-        CharArrayWriter out = new AeUnsynchronizedCharArrayWriter();
-
-        try {
+        try (CharArrayWriter out = new AeUnsynchronizedCharArrayWriter()) {
             new AeXMLFormatter().format(aDocument, out);
             return out.toCharArray();
-        } finally {
-            AeCloser.close(out);
         }
     }
 
@@ -96,16 +91,13 @@ public class AeCharArrayDocumentReader extends AeDocumentReader {
      * @param aDocument The standard XML <code>Document</code>.
      */
     protected char[] toCharArray(Document aDocument) {
-        CharArrayWriter out = new AeUnsynchronizedCharArrayWriter();
 
-        try {
+        try (CharArrayWriter out = new AeUnsynchronizedCharArrayWriter()) {
             AeXMLParserBase.saveDocument(aDocument, out);
             return out.toCharArray();
         } catch (AeException e) {
             AeException.logError(e, AeMessages.getString("AeCharArrayDocumentReader.ERROR_0")); //$NON-NLS-1$
             return new char[0];
-        } finally {
-            AeCloser.close(out);
         }
     }
 }

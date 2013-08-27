@@ -9,20 +9,19 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
+import org.activebpel.rt.bpel.server.admin.jmx.AeProcessLogPart;
+import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
+import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.activebpel.rt.bpel.server.admin.jmx.AeProcessLogPart;
-import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
-import org.activebpel.rt.util.AeCloser;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
 
 /**
  * Responsible for dumping the contents of a process's log file and streaming it
@@ -71,10 +70,8 @@ public class AeProcessLogDumpServlet extends HttpServlet {
      * @throws IOException
      */
     private void streamLog(HttpServletResponse aResponse, long aPid) throws IOException {
-        PrintWriter out = null;
-        try {
+        try (PrintWriter out = setupStream(aPid, aResponse)) {
             IAeProcessLogger logger = AeEngineFactory.getBean(IAeProcessLogger.class);
-            out = setupStream(aPid, aResponse);
             if (logger != null) {
                 Reader reader = logger.getFullLog(aPid);
 
@@ -91,11 +88,8 @@ public class AeProcessLogDumpServlet extends HttpServlet {
                 }
             }
             out.flush();
-            out.close();
         } catch (Exception ex) {
             aResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-        } finally {
-            AeCloser.close(out);
         }
     }
 
@@ -109,8 +103,8 @@ public class AeProcessLogDumpServlet extends HttpServlet {
     private void consume(Reader aReader, PrintWriter aWriter) throws IOException {
         char[] buff = new char[1024 * 4];
         int read;
-        try {
-            while ((read = aReader.read(buff)) != -1) {
+        try (BufferedReader br = new BufferedReader(aReader)) {
+            while ((read = br.read(buff)) != -1) {
                 aWriter.write(buff, 0, read);
 
                 // This is the only way to detect whether an error has occurred
@@ -122,8 +116,6 @@ public class AeProcessLogDumpServlet extends HttpServlet {
                     break;
                 }
             }
-        } finally {
-            AeCloser.close(aReader);
         }
     }
 

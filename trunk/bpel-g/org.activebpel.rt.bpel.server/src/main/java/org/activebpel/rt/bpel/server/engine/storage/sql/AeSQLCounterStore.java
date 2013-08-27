@@ -13,7 +13,6 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeCounterStore;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 
 import javax.inject.Singleton;
@@ -67,9 +66,8 @@ public class AeSQLCounterStore extends AeSQLObject implements IAeCounterStore {
                 // We're getting a new connection here since we could already be in
                 // the middle of a transaction and we don't want the current transaction
                 // to commit for the sake of the counter increment.
-                Connection connection = getCommitControlConnection();
 
-                try {
+                try (Connection connection = getCommitControlConnection()) {
                     if (getDataSource().getSetTransactionIsolationLevel()) {
                         // Counters require a higher isolation level than the default
                         // level of TRANSACTION_READ_UNCOMMITTED that we set in
@@ -92,8 +90,6 @@ public class AeSQLCounterStore extends AeSQLObject implements IAeCounterStore {
 
                     connection.commit();
                     return result;
-                } finally {
-                    AeCloser.close(connection);
                 }
             } catch (SQLException e) {
                 // Retry if we haven't exhausted the try count.

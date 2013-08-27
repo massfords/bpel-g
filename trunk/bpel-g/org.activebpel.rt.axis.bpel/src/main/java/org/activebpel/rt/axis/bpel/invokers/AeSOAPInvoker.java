@@ -11,12 +11,12 @@ package org.activebpel.rt.axis.bpel.invokers;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.bpel.handlers.AeAttachmentUtil;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.wsio.AeWebServiceMessageData;
 import org.activebpel.wsio.IAeWebServiceAttachment;
 import org.activebpel.wsio.IAeWebServiceMessageData;
 import org.apache.axis.attachments.AttachmentPart;
 import org.apache.axis.message.SOAPHeaderElement;
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 
 import javax.activation.DataHandler;
@@ -128,7 +128,7 @@ public abstract class AeSOAPInvoker implements IAeInvoker {
         if (aAttachments != null) {
             // close attachment streams of the message sent.
             for (IAeWebServiceAttachment aAttachment : aAttachments) {
-                AeCloser.close(aAttachment.getContent());
+                IOUtils.closeQuietly(aAttachment.getContent());
             }
         }
     }

@@ -63,8 +63,7 @@ public class AeProcessFixture extends Assert {
     }
 
     public String getCatalinaPort() {
-        String catalina_port = System.getProperty("CATALINA_PORT", "8080");
-        return catalina_port;
+        return System.getProperty("CATALINA_PORT", "8080");
     }
 
     public AeDeployer getDeployer() throws Exception {
@@ -87,8 +86,10 @@ public class AeProcessFixture extends Assert {
     }
 
     public Document invoke(File file, String endpoint) throws Exception {
-        Source request = new DOMSource(parser.loadDocument(new FileInputStream(file), null));
-        return invoke(request, endpoint);
+        try (FileInputStream is = new FileInputStream(file)) {
+            Source request = new DOMSource(parser.loadDocument(is, null));
+            return invoke(request, endpoint);
+        }
     }
 
     public Document invoke(Source request, String endpoint) throws Exception {
@@ -108,9 +109,8 @@ public class AeProcessFixture extends Assert {
 
         QName portName = new QName(ns, "DOCLitPortType");
         service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING, endpoint);
-        Dispatch<Source> dispatch = service.createDispatch(portName,
+        return service.createDispatch(portName,
                 Source.class, Service.Mode.PAYLOAD);
-        return dispatch;
     }
 
 
@@ -148,9 +148,10 @@ public class AeProcessFixture extends Assert {
     }
 
     public DeploymentResponse deploy(File file) throws Exception {
-        byte[] raw = IOUtils.toByteArray(new FileInputStream(file));
-        DeploymentResponse response = getDeployer().deploy(file.getName(), raw);
-        return response;
+        try (FileInputStream is = new FileInputStream(file)) {
+            byte[] raw = IOUtils.toByteArray(is);
+            return getDeployer().deploy(file.getName(), raw);
+        }
     }
 
     public Node toNode(Source expected) throws TransformerException {
@@ -196,7 +197,7 @@ public class AeProcessFixture extends Assert {
      * @throws ParserConfigurationException
      */
     public static Document toDocument(Node docOrElement) throws Exception {
-        Document doc = null;
+        Document doc;
         if (docOrElement instanceof Element) {
             doc = AeXmlUtil.newDocument();
             Node node = doc.importNode(docOrElement, true);

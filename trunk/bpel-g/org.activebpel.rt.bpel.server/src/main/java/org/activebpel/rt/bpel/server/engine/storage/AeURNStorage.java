@@ -41,18 +41,12 @@ public class AeURNStorage extends AeAbstractStorage implements IAeURNStorage {
      * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#addMapping(java.lang.String, java.lang.String)
      */
     public void addMapping(String aURN, String aURL) throws AeStorageException {
-        IAeStorageConnection connection = getCommitControlDBConnection();
 
-        try {
+        try (IAeStorageConnection connection = getCommitControlDBConnection()) {
             getURNStorageProvider().removeMapping(aURN, connection);
             getURNStorageProvider().addMapping(aURN, aURL, connection);
 
             connection.commit();
-        } catch (AeStorageException se) {
-            AeStorageUtil.rollback(connection);
-            throw se;
-        } finally {
-            connection.close();
         }
     }
 
@@ -60,17 +54,11 @@ public class AeURNStorage extends AeAbstractStorage implements IAeURNStorage {
      * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#removeMappings(java.lang.String[])
      */
     public void removeMappings(String[] aURNArray) throws AeStorageException {
-        IAeStorageConnection connection = getCommitControlDBConnection();
-        try {
+        try (IAeStorageConnection connection = getCommitControlDBConnection()) {
             for (String arr : aURNArray) {
                 getURNStorageProvider().removeMapping(arr, connection);
             }
             connection.commit();
-        } catch (AeStorageException e) {
-            AeStorageUtil.rollback(connection);
-            throw e;
-        } finally {
-            connection.close();
         }
     }
 }

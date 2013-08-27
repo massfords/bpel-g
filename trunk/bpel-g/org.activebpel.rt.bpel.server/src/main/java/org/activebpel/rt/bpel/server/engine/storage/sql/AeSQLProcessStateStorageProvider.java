@@ -9,17 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.io.Reader;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.inject.Inject;
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.*;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
@@ -31,21 +21,20 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateCon
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection;
 import org.activebpel.rt.bpel.server.engine.storage.sql.filters.AeSQLProcessFilter;
-import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeJournalEntriesLocationIdsResultSetHandler;
-import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeJournalEntriesResultSetHandler;
-import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeSQLProcessIdsResultSetHandler;
-import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeSQLProcessInstanceResultSetHandler;
-import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeSQLProcessListResultSetHandler;
+import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.*;
 import org.activebpel.rt.bpel.server.logging.AeLogReader;
 import org.activebpel.rt.bpel.server.logging.AeSequentialClobStream;
-import org.activebpel.rt.util.AeCloser;
 import org.apache.commons.dbutils.ResultSetHandler;
 
-import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
-import bpelg.services.processes.types.ProcessList;
-import bpelg.services.processes.types.ProcessStateValueType;
-import bpelg.services.processes.types.SuspendReasonType;
+import javax.inject.Inject;
+import javax.xml.namespace.QName;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A SQL version of a process state storage delegate.
@@ -95,12 +84,10 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
                 };
 
         // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-        Connection conn = null;
-        try {
-            conn = getTransactionConnection();
+        try (Connection conn = getTransactionConnection()) {
             update(conn, IAeProcessSQLKeys.INSERT_PROCESS, params);
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
 
         return processId;
@@ -312,12 +299,11 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
      * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#writeJournalEntry(long, org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry)
      */
     public long writeJournalEntry(long aProcessId, IAeJournalEntry aJournalEntry) throws AeStorageException {
-        Connection connection = getTransactionConnection();
 
-        try {
+        try (Connection connection = getTransactionConnection()) {
             return getJournalStorage().writeJournalEntry(aProcessId, aJournalEntry, connection);
-        } finally {
-            AeCloser.close(connection);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 

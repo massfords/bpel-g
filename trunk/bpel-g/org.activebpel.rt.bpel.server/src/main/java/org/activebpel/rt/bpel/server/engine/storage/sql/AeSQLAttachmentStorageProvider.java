@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.io.InputStream;
-import java.sql.Connection;
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.engine.storage.AeCounter;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
@@ -21,8 +17,13 @@ import org.activebpel.rt.bpel.server.engine.storage.attachment.AePairSerializer;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeAttachmentStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeAttachmentItemResultSetHandler;
 import org.activebpel.rt.util.AeBlobInputStream;
-import org.activebpel.rt.util.AeCloser;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.io.IOUtils;
+
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Map;
 
 /**
  * This is a SQL Attachment Storage provider (an implementation of IAeQueueStorageDelegate).
@@ -102,12 +103,11 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
      * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeAttachmentStorageProvider#associateProcess(long, long)
      */
     public void associateProcess(long aAttachmentGroupId, long aProcessId) throws AeStorageException {
-        Connection connection = getTransactionConnection();
-        try {
+        try (Connection connection = getTransactionConnection()) {
             Object[] params = new Object[]{aProcessId, aAttachmentGroupId};
             update(connection, SQL_PROCESS_ATTACHMENT_GROUP, params);
-        } finally {
-            AeCloser.close(connection);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 
@@ -146,7 +146,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
 
                 update(SQL_STORE_ATTACHMENT, params);
             } finally {
-                AeCloser.close(content); // remove temp file
+                IOUtils.closeQuietly(content);
             }
 
             return attachmentId;

@@ -13,6 +13,7 @@ package org.activebpel.rt.util;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -271,7 +272,7 @@ public class AeJCEUtil {
         } catch (Exception e) {
             AeException.logWarning(AeMessages.getString("AeCryptoUtil.2")); //$NON-NLS-1$
         } finally {
-            AeCloser.close(is);
+            IOUtils.closeQuietly(is);
         }
     }
 

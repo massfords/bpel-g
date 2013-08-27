@@ -9,16 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.bpr;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.jar.JarEntry;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-
+import bpelg.services.deploy.types.pdd.Pdd;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
@@ -26,7 +17,14 @@ import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeJarReaderUtil;
 import org.activebpel.rt.util.AeUtil;
 
-import bpelg.services.deploy.types.pdd.Pdd;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.jar.JarEntry;
 
 /**
  * A <code>IAeBprFileStrategy</code> impl where bpr resources are pulled from
@@ -53,7 +51,6 @@ public class AeJarFileBprAccessor extends AeAbstractBprStrategy {
      */
     public void init() throws AeDeploymentException {
         AeJarReaderUtil jru = null;
-        InputStream is = null;
         try {
             jru = new AeJarReaderUtil(getDeploymentContext()
                     .getDeploymentLocation());
@@ -61,9 +58,10 @@ public class AeJarFileBprAccessor extends AeAbstractBprStrategy {
             JAXBContext context = JAXBContext.newInstance(Pdd.class);
             Unmarshaller um = context.createUnmarshaller();
             for (JarEntry entry : jru.getEntries(new AeNameFilter("*.pdd"))) {
-                is = jru.getInputStream(entry);
-                Pdd pdd = (Pdd) um.unmarshal(is);
-                pddList.add(new AePddResource(entry.getName(), pdd));
+                try (InputStream is = jru.getInputStream(entry)) {
+                    Pdd pdd = (Pdd) um.unmarshal(is);
+                    pddList.add(new AePddResource(entry.getName(), pdd));
+                }
             }
             setPddResources(pddList);
         } catch (Exception e) {
@@ -72,7 +70,6 @@ public class AeJarFileBprAccessor extends AeAbstractBprStrategy {
                     AeMessages
                             .format("AeJarFileBprAccessor.ERROR_7", getDeploymentContext().getDeploymentLocation()), e); //$NON-NLS-1$
         } finally {
-            AeCloser.close(is);
             AeCloser.close(jru);
         }
     }

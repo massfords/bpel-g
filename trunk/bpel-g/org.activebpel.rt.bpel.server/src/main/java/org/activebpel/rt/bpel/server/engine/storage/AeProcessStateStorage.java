@@ -9,14 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.io.Reader;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
@@ -24,9 +19,12 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateCon
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection;
 
-import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
-import bpelg.services.processes.types.ProcessList;
+import javax.xml.namespace.QName;
+import java.io.Reader;
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A delegating implementation of a process state storage. This class delegates all of the database calls to
@@ -149,12 +147,9 @@ public class AeProcessStateStorage extends AeAbstractStorage implements IAeProce
      * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#removeProcess(long)
      */
     public void removeProcess(long aProcessId) throws AeStorageException {
-        IAeStorageConnection connection = getDBConnection();
 
-        try {
+        try (IAeStorageConnection connection = getDBConnection()) {
             removeProcess(aProcessId, connection);
-        } finally {
-            connection.close();
         }
     }
 

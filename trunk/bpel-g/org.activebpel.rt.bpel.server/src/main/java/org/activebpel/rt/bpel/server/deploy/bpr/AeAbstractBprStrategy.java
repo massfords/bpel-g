@@ -22,8 +22,8 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.xml.AeXMLParserBase;
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 
 import bpelg.services.deploy.types.catalog.Catalog;
@@ -142,7 +142,7 @@ public abstract class AeAbstractBprStrategy implements IAeBprAccessor {
             throw new AeDeploymentException(AeMessages.format(
                     "AeJarFileBprAccessor.ERROR_1", args), t); //$NON-NLS-1$
         } finally {
-            AeCloser.close(in);
+            IOUtils.closeQuietly(in);
         }
     }
 

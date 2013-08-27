@@ -10,6 +10,7 @@
 package org.activebpel.rt.util;
 
 import org.activebpel.rt.AeMessages;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.text.MessageFormat;
@@ -48,17 +49,9 @@ public class AeFileUtil {
             throw new IOException(MessageFormat.format(AeMessages.getString("AeFileUtil.ERROR_10"), new Object[]{aSource})); //$NON-NLS-1$
         }
 
-        FileInputStream input = new FileInputStream(aSource);
-
-        try {
-            FileOutputStream output = new FileOutputStream(aDestination);
-            try {
-                AeFileUtil.copy(input, output);
-            } finally {
-                AeCloser.close(output);
-            }
-        } finally {
-            AeCloser.close(input);
+        try (FileInputStream input = new FileInputStream(aSource);
+             FileOutputStream output = new FileOutputStream(aDestination)) {
+            AeFileUtil.copy(input, output);
         }
 
         if (aSource.length() != aDestination.length()) {
@@ -158,9 +151,7 @@ public class AeFileUtil {
         File rootDir = aTargetDir;
         rootDir.mkdirs();
 
-        ZipInputStream in = null;
-        try {
-            in = new ZipInputStream(new FileInputStream(aFile));
+        try (ZipInputStream in = new ZipInputStream(new FileInputStream(aFile))) {
             ZipEntry entry = in.getNextEntry();
             while (entry != null) {
                 FileOutputStream out = null;
@@ -176,11 +167,9 @@ public class AeFileUtil {
                     io.printStackTrace();
                     throw io;
                 } finally {
-                    AeCloser.close(out);
+                    IOUtils.closeQuietly(out);
                 }
             }
-        } finally {
-            AeCloser.close(in);
         }
     }
 

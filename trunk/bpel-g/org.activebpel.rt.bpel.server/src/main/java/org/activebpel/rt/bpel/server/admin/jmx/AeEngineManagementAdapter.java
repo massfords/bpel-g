@@ -16,12 +16,12 @@ import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.xml.namespace.QName;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.*;
@@ -121,10 +121,10 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     protected static void skipAndRead(AeProcessLogPart aPart, Reader aReader, int aPartSize)
             throws IOException {
         aPart.setLog(null);
-        try {
+        try (BufferedReader br = new BufferedReader(aReader)) {
             // skip to where we want to be in the log
             int skipCount = aPart.getPart() * aPartSize;
-            long skipped = aReader.skip(skipCount);
+            long skipped = br.skip(skipCount);
 
             // if we don't skip to that point, then there's nothing to read here
             if (skipped != skipCount) {
@@ -132,7 +132,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
             } else {
                 // fill the buffer for the part
                 char[] buffer = new char[aPartSize];
-                int read = aReader.read(buffer);
+                int read = br.read(buffer);
                 if (read > 0) {
                     aPart.setLog(new String(buffer, 0, read));
                     // signal that there's more to read if we didn't fill the buffer
@@ -141,8 +141,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
                     aPart.setMoreAvailable(false);
                 }
             }
-        } finally {
-            AeCloser.close(aReader);
         }
     }
 

@@ -18,7 +18,7 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
  * to their delegate that must all exist in the same transaction.  This connection object is what
  * is acquired and then used for that purpose.
  */
-public interface IAeStorageConnection {
+public interface IAeStorageConnection extends AutoCloseable {
     /**
      * Commits the transaction associated with this connection.
      *

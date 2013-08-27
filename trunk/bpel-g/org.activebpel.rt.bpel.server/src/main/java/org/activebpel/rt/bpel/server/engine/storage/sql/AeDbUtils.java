@@ -9,6 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.util.AeUnsynchronizedCharArrayWriter;
+import org.activebpel.rt.xml.AeXMLParserBase;
+import org.apache.commons.io.IOUtils;
+import org.w3c.dom.Document;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
@@ -17,13 +24,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeUnsynchronizedCharArrayWriter;
-import org.activebpel.rt.xml.AeXMLParserBase;
-import org.w3c.dom.Document;
 
 /**
  * Common db utility methods.
@@ -65,14 +65,12 @@ public class AeDbUtils {
      * @throws SQLException
      */
     public static Document getDocument(Clob aClob) throws SQLException {
-        Reader in = aClob.getCharacterStream();
-
-        try {
+        try (Reader in = aClob.getCharacterStream()) {
             return getXMLParser().loadDocument(in, null);
         } catch (AeException e) {
             throw new SQLException(AeMessages.getString("AeDbUtils.ERROR_0") + e.getLocalizedMessage()); //$NON-NLS-1$
-        } finally {
-            AeCloser.close(in);
+        } catch (IOException e) {
+            throw new SQLException(e);
         }
     }
 
@@ -115,7 +113,7 @@ public class AeDbUtils {
             AeException.logError(io, AeMessages.getString("AeDbUtils.ERROR_1")); //$NON-NLS-1$
             throw new SQLException(AeMessages.getString("AeDbUtils.ERROR_1") + ":" + io.getLocalizedMessage()); //$NON-NLS-1$ //$NON-NLS-2$
         } finally {
-            AeCloser.close(reader);
+            IOUtils.closeQuietly(reader);
         }
     }
 

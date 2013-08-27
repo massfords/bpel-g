@@ -10,6 +10,7 @@
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -56,15 +57,11 @@ public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorag
                 getStringOrSqlNullVarchar(aEntry.getMessageId())
         };
         // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-        Connection conn = null;
-        try {
-            conn = getTransactionConnection();
+        try (Connection conn = getTransactionConnection()) {
             update(conn, IAeTransmissionTrackerSQLKeys.INSERT_ENTRY, params);
         } catch (Throwable t) {
             AeException.logError(t);
             throw new AeStorageException(t);
-        } finally {
-            AeCloser.close(conn);
         }
 
     }
@@ -87,12 +84,10 @@ public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorag
                 aEntry.getTransmissionId()
         };
         // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-        Connection conn = null;
-        try {
-            conn = getTransactionConnection();
+        try (Connection conn = getTransactionConnection()) {
             update(conn, IAeTransmissionTrackerSQLKeys.UPDATE_ENTRY, params);
-        } finally {
-            AeCloser.close(conn);
+        } catch (SQLException e) {
+            throw new AeStorageException(e);
         }
     }
 
@@ -101,17 +96,14 @@ public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorag
      */
     public void remove(Set<Long> aTransmissionIds) throws AeStorageException {
         if (!aTransmissionIds.isEmpty()) {
-            Connection conn = null;
             // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
-            try {
-                Iterator it = aTransmissionIds.iterator();
-                conn = getTransactionConnection();
-                while (it.hasNext()) {
-                    Object[] params = new Object[]{(Long) it.next()};
+            try (Connection conn = getTransactionConnection()) {
+                for (Long aTransmissionId : aTransmissionIds) {
+                    Object[] params = new Object[]{aTransmissionId};
                     update(conn, IAeTransmissionTrackerSQLKeys.DELETE_ENTRY, params);
                 }// while
-            } finally {
-                AeCloser.close(conn);
+            } catch (SQLException e) {
+                throw new AeStorageException(e);
             }
         }
     }

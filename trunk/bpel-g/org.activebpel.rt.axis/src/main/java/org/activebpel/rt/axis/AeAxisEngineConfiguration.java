@@ -10,8 +10,6 @@
 package org.activebpel.rt.axis;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeUTF8Util;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.axis.AxisEngine;
 import org.apache.axis.ConfigurationException;
@@ -65,15 +63,11 @@ public class AeAxisEngineConfiguration implements WSDDEngineConfiguration {
      * Initializes the configuration object.
      */
     public void init() {
-        InputStream is = null;
-        try {
-            is = new ByteArrayInputStream(getConfig());
+        try (InputStream is = new ByteArrayInputStream(getConfig())) {
             WSDDDocument doc = new WSDDDocument(XMLUtils.newDocument(is));
             mDeployment = doc.getDeployment();
         } catch (Exception se) {
             mDeployment = null;
-        } finally {
-            AeCloser.close(is);
         }
 
     }
@@ -84,26 +78,6 @@ public class AeAxisEngineConfiguration implements WSDDEngineConfiguration {
     public WSDDDeployment getDeployment() {
         return mDeployment;
     }
-
-    /**
-     * User to override the default client handler chain
-     *
-     * @param aWsdd WSDD document to load
-     */
-    public void setGlobalConfig(String aWsdd) throws ConfigurationException {
-        InputStream is = null;
-        try {
-            is = AeUTF8Util.getInputStream(aWsdd);
-            WSDDDocument doc = new WSDDDocument(XMLUtils.newDocument(is));
-            mDeployment.setGlobalConfiguration(doc.getDeployment().getGlobalConfiguration());
-
-        } catch (Exception e) {
-            throw new ConfigurationException(e);
-        } finally {
-            AeCloser.close(is);
-        }
-    }
-
 
     /**
      * @see org.apache.axis.EngineConfiguration#configureEngine(org.apache.axis.AxisEngine)
@@ -225,21 +199,17 @@ public class AeAxisEngineConfiguration implements WSDDEngineConfiguration {
      * @param aConfigLoc The path of the configguration file to load.
      */
     public static void loadConfig(String aConfigLoc) {
-        InputStream is = null;
-        try {
-            URL url = AeUtil.findOnClasspath(aConfigLoc, AeAxisEngineConfiguration.class);
-            is = url.openStream();
+        URL url = AeUtil.findOnClasspath(aConfigLoc, AeAxisEngineConfiguration.class);
+        try (InputStream is = url.openStream()) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buff = new byte[4096];
-            int count = 0;
+            int count;
             while ((count = is.read(buff)) != -1) {
                 baos.write(buff, 0, count);
             }
             sConfig = baos.toByteArray();
         } catch (Exception e) {
             AeException.logError(e, AeMessages.getString("AeAxisEngineConfiguration.ERROR_2")); //$NON-NLS-1$
-        } finally {
-            AeCloser.close(is);
         }
     }
 

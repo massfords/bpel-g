@@ -9,21 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def.castor;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.wsdl.Definition;
-import javax.wsdl.Types;
-import javax.wsdl.extensions.UnknownExtensibilityElement;
-import javax.wsdl.xml.WSDLLocator;
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
@@ -32,12 +19,19 @@ import org.activebpel.rt.xml.schema.AeSchemaUtil;
 import org.exolab.castor.net.URIResolver;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.reader.SchemaReader;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.InputSource;
+
+import javax.wsdl.Definition;
+import javax.wsdl.Types;
+import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.wsdl.xml.WSDLLocator;
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Utility methods for fixing up schema imports (either from wsdl files or
@@ -109,15 +103,11 @@ public class AeSchemaParserUtil {
      * @param aClass
      */
     public static Schema loadSchema(String aPath, Class aClass) {
-        InputStream in = null;
-        try {
-            in = aClass.getResourceAsStream(aPath);
+        try (InputStream in = aClass.getResourceAsStream(aPath)) {
             return loadSchema(new InputSource(in));
         } catch (IOException e) {
             AeException.logError(e, AeMessages.getString("AeSchemaParserUtil.SchemaError") + aPath); //$NON-NLS-1$
             throw new InternalError(AeMessages.getString("AeSchemaParserUtil.SchemaNotPackagedWithProject") + aPath); //$NON-NLS-1$
-        } finally {
-            AeCloser.close(in);
         }
     }
 
@@ -129,15 +119,11 @@ public class AeSchemaParserUtil {
      * @throws IOException
      */
     public static Schema loadSchema(File aSchemaFile) throws IOException {
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(aSchemaFile);
+        try (FileInputStream in = new FileInputStream(aSchemaFile)) {
             return loadSchema(new InputSource(in));
         } catch (IOException e) {
             AeException.logError(e, AeMessages.getString("AeSchemaParserUtil.SchemaError") + aSchemaFile.getAbsolutePath()); //$NON-NLS-1$
             throw e;
-        } finally {
-            AeCloser.close(in);
         }
     }
 
