@@ -28,10 +28,10 @@ import org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.wsdl.AeCatalogResourceResolver;
 import org.activebpel.rt.bpel.server.wsdl.AeWsdlLocator;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.wsdl.def.AeStandardSchemaResolver;
 import org.activebpel.rt.wsdl.def.castor.AeURIResolver;
+import org.apache.commons.io.IOUtils;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.reader.SchemaReader;
 import org.xml.sax.InputSource;
@@ -248,8 +248,8 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
         } catch (Exception ex) {
             throw new AeResourceException(ex);
         } finally {
-            AeCloser.close(stream);
-            AeCloser.close(reader);
+            IOUtils.closeQuietly(stream);
+            IOUtils.closeQuietly(reader);
         }
     }
 

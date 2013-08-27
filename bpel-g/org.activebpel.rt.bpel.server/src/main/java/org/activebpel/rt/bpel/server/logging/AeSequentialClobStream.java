@@ -9,17 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.logging;
 
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig;
-import org.activebpel.rt.util.AeCloser;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
  * Provides a single InputStream interface to a sequence of Clobs.
@@ -97,7 +97,7 @@ public class AeSequentialClobStream extends Reader implements ResultSetHandler<R
      * Closes the current stream and nulls out the reference.
      */
     private void closeCurrentStream() {
-        AeCloser.close(mCurrentStream);
+        IOUtils.closeQuietly(mCurrentStream);
         mCurrentStream = null;
     }
 
@@ -133,21 +133,18 @@ public class AeSequentialClobStream extends Reader implements ResultSetHandler<R
         if (rs.next()) {
             mCounter = rs.getInt(2);
 
-            Reader inFromClob = rs.getClob(1).getCharacterStream();
             char[] buffer = new char[1024 * 4];
             int read;
             StringWriter writer = new StringWriter();
 
-            try {
+            try (Reader inFromClob = rs.getClob(1).getCharacterStream()) {
                 while ((read = inFromClob.read(buffer)) != -1) {
                     writer.write(buffer, 0, read);
                 }
 
                 input = new StringReader(writer.toString());
             } catch (IOException e) {
-                throw new SQLException(e.getMessage());
-            } finally {
-                AeCloser.close(inFromClob);
+                throw new SQLException(e.getMessage(), e);
             }
         }
 

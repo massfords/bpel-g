@@ -9,17 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsresource.validation.schemas;
 
+import org.activebpel.rt.AeException;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.reader.SchemaReader;
+import org.xml.sax.InputSource;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.util.AeCloser;
-import org.exolab.castor.xml.schema.Schema;
-import org.exolab.castor.xml.schema.reader.SchemaReader;
-import org.xml.sax.InputSource;
 
 /**
  * Helper class for loading schemas used for deploying bpel processes to the engine.
@@ -54,17 +53,13 @@ public class AeWSResourceSchemas {
      * @param aPath
      */
     private static Schema loadSchema(String aPath) {
-        InputStream in = null;
-        try {
-            in = AeWSResourceSchemas.class.getResourceAsStream(aPath);
+        try (InputStream in = AeWSResourceSchemas.class.getResourceAsStream(aPath)) {
             SchemaReader schemaReader = new SchemaReader(new InputSource(in));
 
             return schemaReader.read();
         } catch (IOException e) {
             AeException.logError(e, "Error loading schema: " + aPath); //$NON-NLS-1$
             throw new InternalError("Error loading schema: " + aPath); //$NON-NLS-1$
-        } finally {
-            AeCloser.close(in);
         }
     }
 }

@@ -11,6 +11,7 @@ package org.activebpel.rt.util;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -964,23 +965,14 @@ public class AeUtil {
      */
     public static File createTempFile(InputStream aInputStream, String aFilePrefix, String aFileSuffix) throws AeException {
         File file = getTempFile(aFilePrefix, aFileSuffix);
-        OutputStream output;
 
-        try {
-            output = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            String errMsg = AeMessages.format("AeUtil.ERROR_FileNotFound", file.getAbsolutePath()); //$NON-NLS-1$
-            throw new AeException(errMsg, e);
-        }
-
-        try {
+        try (OutputStream output = new FileOutputStream(file)) {
             AeFileUtil.copy(aInputStream, output);
         } catch (IOException e) {
             String errMsg = AeMessages.format("AeUtil.ERROR_TempFileIO", file.getAbsolutePath()); //$NON-NLS-1$
             throw new AeException(errMsg, e);
         } finally {
-            AeCloser.close(aInputStream);
-            AeCloser.close(output);
+            IOUtils.closeQuietly(aInputStream);
         }
 
         return file;
@@ -1010,9 +1002,8 @@ public class AeUtil {
      * @throws AeException
      */
     public static byte[] toByteArray(InputStream aInput) throws AeException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        try {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[4096];
             int nBytes = 0;
 
@@ -1026,8 +1017,7 @@ public class AeUtil {
         } catch (IOException e) {
             throw new AeException(AeMessages.getString("AeUtil.ERROR_29"), e); //$NON-NLS-1$
         } finally {
-            AeCloser.close(aInput);
-            AeCloser.close(out);
+            IOUtils.closeQuietly(aInput);
         }
     }
 
@@ -1040,8 +1030,7 @@ public class AeUtil {
      */
     public static String toString(Reader aReader) throws AeException {
         String result = null;
-        try {
-            BufferedReader br = new BufferedReader(aReader);
+        try (BufferedReader br = new BufferedReader(aReader)) {
             String str;
             StringBuilder contents = new StringBuilder();
             while ((str = br.readLine()) != null) {
@@ -1051,8 +1040,6 @@ public class AeUtil {
             result = contents.toString();
         } catch (IOException iox) {
             throw new AeException(iox);
-        } finally {
-            AeCloser.close(aReader);
         }
         return result;
     }
@@ -1335,9 +1322,7 @@ public class AeUtil {
     public static Set<String> toSet(String[] aStringArray) {
         Set<String> set = new LinkedHashSet<>();
         if (aStringArray != null) {
-            for (String sa : aStringArray) {
-                set.add(sa);
-            }
+            Collections.addAll(set, aStringArray);
         }
         return set;
     }
@@ -1352,9 +1337,8 @@ public class AeUtil {
     public static String toString(Collection aCollection, char aSeparatorToken) {
         StringBuilder sb = new StringBuilder();
         if (aCollection != null && aCollection.size() > 0) {
-            Iterator it = aCollection.iterator();
-            while (it.hasNext()) {
-                sb.append(String.valueOf(it.next()) + aSeparatorToken);
+            for (Object anACollection : aCollection) {
+                sb.append(String.valueOf(anACollection)).append(aSeparatorToken);
             }
             // remove trailing separator token.
             sb.setLength(sb.length() - 1);
@@ -1408,26 +1392,6 @@ public class AeUtil {
             // ignore exception
         }
         return false;
-    }
-
-    /**
-     * Determines if the given URI is available.
-     *
-     * @param aUri
-     */
-    public static boolean isUriAvailable(URI aUri) {
-        InputStream stream = null;
-        boolean empty = true;
-
-        try {
-            stream = aUri.toURL().openStream();
-            empty = stream.available() <= 0;
-        } catch (IOException ex) {
-            // ignore exception
-        } finally {
-            AeCloser.close(stream);
-        }
-        return !empty;
     }
 
     /**

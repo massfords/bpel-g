@@ -12,7 +12,6 @@ package org.activebpel.rt.bpel.server.engine.invoke;
 import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 
 import java.io.*;
@@ -65,14 +64,10 @@ public class AeFileBasedURNStorage implements IAeURNStorage {
 
         Properties props = new Properties();
         if (getFile() != null && getFile().exists() && getFile().isFile()) {
-            InputStream in = null;
-            try {
-                in = new FileInputStream(getFile());
+            try (InputStream in = new FileInputStream(getFile())) {
                 props.load(in);
             } catch (Exception e) {
                 throw new AeStorageException(e);
-            } finally {
-                AeCloser.close(in);
             }
         }
         Map<String, String> ret = new HashMap<>();
@@ -111,14 +106,10 @@ public class AeFileBasedURNStorage implements IAeURNStorage {
         Properties props = new Properties();
         props.putAll(aMap);
 
-        OutputStream out = null;
-        try {
-            out = new FileOutputStream(getFile());
+        try (OutputStream out = new FileOutputStream(getFile())) {
             props.store(out, ""); //$NON-NLS-1$
         } catch (Exception e) {
             throw new AeStorageException(e);
-        } finally {
-            AeCloser.close(out);
         }
     }
 

@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeBlobInputStream;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Responsible for downloading the contents of an attachment and streaming it to a client.
@@ -89,7 +89,7 @@ public class AeAttachmentDownloadServlet extends HttpServlet {
             } finally {
                 // Make sure we close the attachment stream in order to delete its
                 // temporary file.
-                AeCloser.close(content);
+                IOUtils.closeQuietly(content);
             }
         } catch (Exception e) {
             AeException.logError(e);

@@ -12,7 +12,6 @@ package org.activebpel.rt.bpeladmin.war;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.util.*;
@@ -49,18 +48,10 @@ public class AeActiveBpelWarBundle extends ResourceBundle {
      * @param aServletRequest - servlet request
      */
     protected void createBundle(ServletContext aServletContext, ServletRequest aServletRequest) {
-        InputStream is = null;
-        try {
-            is = getBundleInputStream(aServletContext, aServletRequest);
+        try (InputStream is = getBundleInputStream(aServletContext, aServletRequest)) {
             mProxiedBundle = new PropertyResourceBundle(is);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
         }
     }
 

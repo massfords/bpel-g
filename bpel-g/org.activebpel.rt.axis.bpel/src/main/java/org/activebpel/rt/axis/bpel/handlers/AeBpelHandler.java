@@ -9,7 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.handlers;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -38,7 +37,6 @@ import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.IAeWsddConstants;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.receive.AeExtendedMessageContext;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.AeWebServiceMessageData;
 import org.activebpel.wsio.IAeWebServiceAttachment;
@@ -50,6 +48,7 @@ import org.apache.axis.constants.Style;
 import org.apache.axis.constants.Use;
 import org.apache.axis.description.ServiceDesc;
 import org.apache.axis.handlers.soap.SOAPService;
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Element;
 
 /**
@@ -402,7 +401,7 @@ public abstract class AeBpelHandler extends AeHandler implements IAePolicyConsta
             } finally {
                 // Clean up temporary files for attachments.
                 for (IAeWebServiceAttachment attachment : attachments) {
-                    AeCloser.close(attachment.getContent());
+                    IOUtils.closeQuietly(attachment.getContent());
                 }
             }
 

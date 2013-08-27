@@ -10,6 +10,10 @@
   </parent>  
   <description>Variety of core utilities including xml, io, wsdl, etc. Also contains classes to model xml languages which serves as the base framework for the modeling of BPEL.</description>
   <dependencies>
+      <dependency>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+      </dependency>
   	<dependency>
   		<groupId>castor</groupId>
   		<artifactId>castor</artifactId> 

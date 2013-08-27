@@ -10,12 +10,12 @@
 
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection;
 import org.activebpel.rt.util.AeCloser;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * A SQL implementation of the delegating DB connection interface.  This class is created with
@@ -62,6 +62,10 @@ public class AeSQLStorageConnection implements IAeStorageConnection {
      * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection#close()
      */
     public void close() {
+        try {
+            getConnection().rollback();
+        } catch (SQLException ignored) {
+        }
         AeCloser.close(getConnection());
     }
 

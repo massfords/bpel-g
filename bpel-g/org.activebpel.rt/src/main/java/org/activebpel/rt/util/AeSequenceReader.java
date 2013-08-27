@@ -10,6 +10,7 @@
 package org.activebpel.rt.util;
 
 import org.activebpel.rt.AeMessages;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -82,7 +83,7 @@ public class AeSequenceReader extends Reader {
      * Closes the current reader and moves onto the next
      */
     private void prepNextReader() {
-        AeCloser.close(getDelegate());
+        IOUtils.closeQuietly(getDelegate());
         // null out the reader to help gc
         mReaders[mOffset] = null;
         // move onto the next one
@@ -108,7 +109,7 @@ public class AeSequenceReader extends Reader {
      */
     public void close() throws IOException {
         for (Reader r : mReaders) {
-            AeCloser.close(r);
+            IOUtils.closeQuietly(r);
         }
     }
 

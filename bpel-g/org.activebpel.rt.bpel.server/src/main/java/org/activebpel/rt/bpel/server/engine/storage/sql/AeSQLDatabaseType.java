@@ -9,13 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Implements a database type lookup from the database.  The database has been configured with
@@ -49,14 +48,8 @@ public class AeSQLDatabaseType extends AeSQLObject {
      * @throws AeStorageException
      */
     public String getDatabaseType() throws AeStorageException {
-        try {
-            Connection connection = getConnection();
-
-            try {
-                return getDatabaseType(connection);
-            } finally {
-                AeCloser.close(connection);
-            }
+        try (Connection connection = getConnection()) {
+            return getDatabaseType(connection);
         } catch (SQLException e) {
             throw new AeStorageException(AeMessages.getString("AeSQLDatabaseType.ERROR_0"), e); //$NON-NLS-1$
         }

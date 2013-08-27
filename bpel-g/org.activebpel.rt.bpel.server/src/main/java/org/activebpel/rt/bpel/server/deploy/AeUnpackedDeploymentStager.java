@@ -9,21 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.util.AeFileUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeFileUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -190,16 +185,9 @@ public class AeUnpackedDeploymentStager {
             throw new IOException(AeMessages.format(CANNOT_WRITE_ERROR, new Object[]{getWorkingDir()}));
         }
 
-        InputStream in = null;
-        OutputStream out = null;
-
-        try {
-            in = aSource.openStream();
-            out = new FileOutputStream(aDestination);
+        try (InputStream in = aSource.openStream();
+             OutputStream out = new FileOutputStream(aDestination)) {
             AeFileUtil.copy(in, out);
-        } finally {
-            AeCloser.close(out);
-            AeCloser.close(in);
         }
     }
 

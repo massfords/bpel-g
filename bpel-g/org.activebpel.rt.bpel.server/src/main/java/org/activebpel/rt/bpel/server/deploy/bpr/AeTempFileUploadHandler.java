@@ -15,7 +15,6 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeFileUtil;
 import org.activebpel.rt.util.AeUtil;
 
@@ -71,9 +70,7 @@ public class AeTempFileUploadHandler {
      */
     protected static File createTempFile(InputStream aIn) throws IOException, AeException {
         File tmpFile = AeUtil.getTempFile("bpr", ".bpr"); //$NON-NLS-1$ //$NON-NLS-2$
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(tmpFile);
+        try (FileOutputStream fos = new FileOutputStream(tmpFile)) {
             long totalSize = AeFileUtil.copy(aIn, fos);
 
             if (totalSize == 0) {
@@ -81,8 +78,6 @@ public class AeTempFileUploadHandler {
             }
 
             return tmpFile;
-        } finally {
-            AeCloser.close(fos);
         }
     }
 }

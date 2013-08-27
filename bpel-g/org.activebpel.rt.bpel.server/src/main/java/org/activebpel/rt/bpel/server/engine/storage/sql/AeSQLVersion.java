@@ -9,13 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Implements database version lookup in the database.
@@ -46,14 +45,8 @@ public class AeSQLVersion extends AeSQLObject {
      * @throws AeStorageException
      */
     public String getVersion() throws AeStorageException {
-        try {
-            Connection connection = getConnection();
-
-            try {
-                return getVersion(connection);
-            } finally {
-                AeCloser.close(connection);
-            }
+        try (Connection connection = getConnection()) {
+            return getVersion(connection);
         } catch (SQLException e) {
             throw new AeStorageException(AeMessages.getString("AeSQLVersion.ERROR_0"), e); //$NON-NLS-1$
         }

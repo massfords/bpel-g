@@ -482,13 +482,10 @@ public class AeQueueStorage extends AeAbstractStorage implements
      */
     public boolean removeAlarm(long aProcessId, int aLocationPathId,
                                int aAlarmId) throws AeStorageException {
-        IAeStorageConnection connection = getDBConnection();
 
-        try {
+        try (IAeStorageConnection connection = getDBConnection()) {
             return removeAlarm(aProcessId, aLocationPathId, aAlarmId,
                     connection);
-        } finally {
-            connection.close();
         }
     }
 

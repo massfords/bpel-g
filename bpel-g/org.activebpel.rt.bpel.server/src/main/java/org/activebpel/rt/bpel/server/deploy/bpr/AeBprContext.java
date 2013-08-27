@@ -10,13 +10,12 @@
 package org.activebpel.rt.bpel.server.deploy.bpr;
 
 
+import org.activebpel.rt.bpel.server.deploy.AeAbstractDeploymentContext;
+import org.activebpel.rt.util.AeUtil;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
-
-import org.activebpel.rt.bpel.server.deploy.AeAbstractDeploymentContext;
-import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeUtil;
 
 /**
  * Provides access to deployment context resources.
@@ -56,8 +55,7 @@ public class AeBprContext extends AeAbstractDeploymentContext {
      * @param aResource resource we want stream for
      */
     public InputStream getResourceAsStream(String aResource) {
-        InputStream stream = getResourceClassLoader().getResourceAsStream(aResource);
-        try {
+        try (InputStream stream = getResourceClassLoader().getResourceAsStream(aResource)) {
             if (stream != null) {
                 byte[] bytes = AeUtil.toByteArray(stream);
                 return new ByteArrayInputStream(bytes);
@@ -65,8 +63,6 @@ public class AeBprContext extends AeAbstractDeploymentContext {
             return null;
         } catch (Exception ex) {
             throw new IllegalStateException(ex.getLocalizedMessage(), ex);
-        } finally {
-            AeCloser.close(stream);
         }
     }
 

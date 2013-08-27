@@ -15,9 +15,9 @@ import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLObject;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -209,7 +209,7 @@ public class AeLogReader extends AeSQLObject {
                 }
                 return sb.toString();
             } catch (IOException e) {
-                AeCloser.close(reader);
+                IOUtils.closeQuietly(reader);
                 throw new SQLException(e.getMessage());
             }
         }

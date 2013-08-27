@@ -9,14 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.graph;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.graph.AeBpelGraph;
@@ -25,8 +17,14 @@ import org.activebpel.rt.bpeladmin.war.graph.AeJpegImageEncoderImpl;
 import org.activebpel.rt.bpeladmin.war.graph.IAeImageEncoder;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.AeBpelImageResources;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeProcessViewBase;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Draws the BPEL graph on an off-screen graphics context and sends the rendered
@@ -349,10 +347,8 @@ public class AeGraphImageDriver {
      * Streams out the data for the given PNG resource name.
      */
     protected void sendImageStream(String aImageName) {
-        InputStream in = null;
-        try {
+        try (InputStream in = AeBpelImageResources.getInstance().getImageInputStream(aImageName)) {
             getResponse().setContentType("image/png"); //$NON-NLS-1$
-            in = AeBpelImageResources.getInstance().getImageInputStream(aImageName);
             OutputStream out = getResponse().getOutputStream();
             byte[] data = new byte[32768];
             int n;
@@ -361,9 +357,7 @@ public class AeGraphImageDriver {
             }
         } catch (Throwable t) {
             // ignore error
-        } finally {
-            AeCloser.close(in);
-        }// finally
+        }
     }
 
     /**

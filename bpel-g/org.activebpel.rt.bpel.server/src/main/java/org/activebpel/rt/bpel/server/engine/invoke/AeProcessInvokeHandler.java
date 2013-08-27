@@ -33,7 +33,6 @@ import org.activebpel.rt.bpel.server.engine.receive.AeExtendedMessageContext;
 import org.activebpel.rt.bpel.server.engine.reply.AeDurableQueuingReplyReceiver;
 import org.activebpel.rt.bpel.server.engine.reply.AeQueuingReplyReceiver;
 import org.activebpel.rt.message.IAeMessageData;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
@@ -44,6 +43,7 @@ import org.activebpel.wsio.invoke.AeInvokeResponse;
 import org.activebpel.wsio.invoke.IAeInvoke;
 import org.activebpel.wsio.invoke.IAeTwoPhaseInvokeHandler;
 import org.activebpel.wsio.receive.IAeMessageContext;
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -257,7 +257,7 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
             List<IAeWebServiceAttachment> attachments = wsData.getAttachments();
             if (attachments != null) {
                 for (IAeWebServiceAttachment attachment : attachments) {
-                    AeCloser.close(attachment.getContent());
+                    IOUtils.closeQuietly(attachment.getContent());
                 }
             }
         }

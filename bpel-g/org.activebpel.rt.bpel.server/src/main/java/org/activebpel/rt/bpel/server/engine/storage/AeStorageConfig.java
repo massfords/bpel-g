@@ -12,7 +12,6 @@ package org.activebpel.rt.bpel.server.engine.storage;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
@@ -238,10 +237,8 @@ public abstract class AeStorageConfig {
      * @return A map of statement names to statements.
      */
     protected Map<String, String> loadStatements(String aResourceName, Class aClassForLoading) {
-        InputStream iStream = null;
-        try {
+        try (InputStream iStream = aClassForLoading.getResourceAsStream(aResourceName)) {
             // Get the resource stream.
-            iStream = aClassForLoading.getResourceAsStream(aResourceName);
             if (iStream == null) {
                 throw new AeException(MessageFormat.format(AeMessages.getString("AeDBResourceConfig.ERROR_GETTING_CONFIG_RESOURCE"), //$NON-NLS-1$
                         new Object[]{aResourceName}));
@@ -250,8 +247,6 @@ public abstract class AeStorageConfig {
         } catch (Exception e) {
             AeException.logError(e, ERROR_PARSING_DOCUMENT);
             return Collections.emptyMap();
-        } finally {
-            AeCloser.close(iStream);
         }
     }
 

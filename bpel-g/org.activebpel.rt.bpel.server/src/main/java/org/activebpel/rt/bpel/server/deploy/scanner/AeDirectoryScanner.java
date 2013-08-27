@@ -13,7 +13,6 @@ import bpelg.services.deploy.MissingResourcesException;
 import bpelg.services.deploy.UnhandledException;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeFileUtil;
 
 import java.io.*;
@@ -205,15 +204,7 @@ public class AeDirectoryScanner {
      * @param aFile
      */
     protected boolean cannotOpen(File aFile) {
-        InputStream in = null;
-        try {
-            in = new FileInputStream(aFile);
-            return false;
-        } catch (IOException io) {
-            return true;
-        } finally {
-            AeCloser.close(in);
-        }
+        return !aFile.canRead();
     }
 
     /**

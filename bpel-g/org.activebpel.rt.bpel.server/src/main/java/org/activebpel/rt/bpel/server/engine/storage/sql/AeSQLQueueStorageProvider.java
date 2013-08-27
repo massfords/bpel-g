@@ -27,7 +27,6 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeAlarmListHand
 import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeAlarmListQueryHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeMessageReceiverHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeMessageReceiverListHandler;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.dbutils.ResultSetHandler;
 
@@ -312,16 +311,13 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
      */
     protected AeAlarmListResult<? extends AeAlarm> getFilteredAlarms(String aSQLQuery, AeAlarmFilter aFilter, Object... aParams)
             throws AeStorageException {
-        Connection connection = getConnection();
 
-        try {
+        try (Connection connection = getConnection()) {
             AeAlarmListHandler handler = new AeAlarmListHandler(aFilter);
             List<AeAlarmExt> matches = getQueryRunner().query(connection, aSQLQuery, handler, aParams);
             return new AeAlarmListResult<>(handler.getRowCount(), matches);
         } catch (SQLException ex) {
             throw new AeStorageException(ex);
-        } finally {
-            AeCloser.close(connection);
         }
     }
 
@@ -366,16 +362,13 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
      * @throws AeStorageException
      */
     protected AeMessageReceiverListResult getFilteredReceives(String aSQLQuery, AeMessageReceiverFilter aFilter, Object... aParams) throws AeStorageException {
-        Connection connection = getConnection();
-        try {
+        try (Connection connection = getConnection()) {
             AeMessageReceiverListHandler handler = new AeMessageReceiverListHandler(aFilter);
             List<AePersistedMessageReceiver> matches = getQueryRunner().query(connection, aSQLQuery, handler, aParams);
             AeMessageReceiver[] receivers = matches.toArray(new AeMessageReceiver[matches.size()]);
             return new AeMessageReceiverListResult(handler.getRowCount(), receivers);
         } catch (SQLException ex) {
             throw new AeStorageException(ex);
-        } finally {
-            AeCloser.close(connection);
         }
     }
 
